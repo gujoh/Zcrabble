@@ -8,7 +8,7 @@ public class Player implements IPlayers{
         this.score = score;
     }
 
-    public void endTurn(){
+    public void takeTurn(){
 
     }
 

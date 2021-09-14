@@ -8,11 +8,13 @@ public class Bot implements IPlayers {
         this.score = score;
     }
 
-    public void endTurn(){
+    public void takeTurn(){
 
     }
 
     public int getScore(){
         return score;
     }
+
+
 }
