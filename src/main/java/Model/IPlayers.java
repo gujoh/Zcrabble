@@ -2,7 +2,7 @@ package Model;
 
 public interface IPlayers {
 
-    public void endTurn();
+    public void takeTurn();
     public int getScore();
 
 }
