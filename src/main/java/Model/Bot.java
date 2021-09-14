@@ -1,10 +1,10 @@
 package Model;
 
-public class Player implements IPlayers{
+public class Bot implements IPlayers {
 
     private int score;
 
-    public Player(int score){
+    public Bot(int score){
         this.score = score;
     }
 
@@ -15,5 +15,4 @@ public class Player implements IPlayers{
     public int getScore(){
         return score;
     }
-
 }
