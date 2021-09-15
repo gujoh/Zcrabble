@@ -8,7 +8,20 @@ public class Cell {
     this.cellScore = cellScore;
     this.placedTile = placedTile;
     }
-    private int GetCellScore(){
-        return placedTile.GetTileScore() * cellScore;
+    public int GetCellScore(){
+        return cellScore;
+    }
+
+    private int GetCombinedCellScore() {
+        int i;
+
+        try{
+            i = placedTile.GetTileScore();
+        }
+        catch(Exception e){
+            i = 0;
+        }
+
+        return i*cellScore;
     }
 }
