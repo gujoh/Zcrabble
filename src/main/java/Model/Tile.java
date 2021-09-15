@@ -10,7 +10,7 @@ public class Tile {
     public int GetTileScore(){
         return tileScore;
     }
-    public String getLetter(){
+    public String GetLetter(){
         return letter;
     }
 }
