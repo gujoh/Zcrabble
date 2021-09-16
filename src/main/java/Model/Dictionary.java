@@ -13,6 +13,9 @@ public class Dictionary {
     }
 
     public static Dictionary getInstance(){
+        if (instance == null){
+            return new Dictionary();
+        }
         return instance;
     }
 
