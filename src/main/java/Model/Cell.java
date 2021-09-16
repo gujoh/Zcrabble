@@ -14,14 +14,10 @@ public class Cell {
     }
 
     private int GetCombinedCellScore() {
-        int i;
-
-        try {
+        int i = 0;
+        if(placedTile != null){
             i = placedTile.GetTileScore();
-        } catch (Exception e) {
-            i = 0;
         }
-
         return i * cellScore;
     }
 }
