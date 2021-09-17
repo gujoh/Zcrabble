@@ -20,7 +20,7 @@ public class Dictionary {
     }
 
     public boolean checkWord(String word) throws FileNotFoundException {
-        File file = new File("Collins Scrabble Words 2019");
+        File file = new File("src\\main\\resources\\Collins Scrabble Words 2019");
         Scanner scanner = new Scanner(file);
         while(scanner.hasNextLine()){
             String line = scanner.nextLine();

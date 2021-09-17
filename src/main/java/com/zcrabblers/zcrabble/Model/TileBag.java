@@ -13,15 +13,22 @@ public class TileBag {
     public TileBag(String bagSelector){
         this.bagSelector = bagSelector;
     }
-    private Deque<Tile> SelectBag(){
+    public Deque<Tile> selectBag() throws FileNotFoundException{
         if(bagSelector.equals("default")){
-            bag.add(new Tile('a',1));
-            bag.add(new Tile('b',2));
-            bag.add(new Tile('c',3));
-            bag.add(new Tile('c',4));
-            bag.add(new Tile('e',5));
-            bag.add(new Tile('f',6));
-            bag.add(new Tile('g',7));
+                File file = new File("src\\main\\resources\\"+bagSelector);
+                Scanner scanner = new Scanner(file);
+                while(scanner.hasNextLine()){
+                    char readLetter = scanner.next().toCharArray()[0];
+                    int readScore = Integer.parseInt(scanner.next());
+                    int readNumberOf = Integer.parseInt(scanner.next());
+                    Tile tile = new Tile(readLetter,readScore);
+                    while(readNumberOf > 0){
+                        bag.add(tile);
+                        readNumberOf--;
+                        System.out.println(readLetter + String.valueOf(readScore));
+                    }
+
+            }
         }
         return bag;
     }
@@ -34,5 +41,10 @@ public class TileBag {
 
     public boolean IsEmpty(){
         return bag.isEmpty();
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        TileBag tileBag = new TileBag("default");
+        tileBag.selectBag();
     }
 }
