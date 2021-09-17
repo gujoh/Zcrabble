@@ -9,6 +9,11 @@ public class Cell {
         this.placedTile = placedTile;
     }
 
+    public Cell(Cell cell){
+        this.cellScore = cell.cellScore;
+        this.placedTile = new Tile(cell.placedTile);
+    }
+
     public int GetCellScore() {
         return cellScore;
     }
