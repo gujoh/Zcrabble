@@ -16,6 +16,8 @@ public class Dictionary {
     public static Dictionary getInstance(){
         return instance;
     }
+    /*
+
 
     private ArrayList<String> dictArray() throws FileNotFoundException {
         ArrayList<String> dict = new ArrayList<>();
@@ -32,5 +34,7 @@ public class Dictionary {
 
         return dict;
     }
+
+     */
 }
 
