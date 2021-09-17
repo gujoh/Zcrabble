@@ -7,10 +7,9 @@ public class Tile {
     private int tileScore;
     private Point2D position; //Might not be needed
 
-    public Tile(char letter, int tileScore, Point2D point) {
+    public Tile(char letter, int tileScore) {
         this.letter = letter;
         this.tileScore = tileScore;
-        this.position = point;
     }
     public int getTileScore(){
         return tileScore;
