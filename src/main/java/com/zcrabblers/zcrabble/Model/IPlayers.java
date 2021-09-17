@@ -2,7 +2,7 @@ package com.zcrabblers.zcrabble.Model;
 
 public interface IPlayers {
 
-    public void takeTurn();
-    public int getScore();
+    void takeTurn();
+    int getScore();
 
 }
