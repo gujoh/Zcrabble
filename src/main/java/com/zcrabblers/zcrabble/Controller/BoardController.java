@@ -1,9 +1,11 @@
 package com.zcrabblers.zcrabble.Controller;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.FileInputStream;
@@ -43,7 +45,6 @@ public class BoardController implements Initializable {
             }
             cellList.add(new ImageView());
             img.setImage((new Image(new FileInputStream("src/main/resources/com/zcrabblers/zcrabble/Images/BasicCell.png"))));
-
         }
 
     }
