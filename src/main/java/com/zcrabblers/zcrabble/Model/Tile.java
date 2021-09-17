@@ -12,6 +12,12 @@ public class Tile {
         this.tileScore = tileScore;
         this.position = point;
     }
+    public Tile(Tile tile){
+        this.letter = tile.letter;
+        this.tileScore = tile.tileScore;
+        this.position = new Point2D(position.getX(), position.getY());
+    }
+
     public int getTileScore(){
         return tileScore;
     }
