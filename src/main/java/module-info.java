@@ -2,6 +2,7 @@ module com.zcrabblers.zcrabble {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+    requires junit;
 
 
     opens com.zcrabblers.zcrabble to javafx.fxml;
