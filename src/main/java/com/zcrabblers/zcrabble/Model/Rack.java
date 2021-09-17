@@ -16,6 +16,14 @@ public class Rack {
         playerTiles[index] = null;
     }
 
+    public Tile getTile(char letter){
+        for (int i = 0; i < playerTiles.length; i++) {
+            if(letter == playerTiles[i].GetLetter())
+                return playerTiles[i];
+        }
+        return null; //TODO: this is bad
+    }
+
     public Tile getTile(int index) {
         return playerTiles[index];
     }
