@@ -16,7 +16,7 @@ public class Cell {
     private int GetCombinedCellScore() {
         int i = 0;
         if(placedTile != null){
-            i = placedTile.GetTileScore();
+            i = placedTile.getTileScore();
         }
         return i * cellScore;
     }
