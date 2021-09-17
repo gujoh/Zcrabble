@@ -12,10 +12,10 @@ public class Tile {
         this.tileScore = tileScore;
         this.position = point;
     }
-    public int GetTileScore(){
+    public int getTileScore(){
         return tileScore;
     }
-    public char GetLetter(){
+    public char getLetter(){
         return letter;
     }
 }

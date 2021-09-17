@@ -16,10 +16,17 @@ public class Rack {
         playerTiles[index] = null;
     }
 
-    public Tile getTile(char letter){
+    public void remove(char letter){
         for (int i = 0; i < playerTiles.length; i++) {
-            if(letter == playerTiles[i].GetLetter())
-                return playerTiles[i];
+            if(letter == playerTiles[i].getLetter())
+                playerTiles[i] = null;
+        }
+    }
+
+    public Tile getTile(char letter){
+        for (Tile playerTile : playerTiles) {
+            if (letter == playerTile.getLetter())
+                return playerTile;
         }
         return null; //TODO: this is bad
     }
