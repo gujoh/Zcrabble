@@ -8,7 +8,6 @@ public class Game {
     private List<IPlayers> players;
     private IPlayers current;
     private Board board;
-    private Board tempBoard;
 
     public Game(){
 
@@ -23,14 +22,14 @@ public class Game {
 
     }
 
-    private void gameLoop(){
+    private void endTurn(){
+        //TODO: make temp board with changes made by current
+        // to check against dictionary for correctness
+        Board tempBoard = new Board(board);
+        current.takeTurn();
 
-        while(isGameNotOver()){
-            //TODO: make temp board with changes made by current
-            // to check against dictionary for correctness
-            current.takeTurn();
-            current = getNextPlayer();
-        }
+        current = getNextPlayer();
+
         //TODO: find out who won and display
     }
 
