@@ -1,10 +1,8 @@
 package com.zcrabblers.zcrabble.Model;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class TileBag {
     private Deque<Tile> bag = new ArrayDeque<>();
@@ -13,23 +11,28 @@ public class TileBag {
     public TileBag(String bagSelector){
         this.bagSelector = bagSelector;
     }
-    public Deque<Tile> selectBag() throws FileNotFoundException{
+    /* selectBag creates a temporary List and then reads the document in resources which string is identical to "bagselector"
+    it then reads the file per line stopping between each space per line.
+    the first set of characters is the letter of the tile the second is the score value the third is how many of then to create
+    it then randomizes the List and adds it to the deque bag*/
+    public void selectBag() throws FileNotFoundException{
+        List<Tile> temp = new ArrayList<>();
         if(bagSelector.equals("default")){
-                File file = new File("src\\main\\resources\\"+bagSelector);
-                Scanner scanner = new Scanner(file);
-                while(scanner.hasNextLine()){
-                    char readLetter = scanner.next().toCharArray()[0];
-                    int readScore = Integer.parseInt(scanner.next());
-                    int readNumberOf = Integer.parseInt(scanner.next());
-                    Tile tile = new Tile(readLetter,readScore);
-                    while(readNumberOf > 0){
-                        bag.add(tile);
-                        readNumberOf--;
-                    }
-
+            File file = new File("src\\main\\resources\\"+bagSelector);
+            Scanner scanner = new Scanner(file);
+            while(scanner.hasNextLine()){
+                char readLetter = scanner.next().toCharArray()[0];
+                int readScore = Integer.parseInt(scanner.next());
+                int readNumberOf = Integer.parseInt(scanner.next());
+                Tile tile = new Tile(readLetter,readScore);
+                while(readNumberOf > 0){
+                    temp.add(tile);
+                    readNumberOf--;
+                }
             }
         }
-        return bag;
+        Collections.shuffle(temp);
+        bag.addAll(temp);
     }
     public int RemainingTiles(){
         return bag.size();
@@ -41,5 +44,11 @@ public class TileBag {
     public boolean IsEmpty(){
         return bag.isEmpty();
     }
+/* very ancient simple test
+    public static void main(String[] args) throws FileNotFoundException {
+        TileBag tileBag = new TileBag("default");
+        tileBag.selectBag();
+    }
 
+ */
 }
