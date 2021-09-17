@@ -1,5 +1,6 @@
 package com.zcrabblers.zcrabble;
 
+import com.zcrabblers.zcrabble.Model.TileBag;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
