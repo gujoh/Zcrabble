@@ -25,7 +25,6 @@ public class TileBag {
                     while(readNumberOf > 0){
                         bag.add(tile);
                         readNumberOf--;
-                        System.out.println(readLetter + String.valueOf(readScore));
                     }
 
             }
@@ -43,8 +42,4 @@ public class TileBag {
         return bag.isEmpty();
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        TileBag tileBag = new TileBag("default");
-        tileBag.selectBag();
-    }
 }
