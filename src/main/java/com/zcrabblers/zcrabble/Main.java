@@ -14,6 +14,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("board.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         stage.setScene(scene);
+        stage.setTitle("Zcrabble!");
         stage.show();
     }
 
