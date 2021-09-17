@@ -7,6 +7,18 @@ public class Board {
     public Board(Cell[][] boardCells){
         this.boardCells = boardCells;
     }
+
+    public Board(Board board){
+        Cell[][] cells = board.boardCells;
+        Cell[][] newCells = new Cell[cells.length][cells.length];
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                newCells[i][j] = new Cell(cells[i][j]);
+            }
+
+        }
+    }
+
     public Cell[][] Matrix(){
         return boardCells;
     }
