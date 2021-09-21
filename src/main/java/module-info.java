@@ -2,9 +2,12 @@ module com.zcrabblers.zcrabble {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+    requires junit;
 
-
+    exports com.zcrabblers.zcrabble.Tests to junit;
     opens com.zcrabblers.zcrabble to javafx.fxml;
     exports com.zcrabblers.zcrabble;
+    exports com.zcrabblers.zcrabble.View;
+    opens com.zcrabblers.zcrabble.Model to com.zcrabblers.zcrabble.Tests;
     exports com.zcrabblers.zcrabble.Controller;
 }
