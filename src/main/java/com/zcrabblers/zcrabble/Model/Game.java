@@ -18,7 +18,7 @@ public class Game {
         players.add(new Player(0));
         players.add(new Player(0));
         current = players.get(0);
-        board = new Board(new Cell[15][15]);
+      //board = new Board(new Cell[15][15]);
 
     }
 

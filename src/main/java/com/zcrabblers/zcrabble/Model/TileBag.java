@@ -1,23 +1,23 @@
 package com.zcrabblers.zcrabble.Model;
-
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
 public class TileBag {
-    private Deque<Tile> bag = new ArrayDeque<>();
+    final private Deque<Tile> bag = new ArrayDeque<>();
     String bagSelector;
 
-    public TileBag(String bagSelector){
+    public TileBag(String bagSelector) throws FileNotFoundException {
         this.bagSelector = bagSelector;
+        selectBag();
     }
     /* selectBag creates a temporary List and then reads the document in resources which string is identical to "bagselector"
     it then reads the file per line stopping between each space per line.
     the first set of characters is the letter of the tile the second is the score value the third is how many of then to create
     it then randomizes the List and adds it to the deque bag*/
-    public void selectBag() throws FileNotFoundException{
+    private void selectBag() throws FileNotFoundException{
         List<Tile> temp = new ArrayList<>();
-        if(bagSelector.equals("default")){
+        if(bagSelector.equals("defaultBag")){
             File file = new File("src\\main\\resources\\"+bagSelector);
             Scanner scanner = new Scanner(file);
             while(scanner.hasNextLine()){
@@ -30,25 +30,24 @@ public class TileBag {
                     readNumberOf--;
                 }
             }
+            scanner.close();
         }
         Collections.shuffle(temp);
         bag.addAll(temp);
+
     }
-    public int RemainingTiles(){
+    public int remainingTiles(){
         return bag.size();
     }
-    public Tile TakeTile(){
+    public Tile takeTile(){
         return bag.pop();
     }
 
-    public boolean IsEmpty(){
+    public boolean isEmpty(){
         return bag.isEmpty();
     }
-/* very ancient simple test
-    public static void main(String[] args) throws FileNotFoundException {
-        TileBag tileBag = new TileBag("default");
-        tileBag.selectBag();
+    public Deque<Tile> getBag(){
+        return bag;
     }
-
- */
 }
+
