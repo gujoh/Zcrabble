@@ -6,6 +6,7 @@ module com.zcrabblers.zcrabble {
 
     exports com.zcrabblers.zcrabble.Tests to junit;
     opens com.zcrabblers.zcrabble to javafx.fxml;
+    opens com.zcrabblers.zcrabble.Controller to javafx.fxml;
     exports com.zcrabblers.zcrabble;
     exports com.zcrabblers.zcrabble.View;
     opens com.zcrabblers.zcrabble.Model to com.zcrabblers.zcrabble.Tests;

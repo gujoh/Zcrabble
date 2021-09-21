@@ -13,21 +13,19 @@ public class Dictionary {
     }
 
     public static Dictionary getInstance(){
-        if (instance == null){
-            return new Dictionary();
-        }
         return instance;
     }
 
     public boolean checkWord(String word) throws FileNotFoundException {
         File file = new File("src\\main\\resources\\Collins Scrabble Words 2019");
         Scanner scanner = new Scanner(file);
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            if(word.toUpperCase().equals(line)){
+            if (word.toUpperCase().equals(line)) {
                 return true;
             }
         }
         return false;
     }
 }
+

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+
+<MenuBar prefHeight="25.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+  <menus>
+    <Menu fx:id="MenuGame" mnemonicParsing="false" text="Game">
+      <items>
+        <MenuItem fx:id="MenuNewGame" mnemonicParsing="false" text="New Game" />
+            <MenuItem fx:id="MenuEndGame" mnemonicParsing="false" text="End Game" />
+            <Menu fx:id="MenuGameMode" mnemonicParsing="false" text="Game Mode">
+              <items>
+                  <MenuItem fx:id="MenuGameModeNormal" mnemonicParsing="false" text="Normal" />
+                <MenuItem fx:id="MenuGameModeSpeed" mnemonicParsing="false" text="Speed demon" />
+              </items>
+            </Menu>
+      </items>
+    </Menu>
+    <Menu fx:id="MenuView" mnemonicParsing="false" text="View">
+      <items>
+            <Menu fx:id="MenuSkins" mnemonicParsing="false" text="Skinz">
+              <items>
+                <MenuItem fx:id="MenuSkinsZcrabble" mnemonicParsing="false" text="Zcrabble" />
+                  <MenuItem fx:id="MenuSkinsDarkMode" mnemonicParsing="false" text="Dark mode" />
+                  <MenuItem fx:id="MenuSkinsCyberpunk" mnemonicParsing="false" text="Cyberpunk" />
+              </items>
+            </Menu>
+      </items>
+    </Menu>
+    <Menu fx:id="MenuHelp" mnemonicParsing="false" text="Help">
+      <items>
+        <MenuItem fx:id="MenuTutorial" mnemonicParsing="false" text="Tutorial(under construction)" />
+      </items>
+    </Menu>
+  </menus>
+</MenuBar>
