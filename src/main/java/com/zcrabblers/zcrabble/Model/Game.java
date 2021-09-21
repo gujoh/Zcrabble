@@ -1,5 +1,6 @@
 package com.zcrabblers.zcrabble.Model;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +23,10 @@ public class Game {
 
     }
 
-    private void endTurn(){
+    private void endTurn() throws FileNotFoundException {
         //TODO: make temp board with changes made by current
         // to check against dictionary for correctness
-        Board tempBoard = new Board(board);
+        Board tempBoard = new Board("defaultBoard");
         current.takeTurn();
 
         current = getNextPlayer();
