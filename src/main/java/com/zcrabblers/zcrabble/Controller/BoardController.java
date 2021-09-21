@@ -3,6 +3,7 @@ package com.zcrabblers.zcrabble.Controller;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,6 +24,8 @@ public class BoardController implements Initializable {
     ArrayList<ImageView> cellList = new ArrayList<>();
     ArrayList<ImageView> rackList = new ArrayList<>();
 
+    private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -35,7 +38,35 @@ public class BoardController implements Initializable {
     public void populate() throws FileNotFoundException {
         populateBoard();
         populateRack();
+        makeOneTestTile();
+    }
 
+    private void makeOneTestTile() throws FileNotFoundException {
+        ImageView testTile = new ImageView();
+        boardAnchor.getChildren().add(testTile);
+        testTile.setFitWidth(30);
+        testTile.setFitHeight(30);
+        testTile.setX(500);
+        testTile.setY(525);
+        testTile.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
+        testTile.setOnMouseDragged(mouseEvent -> {
+            Point2D point = testTile.screenToLocal(mouseEvent.getScreenX() - 15, mouseEvent.getScreenY() - 15);
+            testTile.setX(point.getX());
+            testTile.setY(point.getY());
+            System.out.println("x: "+mouseEvent.getSceneX()+", y: "+mouseEvent.getSceneY());
+        });
+
+        testTile.setOnDragDetected(event -> {
+            testTile.startFullDrag();
+            testTile.setMouseTransparent(true);
+        });
+
+        testTile.setOnMouseDragReleased(event -> {
+
+        });
+        testTile.setOnMouseReleased(event -> {
+            testTile.setMouseTransparent(false);
+        });
     }
 
     private void populateBoard() throws FileNotFoundException {
@@ -54,7 +85,7 @@ public class BoardController implements Initializable {
                 x = 0;
                 y+=33;
             }
-            img.setImage((new Image(new FileInputStream("src/main/resources/com/zcrabblers/zcrabble/Images/BasicCell.png"))));
+            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png"))));
         }
     }
 
@@ -78,7 +109,7 @@ public class BoardController implements Initializable {
             else x += (counter*45);
             counter++;
 
-            img.setImage((new Image(new FileInputStream("src/main/resources/com/zcrabblers/zcrabble/Images/BasicCell.png"))));
+            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png"))));
         }
     }
 }
