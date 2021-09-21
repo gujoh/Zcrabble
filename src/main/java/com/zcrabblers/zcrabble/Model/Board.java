@@ -9,33 +9,32 @@ import java.util.Scanner;
 
 public class Board {
 
-    private Cell[][] boardCells = new Cell[15][15];
+    private Cell[][] boardCells;
     private String boardSelector;
 
-    public Board(String boardSelector){
+    public Board(String boardSelector) throws FileNotFoundException {
         this.boardSelector = boardSelector;
-    }
-    //testing board
-    public Board(Board board){
-        Cell[][] cells = board.boardCells;
-        Cell[][] newCells = new Cell[cells.length][cells.length];
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                newCells[i][j] = new Cell(cells[i][j]);
-            }
-
-        }
+        selectBoard();
     }
     private void selectBoard() throws FileNotFoundException {
         if(boardSelector.equals("defaultBoard")){
             File file = new File("src\\main\\resources\\"+boardSelector);
             Scanner scanner = new Scanner(file);
-            scanner.hasNextLine();
-            int boardSize = Integer.parseInt(scanner.next());
-            while(scanner.hasNextLine()){
-                char readLetter = scanner.next().toCharArray()[0];
-                int readScore = Integer.parseInt(scanner.next());
-                int readNumberOf = Integer.parseInt(scanner.next());
+            int boardSize = scanner.nextInt();
+            boardCells = new Cell[boardSize][boardSize];
+            for(int i = 0; i < boardSize; i++){
+                for(int j = 0; j < boardSize; j++){
+                    int word = scanner.nextInt();
+                    int letter = scanner.nextInt();
+                    boardCells[i][j] = new Cell(word,letter, new Tile(' ',0));
+                }
+            }
+        }
+    }
+    public void testBoard(){
+        for(int i = 0; i < 15; i++){
+            for(int j = 0; j < 15; j++){
+                System.out.println(boardCells[i][j].GetCellWordMultiplier() + boardCells[i][j].GetCellLetterMultiplier());
             }
         }
     }
@@ -46,5 +45,4 @@ public class Board {
             board.Matrix()[i][j] = cell;
         return board;
     }
-
 }
