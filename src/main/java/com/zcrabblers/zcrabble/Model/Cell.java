@@ -1,21 +1,25 @@
 package com.zcrabblers.zcrabble.Model;
 
 public class Cell {
-    private int cellScore;
+    private int cellWordMultiplier;
+    private int cellLetterMultiplier;
     private Tile placedTile;
 
-    public Cell(int cellScore, Tile placedTile) {
-        this.cellScore = cellScore;
+
+    public Cell(int cellWordMultiplier,int cellLettermultiplier, Tile placedTile) {
+        this.cellWordMultiplier = this.cellWordMultiplier;
+        this.cellLetterMultiplier = this.cellWordMultiplier;
         this.placedTile = placedTile;
     }
-
+    // testing cell
     public Cell(Cell cell){
-        this.cellScore = cell.cellScore;
+        this.cellWordMultiplier = cell.cellWordMultiplier;
+        this.cellLetterMultiplier = this.cellWordMultiplier;
         this.placedTile = new Tile(cell.placedTile);
     }
 
     public int GetCellScore() {
-        return cellScore;
+        return cellWordMultiplier;
     }
 
     private int GetCombinedCellScore() {
@@ -23,6 +27,6 @@ public class Cell {
         if(placedTile != null){
             i = placedTile.getTileScore();
         }
-        return i * cellScore;
+        return i * cellWordMultiplier;
     }
 }
