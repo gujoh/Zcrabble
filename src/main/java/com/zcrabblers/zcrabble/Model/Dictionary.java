@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Dictionary {
@@ -16,16 +17,23 @@ public class Dictionary {
         return instance;
     }
 
-    public boolean checkWord(String word) throws FileNotFoundException {
-        File file = new File("src\\main\\resources\\Collins Scrabble Words 2019");
-        Scanner scanner = new Scanner(file);
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (word.toUpperCase().equals(line)) {
-                return true;
-            }
+
+    /*---   Reads the dictionary and returns it as an ArrayList   ---*/
+    private static ArrayList<String> dictArray () throws FileNotFoundException {
+        ArrayList<String> dict = new ArrayList<>();
+        File file = new File("src\\main\\resources\\CollinsScrabbleWords2019");
+        Scanner sc = new Scanner(file);
+        while (sc.hasNextLine()){
+            String line = sc.nextLine();
+            dict.add(line);
         }
-        return false;
+        sc.close();
+        return dict;
+    }
+
+    /*---   Checks if a word is in the dictionary   ---*/
+    private static boolean checkWord (String word) throws FileNotFoundException {
+        return dictArray().contains(word);
     }
 }
 

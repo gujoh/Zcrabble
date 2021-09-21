@@ -53,6 +53,7 @@ public class Bot implements IPlayers {
 
 
     /*---   Reads the dictionary and returns it as an ArrayList   ---*/
+    //should be removed from here once dictionary is working properly.
 
     private static ArrayList <String> dictArray () throws FileNotFoundException {
         ArrayList<String> dict = new ArrayList<>();
