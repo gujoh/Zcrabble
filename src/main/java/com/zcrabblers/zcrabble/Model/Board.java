@@ -18,7 +18,7 @@ public class Board {
     }
     private void selectBoard() throws FileNotFoundException {
         if(boardSelector.equals("defaultBoard")){
-            File file = new File("src\\main\\resources\\"+boardSelector);
+            File file = new File("src/main/resources/"+boardSelector);
             Scanner scanner = new Scanner(file);
             int boardSize = scanner.nextInt();
             boardCells = new Cell[boardSize][boardSize];
