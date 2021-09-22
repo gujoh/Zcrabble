@@ -11,14 +11,19 @@ public class Board {
 
     private Cell[][] boardCells;
     private String boardSelector;
-
+    // constructor takes a string in order to search for the matching text file
+    // then calls the selectBoard function to fill the new board with cells
     public Board(String boardSelector) throws FileNotFoundException {
         this.boardSelector = boardSelector;
         selectBoard();
     }
+    //checks if the name matches the file
+    //gets a new scanner and checks the first line for the boardsize
+    //then iterates through the txt file and creates new cells for each matrix
+    // each cell reads two numbers from the txt and creates a tile with the "empty" values of ' ' and 0
     private void selectBoard() throws FileNotFoundException {
         if(boardSelector.equals("defaultBoard")){
-            File file = new File("src\\main\\resources\\"+boardSelector);
+            File file = new File("src/main/resources/"+boardSelector);
             Scanner scanner = new Scanner(file);
             int boardSize = scanner.nextInt();
             boardCells = new Cell[boardSize][boardSize];

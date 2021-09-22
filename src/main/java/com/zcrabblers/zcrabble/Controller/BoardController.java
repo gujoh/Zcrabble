@@ -1,5 +1,6 @@
 package com.zcrabblers.zcrabble.Controller;
 
+import com.zcrabblers.zcrabble.Model.Game;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,11 +21,17 @@ public class BoardController implements Initializable {
     @FXML private AnchorPane boardAnchor;
     @FXML private AnchorPane rackAnchor;
     @FXML private Rectangle rackRectangle;
+    @FXML private ImageView dragImageView;
 
     ArrayList<ImageView> cellList = new ArrayList<>();
     ArrayList<ImageView> rackList = new ArrayList<>();
 
+    Game game = new Game();
+
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
+
+    public BoardController() throws FileNotFoundException {
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -38,54 +45,65 @@ public class BoardController implements Initializable {
     public void populate() throws FileNotFoundException {
         populateBoard();
         populateRack();
-        makeOneTestTile();
+        //makeOneTestTile();
+        initDragTile();
+        rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
     }
 
-    private void makeOneTestTile() throws FileNotFoundException {
-        ImageView testTile = new ImageView();
-        boardAnchor.getChildren().add(testTile);
-        testTile.setFitWidth(30);
-        testTile.setFitHeight(30);
-        testTile.setX(500);
-        testTile.setY(525);
-        testTile.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
-        testTile.setOnMouseDragged(mouseEvent -> {
-            Point2D point = testTile.screenToLocal(mouseEvent.getScreenX() - 15, mouseEvent.getScreenY() - 15);
-            testTile.setX(point.getX());
-            testTile.setY(point.getY());
-            System.out.println("x: "+mouseEvent.getSceneX()+", y: "+mouseEvent.getSceneY());
+    private void hideDragTile(){
+        dragImageView.setVisible(false);
+    }
+
+    private void initDragTile() throws FileNotFoundException {
+        dragImageView.setFitWidth(30);
+        dragImageView.setFitHeight(30);
+        dragImageView.setVisible(false);
+        dragImageView.setMouseTransparent(true);
+        dragImageView.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
+        boardAnchor.getChildren().add(dragImageView);
+    }
+
+    private void registerCellEvents(CellView cellView){
+        cellView.setOnDragDetected(event -> {
+            cellView.startFullDrag();
+            dragImageView.setImage(cellView.getImage());
+            dragImageView.setVisible(true);
+            cellView.changeToDefaultImage();
         });
 
-        testTile.setOnDragDetected(event -> {
-            testTile.startFullDrag();
-            testTile.setMouseTransparent(true);
+        cellView.setOnMouseDragged(mouseEvent -> {
+            Point2D point = new Point2D(mouseEvent.getSceneX() - 45, mouseEvent.getSceneY() - 45);
+            dragImageView.setX(point.getX());
+            dragImageView.setY(point.getY());
         });
 
-        testTile.setOnMouseDragReleased(event -> {
-
-        });
-        testTile.setOnMouseReleased(event -> {
-            testTile.setMouseTransparent(false);
+        cellView.setOnMouseDragReleased(event -> {
+            dragImageView.setVisible(false);
+            cellView.setImage(dragImageView.getImage());
         });
     }
 
     private void populateBoard() throws FileNotFoundException {
         int x = 0;
         int y = 0;
-        for(int i = 1; i <= 225; i++){
-            ImageView img = new ImageView();
-            boardAnchor.getChildren().add(img);
-            cellList.add(img);
-            img.setFitHeight(33);
-            img.setFitWidth(33);
-            img.setX(x);
-            img.setY(y);
-            x+=33;
-            if(i % 15 == 0){
-                x = 0;
-                y+=33;
+        for (int i = 0; i < game.getBoard().Matrix().length; i++){
+            for (int j = 0; j < game.getBoard().Matrix().length; j++){
+                CellView img = new CellView(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png");
+                boardAnchor.getChildren().add(img);
+                cellList.add(img);
+                img.setFitHeight(33);
+                img.setFitWidth(33);
+                img.setX(x);
+                img.setY(y);
+                x+=33;
+                //img.setImage((new Image(new FileInputStream(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png"))));
+                img.changeToDefaultImage();
+                registerCellEvents(img);
             }
-            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png"))));
+            x = 0;
+            y += 33;
         }
     }
 
@@ -94,7 +112,7 @@ public class BoardController implements Initializable {
         double y = rackRectangle.getHeight()/2-((double)33/2);
         int counter = 0;
         for(int i = 1; i <= 8; i++){
-            ImageView img = new ImageView();
+            CellView img = new CellView(IMAGE_PATH + "11.png");
             rackAnchor.getChildren().add(img);
             rackList.add(img);
             img.setFitHeight(33);
@@ -109,7 +127,9 @@ public class BoardController implements Initializable {
             else x += (counter*45);
             counter++;
 
-            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png"))));
+            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "a.png"))));
+
+            registerCellEvents(img);
         }
     }
 }

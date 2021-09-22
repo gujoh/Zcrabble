@@ -10,8 +10,8 @@ public class Game {
     private IPlayers current;
     private Board board;
 
-    public Game(){
-
+    public Game() throws FileNotFoundException{
+        this.board = new Board("defaultBoard");
     }
 
     public void newGame(){
@@ -52,6 +52,10 @@ public class Game {
     private IPlayers getWinner(){
         //TODO: decide who won
         return null;
+    }
+
+    public Board getBoard(){
+        return board;
     }
 
 }
