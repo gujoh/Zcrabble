@@ -21,6 +21,7 @@ public class BoardController implements Initializable {
     @FXML private AnchorPane boardAnchor;
     @FXML private AnchorPane rackAnchor;
     @FXML private Rectangle rackRectangle;
+    @FXML private ImageView dragImageView;
 
     ArrayList<ImageView> cellList = new ArrayList<>();
     ArrayList<ImageView> rackList = new ArrayList<>();
@@ -44,34 +45,43 @@ public class BoardController implements Initializable {
     public void populate() throws FileNotFoundException {
         populateBoard();
         populateRack();
-        makeOneTestTile();
+        //makeOneTestTile();
+        initDragTile();
+        rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
     }
 
-    private void makeOneTestTile() throws FileNotFoundException {
-        ImageView testTile = new ImageView();
-        boardAnchor.getChildren().add(testTile);
-        testTile.setFitWidth(30);
-        testTile.setFitHeight(30);
-        testTile.setX(500);
-        testTile.setY(525);
-        testTile.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
-        testTile.setOnMouseDragged(mouseEvent -> {
-            Point2D point = testTile.screenToLocal(mouseEvent.getScreenX() - 15, mouseEvent.getScreenY() - 15);
-            testTile.setX(point.getX());
-            testTile.setY(point.getY());
-            System.out.println("x: "+mouseEvent.getSceneX()+", y: "+mouseEvent.getSceneY());
+    private void hideDragTile(){
+        dragImageView.setVisible(false);
+    }
+
+    private void initDragTile() throws FileNotFoundException {
+        dragImageView.setFitWidth(30);
+        dragImageView.setFitHeight(30);
+        dragImageView.setVisible(false);
+        dragImageView.setMouseTransparent(true);
+        dragImageView.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
+        boardAnchor.getChildren().add(dragImageView);
+    }
+
+    private void registerCellEvents(ImageView img){
+        img.setOnDragDetected(event -> {
+            img.startFullDrag();
+            dragImageView.setImage(img.getImage());
+            dragImageView.setVisible(true);
         });
 
-        testTile.setOnDragDetected(event -> {
-            testTile.startFullDrag();
-            testTile.setMouseTransparent(true);
+        img.setOnMouseDragged(mouseEvent -> {
+            Point2D point = new Point2D(mouseEvent.getSceneX() - 45, mouseEvent.getSceneY() - 45);
+
+            dragImageView.setX(point.getX());
+            dragImageView.setY(point.getY());
         });
 
-        testTile.setOnMouseDragReleased(event -> {
-
-        });
-        testTile.setOnMouseReleased(event -> {
-            testTile.setMouseTransparent(false);
+        img.setOnMouseDragReleased(event -> {
+            dragImageView.setVisible(false);
+            img.setImage(dragImageView.getImage());
         });
     }
 
@@ -115,7 +125,9 @@ public class BoardController implements Initializable {
             else x += (counter*45);
             counter++;
 
-            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png"))));
+            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "a.png"))));
+
+            registerCellEvents(img);
         }
     }
 }
