@@ -1,5 +1,4 @@
 package com.zcrabblers.zcrabble.Tests;
-import com.zcrabblers.zcrabble.Model.Tile;
 import com.zcrabblers.zcrabble.Model.TileBag;
 import org.junit.Test;
 import java.io.FileNotFoundException;
@@ -12,8 +11,10 @@ public class TileBagTests {
     @Test
     public void testTileBagNumbers() throws FileNotFoundException {
         TileBag tilebag = new TileBag("");
+        tilebag.selectBag();
         assertTrue(tilebag.isEmpty() && tilebag.remainingTiles() == 0);
         tilebag = new TileBag("defaultBag");
+        tilebag.selectBag();
         assertTrue(tilebag.remainingTiles() == 100);
         assertFalse(tilebag.isEmpty());
     }
@@ -21,11 +22,13 @@ public class TileBagTests {
     @Test
     public void testTileBagLogic() throws FileNotFoundException {
         TileBag tilebag = new TileBag("defaultBag");
+        tilebag.selectBag();
         String validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
         while(!tilebag.isEmpty()){
-            Tile tile = tilebag.getBag().pop();
-            assertTrue(validChars.contains(String.valueOf(tile.getLetter())));
-            assertTrue(tile.getTileScore() <= 10);
+            char letter = tilebag.getBag().peekFirst().getLetter();
+            int score = tilebag.getBag().pop().getTileScore();
+            assertTrue(validChars.contains(String.valueOf(letter)));
+            assertTrue(score <= 10);
         }
     }
 
