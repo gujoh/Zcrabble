@@ -24,11 +24,6 @@ public class Bot implements IPlayers {
         return score;
     }
 
-
-
-
-
-
     /*---   Takes in a string of letters and returns all dictionary words that can be written with them   ---*/
     private static ArrayList<String> canWrite (String letters) throws FileNotFoundException {
         ArrayList <String> writableWords = new ArrayList<>();
