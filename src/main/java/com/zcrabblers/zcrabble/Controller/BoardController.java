@@ -65,23 +65,23 @@ public class BoardController implements Initializable {
         boardAnchor.getChildren().add(dragImageView);
     }
 
-    private void registerCellEvents(ImageView img){
-        img.setOnDragDetected(event -> {
-            img.startFullDrag();
-            dragImageView.setImage(img.getImage());
+    private void registerCellEvents(CellView cellView){
+        cellView.setOnDragDetected(event -> {
+            cellView.startFullDrag();
+            dragImageView.setImage(cellView.getImage());
             dragImageView.setVisible(true);
+            cellView.changeToDefaultImage();
         });
 
-        img.setOnMouseDragged(mouseEvent -> {
+        cellView.setOnMouseDragged(mouseEvent -> {
             Point2D point = new Point2D(mouseEvent.getSceneX() - 45, mouseEvent.getSceneY() - 45);
-
             dragImageView.setX(point.getX());
             dragImageView.setY(point.getY());
         });
 
-        img.setOnMouseDragReleased(event -> {
+        cellView.setOnMouseDragReleased(event -> {
             dragImageView.setVisible(false);
-            img.setImage(dragImageView.getImage());
+            cellView.setImage(dragImageView.getImage());
         });
     }
 
@@ -90,7 +90,7 @@ public class BoardController implements Initializable {
         int y = 0;
         for (int i = 0; i < game.getBoard().Matrix().length; i++){
             for (int j = 0; j < game.getBoard().Matrix().length; j++){
-                ImageView img = new ImageView();
+                CellView img = new CellView(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png");
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
                 img.setFitHeight(33);
@@ -98,7 +98,9 @@ public class BoardController implements Initializable {
                 img.setX(x);
                 img.setY(y);
                 x+=33;
-                img.setImage((new Image(new FileInputStream(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png"))));
+                //img.setImage((new Image(new FileInputStream(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png"))));
+                img.changeToDefaultImage();
+                registerCellEvents(img);
             }
             x = 0;
             y += 33;
@@ -110,7 +112,7 @@ public class BoardController implements Initializable {
         double y = rackRectangle.getHeight()/2-((double)33/2);
         int counter = 0;
         for(int i = 1; i <= 8; i++){
-            ImageView img = new ImageView();
+            CellView img = new CellView(IMAGE_PATH + "11.png");
             rackAnchor.getChildren().add(img);
             rackList.add(img);
             img.setFitHeight(33);
