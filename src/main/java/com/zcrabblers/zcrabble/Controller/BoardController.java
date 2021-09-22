@@ -1,5 +1,6 @@
 package com.zcrabblers.zcrabble.Controller;
 
+import com.zcrabblers.zcrabble.Model.Game;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,7 +26,12 @@ public class BoardController implements Initializable {
     ArrayList<ImageView> cellList = new ArrayList<>();
     ArrayList<ImageView> rackList = new ArrayList<>();
 
+    Game game = new Game();
+
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
+
+    public BoardController() throws FileNotFoundException {
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -82,21 +88,20 @@ public class BoardController implements Initializable {
     private void populateBoard() throws FileNotFoundException {
         int x = 0;
         int y = 0;
-        for(int i = 1; i <= 225; i++){
-            ImageView img = new ImageView();
-            boardAnchor.getChildren().add(img);
-            cellList.add(img);
-            img.setFitHeight(33);
-            img.setFitWidth(33);
-            img.setX(x);
-            img.setY(y);
-            x+=33;
-            if(i % 15 == 0){
-                x = 0;
-                y+=33;
+        for (int i = 0; i < game.getBoard().Matrix().length; i++){
+            for (int j = 0; j < game.getBoard().Matrix().length; j++){
+                ImageView img = new ImageView();
+                boardAnchor.getChildren().add(img);
+                cellList.add(img);
+                img.setFitHeight(33);
+                img.setFitWidth(33);
+                img.setX(x);
+                img.setY(y);
+                x+=33;
+                img.setImage((new Image(new FileInputStream(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png"))));
             }
-            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png"))));
-            registerCellEvents(img);
+            x = 0;
+            y += 33;
         }
     }
 

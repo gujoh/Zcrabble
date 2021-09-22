@@ -23,7 +23,7 @@ public class Board {
     // each cell reads two numbers from the txt and creates a tile with the "empty" values of ' ' and 0
     private void selectBoard() throws FileNotFoundException {
         if(boardSelector.equals("defaultBoard")){
-            File file = new File("src\\main\\resources\\"+boardSelector);
+            File file = new File("src/main/resources/"+boardSelector);
             Scanner scanner = new Scanner(file);
             int boardSize = scanner.nextInt();
             boardCells = new Cell[boardSize][boardSize];
