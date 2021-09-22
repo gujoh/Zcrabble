@@ -41,9 +41,13 @@ public class BoardController implements Initializable {
         populateRack();
         //makeOneTestTile();
         initDragTile();
-        rackRectangle.setOnDragDropped(mouseEvent -> {
-            dragImageView.setVisible(false);
-        });
+        rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+    }
+
+    private void hideDragTile(){
+        dragImageView.setVisible(false);
     }
 
     private void initDragTile() throws FileNotFoundException {
@@ -55,32 +59,23 @@ public class BoardController implements Initializable {
         boardAnchor.getChildren().add(dragImageView);
     }
 
-    private void makeOneTestTile() throws FileNotFoundException {
-        ImageView testTile = new ImageView();
-        boardAnchor.getChildren().add(testTile);
-        testTile.setFitWidth(30);
-        testTile.setFitHeight(30);
-        testTile.setX(500);
-        testTile.setY(525);
-        testTile.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
-
-        testTile.setOnMouseDragged(mouseEvent -> {
-            Point2D point = testTile.screenToLocal(mouseEvent.getScreenX() - 15, mouseEvent.getScreenY() - 15);
-            testTile.setX(point.getX());
-            testTile.setY(point.getY());
-            System.out.println("x: "+mouseEvent.getSceneX()+", y: "+mouseEvent.getSceneY());
+    private void registerCellEvents(ImageView img){
+        img.setOnDragDetected(event -> {
+            img.startFullDrag();
+            dragImageView.setImage(img.getImage());
+            dragImageView.setVisible(true);
         });
 
-        testTile.setOnDragDetected(event -> {
-            testTile.startFullDrag();
-            testTile.setMouseTransparent(true);
+        img.setOnMouseDragged(mouseEvent -> {
+            Point2D point = new Point2D(mouseEvent.getSceneX() - 45, mouseEvent.getSceneY() - 45);
+
+            dragImageView.setX(point.getX());
+            dragImageView.setY(point.getY());
         });
 
-        testTile.setOnMouseDragReleased(event -> {
-
-        });
-        testTile.setOnMouseReleased(event -> {
-            testTile.setMouseTransparent(false);
+        img.setOnMouseDragReleased(event -> {
+            dragImageView.setVisible(false);
+            img.setImage(dragImageView.getImage());
         });
     }
 
@@ -101,22 +96,7 @@ public class BoardController implements Initializable {
                 y+=33;
             }
             img.setImage((new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png"))));
-
-            img.setOnMouseDragged(mouseEvent -> {
-                Point2D point = img.screenToLocal(mouseEvent.getScreenX() - 15, mouseEvent.getScreenY() - 15);
-                dragImageView.setX(point.getX());
-                dragImageView.setY(point.getY());
-            });
-
-            img.setOnDragDetected(event -> {
-                img.startFullDrag();
-                dragImageView.setVisible(true);
-            });
-
-            img.setOnMouseDragReleased(event -> {
-                dragImageView.setVisible(false);
-            });
-
+            registerCellEvents(img);
         }
     }
 
@@ -140,22 +120,9 @@ public class BoardController implements Initializable {
             else x += (counter*45);
             counter++;
 
-            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png"))));
+            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "a.png"))));
 
-            img.setOnMouseDragged(mouseEvent -> {
-                Point2D point = boardAnchor.screenToLocal(mouseEvent.getScreenX() - 15, mouseEvent.getScreenY() - 15);
-                dragImageView.setX(point.getX());
-                dragImageView.setY(point.getY());
-            });
-
-            img.setOnDragDetected(event -> {
-                img.startFullDrag();
-                dragImageView.setVisible(true);
-            });
-
-            img.setOnMouseDragReleased(event -> {
-                dragImageView.setVisible(false);
-            });
+            registerCellEvents(img);
         }
     }
 }
