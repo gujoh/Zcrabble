@@ -88,9 +88,9 @@ public class BoardController implements Initializable {
     private void populateBoard() throws FileNotFoundException {
         int x = 0;
         int y = 0;
-        for (int i = 0; i < game.getBoard().Matrix().length; i++){
-            for (int j = 0; j < game.getBoard().Matrix().length; j++){
-                CellView img = new CellView(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png");
+        for (int i = 0; i < game.getBoard().matrix().length; i++){
+            for (int j = 0; j < game.getBoard().matrix().length; j++){
+                CellView img = new CellView(IMAGE_PATH + game.getBoard().matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().matrix()[i][j].GetCellLetterMultiplier() + ".png");
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
                 img.setFitHeight(33);
