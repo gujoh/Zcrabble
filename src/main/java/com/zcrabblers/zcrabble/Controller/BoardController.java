@@ -39,6 +39,11 @@ public class BoardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         menuController = new MenuController();
         menuPane.getChildren().add(menuController);
+        try {
+            game.newGame();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         try {
             populate();
