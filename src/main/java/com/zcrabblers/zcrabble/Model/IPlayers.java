@@ -1,8 +1,9 @@
 package com.zcrabblers.zcrabble.Model;
 
 public interface IPlayers {
-
-    void takeTurn();
+    // deleted for now
+    //void takeTurn();
     int getScore();
+    Rack getRack();
 
 }
