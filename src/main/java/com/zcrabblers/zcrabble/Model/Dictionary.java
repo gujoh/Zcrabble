@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class Dictionary {
     }
 
     public static Dictionary getInstance(){
-        return instance;
+        return Objects.requireNonNullElseGet(instance, Dictionary::new);
     }
 
 
