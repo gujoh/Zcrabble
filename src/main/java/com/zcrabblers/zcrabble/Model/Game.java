@@ -12,6 +12,7 @@ public class Game {
 
     public Game() throws FileNotFoundException{
         this.board = new Board("defaultBoard");
+        board.selectBoard();
     }
 
     public void newGame(){

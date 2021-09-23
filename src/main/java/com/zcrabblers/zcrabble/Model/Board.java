@@ -20,7 +20,7 @@ public class Board {
     //gets a new scanner and checks the first line for the boardsize
     //then iterates through the txt file and creates new cells for each matrix
     // each cell reads two numbers from the txt and creates a tile with the "empty" values of ' ' and 0
-    private void selectBoard() throws FileNotFoundException {
+    public void selectBoard() throws FileNotFoundException {
         if(boardSelector.equals("defaultBoard")){
             File file = new File("src/main/resources/"+boardSelector);
             Scanner scanner = new Scanner(file);
