@@ -22,9 +22,11 @@ public class BoardController implements Initializable {
     @FXML private AnchorPane rackAnchor;
     @FXML private Rectangle rackRectangle;
     @FXML private ImageView dragImageView;
+    @FXML private AnchorPane menuPane;
 
     ArrayList<ImageView> cellList = new ArrayList<>();
     ArrayList<ImageView> rackList = new ArrayList<>();
+    private MenuController menuController;
 
     Game game = new Game();
 
@@ -35,6 +37,9 @@ public class BoardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        menuController = new MenuController();
+        menuPane.getChildren().add(menuController);
+
         try {
             populate();
         } catch (FileNotFoundException e) {
@@ -88,9 +93,14 @@ public class BoardController implements Initializable {
     private void populateBoard() throws FileNotFoundException {
         int x = 0;
         int y = 0;
-        for (int i = 0; i < game.getBoard().Matrix().length; i++){
-            for (int j = 0; j < game.getBoard().Matrix().length; j++){
-                CellView img = new CellView(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png");
+        int length = game.getBoard().Matrix().length;
+        for (int i = 0; i < length; i++){
+            for (int j = 0; j < length; j++){
+                CellView img;
+                if(i == length/2 && j == length/2){
+                     img = new CellView(IMAGE_PATH + "Middle.png");
+                }
+                 else img = new CellView(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png");
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
                 img.setFitHeight(33);
@@ -98,6 +108,7 @@ public class BoardController implements Initializable {
                 img.setX(x);
                 img.setY(y);
                 x+=33;
+
                 //img.setImage((new Image(new FileInputStream(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png"))));
                 img.changeToDefaultImage();
                 registerCellEvents(img);
