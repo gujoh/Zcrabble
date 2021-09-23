@@ -10,25 +10,25 @@ public class Game {
     private IPlayers current;
     private Board board;
 
-    public Game() throws FileNotFoundException{
+    public Game(){
         this.board = new Board("defaultBoard");
-        board.selectBoard();
     }
 
-    public void newGame(){
+    public void newGame() throws FileNotFoundException {
         players = new ArrayList<>();
-        players.add(new Player(0));
-        players.add(new Player(0));
+        players.add(new Player(0,new Rack()));
+        players.add(new Player(0, new Rack()));
         current = players.get(0);
+        board.selectBoard();
       //board = new Board(new Cell[15][15]);
 
     }
 
-    private void endTurn() throws FileNotFoundException {
+    private void endTurn(){
         //TODO: make temp board with changes made by current
         // to check against dictionary for correctness
         Board tempBoard = new Board("defaultBoard");
-        current.takeTurn();
+        //current.takeTurn();
 
         current = getNextPlayer();
 
