@@ -9,9 +9,11 @@ public class Game {
     private List<IPlayers> players;
     private IPlayers current;
     private Board board;
+    private TileBag tileBag;
 
     public Game(){
         this.board = new Board("defaultBoard");
+        this.tileBag = new TileBag("defaultBag");
     }
 
     public void newGame() throws FileNotFoundException {
@@ -20,10 +22,17 @@ public class Game {
         players.add(new Player(0, new Rack()));
         current = players.get(0);
         board.selectBoard();
-      //board = new Board(new Cell[15][15]);
+        tileBag.selectBag();
+        takeTurn();
+    }
+    private void takeTurn(){
+        //TODO: insert check in while loop if end turn button has been pushed
+        //while(){}
+        //TODO: calculate points function
+        if(isGameOver()){getWinner();}
+        endTurn();
 
     }
-
     private void endTurn(){
         //TODO: make temp board with changes made by current
         // to check against dictionary for correctness
@@ -35,10 +44,8 @@ public class Game {
         //TODO: find out who won and display
     }
 
-    private boolean isGameNotOver(){
-        // TODO: Check if game is over
-        System.out.println("isGameOver() not implemented! Always returns true.");
-        return true;
+    private boolean isGameOver(){
+        return tileBag.isEmpty();
     }
 
     private IPlayers getNextPlayer(){
@@ -51,8 +58,13 @@ public class Game {
     }
 
     private IPlayers getWinner(){
-        //TODO: decide who won
-        return null;
+        IPlayers winner = players.get(0);
+        for (IPlayers player : players) {
+            if (player.getScore() > winner.getScore()) {
+                winner = player;
+            }
+        }
+        return winner;
     }
 
     public Board getBoard(){
