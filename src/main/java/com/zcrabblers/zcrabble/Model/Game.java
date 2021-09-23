@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class Game implements IGame {
 
     private List<IPlayers> players;
     private IPlayers current;
