@@ -19,6 +19,7 @@ public class Cell {
     }
     public Tile getPlacedTile(){return placedTile;}
 
+    private Tile getTile(){return placedTile;}
     private int GetCombinedCellScore() {
         int i = 0;
         if(placedTile != null){
@@ -26,4 +27,5 @@ public class Cell {
         }
         return i * cellWordMultiplier;
     }
+
 }

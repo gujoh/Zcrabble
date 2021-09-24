@@ -17,7 +17,7 @@ public class TileBag {
     public void selectBag() throws FileNotFoundException{
         List<Tile> temp = new ArrayList<>();
         if(bagSelector.equals("defaultBag")){
-            File file = new File("src\\main\\resources\\"+bagSelector);
+            File file = new File("src/main/resources/"+bagSelector);
             Scanner scanner = new Scanner(file);
             while(scanner.hasNextLine()){
                 char readLetter = scanner.next().toCharArray()[0];
