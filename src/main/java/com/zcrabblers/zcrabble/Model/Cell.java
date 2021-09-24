@@ -17,6 +17,7 @@ public class Cell {
     public int GetCellLetterMultiplier() {
         return cellLetterMultiplier;
     }
+    public Tile getPlacedTile(){return placedTile;}
 
     private Tile getTile(){return placedTile;}
     private int GetCombinedCellScore() {
