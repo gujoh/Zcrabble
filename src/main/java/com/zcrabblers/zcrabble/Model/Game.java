@@ -10,6 +10,7 @@ public class Game implements IGame {
     private IPlayers current;
     private Board board;
     private TileBag tileBag;
+    private final LetterObserver observer = new LetterObserver();
 
     public Game(){
         this.board = new Board("defaultBoard");
@@ -71,4 +72,13 @@ public class Game implements IGame {
         return board;
     }
 
+    @Override
+    public void addSubscriber(ILetterObservable sub) {
+        observer.addSubscriber(sub);
+    }
+
+    @Override
+    public void removeSubscriber(ILetterObservable sub) {
+        observer.removeSubscriber(sub);
+    }
 }

@@ -1,5 +1,6 @@
 package com.zcrabblers.zcrabble;
 
+import com.zcrabblers.zcrabble.Model.GameManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +19,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        GameManager manager = new GameManager();
+
         launch();
     }
 }
