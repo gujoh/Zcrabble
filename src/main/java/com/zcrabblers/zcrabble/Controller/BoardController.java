@@ -1,13 +1,11 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.Game;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 
@@ -22,6 +20,7 @@ public class BoardController implements Initializable {
     @FXML private AnchorPane rackAnchor;
     @FXML private Rectangle rackRectangle;
     @FXML private ImageView dragImageView;
+    private CellView draggedFrom;
     @FXML private AnchorPane menuPane;
 
     ArrayList<ImageView> cellList = new ArrayList<>();
@@ -60,10 +59,16 @@ public class BoardController implements Initializable {
         rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        //rackAnchor.setMouseTransparent(true);
     }
 
     private void hideDragTile(){
         dragImageView.setVisible(false);
+    }
+
+    private void resetDragTile(){
+        dragImageView.setVisible(false);
+        draggedFrom.setImage(dragImageView.getImage());
     }
 
     private void initDragTile() throws FileNotFoundException {
@@ -81,6 +86,7 @@ public class BoardController implements Initializable {
             dragImageView.setImage(cellView.getImage());
             dragImageView.setVisible(true);
             cellView.changeToDefaultImage();
+            draggedFrom = cellView;
         });
 
         cellView.setOnMouseDragged(mouseEvent -> {
@@ -91,21 +97,25 @@ public class BoardController implements Initializable {
 
         cellView.setOnMouseDragReleased(event -> {
             dragImageView.setVisible(false);
-            cellView.setImage(dragImageView.getImage());
+            // TODO: Den här checken borde göras i modellen
+            if(cellView.isDeafultImage())
+                cellView.setImage(dragImageView.getImage());
+            else
+                draggedFrom.setImage(dragImageView.getImage());
         });
     }
 
     private void populateBoard() throws FileNotFoundException {
         int x = 0;
         int y = 0;
-        int length = game.getBoard().Matrix().length;
+        int length = game.getBoard().matrix().length;
         for (int i = 0; i < length; i++){
             for (int j = 0; j < length; j++){
                 CellView img;
                 if(i == length/2 && j == length/2){
                      img = new CellView(IMAGE_PATH + "Middle.png");
                 }
-                 else img = new CellView(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png");
+                 else img = new CellView(IMAGE_PATH + game.getBoard().matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().matrix()[i][j].GetCellLetterMultiplier() + ".png");
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
                 img.setFitHeight(33);
