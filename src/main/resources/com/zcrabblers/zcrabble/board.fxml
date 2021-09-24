@@ -14,7 +14,7 @@
    <children>
       <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@main.css">
+            <AnchorPane fx:id="gameAnchor" prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@main.css">
                <children>
                   <ImageView fx:id="dragImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5c4425" height="495.0" stroke="BLACK" strokeType="INSIDE" width="495.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="40.0" />
