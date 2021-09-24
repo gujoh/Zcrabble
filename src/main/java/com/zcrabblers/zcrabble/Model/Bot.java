@@ -1,16 +1,14 @@
 package com.zcrabblers.zcrabble.Model;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Bot implements IPlayers {
 
     private int score;
-    Dictionary dict = Dictionary.getInstance();
+    private static final Dictionary dict = Dictionary.getInstance();
 
     public Bot(int score){
         this.score = score;
@@ -28,7 +26,7 @@ public class Bot implements IPlayers {
     private static ArrayList<String> canWrite (String letters) throws FileNotFoundException {
         ArrayList <String> writableWords = new ArrayList<>();
         Map<Character,Integer> charCountMap = getCharCountMap(letters);
-        for (String s : dictArray()) {
+        for (String s : dict.getDictArray()) {
             Map<Character, Integer> currentDictWordMap = getCharCountMap(s);
             boolean canMakeWord = true;
             for (Character character : currentDictWordMap.keySet()) {
@@ -46,21 +44,6 @@ public class Bot implements IPlayers {
         return writableWords;
     }
 
-
-    /*---   Reads the dictionary and returns it as an ArrayList   ---*/
-    //should be removed from here once dictionary is working properly.
-
-    private static ArrayList <String> dictArray () throws FileNotFoundException {
-        ArrayList<String> dict = new ArrayList<>();
-        File file = new File("src\\main\\resources\\CollinsScrabbleWords2019");
-        Scanner sc = new Scanner(file);
-        while (sc.hasNextLine()){
-            String line = sc.nextLine();
-            dict.add(line);
-        }
-        sc.close();
-        return dict;
-    }
     /*---   Takes in a string of letters and returns HashMap with its Characters as keys and number of times it is used as value   ---*/
     private static Map<Character,Integer> getCharCountMap(String letters){
         Map<Character, Integer> charCountMap = new HashMap<>();
