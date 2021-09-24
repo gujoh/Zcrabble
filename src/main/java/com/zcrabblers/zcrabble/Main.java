@@ -1,5 +1,6 @@
 package com.zcrabblers.zcrabble;
 
+import com.zcrabblers.zcrabble.Model.GameManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,7 +11,7 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("board.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("board.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         stage.setScene(scene);
         stage.setTitle("Zcrabble!");
@@ -18,6 +19,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        GameManager manager = new GameManager();
+
         launch();
     }
 }

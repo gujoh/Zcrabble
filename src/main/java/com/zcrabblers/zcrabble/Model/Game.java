@@ -4,12 +4,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class Game implements IGame {
 
     private List<IPlayers> players;
     private IPlayers current;
     private Board board;
     private TileBag tileBag;
+    private final LetterObserver observer = new LetterObserver();
 
     public Game(){
         this.board = new Board("defaultBoard");
@@ -71,4 +72,13 @@ public class Game {
         return board;
     }
 
+    @Override
+    public void addSubscriber(ILetterObservable sub) {
+        observer.addSubscriber(sub);
+    }
+
+    @Override
+    public void removeSubscriber(ILetterObservable sub) {
+        observer.removeSubscriber(sub);
+    }
 }
