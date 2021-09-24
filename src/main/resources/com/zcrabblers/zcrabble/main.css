@@ -1,3 +1,12 @@
 .background{
     -fx-background-color: #68BB59;
 }
+
+.shuffle-button{
+    -fx-background-color: #000000;
+}
+
+.shuffle-button:hover{
+    -fx-background-color: #484848;
+    -fx-cursor: hand;
+}
