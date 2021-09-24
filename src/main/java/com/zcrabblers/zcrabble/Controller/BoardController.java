@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
@@ -27,6 +28,7 @@ public class BoardController implements Initializable {
     @FXML private Button shuffleButton;
     @FXML private Button endTurnButton;
     @FXML private Label tilesLeftLabel;
+    @FXML private AnchorPane gameAnchor;
 
     ArrayList<ImageView> cellList = new ArrayList<>();
     ArrayList<ImageView> rackList = new ArrayList<>();
@@ -41,7 +43,7 @@ public class BoardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        menuController = new MenuController();
+        menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
         try {
             game.newGame();
@@ -162,5 +164,15 @@ public class BoardController implements Initializable {
 
             registerCellEvents(img);
         }
+    }
+
+    public void setDarkModeSkin(){
+        gameAnchor.setStyle("-fx-background-color: #808080");
+        rackAnchor.setStyle("-fx-background-color: #000000");
+    }
+
+    public void setZcrabbleSkin(){
+        gameAnchor.setStyle("-fx-background-color: #68BB59");
+        rackAnchor.setStyle("-fx-background-color: #5C4425");
     }
 }
