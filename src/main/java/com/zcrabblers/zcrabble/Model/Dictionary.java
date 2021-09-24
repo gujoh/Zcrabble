@@ -23,7 +23,7 @@ public class Dictionary {
         return dictArray;
     }
     /*---   Checks if a word is in the dictionary   ---*/
-    public static boolean checkWord (String word)  {
+    public  boolean checkWord (String word)  {
         return dictArray.contains(word);
     }
 

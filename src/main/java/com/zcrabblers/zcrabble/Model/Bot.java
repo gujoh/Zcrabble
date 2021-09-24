@@ -1,6 +1,6 @@
 package com.zcrabblers.zcrabble.Model;
 
-import java.io.FileNotFoundException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +27,9 @@ public class Bot implements IPlayers {
         return null;
     }
 
+
     /*---   Takes in a string of letters and returns all dictionary words that can be written with them   ---*/
-    private static ArrayList<String> canWrite (String letters) throws FileNotFoundException {
+    private static ArrayList<String> canWrite (String letters){
         ArrayList <String> writableWords = new ArrayList<>();
         Map<Character,Integer> charCountMap = getCharCountMap(letters);
         for (String s : dict.getDictArray()) {
