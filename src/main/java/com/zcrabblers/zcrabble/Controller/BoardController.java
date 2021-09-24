@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,6 +25,9 @@ public class BoardController implements Initializable {
     @FXML private Rectangle rackRectangle;
     @FXML private ImageView dragImageView;
     @FXML private AnchorPane menuPane;
+    @FXML private Button shuffleButton;
+    @FXML private Button endTurnButton;
+    @FXML private Label tilesLeftLabel;
 
     ArrayList<ImageView> cellList = new ArrayList<>();
     ArrayList<ImageView> rackList = new ArrayList<>();

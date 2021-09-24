@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zcrabblers.zcrabble.Controller.BoardController">
    <children>
@@ -14,7 +18,7 @@
                <children>
                   <ImageView fx:id="dragImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5c4425" height="495.0" stroke="BLACK" strokeType="INSIDE" width="495.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="40.0" />
-                  <Rectangle fx:id="rackRectangle" arcHeight="5.0" arcWidth="5.0" height="54.0" layoutX="30.0" layoutY="540.0" stroke="BLACK" strokeType="INSIDE" width="350.0" AnchorPane.leftAnchor="30.0" />
+                  <Rectangle fx:id="rackRectangle" arcHeight="5.0" arcWidth="5.0" fill="#5c4425" height="54.0" layoutX="30.0" layoutY="540.0" stroke="BLACK" strokeType="INSIDE" width="350.0" AnchorPane.leftAnchor="30.0" />
                   <AnchorPane id="boardAnchor" fx:id="boardAnchor" prefHeight="495.0" prefWidth="495.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="40.0" />
                   <AnchorPane fx:id="rackAnchor" layoutY="540.0" prefHeight="54.0" prefWidth="350.0" AnchorPane.leftAnchor="30.0" />
                   <AnchorPane fx:id="menuPane" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -23,6 +27,25 @@
                         <Image url="@Images/TileBag.png" />
                      </image>
                   </ImageView>
+                  <Button fx:id="shuffleButton" layoutX="390.0" layoutY="540.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="62.0" styleClass="shuffle-button" text="Shuffle" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="endTurnButton" layoutX="463.0" layoutY="540.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="62.0" styleClass="shuffle-button" text="End Turn" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <HBox layoutX="543.0" layoutY="287.0" prefHeight="20.0" prefWidth="33.0">
+                     <children>
+                        <Label fx:id="tilesLeftLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="34.0" text="100" textAlignment="CENTER" textFill="#dc1010">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
          </children>
