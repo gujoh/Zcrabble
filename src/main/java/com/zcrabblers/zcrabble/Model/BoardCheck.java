@@ -18,12 +18,12 @@ public class BoardCheck {
     /*--- Method for checking that all columns are filled with correct words ---*/
     private static boolean checkCol(Board board)  {
 
-        for (int col = 0; col < board.Matrix().length ; col++) {
-            for (int row = 0; row < board.Matrix().length; row++) {
+        for (int col = 0; col < board.matrix().length ; col++) {
+            for (int row = 0; row < board.matrix().length; row++) {
 
                 StringBuilder word = new StringBuilder();
                 if (containsLetter(board,row,col) && containsLetter(board,row==0?row:row-1,col) || containsLetter(board,row==15?row:row+1,col) ){
-                    word.append(board.Matrix()[row][col].getPlacedTile().getLetter());
+                    word.append(board.matrix()[row][col].getPlacedTile().getLetter());
                 }
                 if(word.length()>1 && !containsLetter(board,row,col)){
                     Dictionary.checkWord(word.toString());
@@ -53,7 +53,7 @@ public class BoardCheck {
     }
 
     private static boolean containsLetter(Board board,int row, int col){
-        return board.Matrix()[row][col].getPlacedTile().getLetter() != ' ';
+        return board.matrix()[row][col].getPlacedTile().getLetter() != ' ';
     }
 
 }
