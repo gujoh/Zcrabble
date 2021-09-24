@@ -35,6 +35,18 @@ public class Board {
             }
         }
     }
+    public int countPoint(Board tempBoard){
+        int score = 0;
+        Cell[][] tempBoardCells = tempBoard.matrix();
+        for(int i = 0; i > tempBoardCells[0].length; i++){
+            for(int j = 0; j > boardCells[0].length; j++){
+
+            }
+        }
+
+        return score;
+    }
+
     public void testBoard(){
         for(int i = 0; i < 15; i++){
             for(int j = 0; j < 15; j++){
@@ -42,11 +54,11 @@ public class Board {
             }
         }
     }
-    public Cell[][] Matrix(){
+    public Cell[][] matrix(){
         return boardCells;
     }
     private Board PlaceTile(Board board, int i, int j, Cell cell){
-            board.Matrix()[i][j] = cell;
+            board.matrix()[i][j] = cell;
         return board;
     }
 }
