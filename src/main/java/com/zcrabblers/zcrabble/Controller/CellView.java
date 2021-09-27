@@ -22,6 +22,10 @@ public class CellView extends ImageView {
         }
     }
 
+    public boolean isDeafultImage(){
+        return defaultImage == getImage();
+    }
+
     public void changeToDefaultImage(){
         setImage(defaultImage);
     }

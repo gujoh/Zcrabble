@@ -1,14 +1,15 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.Game;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
@@ -22,7 +23,12 @@ public class BoardController implements Initializable {
     @FXML private AnchorPane rackAnchor;
     @FXML private Rectangle rackRectangle;
     @FXML private ImageView dragImageView;
+    private CellView draggedFrom;
     @FXML private AnchorPane menuPane;
+    @FXML private Button shuffleButton;
+    @FXML private Button endTurnButton;
+    @FXML private Label tilesLeftLabel;
+    @FXML private AnchorPane gameAnchor;
 
     ArrayList<ImageView> cellList = new ArrayList<>();
     ArrayList<ImageView> rackList = new ArrayList<>();
@@ -37,7 +43,7 @@ public class BoardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        menuController = new MenuController();
+        menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
         try {
             game.newGame();
@@ -60,10 +66,16 @@ public class BoardController implements Initializable {
         rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        //rackAnchor.setMouseTransparent(true);
     }
 
     private void hideDragTile(){
         dragImageView.setVisible(false);
+    }
+
+    private void resetDragTile(){
+        dragImageView.setVisible(false);
+        draggedFrom.setImage(dragImageView.getImage());
     }
 
     private void initDragTile() throws FileNotFoundException {
@@ -81,6 +93,7 @@ public class BoardController implements Initializable {
             dragImageView.setImage(cellView.getImage());
             dragImageView.setVisible(true);
             cellView.changeToDefaultImage();
+            draggedFrom = cellView;
         });
 
         cellView.setOnMouseDragged(mouseEvent -> {
@@ -91,7 +104,11 @@ public class BoardController implements Initializable {
 
         cellView.setOnMouseDragReleased(event -> {
             dragImageView.setVisible(false);
-            cellView.setImage(dragImageView.getImage());
+            // TODO: Den här checken borde göras i modellen
+            if(cellView.isDeafultImage())
+                cellView.setImage(dragImageView.getImage());
+            else
+                draggedFrom.setImage(dragImageView.getImage());
         });
     }
 
@@ -147,5 +164,15 @@ public class BoardController implements Initializable {
 
             registerCellEvents(img);
         }
+    }
+
+    public void setDarkModeSkin(){
+        gameAnchor.setStyle("-fx-background-color: #808080");
+        rackAnchor.setStyle("-fx-background-color: #000000");
+    }
+
+    public void setZcrabbleSkin(){
+        gameAnchor.setStyle("-fx-background-color: #68BB59");
+        rackAnchor.setStyle("-fx-background-color: #5C4425");
     }
 }
