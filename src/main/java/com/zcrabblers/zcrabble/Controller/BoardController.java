@@ -1,6 +1,7 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.Game;
+import com.zcrabblers.zcrabble.Model.Tile;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -30,8 +31,9 @@ public class BoardController implements Initializable {
     @FXML private Label tilesLeftLabel;
     @FXML private AnchorPane gameAnchor;
 
-    ArrayList<ImageView> cellList = new ArrayList<>();
-    ArrayList<ImageView> rackList = new ArrayList<>();
+    private ArrayList<ImageView> cellList = new ArrayList<>();
+    private ArrayList<ImageView> rackList = new ArrayList<>();
+    private ArrayList<Tile> tempTiles = new ArrayList<>();
     private MenuController menuController;
 
     Game game = new Game();
