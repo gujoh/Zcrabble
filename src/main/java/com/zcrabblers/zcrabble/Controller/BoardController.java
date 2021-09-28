@@ -90,9 +90,17 @@ public class BoardController implements Initializable {
     private void registerCellEvents(CellView cellView){
         cellView.setOnDragDetected(event -> {
             cellView.startFullDrag();
-            dragImageView.setImage(cellView.getImage());
-            dragImageView.setVisible(true);
-            cellView.changeToDefaultImage();
+            int x = (int) Math.floor(event.getX() / 33);
+            int y = (int) Math.floor(event.getY() / 33);
+            System.out.println("X: " + x + ", Y: " + y);
+            if(!game.isCellEmpty(x, y)) {
+                dragImageView.setImage(cellView.getImage());
+                dragImageView.setVisible(true);
+                cellView.changeToDefaultImage();
+            }
+            else{
+
+            }
             draggedFrom = cellView;
         });
 
@@ -104,8 +112,11 @@ public class BoardController implements Initializable {
 
         cellView.setOnMouseDragReleased(event -> {
             dragImageView.setVisible(false);
-            // TODO: Den här checken borde göras i modellen
-            if(cellView.isDeafultImage())
+
+            int x = (int) Math.floor(event.getX() / 33);
+            int y = (int) Math.floor(event.getY() / 33);
+            System.out.println("X: " + x + ", Y: " + y);
+            if(game.isCellEmpty(x, y))
                 cellView.setImage(dragImageView.getImage());
             else
                 draggedFrom.setImage(dragImageView.getImage());

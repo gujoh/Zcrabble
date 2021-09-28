@@ -38,11 +38,12 @@ public class Game implements IGame {
         //TODO: make temp board with changes made by current
         // to check against dictionary for correctness
         Board tempBoard = new Board("defaultBoard");
-        //current.takeTurn();
+
+        // TODO: Add score from tempboard to current if it was correct
+        // TODO: End game if there's a winner and display results
 
         current = getNextPlayer();
-
-        //TODO: find out who won and display
+        current.beginTurn(tileBag);
     }
 
     private boolean isGameOver(){
@@ -81,4 +82,14 @@ public class Game implements IGame {
     public void removeSubscriber(ILetterObservable sub) {
         observer.removeSubscriber(sub);
     }
+
+    @Override
+    public void removeAllSubscribers() {
+        observer.removeAllSubscribers();
+    }
+
+    public boolean isCellEmpty(int x, int y){
+        return board.isCellEmpty(x, y);
+    }
+
 }

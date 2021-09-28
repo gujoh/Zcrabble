@@ -61,4 +61,8 @@ public class Board {
             board.matrix()[i][j] = cell;
         return board;
     }
+
+    public boolean isCellEmpty(int x, int y){
+        return boardCells[x][y].isEmpty();
+    }
 }
