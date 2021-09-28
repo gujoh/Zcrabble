@@ -28,4 +28,8 @@ public class Cell {
         return i * cellWordMultiplier;
     }
 
+    public boolean isEmpty(){
+        return placedTile.getLetter() == ' ';
+    }
+
 }

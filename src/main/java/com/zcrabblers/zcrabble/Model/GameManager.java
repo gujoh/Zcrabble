@@ -31,8 +31,9 @@ public class GameManager {
         return currentGame;
     }
 
-    public static void newGame(){
-        //currentGame = new Game();
+    public void newGame(){
+        currentGame.removeAllSubscribers();
+        currentGame = new Game();
     }
 
 }
