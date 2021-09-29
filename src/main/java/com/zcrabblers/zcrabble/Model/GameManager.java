@@ -7,15 +7,6 @@ public class GameManager {
     private IGame currentGame;
     private static GameManager instance;
 
-    public GameManager(){
-        newGame();
-        try {
-            currentGame.newGame();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static GameManager getInstance(){
         if(instance == null)
             instance = new GameManager();
@@ -39,8 +30,10 @@ public class GameManager {
     }
 
     public void newGame(){
+        if(currentGame != null)
+            currentGame.removeAllSubscribers();
         currentGame = new Game();
-        currentGame.removeAllSubscribers();
+        currentGame.start();
     }
 
     public int getBoardSize(){
