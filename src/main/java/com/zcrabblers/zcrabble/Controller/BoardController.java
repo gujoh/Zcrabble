@@ -2,7 +2,7 @@ package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.Game;
 import com.zcrabblers.zcrabble.Model.GameManager;
-import javafx.application.Application;
+import com.zcrabblers.zcrabble.Model.Tile;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -32,11 +32,12 @@ public class BoardController implements Initializable {
     @FXML private Label tilesLeftLabel;
     @FXML private AnchorPane gameAnchor;
 
-    ArrayList<ImageView> cellList = new ArrayList<>();
-    ArrayList<ImageView> rackList = new ArrayList<>();
+    private ArrayList<ImageView> cellList = new ArrayList<>();
+    private ArrayList<ImageView> rackList = new ArrayList<>();
+    private ArrayList<Tile> tempTiles = new ArrayList<>();
     private MenuController menuController;
 
-    Game game = new Game();
+    private final GameManager game = GameManager.getInstance();
 
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
 
@@ -47,11 +48,11 @@ public class BoardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
-        try {
-            game.newGame();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            game.newGame();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
         try {
             populate();
@@ -95,7 +96,7 @@ public class BoardController implements Initializable {
             int x = (int) Math.floor(event.getX() / 33);
             int y = (int) Math.floor(event.getY() / 33);
             System.out.println("X: " + x + ", Y: " + y);
-            if(!game.isCellEmpty(x, y)) {
+            if(!game.getCurrentGame().isCellEmpty(x, y)) {
                 cellView.startFullDrag();
                 dragImageView.setImage(cellView.getImage());
                 dragImageView.setVisible(true);
@@ -116,7 +117,7 @@ public class BoardController implements Initializable {
             int x = (int) Math.floor(event.getX() / 33);
             int y = (int) Math.floor(event.getY() / 33);
             System.out.println("X: " + x + ", Y: " + y);
-            if(game.isCellEmpty(x, y))
+            if(game.getCurrentGame().isCellEmpty(x, y))
                 cellView.setImage(dragImageView.getImage());
             else
                 draggedFrom.setImage(dragImageView.getImage());
@@ -126,14 +127,14 @@ public class BoardController implements Initializable {
     private void populateBoard() throws FileNotFoundException {
         int x = 0;
         int y = 0;
-        int length = game.getBoard().matrix().length;
+        int length = game.getBoardSize();
         for (int i = 0; i < length; i++){
             for (int j = 0; j < length; j++){
                 CellView img;
                 if(i == length/2 && j == length/2){
                      img = new CellView(IMAGE_PATH + "Middle.png");
                 }
-                 else img = new CellView(IMAGE_PATH + game.getBoard().matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().matrix()[i][j].GetCellLetterMultiplier() + ".png");
+                 else img = new CellView(IMAGE_PATH + game.getBoard()[i][j].GetCellWordMultiplier() + "" + game.getBoard()[i][j].GetCellLetterMultiplier() + ".png");
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
                 img.setFitHeight(33);

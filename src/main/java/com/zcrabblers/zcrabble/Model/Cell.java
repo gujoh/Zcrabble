@@ -18,8 +18,7 @@ public class Cell {
         return cellLetterMultiplier;
     }
     public Tile getPlacedTile(){return placedTile;}
-
-    private Tile getTile(){return placedTile;}
+    public void setTile(Tile tile){placedTile = tile;}
     private int GetCombinedCellScore() {
         int i = 0;
         if(placedTile != null){
