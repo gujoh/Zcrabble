@@ -124,4 +124,8 @@ public class Game extends Thread implements IGame {
         return board.isCellEmpty(x, y);
     }
 
+    public Rack getRack(){
+        return current.getRack();
+    }
+
 }

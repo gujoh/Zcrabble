@@ -27,7 +27,7 @@
                     <items>
                       <MenuItem fx:id="menuSkinsZcrabble" mnemonicParsing="false" onAction="#zcrabbleSkinOnClick" text="Zcrabble" />
                         <MenuItem fx:id="menuSkinsDarkMode" mnemonicParsing="false" onAction="#darkModeOnClick" text="Dark mode" />
-                        <MenuItem fx:id="menuSkinsCyberpunk" mnemonicParsing="false" text="Cyberpunk" />
+                        <MenuItem fx:id="menuSkinsCyberpunk" mnemonicParsing="false" onAction="#cyberPunkSkinOnClick" text="Cyberpunk" />
                     </items>
                   </Menu>
             </items>

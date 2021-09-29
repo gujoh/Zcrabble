@@ -10,12 +10,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable, ILetterObservable {
@@ -29,6 +33,10 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Button endTurnButton;
     @FXML private Label tilesLeftLabel;
     @FXML private AnchorPane gameAnchor;
+    @FXML private Label p1Score;
+    @FXML private Label p2Score;
+    @FXML private Label p3Score;
+    @FXML private Label p4Score;
 
     private ArrayList<ImageView> cellList = new ArrayList<>();
     private ArrayList<ImageView> rackList = new ArrayList<>();
@@ -172,6 +180,8 @@ public class BoardController implements Initializable, ILetterObservable {
             else x += (counter*45);
             counter++;
 
+            //TODO: Think we must add a constructor to Rack first, right?
+            //img.setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRack().getTile(i).getLetter() + ".png")));
             img.setImage((new Image(new FileInputStream(IMAGE_PATH + "a.png"))));
 
             registerCellEvents(img);
@@ -202,13 +212,54 @@ public class BoardController implements Initializable, ILetterObservable {
         }
     }
 
+    @FXML
+    private void shuffleRack(){
+        Random rand = new Random();
+        for(int i = 0; i < rackList.size(); i++){
+            int randomIndex = rand.nextInt(rackList.size());
+            int tempX = (int)rackList.get(randomIndex).getX();
+            rackList.get(randomIndex).setX(rackList.get(i).getX());
+            rackList.get(i).setX(tempX);
+            Collections.swap(rackList, i, randomIndex);
+        }
+    }
+
+    private void addNewCell(){
+        //Get the index from the tile you want to move. From there figure out what letter is on the tile.
+        //When you place your tile, get the index of that position. Make a copy of the cell that is located there.
+        //Then add the tile to the copy of the cell, and add the cell to newCells.
+        //When a tile that was previously placed on the board is being moved, remove the cell from newCells. 
+        //Somehow send this list of new cells to the Model when endTurn has been called.
+        //Other methods will check if you are able to move a certain tile when you try to move it.
+        //The same goes for when you want to place a tile. The game will only let you place a tile in a
+        //valid position. This will also be checked by another method.
+
+    }
+
     public void setDarkModeSkin(){
         gameAnchor.setStyle("-fx-background-color: #808080");
         rackAnchor.setStyle("-fx-background-color: #000000");
+        shuffleButton.setStyle("fx-background-color: #ffffff");
+        shuffleButton.setTextFill(Color.WHITE);
+        endTurnButton.setStyle("fx-background-color: #ffffff");
+        endTurnButton.setTextFill(Color.WHITE);
     }
 
     public void setZcrabbleSkin(){
         gameAnchor.setStyle("-fx-background-color: #68BB59");
         rackAnchor.setStyle("-fx-background-color: #5C4425");
+        shuffleButton.setStyle("fx-background-color: #ffffff");
+        shuffleButton.setTextFill(Color.WHITE);
+        endTurnButton.setStyle("fx-background-color: #ffffff");
+        endTurnButton.setTextFill(Color.WHITE);
+    }
+
+    public void setCyberpunkSkin(){
+        gameAnchor.setStyle("-fx-background-color: #711c91");
+        rackAnchor.setStyle("-fx-background-color: #133e7c");
+        shuffleButton.setStyle("-fx-background-color: #fff200");
+        shuffleButton.setTextFill(Color.BLACK);
+        endTurnButton.setStyle("-fx-background-color: #fff200");
+        endTurnButton.setTextFill(Color.BLACK);
     }
 }

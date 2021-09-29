@@ -11,5 +11,6 @@ public interface IGame {
     boolean isCellEmpty(int x, int y);
     void newGame();
     void endTurn();
+    Rack getRack();
 
 }
