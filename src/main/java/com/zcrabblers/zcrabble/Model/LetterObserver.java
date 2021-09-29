@@ -15,6 +15,12 @@ public class LetterObserver {
         subscribers.remove(sub);
     }
 
+    public void removeAllSubscribers(){
+        for (int i = subscribers.size() - 1; i >= 0; i--) {
+            removeSubscriber(subscribers.get(i));
+        }
+    }
+
     public void notifySubscribers(Letter letter){
         subscribers.forEach(x -> x.update(letter));
     }

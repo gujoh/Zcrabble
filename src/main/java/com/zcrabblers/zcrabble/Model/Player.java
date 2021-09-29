@@ -17,6 +17,11 @@ public class Player implements IPlayers{
         return rack;
     }
 
+    @Override
+    public void beginTurn(TileBag bag) {
+
+    }
+
     private boolean endTurn = false;
 /* for now useless
     delete later :)

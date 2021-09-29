@@ -27,6 +27,11 @@ public class Bot implements IPlayers {
         return null;
     }
 
+    @Override
+    public void beginTurn(TileBag bag) {
+
+    }
+
 
     /*---   Takes in a string of letters and returns all dictionary words that can be written with them   ---*/
     private static ArrayList<String> canWrite (String letters){

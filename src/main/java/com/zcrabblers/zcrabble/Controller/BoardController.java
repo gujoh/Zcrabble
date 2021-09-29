@@ -1,6 +1,7 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.Game;
+import com.zcrabblers.zcrabble.Model.Tile;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -30,8 +31,9 @@ public class BoardController implements Initializable {
     @FXML private Label tilesLeftLabel;
     @FXML private AnchorPane gameAnchor;
 
-    ArrayList<ImageView> cellList = new ArrayList<>();
-    ArrayList<ImageView> rackList = new ArrayList<>();
+    private ArrayList<ImageView> cellList = new ArrayList<>();
+    private ArrayList<ImageView> rackList = new ArrayList<>();
+    private ArrayList<Tile> tempTiles = new ArrayList<>();
     private MenuController menuController;
 
     Game game = new Game();
@@ -90,9 +92,17 @@ public class BoardController implements Initializable {
     private void registerCellEvents(CellView cellView){
         cellView.setOnDragDetected(event -> {
             cellView.startFullDrag();
-            dragImageView.setImage(cellView.getImage());
-            dragImageView.setVisible(true);
-            cellView.changeToDefaultImage();
+            int x = (int) Math.floor(event.getX() / 33);
+            int y = (int) Math.floor(event.getY() / 33);
+            System.out.println("X: " + x + ", Y: " + y);
+            if(!game.isCellEmpty(x, y)) {
+                dragImageView.setImage(cellView.getImage());
+                dragImageView.setVisible(true);
+                cellView.changeToDefaultImage();
+            }
+            else{
+
+            }
             draggedFrom = cellView;
         });
 
@@ -104,8 +114,11 @@ public class BoardController implements Initializable {
 
         cellView.setOnMouseDragReleased(event -> {
             dragImageView.setVisible(false);
-            // TODO: Den här checken borde göras i modellen
-            if(cellView.isDeafultImage())
+
+            int x = (int) Math.floor(event.getX() / 33);
+            int y = (int) Math.floor(event.getY() / 33);
+            System.out.println("X: " + x + ", Y: " + y);
+            if(game.isCellEmpty(x, y))
                 cellView.setImage(dragImageView.getImage());
             else
                 draggedFrom.setImage(dragImageView.getImage());

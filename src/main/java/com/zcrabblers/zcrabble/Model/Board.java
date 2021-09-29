@@ -216,5 +216,9 @@ public class Board {
             line = "";
         }
     }
+
+    public boolean isCellEmpty(int x, int y){
+        return boardCells[x][y].isEmpty();
+    }
 }
 
