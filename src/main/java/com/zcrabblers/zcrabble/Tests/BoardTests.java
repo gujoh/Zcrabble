@@ -50,12 +50,15 @@ public class BoardTests {
         boardTwo.placeTile(3,5,new Tile('L',2));
         boardTwo.placeTile(3,6,new Tile('M',2));
         boardTwo.placeTile(3,8,new Tile('N',2));
-        boardTwo.printBoard(boardTwo);
-        boardTwo.printBoardPoints(boardTwo);
+        boardTwo.placeTile(3,9,new Tile('P',2));
+        boardTwo.placeTile(3,10,new Tile('Q',2));
+        boardTwo.placeTile(3,11,new Tile('R',2));
+        //boardTwo.printBoard(boardTwo);
+        //boardTwo.printBoardPoints(boardTwo);
         System.out.println(" ");
         System.out.println(" ");
         System.out.println(" ");
-        System.out.println(boardTwo.countPoints(board));
+        System.out.println(boardTwo.countPoints(boardTwo.getNewCells(board)));
 
     }
 
