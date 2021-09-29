@@ -43,4 +43,9 @@ public class MenuController extends AnchorPane {
     private void zcrabbleSkinOnClick(){
         parentController.setZcrabbleSkin();
     }
+
+    @FXML
+    private void cyberPunkSkinOnClick(){
+        parentController.setCyberpunkSkin();
+    }
 }

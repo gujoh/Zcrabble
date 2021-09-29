@@ -69,4 +69,8 @@ public class GameManager {
         return currentGame.getBoard().matrix();
     }
 
+    public Rack getRack(){
+        return currentGame.getRack();
+    }
+
 }
