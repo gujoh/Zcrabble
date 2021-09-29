@@ -1,8 +1,6 @@
 package com.zcrabblers.zcrabble.Controller;
 
-import com.zcrabblers.zcrabble.Model.Game;
-import com.zcrabblers.zcrabble.Model.GameManager;
-import com.zcrabblers.zcrabble.Model.Tile;
+import com.zcrabblers.zcrabble.Model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -20,7 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class BoardController implements Initializable {
+public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane boardAnchor;
     @FXML private AnchorPane rackAnchor;
     @FXML private Rectangle rackRectangle;
@@ -35,6 +33,7 @@ public class BoardController implements Initializable {
     private ArrayList<ImageView> cellList = new ArrayList<>();
     private ArrayList<ImageView> rackList = new ArrayList<>();
     private ArrayList<Tile> tempTiles = new ArrayList<>();
+    private ArrayList<Cell> newCells = new ArrayList<>();
     private MenuController menuController;
 
     private final GameManager game = GameManager.getInstance();
@@ -175,6 +174,30 @@ public class BoardController implements Initializable {
             img.setImage((new Image(new FileInputStream(IMAGE_PATH + "a.png"))));
 
             registerCellEvents(img);
+        }
+    }
+
+    //Converts index in 2D array to index in 1D array.
+    private int coordinateToIndex(int x, int y){
+        return x + y*game.getBoardSize();
+    }
+
+    @Override
+    public void update(LetterTuple[] boardList, LetterTuple[] rackList){
+        for (LetterTuple letter : boardList){
+            try {
+                cellList.get(coordinateToIndex(letter.getX(), letter.getY())).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (LetterTuple letter : rackList){
+            try {
+                this.rackList.get(letter.getX()).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
