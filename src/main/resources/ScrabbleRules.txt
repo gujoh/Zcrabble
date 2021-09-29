@@ -43,4 +43,4 @@ All words made in one play are challenged simultaneously. If any word is unaccep
 Only one turn is lost on any challenge.
 
 #9
-The game ends when all letters have been drawn and one player uses his or her last letter; or when all possible plays have been made.
+The game ends when all letters have been drawn and one player uses their last letter; or when all possible plays have been made(no one has made a move for 7 turns).

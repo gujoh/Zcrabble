@@ -7,15 +7,6 @@ public class GameManager {
     private IGame currentGame;
     private static GameManager instance;
 
-    public GameManager(){
-        newGame();
-        try {
-            currentGame.newGame();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Getter for an instance of GameManager using the Singleton design pattern.
      * @return an instance of GameManager
@@ -48,8 +39,10 @@ public class GameManager {
      * Creates a new Game and removes all subscribers from the observer.
      */
     public void newGame(){
+        if(currentGame != null)
+            currentGame.removeAllSubscribers();
         currentGame = new Game();
-        currentGame.removeAllSubscribers();
+        currentGame.start();
     }
 
     /**
