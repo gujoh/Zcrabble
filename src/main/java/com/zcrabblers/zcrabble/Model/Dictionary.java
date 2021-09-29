@@ -17,13 +17,17 @@ public class Dictionary {
     }
 
     /**
-     *
-     * @return
+     * Returns current Dictionary, if there is none; creates a dictionary and returns it
+     * @return current Dictionary
      */
     public static Dictionary getInstance(){
 
         return Objects.requireNonNullElseGet(instance, Dictionary::new);
     }
+
+    /**
+     * @return dictionary as an ArrayList.
+     */
     public ArrayList<String> getDictArray(){
         return dictArray;
     }
