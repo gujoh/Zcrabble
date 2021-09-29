@@ -3,13 +3,13 @@ package com.zcrabblers.zcrabble.Model;
 // Is the class with the main responsibility over the model and starting new games
 public class GameManager {
     private IGame currentGame;
-    private GameManager instance;
+    private static GameManager instance;
 
     public GameManager(){
 
     }
 
-    public GameManager getInstance(){
+    public static GameManager getInstance(){
         if(instance == null)
             instance = new GameManager();
         return instance;
