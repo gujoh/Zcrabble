@@ -37,77 +37,124 @@ public class Board {
     }
     public int countPoints(Board tempBoard){
         boolean ignoreI = false;
+        int wordCount = 0;
         List<CellTuple> newCells = getNewCells(tempBoard);
-        List<ArrayList<Cell>> wordList = new ArrayList<>();
+        List<ArrayList<CellTuple>> wordList = new ArrayList<>();
         if(newCells.size() > 1){
             if(newCells.get(0).getI() == newCells.get(1).getI()){
                 ignoreI = true;
             }
         }
         for(int x = 0; x < newCells.size(); x++){
-            if(x >= 1 && !ignoreI){
-                int wordCount = 0;
-                int j = newCells.get(x).getJ();
-                for (Cell[] boardCell : boardCells) {
-                    if (boardCell[j].getTile().getLetter() != ' ') {
-                        wordList.get(wordCount).add(boardCell[j]);
-                        wordCount++;
+            int i = newCells.get(x).getI();
+            int j = newCells.get(x).getJ();
+
+            if(x == 0 || ignoreI){
+                wordList.add(new ArrayList<>());
+                int iIterator = 0;
+                boolean stop = false;
+                boolean up = true;
+
+                while(i + iIterator < boardCells.length && !stop){
+                    if(boardCells[i+iIterator][j].getPlacedTile().getLetter() != ' ') {
+                        wordList.get(wordCount).add(new CellTuple(i+iIterator,j,boardCells[i+iIterator][j]));
+                        if(up){iIterator++;}
+                        else {iIterator--;}
+                    }
+                    if(boardCells[i+iIterator][j].getPlacedTile().getLetter() == ' ' && !up){
+                        stop = true;
+                    }
+                    if(boardCells[i+iIterator][j].getPlacedTile().getLetter() == ' ' && up){
+                        iIterator = -1;
+                        up = false;
                     }
                 }
+
+                wordCount++;
             }
-            if(x >= 1 && ignoreI){
-                int wordCount = 0;
-                int i = newCells.get(x).getI();
-                for(int j = 0; j < boardCells.length; j++){
-                    if(boardCells[i][j].getTile().getLetter() != ' '){
-                        wordList.get(wordCount).add(boardCells[i][j]);
-                        wordCount++;
+            if(x == 0 || !ignoreI){
+                wordList.add(new ArrayList<>());
+                int jIterator = 0;
+
+                boolean stop = false;
+                boolean up = true;
+
+                while(j + jIterator < boardCells.length && !stop){
+                    if(boardCells[i][j+jIterator].getPlacedTile().getLetter() != ' ') {
+                        wordList.get(wordCount).add(new CellTuple(i,j+jIterator, boardCells[i][j+jIterator]));
+                        if(up){jIterator++;}
+                        else {jIterator--;}
+                    }
+                    if(boardCells[i][j+jIterator].getPlacedTile().getLetter() == ' ' && !up){
+                        stop = true;
+                    }
+                    if(boardCells[i][j+jIterator].getPlacedTile().getLetter() == ' ' && up){
+                        jIterator = -1;
+                        up = false;
                     }
                 }
+
+                wordCount++;
             }
         }
-
-        return helpCalculateScore(wordList);
+        String line = new String();
+        for(int i = 0; i < wordList.size(); i++){
+            for(int j = 0; j < wordList.get(i).size(); j++){
+                line += wordList.get(i).get(j).getCell().getPlacedTile().getLetter();
+            }
+            System.out.println(line);
+            line = "";
+        }
+        return helpCalculateScore(wordList, newCells);
     }
-    private int helpCalculateScore(List<ArrayList<Cell>> wordList){
-        int score;
+    private int helpCalculateScore(List<ArrayList<CellTuple>> wordList, List<CellTuple> newCells){
+        int score = 0;
         int letterScore = 0;
         int totalWordMultiplier = 1;
-        Cell cell = null;
-        for (ArrayList<Cell> cells : wordList) {
-            for (int i = 0; i < cells.size(); i++)
-                cell = cells.get(i);
-            letterScore += cell.GetCellLetterMultiplier() * cell.getTile().getTileScore();
-            totalWordMultiplier *= cell.GetCellWordMultiplier();
+        for (ArrayList<CellTuple> cells : wordList) {
+            for (int x = 0; x < cells.size(); x++) {
+                if(cells.size() > 1) {
+                    letterScore += cells.get(x).getCell().getPlacedTile().getTileScore();
+                    for(int y = 0; y < newCells.size(); y++){
+                        if(newCells.get(y).getI() == cells.get(x).getI()
+                        && newCells.get(y).getJ() == cells.get(x).getJ()  ){
+                            score += cells.get(x).getCell().getPlacedTile().getTileScore() *(
+                            cells.get(x).getCell().GetCellLetterMultiplier()) - 2;
+                            totalWordMultiplier = totalWordMultiplier * cells.get(x).getCell().GetCellWordMultiplier();
+                            System.out.println(letterScore);
+                        }
+                    }
+                }
+                score += letterScore * totalWordMultiplier;
+                totalWordMultiplier = 1;
+                letterScore = 0;
+            }
+
         }
-        score = letterScore * totalWordMultiplier;
         return score;
+    }
+    private boolean checkMatch(){
+        boolean yes = false;
+
+        return yes;
     }
     private List<CellTuple> getNewCells(Board tempBoard){
         List<CellTuple> newCells = new ArrayList<>();
         Cell[][] tempBoardCells = tempBoard.matrix();
-        for(int i = 0; i > tempBoardCells[0].length; i++){
-            for(int j = 0; j > boardCells[0].length; j++){
-                if(!tempBoardCells[i][j].equals(boardCells[i][j])){
+        for(int i = 0; i < tempBoardCells[0].length; i++){
+            for(int j = 0; j < boardCells[0].length; j++){
+                if(tempBoardCells[i][j].getPlacedTile().getLetter() != boardCells[i][j].getPlacedTile().getLetter()){
                     newCells.add(new CellTuple(i,j,boardCells[i][j]));
                 }
             }
         }
         return newCells;
     }
-    public void testBoard(){
-        for(int i = 0; i < 15; i++){
-            for(int j = 0; j < 15; j++){
-                System.out.println(boardCells[i][j].GetCellWordMultiplier() + boardCells[i][j].GetCellLetterMultiplier());
-            }
-        }
-    }
     public Cell[][] matrix(){
         return boardCells;
     }
-    private Board PlaceTile(Board board, int i, int j, Cell cell){
-            board.matrix()[i][j] = cell;
-        return board;
+    public void placeTile( int i, int j, Tile tile){
+            boardCells[i][j].setTile(tile);
     }
     private class CellTuple{
         private int i;
@@ -124,19 +171,50 @@ public class Board {
         private Cell getCell(){return cell;}
 
     }
-        /* perhaps unneeded generalization
-    private List<Cell> findword(int x, boolean ignoreI, List<CellTuple> newCells){
-        List<Cell> word = new ArrayList<>();
-        if(x >= 1 && ignoreI == true){
-            int i = newCells.get(x).getI();
-            for(int j = 0; j < boardCells.length; j++){
-                if(boardCells[i][j].getTile().getLetter() != ' '){
-                    word.add(boardCells[i][j]);
+    public void printBoard(Board pBoard){
+        String line = "";
+        for(int i = 0; i < pBoard.matrix().length + 1; i++){
+            if(i < 11) {
+                line += Math.abs(i-1)+ " ";
+            }
+            else line += i -11 + " ";
+            for(int j = 0; j < pBoard.matrix().length; j++){
+                if(i == 0){
+                    if(j > 0 && j < 10) {
+                        line += j-1;
+                        line += " ";
+                    }
+                    if(j > 10){
+                        line += j - 11;
+                        line += " ";
+                    }
+                    if(j == 14){line += "4";}
+                }
+                else {
+                    if (pBoard.matrix()[i-1][j].getPlacedTile().getLetter() == ' ') {
+                        line += '_';
+                        line += " ";
+                    } else {
+                        line += pBoard.matrix()[i-1][j].getPlacedTile().getLetter();
+                        line += " ";
+                    }
                 }
             }
+            System.out.println(line);
+            line = "";
         }
-        return word;
     }
-    */
+    public void printBoardPoints(Board pBoard){
+        String line = "";
+        for(int i = 0; i < pBoard.matrix().length; i++){
+            for(int j = 0; j < pBoard.matrix().length; j++){
+                    String letterMult = String.valueOf(pBoard.matrix()[i][j].GetCellLetterMultiplier());
+                    line += letterMult + pBoard.matrix()[i][j].GetCellWordMultiplier();
+                    line += " ";
+            }
+            System.out.println(line);
+            line = "";
+        }
+    }
 }
 
