@@ -92,17 +92,15 @@ public class BoardController implements Initializable {
 
     private void registerCellEvents(CellView cellView){
         cellView.setOnDragDetected(event -> {
-            cellView.startFullDrag();
+
             int x = (int) Math.floor(event.getX() / 33);
             int y = (int) Math.floor(event.getY() / 33);
             System.out.println("X: " + x + ", Y: " + y);
             if(!game.getCurrentGame().isCellEmpty(x, y)) {
+                cellView.startFullDrag();
                 dragImageView.setImage(cellView.getImage());
                 dragImageView.setVisible(true);
                 cellView.changeToDefaultImage();
-            }
-            else{
-
             }
             draggedFrom = cellView;
         });

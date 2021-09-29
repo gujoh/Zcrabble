@@ -45,6 +45,27 @@ public class Game implements IGame {
         current = getNextPlayer();
         current.beginTurn(tileBag);
     }
+    public synchronized void experimentalEndTurn(){
+        notifyAll();
+    }
+
+    public synchronized void experimentalGameLoop() {
+        try {
+            while(!isGameOver()){
+                wait();
+                // Add score from tempboard to current if it was correct
+
+                current = getNextPlayer();
+                current.beginTurn(tileBag);
+            }
+            IPlayers winner = getWinner();
+            // End game if there's a winner and display results
+        } catch(InterruptedException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+    }
 
     private boolean isGameOver(){
         return tileBag.isEmpty();
