@@ -61,59 +61,12 @@ public class Board {
             int j = newCells.get(x).getJ();
             //we always want to check each row at least once so if we are checking the first new cell we can check all directions
             //after which, if we are not checking the first cell we don't want to iterate over the row with multiple new cells
-            if(x == 0 || ignoreI){
+            wordList.add(new ArrayList<>());
+            wordList.add(helpBuildWords(newCells,ignoreI,wordList,wordCount,i,j));
+            wordCount++;
+            if(x == 0){
                 wordList.add(new ArrayList<>());
-                //we add the iIterator to the i coordinate of the current tile so we iterate from the position we are at
-                int iIterator = 0;
-                //when we have found the full word stop becomes true
-                boolean stop = false;
-                //when we have found all the cells belonging to the word "above" the cell we started with, we then go downward
-                boolean up = true;
-                // it's worth noting when iterating over i what we are actually doing is checking everything in the same row of j
-                // so iterating over i really means checking j and the reverse is true aswell
-                while(i + iIterator < boardCells.length && !stop){
-                    //we only want to add the cell if the letter of that cell is not empty
-                    if(boardCells[i+iIterator][j].getPlacedTile().getLetter() != ' ') {
-                        //when adding cells we make sure to save the coordinates in a "CellTuple"
-                        wordList.get(wordCount).add(new CellTuple(i+iIterator,j,boardCells[i+iIterator][j]));
-                        // if we are going "up" or in other words we've not changed directions yet we go +
-                        // if we have changed direction we go further in that direction and go -
-                        if(up){iIterator++;}
-                        else {iIterator--;}
-                    }
-                    if(boardCells[i+iIterator][j].getPlacedTile().getLetter() == ' ' && !up){
-                        stop = true;
-                    }
-                    if(boardCells[i+iIterator][j].getPlacedTile().getLetter() == ' ' && up){
-                        iIterator = -1;
-                        up = false;
-                    }
-                }
-
-                wordCount++;
-            }
-            if(x == 0 || !ignoreI){
-                wordList.add(new ArrayList<>());
-                int jIterator = 0;
-
-                boolean stop = false;
-                boolean up = true;
-
-                while(j + jIterator < boardCells.length && !stop){
-                    if(boardCells[i][j+jIterator].getPlacedTile().getLetter() != ' ') {
-                        wordList.get(wordCount).add(new CellTuple(i,j+jIterator, boardCells[i][j+jIterator]));
-                        if(up){jIterator++;}
-                        else {jIterator--;}
-                    }
-                    if(boardCells[i][j+jIterator].getPlacedTile().getLetter() == ' ' && !up){
-                        stop = true;
-                    }
-                    if(boardCells[i][j+jIterator].getPlacedTile().getLetter() == ' ' && up){
-                        jIterator = -1;
-                        up = false;
-                    }
-                }
-
+                wordList.add(helpBuildWords(newCells,!ignoreI,wordList,wordCount,i,j));
                 wordCount++;
             }
         }
@@ -127,8 +80,7 @@ public class Board {
         }
         return helpCalculateScore(wordList, newCells);
     }
-    private List<ArrayList<CellTuple>> helpBuildWords (List<CellTuple> newCells, boolean ignoreI,List<ArrayList<CellTuple>> wordList, int wordCount, int i, int j ){
-        wordList.add(new ArrayList<>());
+    private ArrayList<CellTuple> helpBuildWords (List<CellTuple> newCells, boolean ignoreI,List<ArrayList<CellTuple>> wordList, int wordCount, int i, int j ){
         //we add the iIterator to the i coordinate of the current tile so we iterate from the position we are at
         int iIterator = 0;
         int jIterator = 0;
@@ -145,14 +97,6 @@ public class Board {
                 wordList.get(wordCount).add(new CellTuple(i+iIterator,j+jIterator,boardCells[i+iIterator][j+jIterator]));
                 // if we are going "up" or in other words we've not changed directions yet we go +
                 // if we have changed direction we go further in that direction and go -
-                if(up){
-                    if (ignoreI) iIterator++;
-                    if (!ignoreI) jIterator++;
-                }
-                else {
-                    if (ignoreI) iIterator--;
-                    if (!ignoreI) jIterator--;
-                }
             }
             if(boardCells[i+iIterator][j+jIterator].getPlacedTile().getLetter() == ' ' && !up){
                 stop = true;
@@ -162,8 +106,17 @@ public class Board {
                 if (!ignoreI) jIterator = -1;
                 up = false;
             }
+            else {
+                if (up) {
+                    if (ignoreI) iIterator++;
+                    if (!ignoreI) jIterator++;
+                } else {
+                    if (ignoreI) iIterator--;
+                    if (!ignoreI) jIterator--;
+                }
+            }
         }
-        return wordList;
+        return wordList.get(wordCount);
     }
 
     private int helpCalculateScore(List<ArrayList<CellTuple>> wordList, List<CellTuple> newCells){
@@ -211,6 +164,51 @@ public class Board {
     }
     public boolean isCellEmpty(int x, int y){
         return boardCells[x][y].isEmpty();
+    }
+    public void printBoard(Board pBoard){
+        String line = "";
+        for(int i = 0; i < pBoard.matrix().length + 1; i++){
+            if(i < 11) {
+                line += Math.abs(i-1)+ " ";
+            }
+            else line += i -11 + " ";
+            for(int j = 0; j < pBoard.matrix().length; j++){
+                if(i == 0){
+                    if(j > 0 && j < 10) {
+                        line += j-1;
+                        line += " ";
+                    }
+                    if(j > 10){
+                        line += j - 11;
+                        line += " ";
+                    }
+                    if(j == 14){line += "4";}
+                }
+                else {
+                    if (pBoard.matrix()[i-1][j].getPlacedTile().getLetter() == ' ') {
+                        line += '_';
+                        line += " ";
+                    } else {
+                        line += pBoard.matrix()[i-1][j].getPlacedTile().getLetter();
+                        line += " ";
+                    }
+                }
+            }
+            System.out.println(line);
+            line = "";
+        }
+    }
+    public void printBoardPoints(Board pBoard){
+        String line = "";
+        for(int i = 0; i < pBoard.matrix().length; i++){
+            for(int j = 0; j < pBoard.matrix().length; j++){
+                String letterMult = String.valueOf(pBoard.matrix()[i][j].GetCellLetterMultiplier());
+                line += letterMult + pBoard.matrix()[i][j].GetCellWordMultiplier();
+                line += " ";
+            }
+            System.out.println(line);
+            line = "";
+        }
     }
 }
 /*

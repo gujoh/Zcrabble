@@ -53,8 +53,8 @@ public class BoardTests {
         boardTwo.placeTile(3,9,new Tile('P',2));
         boardTwo.placeTile(3,10,new Tile('Q',2));
         boardTwo.placeTile(3,11,new Tile('R',2));
-        //boardTwo.printBoard(boardTwo);
-        //boardTwo.printBoardPoints(boardTwo);
+        boardTwo.printBoard(boardTwo);
+        boardTwo.printBoardPoints(boardTwo);
         System.out.println(" ");
         System.out.println(" ");
         System.out.println(" ");
