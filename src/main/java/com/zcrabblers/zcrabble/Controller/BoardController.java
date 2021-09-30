@@ -98,6 +98,27 @@ public class BoardController implements Initializable, ILetterObservable {
         boardAnchor.getChildren().add(dragImageView);
     }
 
+    private int pos2Coord(double x){
+        return (int)Math.floor(x / 33);
+    }
+
+    private int pos2Rack(double x){
+        return (int)Math.floor(x / (rackAnchor.getWidth() / 7));
+    }
+
+    private void registerRackCellEvents(CellView cellView){
+        cellView.setOnDragDetected(event -> {
+            int x = pos2Rack(event.getX());
+            System.out.println(x);
+        });
+        cellView.setOnMouseDragged(event -> {
+
+        });
+        cellView.setOnMouseDragReleased(event -> {
+
+        });
+    }
+
     private void registerCellEvents(CellView cellView){
         cellView.setOnDragDetected(event -> {
 
@@ -184,7 +205,7 @@ public class BoardController implements Initializable, ILetterObservable {
             //img.setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRack().getTile(i).getLetter() + ".png")));
             img.setImage((new Image(new FileInputStream(IMAGE_PATH + "a.png"))));
 
-            registerCellEvents(img);
+            registerRackCellEvents(img);
         }
     }
 
