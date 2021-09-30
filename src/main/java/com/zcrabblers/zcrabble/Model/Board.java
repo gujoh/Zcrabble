@@ -62,26 +62,20 @@ public class Board {
             //we always want to check each row at least once so if we are checking the first new cell we can check all directions
             //after which, if we are not checking the first cell we don't want to iterate over the row with multiple new cells
             wordList.add(new ArrayList<>());
-            helpBuildWords(newCells,ignoreI,wordList,wordCount,i,j);
+            helpBuildWords(ignoreI,wordList,wordCount,i,j);
+            //when we've added a word increment the counter
             wordCount++;
+            //for the first node we want to check both horizontal and vertical
             if(x == 0){
                 wordList.add(new ArrayList<>());
-                helpBuildWords(newCells,!ignoreI,wordList,wordCount,i,j);
+                helpBuildWords(!ignoreI,wordList,wordCount,i,j);
                 wordCount++;
             }
         }
-        StringBuilder line = new StringBuilder();
-        for (ArrayList<CellTuple> cellTuples : wordList) {
-            for (CellTuple cellTuple : cellTuples) {
-                line.append(cellTuple.getCell().getPlacedTile().getLetter());
-            }
-            System.out.println(line);
-            line = new StringBuilder();
-        }
         return helpCalculateScore(wordList, newCells);
     }
-    private void helpBuildWords (List<CellTuple> newCells, boolean ignoreI,List<ArrayList<CellTuple>> wordList, int wordCount, int i, int j ){
-        //we add the iIterator to the i coordinate of the current tile so we iterate from the position we are at
+    private void helpBuildWords (boolean ignoreI ,List<ArrayList<CellTuple>> wordList, int wordCount, int i, int j ){
+        //we add the Iterators to the i and j coordinate of the current cell, so we iterate from the position we are at
         int iIterator = 0;
         int jIterator = 0;
         //when we have found the full word stop becomes true
@@ -95,17 +89,20 @@ public class Board {
             if(boardCells[i+iIterator][j+jIterator].getPlacedTile().getLetter() != ' ') {
                 //when adding cells we make sure to save the coordinates in a "CellTuple"
                 wordList.get(wordCount).add(new CellTuple(i+iIterator,j+jIterator,boardCells[i+iIterator][j+jIterator]));
-                // if we are going "up" or in other words we've not changed directions yet we go +
-                // if we have changed direction we go further in that direction and go -
             }
+            //when we've checked both ways and then find and empty cell we stop the loop since we've found our word
             if(boardCells[i+iIterator][j+jIterator].getPlacedTile().getLetter() == ' ' && !up){
                 stop = true;
             }
+            //first time we find an empty cell we changed direction
             if(boardCells[i+iIterator][j+jIterator].getPlacedTile().getLetter() == ' ' && up){
                 if (ignoreI) iIterator = -1;
                 if (!ignoreI) jIterator = -1;
                 up = false;
             }
+            // if we are going "up" or in other words we've not changed directions yet we go +
+            // if we have changed direction we go further in that direction and go -
+            //ignoreI exists to make sure we iterate over the right Iterator
             else {
                 if (up) {
                     if (ignoreI) iIterator++;
@@ -117,38 +114,53 @@ public class Board {
             }
         }
     }
-
+    //given the word list and new cells it gives back the point value of those
     private int helpCalculateScore(List<ArrayList<CellTuple>> wordList, List<CellTuple> newCells){
+        // score keeps track of the total score of the entire sets of words
         int score = 0;
+        // letter score is the score per word
         int letterScore = 0;
+        // totalWordMultiplier as the name suggests is the all the multipliers multiplied together
         int totalWordMultiplier = 1;
+        // goes through each word in word list
         for (ArrayList<CellTuple> cells : wordList) {
+            //each word goes through each letter or Cell
             for (int x = 0; x < cells.size(); x++) {
+                //a word that has size one is not technically a scrabble word and is worth 0 points
                 if(cells.size() > 1) {
-                    letterScore += cells.get(x).getCell().getPlacedTile().getTileScore();
+                    //in order we don't add any cell twice addedCell checks if we've added a newly placed tile
+                    boolean addedCell = false;
+                    //bonus squares are only counted if it is a new cell
+                    // we go through each new cell and see if any match the cell we are currently looking at
                     for (CellTuple newCell : newCells) {
+                        //if the positions match
                         if (newCell.getI() == cells.get(x).getI()
                                 && newCell.getJ() == cells.get(x).getJ()) {
-                            letterScore += (cells.get(x).getCell().getPlacedTile().getTileScore() *
-                                    cells.get(x).getCell().GetCellLetterMultiplier()) - 2;
+                            //add the new cell multiplied by the letter score
+                            letterScore += cells.get(x).getCell().getPlacedTile().getTileScore() *
+                                    cells.get(x).getCell().GetCellLetterMultiplier();
+                            // and add the wordmultiplier
                             totalWordMultiplier = totalWordMultiplier * cells.get(x).getCell().GetCellWordMultiplier();
+                            addedCell = true;
                         }
                     }
+                    // if a cell wasn't added
+                    if(!addedCell) letterScore += cells.get(x).getCell().getPlacedTile().getTileScore();
                 }
             }
-            System.out.println(letterScore);
-            score += letterScore * totalWordMultiplier;
-            totalWordMultiplier = 1;
-            letterScore = 0;
         }
         return score;
     }
+    // returns a list of new cells comparing the differance between two boards
     public List<CellTuple> getNewCells(Board tempBoard){
+        //CellTuples have i,j coordinate and a Cell
         List<CellTuple> newCells = new ArrayList<>();
         Cell[][] tempBoardCells = tempBoard.matrix();
+        // double for loop checking each individual cell if they have the same tile
         for(int i = 0; i < tempBoardCells[0].length; i++){
             for(int j = 0; j < boardCells[0].length; j++){
                 if(tempBoardCells[i][j].getPlacedTile().getLetter() != boardCells[i][j].getPlacedTile().getLetter()){
+                    // add if they are different
                     newCells.add(new CellTuple(i,j,boardCells[i][j]));
                 }
             }
@@ -164,51 +176,58 @@ public class Board {
     public boolean isCellEmpty(int x, int y){
         return boardCells[x][y].isEmpty();
     }
-    public void printBoard(Board pBoard){
-        String line = "";
-        for(int i = 0; i < pBoard.matrix().length + 1; i++){
-            if(i < 11) {
-                line += Math.abs(i-1)+ " ";
-            }
-            else line += i -11 + " ";
-            for(int j = 0; j < pBoard.matrix().length; j++){
-                if(i == 0){
-                    if(j > 0 && j < 10) {
-                        line += j-1;
-                        line += " ";
-                    }
-                    if(j > 10){
-                        line += j - 11;
-                        line += " ";
-                    }
-                    if(j == 14){line += "4";}
-                }
-                else {
-                    if (pBoard.matrix()[i-1][j].getPlacedTile().getLetter() == ' ') {
-                        line += '_';
-                        line += " ";
-                    } else {
-                        line += pBoard.matrix()[i-1][j].getPlacedTile().getLetter();
-                        line += " ";
-                    }
-                }
-            }
-            System.out.println(line);
-            line = "";
-        }
-    }
-    public void printBoardPoints(Board pBoard){
-        String line = "";
-        for(int i = 0; i < pBoard.matrix().length; i++){
-            for(int j = 0; j < pBoard.matrix().length; j++){
-                String letterMult = String.valueOf(pBoard.matrix()[i][j].GetCellLetterMultiplier());
-                line += letterMult + pBoard.matrix()[i][j].GetCellWordMultiplier();
-                line += " ";
-            }
-            System.out.println(line);
-            line = "";
-        }
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*--- BoardChecks in progress below ---*/
     //TODO checkCoherence
 
