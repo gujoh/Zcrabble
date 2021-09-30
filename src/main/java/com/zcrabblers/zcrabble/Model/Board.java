@@ -10,15 +10,19 @@ public class Board {
     private static final Dictionary dict = Dictionary.getInstance();
     private Cell[][] boardCells;
     private final String boardSelector;
+
     // constructor takes a string in order to search for the matching text file
     // then calls the selectBoard function to fill the new board with cells
+
     public Board(String boardSelector){
         this.boardSelector = boardSelector;
     }
+
     //checks if the name matches the file
     //gets a new scanner and checks the first line for the board size
     //then iterates through the txt file and creates new cells for each matrix
     // each cell reads two numbers from the txt and creates a tile with the "empty" values of ' ' and 0
+
     public void selectBoard() throws FileNotFoundException {
         if(boardSelector.equals("defaultBoard")){
             File file = new File("src/main/resources/"+boardSelector);
@@ -34,8 +38,10 @@ public class Board {
             }
         }
     }
+
     /* countPoints is called on the board and given a list of the new cells will return the number of points
     the given play is worth */
+
     public int countPoints(List<CellTuple> newCells){
         //since any scrabble play can only be made fully vertically or fully horizontally
         // we only want to check any row that has multiple new tiles placed only once
@@ -151,6 +157,7 @@ public class Board {
         }
         return score;
     }
+
     // returns a list of new cells comparing the differance between two boards
     public List<CellTuple> getNewCells(Board tempBoard){
         //CellTuples have i,j coordinate and a Cell
@@ -167,12 +174,15 @@ public class Board {
         }
         return newCells;
     }
+
     public Cell[][] matrix(){
         return boardCells;
     }
+
     public void placeTile( int i, int j, Tile tile){
             boardCells[i][j].setTile(tile);
     }
+
     public boolean isCellEmpty(int x, int y){
         return boardCells[x][y].isEmpty();
     }
@@ -230,14 +240,16 @@ public class Board {
 
     /*--- BoardChecks in progress below ---*/
     //TODO checkCoherence
+    //TODO cleanup after the move from BoardCheck, make sure all checks are done on tempBoard.
+    //TODO containsLetter should be replaced with isCellEmpty in all methods, no point in keeping both.
 
     /**
      * Checks that all words on the board is valid and connected to each other
-     * @param board
+     * @param tempBoard
      * @return true/false validBoard
      */
-    public boolean checkBoard(Board board) {
-        return (checkRow(board)&&checkCol(board)&& checkCoherence(board));
+    public boolean checkBoard(Board tempBoard) {
+        return (checkRow(tempBoard)&&checkCol(tempBoard)&& checkCoherence(tempBoard));
     }
 
     /*--- Method for checking that all words in columns are valid. ---*/
@@ -300,84 +312,38 @@ public class Board {
 
     //TODO checkCoherence
     /*--- Checks if all letters on the board are in contact with each other. ---*/
-    private static boolean checkCoherence(Board board){
-        /*
-        check that the center is not empty.
-        check that every tile is connected to the center
-         */
+    private  boolean checkCoherence(Board board){
+        List<CellTuple> newCells = getNewCells(board);
         if (!containsLetter(board,7,7))
             return false;
-        for (int i = 0; i <12 ; i++) {
+        /*
 
+
+
+        checkConnection
+            for every new tile check the cells directly over/under and left/right of it, there should be at least one connection to a old cell or the middle
+            controll row+-1 and col +-1 make sure not to get out of bounds error, for + 1: row==14?row:row+1.
+        for (int i = 0; i <newCells.size() ; i++) {
+            newCells.get(i).getI();
         }
 
 
+        read newCells, see witch direction the new word is going, new cells must go in one direction
+            If there is only one new cell the word is just an appendix, check that it is connected to something.
+            If all i values are the same, the word is horizontal
+            If all j values are the same, the word is vertical
+            If both i and j values differ the new board is not valid.
 
-
-
-
-
-
-
+        if there is a gap in the new tiles it must be filled with old tiles.
+         */
 
         return true;
     }
 
     /*--- Checks if a cell contains a letter tile ---*/
-    private static boolean containsLetter (Board board,int i, int j){
-        return board.matrix()[i][j].getPlacedTile().getLetter() != ' ';
+    private static boolean containsLetter (Board board,int row, int col){
+        return board.matrix()[row][col].getPlacedTile().getLetter() != ' ';
     }
 
 }
-
-
-/*
-    public void printBoard(Board pBoard){
-        String line = "";
-        for(int i = 0; i < pBoard.matrix().length + 1; i++){
-            if(i < 11) {
-                line += Math.abs(i-1)+ " ";
-            }
-            else line += i -11 + " ";
-            for(int j = 0; j < pBoard.matrix().length; j++){
-                if(i == 0){
-                    if(j > 0 && j < 10) {
-                        line += j-1;
-                        line += " ";
-                    }
-                    if(j > 10){
-                        line += j - 11;
-                        line += " ";
-                    }
-                    if(j == 14){line += "4";}
-                }
-                else {
-                    if (pBoard.matrix()[i-1][j].getPlacedTile().getLetter() == ' ') {
-                        line += '_';
-                        line += " ";
-                    } else {
-                        line += pBoard.matrix()[i-1][j].getPlacedTile().getLetter();
-                        line += " ";
-                    }
-                }
-            }
-            System.out.println(line);
-            line = "";
-        }
-    }
-    public void printBoardPoints(Board pBoard){
-        String line = "";
-        for(int i = 0; i < pBoard.matrix().length; i++){
-            for(int j = 0; j < pBoard.matrix().length; j++){
-                String letterMult = String.valueOf(pBoard.matrix()[i][j].GetCellLetterMultiplier());
-                line += letterMult + pBoard.matrix()[i][j].GetCellWordMultiplier();
-                line += " ";
-            }
-            System.out.println(line);
-            line = "";
-        }
-    }
-
- */
-
 
