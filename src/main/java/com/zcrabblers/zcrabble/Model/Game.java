@@ -18,10 +18,6 @@ public class Game extends Thread implements IGame {
     }
 
     public void newGame() {
-        players = new ArrayList<>();
-        players.add(new Player(0,new Rack()));
-        players.add(new Player(0, new Rack()));
-        current = players.get(0);
         try{
             board.selectBoard();
             tileBag.selectBag();
@@ -29,6 +25,10 @@ public class Game extends Thread implements IGame {
             e.printStackTrace();
             System.exit(1);
         }
+        players = new ArrayList<>();
+        players.add(new Player(0,new Rack(tileBag)));
+        players.add(new Player(0, new Rack(tileBag)));
+        current = players.get(0);
     }
 
     @Override
