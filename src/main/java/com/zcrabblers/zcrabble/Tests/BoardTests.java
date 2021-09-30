@@ -2,10 +2,12 @@ package com.zcrabblers.zcrabble.Tests;
 
 import com.zcrabblers.zcrabble.Model.Board;
 import com.zcrabblers.zcrabble.Model.Cell;
+import com.zcrabblers.zcrabble.Model.CellTuple;
 import com.zcrabblers.zcrabble.Model.Tile;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class BoardTests {
     @Test
@@ -53,13 +55,69 @@ public class BoardTests {
         boardTwo.placeTile(3,9,new Tile('P',2));
         boardTwo.placeTile(3,10,new Tile('Q',2));
         boardTwo.placeTile(3,11,new Tile('R',2));
-        boardTwo.printBoard(boardTwo);
-        boardTwo.printBoardPoints(boardTwo);
+        printBoard(boardTwo);
+        printBoardPoints(boardTwo);
         System.out.println(" ");
         System.out.println(" ");
         System.out.println(" ");
         System.out.println(boardTwo.countPoints(boardTwo.getNewCells(board)));
 
     }
-
+    public void printBoard(Board pBoard){
+        StringBuilder line = new StringBuilder();
+        for(int i = 0; i < pBoard.matrix().length + 1; i++){
+            if(i < 11) {
+                line.append(Math.abs(i - 1)).append(" ");
+            }
+            else line.append(i - 11).append(" ");
+            for(int j = 0; j < pBoard.matrix().length; j++){
+                if(i == 0){
+                    if(j > 0 && j < 10) {
+                        line.append(j - 1);
+                        line.append(" ");
+                    }
+                    if(j > 10){
+                        line.append(j - 11);
+                        line.append(" ");
+                    }
+                    if(j == 14){
+                        line.append("4");}
+                }
+                else {
+                    if (pBoard.matrix()[i-1][j].getPlacedTile().getLetter() == ' ') {
+                        line.append('_');
+                        line.append(" ");
+                    } else {
+                        line.append(pBoard.matrix()[i - 1][j].getPlacedTile().getLetter());
+                        line.append(" ");
+                    }
+                }
+            }
+            System.out.println(line);
+            line = new StringBuilder();
+        }
+    }
+    public void printBoardPoints(Board pBoard){
+        StringBuilder line = new StringBuilder();
+        for(int i = 0; i < pBoard.matrix().length; i++){
+            for(int j = 0; j < pBoard.matrix().length; j++){
+                String letterMult = String.valueOf(pBoard.matrix()[i][j].GetCellLetterMultiplier());
+                line.append(letterMult).append(pBoard.matrix()[i][j].GetCellWordMultiplier());
+                line.append(" ");
+            }
+            System.out.println(line);
+            line = new StringBuilder();
+        }
+    }
+    /*
+    StringBuilder line = new StringBuilder();
+        for (
+    ArrayList<CellTuple> cellTuples : wordList) {
+        for (CellTuple cellTuple : cellTuples) {
+            line.append(cellTuple.getCell().getPlacedTile().getLetter());
+        }
+        System.out.println(line);
+        line = new StringBuilder();
+    }
+     */
 }
