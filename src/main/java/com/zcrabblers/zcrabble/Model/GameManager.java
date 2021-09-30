@@ -1,39 +1,76 @@
 package com.zcrabblers.zcrabble.Model;
 
+import java.io.FileNotFoundException;
+
 // Is the class with the main responsibility over the model and starting new games
 public class GameManager {
     private IGame currentGame;
-    private GameManager instance;
+    private static GameManager instance;
 
-    public GameManager(){
-
-    }
-
-    public GameManager getInstance(){
+    /**
+     * Getter for an instance of GameManager using the Singleton design pattern.
+     * @return an instance of GameManager
+     */
+    public static GameManager getInstance(){
         if(instance == null)
             instance = new GameManager();
         return instance;
     }
 
-    // subscribe to the current game
+    /**
+     * Adds a subscriber to the current game.
+     * @param sub the subscriber.
+     */
     public void addSubscriber(ILetterObservable sub){
         if(currentGame != null)
             currentGame.addSubscriber(sub);
     }
 
-    // unsubscribe to the current game
+    /**
+     * Removes a subscriber from the current game.
+     * @param sub the subscriber.
+     */
     public void removeSubscriber(ILetterObservable sub){
         if(currentGame != null)
             currentGame.removeSubscriber(sub);
     }
 
+    /**
+     * Creates a new Game and removes all subscribers from the observer.
+     */
+    public void newGame(){
+        if(currentGame != null)
+            currentGame.removeAllSubscribers();
+        currentGame = new Game();
+        currentGame.start();
+    }
+
+    /**
+     * Getter for the current Game.
+     * @return the Game that is being played.
+     */
     public IGame getCurrentGame(){
         return currentGame;
     }
 
-    public void newGame(){
-        currentGame.removeAllSubscribers();
-        currentGame = new Game();
+    /**
+     * Getter for the size of the current board.
+     * @return the size of the current board.
+     */
+    public int getBoardSize(){
+        return currentGame.getBoard().matrix().length;
+    }
+
+    /**
+     * Getter for the current game being played.
+     * @return the board of the current game being played.
+     */
+    public Cell[][] getBoard(){
+        return currentGame.getBoard().matrix();
+    }
+
+    public Rack getRack(){
+        return currentGame.getRack();
     }
 
 }

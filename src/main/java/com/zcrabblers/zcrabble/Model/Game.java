@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game implements IGame {
+public class Game extends Thread implements IGame {
 
     private List<IPlayers> players;
     private IPlayers current;
@@ -17,33 +17,65 @@ public class Game implements IGame {
         this.tileBag = new TileBag("defaultBag");
     }
 
-    public void newGame() throws FileNotFoundException {
+    public void newGame() {
         players = new ArrayList<>();
         players.add(new Player(0,new Rack()));
         players.add(new Player(0, new Rack()));
         current = players.get(0);
-        board.selectBoard();
-        tileBag.selectBag();
-        takeTurn();
+        try{
+            board.selectBoard();
+            tileBag.selectBag();
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
-    private void takeTurn(){
-        //TODO: insert check in while loop if end turn button has been pushed
-        //while(){}
-        //TODO: calculate points function
-        if(isGameOver()){getWinner();}
-        endTurn();
 
+    @Override
+    public void endTurn(){
+        experimentalEndTurn();
     }
-    private void endTurn(){
-        //TODO: make temp board with changes made by current
-        // to check against dictionary for correctness
-        Board tempBoard = new Board("defaultBoard");
 
-        // TODO: Add score from tempboard to current if it was correct
-        // TODO: End game if there's a winner and display results
+    @Override
+    public void run(){
+        experimentalGameLoop();
+    }
 
-        current = getNextPlayer();
-        current.beginTurn(tileBag);
+    @Override
+    public void start(){
+        newGame();
+        super.start();
+    }
+
+    public synchronized void experimentalEndTurn(){
+        notifyAll();
+    }
+
+    public synchronized void experimentalGameLoop() {
+        try {
+            while(!isGameOver()){
+                current.beginTurn(tileBag);
+                System.out.println("WAITING");
+                wait();
+                System.out.println("PASSED WAIT");
+                // Add score from tempboard to current if it was correct
+
+                // Låta Game vara en Thread och starta en ny Thread varje gång
+                // vi startar ett nytt game, den tråden blir då "modell tråden"
+                // och javafx sköter grafik tråden. Game tråden väntar till vi
+                // trycker på en knapp på grafik tråden som notifyar game tråden
+                // då körs hela loopen med all input spelaren gett innan hon tryckte
+                // på end turn
+
+                current = getNextPlayer();
+            }
+            IPlayers winner = getWinner();
+            // End game if there's a winner and display results
+        } catch(InterruptedException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+
     }
 
     private boolean isGameOver(){
@@ -52,7 +84,7 @@ public class Game implements IGame {
 
     private IPlayers getNextPlayer(){
         int index = players.indexOf(current);
-        if(index >= players.size())
+        if(index >= players.size() - 1)
             index = 0;
         else
             index++;
@@ -90,6 +122,10 @@ public class Game implements IGame {
 
     public boolean isCellEmpty(int x, int y){
         return board.isCellEmpty(x, y);
+    }
+
+    public Rack getRack(){
+        return current.getRack();
     }
 
 }

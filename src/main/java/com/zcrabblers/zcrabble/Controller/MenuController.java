@@ -1,6 +1,7 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.HelloApplication;
+import com.zcrabblers.zcrabble.Model.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.MenuItem;
@@ -13,7 +14,7 @@ public class MenuController extends AnchorPane {
     @FXML private MenuItem menuSkinsZcrabble;
     @FXML private MenuItem menuSkinsDarkMode;
     @FXML private MenuItem menuSkinsCyberpunk;
-
+    @FXML private MenuItem MenuNewGame;
     private BoardController parentController;
 
     public MenuController(BoardController parentController){
@@ -27,6 +28,10 @@ public class MenuController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+
+        MenuNewGame.setOnAction(event -> {
+            GameManager.getInstance().newGame();
+        });
     }
 
     @FXML
@@ -37,5 +42,10 @@ public class MenuController extends AnchorPane {
     @FXML
     private void zcrabbleSkinOnClick(){
         parentController.setZcrabbleSkin();
+    }
+
+    @FXML
+    private void cyberPunkSkinOnClick(){
+        parentController.setCyberpunkSkin();
     }
 }
