@@ -148,6 +148,9 @@ public class Board {
                     if(!addedCell) letterScore += cells.get(x).getCell().getPlacedTile().getTileScore();
                 }
             }
+            score += letterScore * totalWordMultiplier;
+            letterScore = 0;
+            totalWordMultiplier = 1;
         }
         return score;
     }
