@@ -62,11 +62,11 @@ public class Board {
             //we always want to check each row at least once so if we are checking the first new cell we can check all directions
             //after which, if we are not checking the first cell we don't want to iterate over the row with multiple new cells
             wordList.add(new ArrayList<>());
-            wordList.add(helpBuildWords(newCells,ignoreI,wordList,wordCount,i,j));
+            helpBuildWords(newCells,ignoreI,wordList,wordCount,i,j);
             wordCount++;
             if(x == 0){
                 wordList.add(new ArrayList<>());
-                wordList.add(helpBuildWords(newCells,!ignoreI,wordList,wordCount,i,j));
+                helpBuildWords(newCells,!ignoreI,wordList,wordCount,i,j);
                 wordCount++;
             }
         }
@@ -80,7 +80,7 @@ public class Board {
         }
         return helpCalculateScore(wordList, newCells);
     }
-    private ArrayList<CellTuple> helpBuildWords (List<CellTuple> newCells, boolean ignoreI,List<ArrayList<CellTuple>> wordList, int wordCount, int i, int j ){
+    private void helpBuildWords (List<CellTuple> newCells, boolean ignoreI,List<ArrayList<CellTuple>> wordList, int wordCount, int i, int j ){
         //we add the iIterator to the i coordinate of the current tile so we iterate from the position we are at
         int iIterator = 0;
         int jIterator = 0;
@@ -116,7 +116,6 @@ public class Board {
                 }
             }
         }
-        return wordList.get(wordCount);
     }
 
     private int helpCalculateScore(List<ArrayList<CellTuple>> wordList, List<CellTuple> newCells){
