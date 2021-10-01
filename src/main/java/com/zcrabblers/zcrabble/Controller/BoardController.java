@@ -282,7 +282,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     }
 
-    public void setDarkModeSkin(){
+    void setDarkModeSkin(){
         gameAnchor.setStyle("-fx-background-color: #808080");
         rackAnchor.setStyle("-fx-background-color: #000000");
         shuffleButton.setStyle("fx-background-color: #ffffff");
@@ -291,7 +291,7 @@ public class BoardController implements Initializable, ILetterObservable {
         endTurnButton.setTextFill(Color.WHITE);
     }
 
-    public void setZcrabbleSkin(){
+    void setZcrabbleSkin(){
         gameAnchor.setStyle("-fx-background-color: #68BB59");
         rackAnchor.setStyle("-fx-background-color: #5C4425");
         shuffleButton.setStyle("fx-background-color: #ffffff");
@@ -300,7 +300,7 @@ public class BoardController implements Initializable, ILetterObservable {
         endTurnButton.setTextFill(Color.WHITE);
     }
 
-    public void setCyberpunkSkin(){
+    void setCyberpunkSkin(){
         gameAnchor.setStyle("-fx-background-color: #711c91");
         rackAnchor.setStyle("-fx-background-color: #133e7c");
         shuffleButton.setStyle("-fx-background-color: #fff200");

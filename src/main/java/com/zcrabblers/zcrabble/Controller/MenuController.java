@@ -1,6 +1,5 @@
 package com.zcrabblers.zcrabble.Controller;
 
-import com.zcrabblers.zcrabble.HelloApplication;
 import com.zcrabblers.zcrabble.Model.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
