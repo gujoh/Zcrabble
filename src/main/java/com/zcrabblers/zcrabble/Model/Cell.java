@@ -11,17 +11,23 @@ public class Cell {
         this.cellLetterMultiplier = cellLetterMultiplier;
         this.placedTile = placedTile;
     }
+
     public int GetCellWordMultiplier() {
         return cellWordMultiplier;
     }
+
     public int GetCellLetterMultiplier() {
         return cellLetterMultiplier;
     }
+
     public Tile getPlacedTile(){return placedTile;}
+
     public void setTile(Tile tile){placedTile = tile;}
+
     public void removeTile(){
         placedTile = new Tile(' ', 0);
     }
+
     private int GetCombinedCellScore() {
         int i = 0;
         if(placedTile != null){
