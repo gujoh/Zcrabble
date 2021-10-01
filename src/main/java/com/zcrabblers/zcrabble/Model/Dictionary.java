@@ -20,7 +20,7 @@ public class Dictionary {
      * Returns current Dictionary, if there is none; creates a dictionary and returns it
      * @return current Dictionary
      */
-    public static Dictionary getInstance(){
+    static Dictionary getInstance(){
 
         return Objects.requireNonNullElseGet(instance, Dictionary::new);
     }
@@ -28,7 +28,8 @@ public class Dictionary {
     /**
      * @return dictionary as an ArrayList.
      */
-    public ArrayList<String> getDictArray(){
+
+    ArrayList<String> getDictArray(){
         return dictArray;
     }
 
@@ -37,7 +38,7 @@ public class Dictionary {
      * @param word is the String to be tested against the dictionary.
      * @return dictionary contains word
      */
-    public  boolean checkWord (String word)  {
+    boolean checkWord (String word)  {
         return dictArray.contains(word);
     }
 
