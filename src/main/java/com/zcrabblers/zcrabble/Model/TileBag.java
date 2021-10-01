@@ -31,7 +31,7 @@ public class TileBag {
             }
             scanner.close();
         }
-        Collections.shuffle(temp);
+        Collections.shuffle(temp); //dont use this version of shuffle
         bag.addAll(temp);
 
     }

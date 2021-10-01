@@ -3,6 +3,12 @@ package com.zcrabblers.zcrabble.Model;
 public class Rack {
     private Tile[] playerTiles = new Tile[7];
 
+    public Rack(TileBag bag){
+        for(int i = 0; i < 7; i++){
+            playerTiles[i] = bag.takeTile();
+        }
+    }
+
     public void add(Tile tile) {
         for (int i = 0; i < playerTiles.length; i++) {
             if(playerTiles[i] == null){

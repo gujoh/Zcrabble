@@ -16,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,6 +99,27 @@ public class BoardController implements Initializable, ILetterObservable {
         boardAnchor.getChildren().add(dragImageView);
     }
 
+    private int pos2Coord(double x){
+        return (int)Math.floor(x / 33);
+    }
+
+    private int pos2Rack(double x){
+        return (int)Math.floor(x / (rackAnchor.getWidth() / 7));
+    }
+
+    private void registerRackCellEvents(CellView cellView){
+        cellView.setOnDragDetected(event -> {
+            int x = pos2Rack(event.getX());
+            System.out.println(x);
+        });
+        cellView.setOnMouseDragged(event -> {
+
+        });
+        cellView.setOnMouseDragReleased(event -> {
+
+        });
+    }
+
     private void registerCellEvents(CellView cellView){
         cellView.setOnDragDetected(event -> {
 
@@ -142,7 +164,7 @@ public class BoardController implements Initializable, ILetterObservable {
                 if(i == length/2 && j == length/2){
                      img = new CellView(IMAGE_PATH + "Middle.png");
                 }
-                 else img = new CellView(IMAGE_PATH + game.getBoard()[i][j].GetCellWordMultiplier() + "" + game.getBoard()[i][j].GetCellLetterMultiplier() + ".png");
+                 else img = new CellView(IMAGE_PATH + game.getBoardCells()[i][j].GetCellWordMultiplier() + "" + game.getBoardCells()[i][j].GetCellLetterMultiplier() + ".png");
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
                 img.setFitHeight(33);
@@ -164,27 +186,23 @@ public class BoardController implements Initializable, ILetterObservable {
         double x = rackRectangle.getWidth()/2-((double)33/2);
         double y = rackRectangle.getHeight()/2-((double)33/2);
         int counter = 0;
-        for(int i = 1; i <= 8; i++){
+        int spacing = 45;
+        for(int i = 0; i < 7; i++){
             CellView img = new CellView(IMAGE_PATH + "11.png");
             rackAnchor.getChildren().add(img);
             rackList.add(img);
             img.setFitHeight(33);
             img.setFitWidth(33);
 
+            x += counter * spacing;
             img.setX(x);
             img.setY(y);
-
-            if (counter % 2 == 0){
-                x += ((-counter)*45);
-            }
-            else x += (counter*45);
             counter++;
+            spacing = -spacing;
 
-            //TODO: Think we must add a constructor to Rack first, right?
-            //img.setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRack().getTile(i).getLetter() + ".png")));
-            img.setImage((new Image(new FileInputStream(IMAGE_PATH + "a.png"))));
+            img.setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRack().getTile(i).getLetter() + ".png")));
 
-            registerCellEvents(img);
+            registerRackCellEvents(img);
         }
     }
 
@@ -214,13 +232,13 @@ public class BoardController implements Initializable, ILetterObservable {
 
     @FXML
     private void shuffleRack(){
-        Random rand = new Random();
-        for(int i = 0; i < rackList.size(); i++){
+        Random rand = new Random(); //dont use random without a parameter, maybe use a singleton that returns a seed
+        for(int i = 0; i < rackList.size()-2; i++){
             int randomIndex = rand.nextInt(rackList.size());
             int tempX = (int)rackList.get(randomIndex).getX();
             rackList.get(randomIndex).setX(rackList.get(i).getX());
             rackList.get(i).setX(tempX);
-            Collections.swap(rackList, i, randomIndex);
+            Collections.swap(rackList, i, randomIndex); //Do not know if we need this.
         }
     }
 
@@ -233,6 +251,8 @@ public class BoardController implements Initializable, ILetterObservable {
         //Other methods will check if you are able to move a certain tile when you try to move it.
         //The same goes for when you want to place a tile. The game will only let you place a tile in a
         //valid position. This will also be checked by another method.
+
+        //Maybe newCells can be located in Game, and this method updates that list
 
     }
 

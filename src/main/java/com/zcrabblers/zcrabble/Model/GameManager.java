@@ -58,15 +58,19 @@ public class GameManager {
      * @return the size of the current board.
      */
     public int getBoardSize(){
-        return currentGame.getBoard().matrix().length;
+        return getBoardCells().length;
     }
 
     /**
      * Getter for the current game being played.
      * @return the board of the current game being played.
      */
-    public Cell[][] getBoard(){
-        return currentGame.getBoard().matrix();
+    public Board getBoard(){
+        return currentGame.getBoard();
+    }
+
+    public Cell[][] getBoardCells(){
+            return getBoard().matrix();
     }
 
     public Rack getRack(){
