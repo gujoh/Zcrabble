@@ -23,13 +23,4 @@ public class Player implements IPlayers{
     }
 
     private boolean endTurn = false;
-/* for now useless
-    delete later :)
-    public void takeTurn(){
-        while(!endTurn){
-        }
-        endTurn = false;
-    }
-    public void endTurn(){}
-*/
 }
