@@ -9,17 +9,20 @@ public class Game extends Thread implements IGame {
     private List<IPlayers> players;
     private IPlayers current;
     private Board board;
+    private Board tempBoard;
     private TileBag tileBag;
     private final LetterObserver observer = new LetterObserver();
 
     public Game(){
         this.board = new Board("defaultBoard");
+        this.tempBoard = new Board("defaultBoard");
         this.tileBag = new TileBag("defaultBag");
     }
 
     public void newGame() {
         try{
             board.selectBoard();
+            tempBoard.selectBoard();
             tileBag.selectBag();
         }catch(FileNotFoundException e){
             e.printStackTrace();
@@ -101,8 +104,14 @@ public class Game extends Thread implements IGame {
         return winner;
     }
 
+    @Override
     public Board getBoard(){
         return board;
+    }
+
+    @Override
+    public Board getTempBoard(){
+        return tempBoard;
     }
 
     @Override
@@ -124,8 +133,15 @@ public class Game extends Thread implements IGame {
         return board.isCellEmpty(x, y);
     }
 
+    public boolean isTempCellEmpty(int x, int y){
+        return tempBoard.isCellEmpty(x, y);
+    }
+
     public Rack getRack(){
         return current.getRack();
     }
 
+    public boolean isRackEmpty(int x){
+        return current.getRack().isEmpty(x);
+    }
 }

@@ -40,4 +40,8 @@ public class Rack {
     public Tile getTile(int index) {
         return playerTiles[index];
     }
+
+    public boolean isEmpty(int x){
+        return playerTiles[x].getLetter() == ' ';
+    }
 }

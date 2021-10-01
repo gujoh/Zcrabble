@@ -19,6 +19,9 @@ public class Cell {
     }
     public Tile getPlacedTile(){return placedTile;}
     public void setTile(Tile tile){placedTile = tile;}
+    public void removeTile(){
+        placedTile = new Tile(' ', 0);
+    }
     private int GetCombinedCellScore() {
         int i = 0;
         if(placedTile != null){
