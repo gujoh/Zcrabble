@@ -8,9 +8,12 @@ public interface IGame {
     void removeSubscriber(ILetterObservable sub);
     void removeAllSubscribers();
     Board getBoard();
+    Board getTempBoard();
     boolean isCellEmpty(int x, int y);
+    boolean isTempCellEmpty(int x, int y);
     void newGame();
     void endTurn();
     Rack getRack();
+    boolean isRackEmpty(int x);
 
 }

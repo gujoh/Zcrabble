@@ -49,6 +49,9 @@ public class BoardController implements Initializable, ILetterObservable {
 
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
 
+    private int startX;
+    private int startY;
+
     public BoardController() throws FileNotFoundException {
     }
 
@@ -107,13 +110,32 @@ public class BoardController implements Initializable, ILetterObservable {
         return (int)Math.floor(x / (rackAnchor.getWidth() / 7));
     }
 
+    private void dragSequence(CellView cell){
+        cell.startFullDrag();
+        dragImageView.setImage(cell.getImage());
+        dragImageView.setVisible(true);
+        cell.changeToDefaultImage();
+    }
+
+    // Sets how tiles dragged from the rack behaves
     private void registerRackCellEvents(CellView cellView){
         cellView.setOnDragDetected(event -> {
+            //hämta index baserat på musposition
             int x = pos2Rack(event.getX());
             System.out.println(x);
-        });
-        cellView.setOnMouseDragged(event -> {
+            // Spara den här cellen vi drar ifrån
+            draggedFrom = cellView;
 
+            //om den inte är tom börja drag sekvens
+            if(!game.getCurrentGame().isRackEmpty(x)){
+                dragSequence(cellView);
+            }
+
+        });
+        cellView.setOnMouseDragged(mouseEvent -> {
+            Point2D point = new Point2D(mouseEvent.getSceneX() - 45, mouseEvent.getSceneY() - 45);
+            dragImageView.setX(point.getX());
+            dragImageView.setY(point.getY());
         });
         cellView.setOnMouseDragReleased(event -> {
 
@@ -122,15 +144,12 @@ public class BoardController implements Initializable, ILetterObservable {
 
     private void registerCellEvents(CellView cellView){
         cellView.setOnDragDetected(event -> {
-
-            int x = (int) Math.floor(event.getX() / 33);
-            int y = (int) Math.floor(event.getY() / 33);
-            System.out.println("X: " + x + ", Y: " + y);
-            if(!game.getCurrentGame().isCellEmpty(x, y)) {
-                cellView.startFullDrag();
-                dragImageView.setImage(cellView.getImage());
-                dragImageView.setVisible(true);
-                cellView.changeToDefaultImage();
+            startX = (int) Math.floor(event.getX() / 33);
+            startY = (int) Math.floor(event.getY() / 33);
+            System.out.println("X: " + startX + ", Y: " + startY);
+            if(game.getCurrentGame().isCellEmpty(startX, startY) &&
+                    !game.getCurrentGame().isTempCellEmpty(startX, startY)) {
+                dragSequence(cellView);
             }
             draggedFrom = cellView;
         });
@@ -147,8 +166,15 @@ public class BoardController implements Initializable, ILetterObservable {
             int x = (int) Math.floor(event.getX() / 33);
             int y = (int) Math.floor(event.getY() / 33);
             System.out.println("X: " + x + ", Y: " + y);
-            if(game.getCurrentGame().isCellEmpty(x, y))
+            IGame current = game.getCurrentGame();
+            if(current.isCellEmpty(x, y) && current.isTempCellEmpty(x, y)){
+                //remove old tile
+                Tile tile = current.getBoard().getTile(startX, startY);
+                game.getCurrentGame().getBoard().removeTile(startX, startY);
+                // add new tile
+                current.getTempBoard().placeTile(x, y, tile);
                 cellView.setImage(dragImageView.getImage());
+            }
             else
                 draggedFrom.setImage(dragImageView.getImage());
         });

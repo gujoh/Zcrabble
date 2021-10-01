@@ -182,10 +182,15 @@ public class Board {
         return boardCells;
     }
 
+    public Tile getTile(int i, int j){
+        return boardCells[i][j].getPlacedTile();
+    }
     public void placeTile( int i, int j, Tile tile){
             boardCells[i][j].setTile(tile);
     }
-
+    public void removeTile(int i, int j){
+        boardCells[i][j].removeTile();
+    }
     public boolean isCellEmpty(int x, int y){
         return boardCells[x][y].isEmpty();
     }
