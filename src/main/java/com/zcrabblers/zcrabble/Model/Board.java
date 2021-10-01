@@ -80,6 +80,7 @@ public class Board {
         }
         return helpCalculateScore(wordList, newCells);
     }
+
     private void helpBuildWords (boolean ignoreI ,List<ArrayList<CellTuple>> wordList, int wordCount, int i, int j ){
         //we add the Iterators to the i and j coordinate of the current cell, so we iterate from the position we are at
         int iIterator = 0;
@@ -121,6 +122,7 @@ public class Board {
         }
     }
     //given the word list and new cells it gives back the point value of those
+
     private int helpCalculateScore(List<ArrayList<CellTuple>> wordList, List<CellTuple> newCells){
         // score keeps track of the total score of the entire sets of words
         int score = 0;
@@ -159,6 +161,7 @@ public class Board {
     }
 
     // returns a list of new cells comparing the differance between two boards
+
     public List<CellTuple> getNewCells(Board tempBoard){
         //CellTuples have i,j coordinate and a Cell
         List<CellTuple> newCells = new ArrayList<>();
@@ -187,57 +190,6 @@ public class Board {
         return boardCells[x][y].isEmpty();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /*--- BoardChecks in progress below ---*/
     //TODO checkCoherence
     //TODO cleanup after the move from BoardCheck, make sure all checks are done on tempBoard.
@@ -248,7 +200,7 @@ public class Board {
      * @param tempBoard
      * @return true/false validBoard
      */
-    public boolean checkBoard(Board tempBoard) {
+    boolean checkBoard(Board tempBoard) {
         return (checkRow(tempBoard)&&checkCol(tempBoard)&& checkCoherence(tempBoard));
     }
 
