@@ -181,7 +181,11 @@ public class Board {
     public Cell[][] matrix(){
         return boardCells;
     }
-
+    public void switchTiles(int x1, int y1, int x2, int y2){
+        Tile tile = boardCells[x1][y1].getPlacedTile();
+        boardCells[x1][y1].setTile(boardCells[x2][y2].getPlacedTile());
+        boardCells[x2][y2].setTile(tile);
+    }
     public Tile getTile(int i, int j){
         return boardCells[i][j].getPlacedTile();
     }
