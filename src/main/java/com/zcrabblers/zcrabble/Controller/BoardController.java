@@ -42,6 +42,7 @@ public class BoardController implements Initializable, ILetterObservable {
     private ArrayList<Tile> tempTiles = new ArrayList<>();
     private ArrayList<Cell> newCells = new ArrayList<>();
     private MenuController menuController;
+    private ArrayList<Label> scoreLabelList = new ArrayList<>();
 
     private final GameManager game = GameManager.getInstance();
 
@@ -58,6 +59,10 @@ public class BoardController implements Initializable, ILetterObservable {
     public void initialize(URL url, ResourceBundle rb) {
         menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
+        scoreLabelList.add(p1Score);
+        scoreLabelList.add(p2Score);
+        scoreLabelList.add(p3Score);
+        scoreLabelList.add(p4Score);
 
         game.newGame();
 
@@ -315,6 +320,9 @@ public class BoardController implements Initializable, ILetterObservable {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+        }
+        for(int i = 0; i < game.getPlayers().size(); i++){
+            scoreLabelList.get(i).setText(String.valueOf(game.getPlayerScore(i)));
         }
     }
 

@@ -1,6 +1,7 @@
 package com.zcrabblers.zcrabble.Model;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public interface IGame {
     void start();
@@ -15,5 +16,6 @@ public interface IGame {
     void endTurn();
     Rack getRack();
     boolean isRackEmpty(int x);
-
+    List<IPlayers> getPlayers();
+    int getPlayerScore(int index);
 }

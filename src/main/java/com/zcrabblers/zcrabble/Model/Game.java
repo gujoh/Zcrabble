@@ -144,4 +144,12 @@ public class Game extends Thread implements IGame {
     public boolean isRackEmpty(int x){
         return current.getRack().isEmpty(x);
     }
+
+    public List<IPlayers> getPlayers(){
+        return players;
+    }
+
+    public int getPlayerScore(int index){
+        return players.get(index).getScore();
+    }
 }
