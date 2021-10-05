@@ -13,7 +13,7 @@ public class MenuController extends AnchorPane {
     @FXML private MenuItem menuSkinsZcrabble;
     @FXML private MenuItem menuSkinsDarkMode;
     @FXML private MenuItem menuSkinsCyberpunk;
-    @FXML private MenuItem MenuNewGame;
+    @FXML private MenuItem menuNewGame;
     private BoardController parentController;
 
     public MenuController(BoardController parentController){
@@ -27,10 +27,10 @@ public class MenuController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
 
-        MenuNewGame.setOnAction(event -> {
-            GameManager.getInstance().newGame();
-        });
+    @FXML private void newGame(){
+        parentController.openNewGameMenu();
     }
 
     @FXML

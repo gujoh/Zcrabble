@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,10 +11,45 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zcrabblers.zcrabble.Controller.BoardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zcrabblers.zcrabble.Controller.BoardController">
    <children>
       <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <AnchorPane fx:id="newGameMenuBackground" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane onMouseClicked="#closeNewGameMenu" opacity="0.35" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane fx:id="newGamePane" layoutX="200.0" layoutY="176.0" prefHeight="400.0" prefWidth="400.0" styleClass="new-game-background" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0">
+                     <children>
+                        <Button layoutX="57.0" layoutY="322.0" mnemonicParsing="false" onAction="#closeNewGameMenu" prefHeight="40.0" prefWidth="100.0" styleClass="cancel-button" text="Cancel" AnchorPane.leftAnchor="70.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="230.0" layoutY="322.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="begin-button" text="Begin" AnchorPane.rightAnchor="70.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Spinner fx:id="playerSpinner" layoutX="81.0" layoutY="168.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="75.0" />
+                        <Spinner fx:id="botSpinner" layoutX="239.0" layoutY="168.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.rightAnchor="75.0" />
+                        <Label layoutX="24.0" layoutY="25.0" text="Start a new game from here!">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="76.0" layoutY="143.0" text="Players:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="244.0" layoutY="143.0" text="Bots:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="gameAnchor" prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@main.css">
                <children>
                   <ImageView fx:id="dragImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
@@ -46,26 +82,40 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Label fx:id="p1Score" layoutX="539.0" layoutY="512.0" text="0">
+                  <Label fx:id="p1Score" layoutX="539.0" layoutY="512.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="p4Score" layoutX="539.0" layoutY="40.0" text="0">
+                  <Label fx:id="p2Score" layoutX="539.0" layoutY="40.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="p3Score" layoutX="539.0" layoutY="108.0" text="0">
+                  <Label fx:id="p3Score" layoutX="539.0" layoutY="108.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="p2Score" layoutX="539.0" layoutY="175.0" text="0">
+                  <Label fx:id="p4Score" layoutX="539.0" layoutY="175.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="welcomeScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #68BB59#68BB59;">
+               <children>
+                  <Label layoutX="119.0" layoutY="114.0" text="Zcrabble">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="199.0" layoutY="382.0" mnemonicParsing="false" onAction="#closeWelcomeScreen" prefHeight="50.0" prefWidth="200.0" styleClass="start-button" text="Start" textFill="WHITE">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </children>
