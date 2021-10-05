@@ -68,6 +68,12 @@
                   </Label>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="newGameMenuBackground" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane opacity="0.35" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane fx:id="newGamePane" layoutX="200.0" layoutY="176.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0" />
+               </children>
+            </AnchorPane>
          </children>
       </StackPane>
    </children>

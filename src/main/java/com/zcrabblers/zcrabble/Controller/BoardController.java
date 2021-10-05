@@ -36,6 +36,8 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Label p2Score;
     @FXML private Label p3Score;
     @FXML private Label p4Score;
+    @FXML private AnchorPane newGamePane;
+    @FXML private AnchorPane newGameMenuBackground;
 
     private ArrayList<ImageView> cellList = new ArrayList<>();
     private ArrayList<ImageView> rackList = new ArrayList<>();
