@@ -1,6 +1,7 @@
 package com.zcrabblers.zcrabble.Model;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 // Is the class with the main responsibility over the model and starting new games
 public class GameManager {
@@ -58,19 +59,31 @@ public class GameManager {
      * @return the size of the current board.
      */
     public int getBoardSize(){
-        return currentGame.getBoard().matrix().length;
+        return getBoardCells().length;
     }
 
     /**
      * Getter for the current game being played.
      * @return the board of the current game being played.
      */
-    public Cell[][] getBoard(){
-        return currentGame.getBoard().matrix();
+    public Board getBoard(){
+        return currentGame.getBoard();
+    }
+
+    public Cell[][] getBoardCells(){
+            return getBoard().matrix();
     }
 
     public Rack getRack(){
         return currentGame.getRack();
+    }
+
+    public List<IPlayers> getPlayers(){
+        return currentGame.getPlayers();
+    }
+
+    public int getPlayerScore(int index){
+        return currentGame.getPlayerScore(index);
     }
 
 }

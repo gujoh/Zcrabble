@@ -29,4 +29,12 @@ public class CellView extends ImageView {
     public void changeToDefaultImage(){
         setImage(defaultImage);
     }
+
+    public int xCoord(){
+        return (int)Math.floor(getX() / getFitWidth());
+    }
+
+    public int YCoord(){
+        return (int)Math.floor(getY() / getFitHeight());
+    }
 }

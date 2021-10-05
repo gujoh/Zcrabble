@@ -31,6 +31,75 @@ public class Bot implements IPlayers {
     public void beginTurn(TileBag bag) {
 
     }
+    //TODO bot need to be able to find all previous letter tiles and build a word with them in
+    //TODO remove all words that does not fit with the board around it. (this seems to be the tricky part)
+
+
+
+
+    /*
+        {
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E
+
+    0   {  ,  ,  ,  , X,  ,  ,  ,  ,  ,  ,  ,  ,  ,  },
+    1   {  ,  ,  ,  , X,  ,  ,  ,  ,  ,  ,  ,  ,  ,  },
+    2   {  ,  ,  ,  , X,  ,  ,  ,  ,  , X,  ,  ,  ,  },
+    3   {  ,  , X, X, X, X, X, X, X,  , X,  ,  ,  ,  },
+    4   {  ,  ,  ,  , X,  ,  ,  ,  ,  , X,  ,  ,  ,  },
+    5   {  ,  ,  ,  , X,  ,  ,  ,  ,  , X,  ,  ,  ,  },
+    6   {  ,  ,  ,  , X,  , X,  ,  ,  , X,  ,  ,  ,  },
+    7   {  ,  ,  , X, X, X, X, X, X, X, X,  ,  ,  ,  },
+    8   {  ,  ,  ,  ,  ,  , X,  ,  ,  , X,  ,  ,  ,  },
+    9   {  ,  ,  ,  ,  ,  , X, X, X, X, X, X, X,  ,  },
+    A   {  ,  ,  ,  ,  ,  , X,  ,  ,  , X,  ,  ,  ,  },
+    B   {  , X, X, X, X, X, X,  ,  ,  ,  ,  ,  ,  ,  },
+    C   {  ,  ,  ,  ,  ,  , X,  ,  ,  ,  ,  ,  ,  ,  },
+    D   {  ,  ,  ,  ,  , X, X, X, X, X, X, X,  ,  ,  },
+    E   {  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  },
+
+
+        }
+        writeAHorizontalWord(Board board){
+
+        StringBuilder rackAndFriends = new StringBuilder;
+        rackAndFriends.append(rack)
+        ArrayList<String> writableWords = new Arraylist;
+
+        for (row:Rows)
+            for(col:Columns)
+                if(containsLetter(board,row,col) &&  checkInterval(board,row,col,rack.Size)) //if a cell has a letterTile and space around it
+                   rackAndFriends.append(tileLetter)
+                   writableWords = canWrite(rackAndFriends);
+                   place down the first word that can be written
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+     checkInterval(Board board,Int row,Int col,Int interval){
+           for(col==col,col <=interval, col
+
+
+
+     }
+
+
+
+
+
+
+     */
+
+
 
 
     /*---   Takes in a string of letters and returns all dictionary words that can be written with them   ---*/

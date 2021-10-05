@@ -5,9 +5,6 @@ import javafx.geometry.Point2D;
 public class Tile {
     private char letter;
     private int tileScore;
-    private Point2D position; //Might not be needed
-    private boolean placedThisTurn;
-
     /**
      * Constructor that creates a new Tile. Use when a Tile does not require a position (x and y coordinate).
      * @param letter the letter that a Tile represents (A through Z)
@@ -16,19 +13,6 @@ public class Tile {
     public Tile(char letter, int tileScore) {
         this.letter = letter;
         this.tileScore = tileScore;
-    }
-
-    /**
-     * Constructor that creates a new Tile. Only use when a Tile requires a position (x and y coordinate).
-     * @param tile the Tile that requires a position.
-     * @param x the x coordinate of the new Tile.
-     * @param y the y coordinate of the new Tile.
-     */
-    public Tile(Tile tile, int x, int y, boolean placedThisTurn){
-        this.letter = tile.letter;
-        this.tileScore = tile.tileScore;
-        this.position = new Point2D(x, y);
-        this.placedThisTurn = placedThisTurn;
     }
 
     /**
@@ -47,19 +31,4 @@ public class Tile {
         return letter;
     }
 
-    /**
-     * Returns the x coordinate of a Tile.
-     * @return the x coordinate of a Tile.
-     */
-    public int getX(){
-        return (int)position.getX();
-    }
-
-    /**
-     * Returns the x coordinate of a Tile.
-     * @return the x coordinate of a Tile.
-     */
-    public int getY(){
-        return (int)position.getY();
-    }
 }

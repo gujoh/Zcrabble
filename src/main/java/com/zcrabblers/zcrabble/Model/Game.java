@@ -9,26 +9,29 @@ public class Game extends Thread implements IGame {
     private List<IPlayers> players;
     private IPlayers current;
     private Board board;
+    private Board tempBoard;
     private TileBag tileBag;
     private final LetterObserver observer = new LetterObserver();
 
     public Game(){
         this.board = new Board("defaultBoard");
+        this.tempBoard = new Board("defaultBoard");
         this.tileBag = new TileBag("defaultBag");
     }
 
     public void newGame() {
-        players = new ArrayList<>();
-        players.add(new Player(0,new Rack()));
-        players.add(new Player(0, new Rack()));
-        current = players.get(0);
         try{
             board.selectBoard();
+            tempBoard.selectBoard();
             tileBag.selectBag();
         }catch(FileNotFoundException e){
             e.printStackTrace();
             System.exit(1);
         }
+        players = new ArrayList<>();
+        players.add(new Player(0,new Rack(tileBag)));
+        players.add(new Player(0, new Rack(tileBag)));
+        current = players.get(0);
     }
 
     @Override
@@ -101,8 +104,14 @@ public class Game extends Thread implements IGame {
         return winner;
     }
 
+    @Override
     public Board getBoard(){
         return board;
+    }
+
+    @Override
+    public Board getTempBoard(){
+        return tempBoard;
     }
 
     @Override
@@ -124,8 +133,23 @@ public class Game extends Thread implements IGame {
         return board.isCellEmpty(x, y);
     }
 
+    public boolean isTempCellEmpty(int x, int y){
+        return tempBoard.isCellEmpty(x, y);
+    }
+
     public Rack getRack(){
         return current.getRack();
     }
 
+    public boolean isRackEmpty(int x){
+        return current.getRack().isEmpty(x);
+    }
+
+    public List<IPlayers> getPlayers(){
+        return players;
+    }
+
+    public int getPlayerScore(int index){
+        return players.get(index).getScore();
+    }
 }
