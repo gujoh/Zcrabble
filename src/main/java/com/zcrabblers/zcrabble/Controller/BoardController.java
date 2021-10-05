@@ -53,7 +53,8 @@ public class BoardController implements Initializable, ILetterObservable {
     private MenuController menuController;
     private ArrayList<Label> scoreLabelList = new ArrayList<>();
 
-    private final GameManager game = GameManager.getInstance();
+    private final GameManager gameManager = GameManager.getInstance();
+    private IGame game;
 
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
 
@@ -86,10 +87,11 @@ public class BoardController implements Initializable, ILetterObservable {
             }
         });
 
-        game.newGame();
+        gameManager.newGame();
+        game = gameManager.getCurrentGame();
 
         endTurnButton.setOnAction(actionEvent -> {
-            game.getCurrentGame().endTurn();
+            gameManager.getCurrentGame().endTurn();
         });
 
         try {
@@ -110,16 +112,19 @@ public class BoardController implements Initializable, ILetterObservable {
         //boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setMouseTransparent(true);
-        gameAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        gameAnchor.setOnMouseDragReleased(mouseDragEvent -> {
+            if(mouseDragEvent.isConsumed())
+                return;
+            dragImageView.setVisible(false);
+            draggedFrom.setImage(dragImageView.getImage());
+            mouseDragEvent.setDragDetect(false);
+            System.out.println("reset");
+            System.out.println(mouseDragEvent.getTarget().toString());
+        });
     }
 
     private void hideDragTile(){
         dragImageView.setVisible(false);
-    }
-
-    private void resetDragTile(){
-        dragImageView.setVisible(false);
-        draggedFrom.setImage(dragImageView.getImage());
     }
 
     private void initDragTile() throws FileNotFoundException {
@@ -171,7 +176,7 @@ public class BoardController implements Initializable, ILetterObservable {
             //System.out.println(startX);
 
             // if not empty start drag sequence
-            if(!game.getCurrentGame().isRackEmpty(startX)){
+            if(!game.isRackEmpty(startX)){
                 draggedFromRack = true;
                 dragSequence(cellView);
             }
@@ -185,30 +190,21 @@ public class BoardController implements Initializable, ILetterObservable {
             int x = pos2Rack(event.getX());
             if(draggedFromRack){
                 // switch tiles in the rack
-                game.getRack().switchTiles(startX, x);
+                game.switchRackCells(startX, x);
 
                 // switch images
                 switchImages(cellView);
             }else{
-                if(game.getCurrentGame().getRack().isEmpty(x)){
-                    // remove tile from tempboard
-                    // image will be reset when the drag started
-                    //TODO: LAW OF DEMETER FIX THIS
-                    Tile tile = game.getCurrentGame().getTempBoard().getTile(startX, startY);
-                    game.getCurrentGame().getTempBoard().removeTile(startX, startY);
-                    // add tile to rack
-                    // add image to rack
-                    game.getRack().set(x, tile);
+                game.switchRackBoardCells(x, startX, startY);
+                if(game.isRackEmpty(x)){
                     cellView.setImage(dragImageView.getImage());
                 }else{
                     // dragging from the tempboard to the rack switches the tiles
-                    Tile tile = game.getCurrentGame().getTempBoard().getTile(startX, startY);
-                    game.getCurrentGame().getTempBoard().placeTile(startX, startY, game.getRack().getTile(x));
-                    game.getRack().set(x, tile);
                     switchImages(cellView);
-                    //draggedFrom.setImage(dragImageView.getImage());
                 }
             }
+            event.setDragDetect(false);
+            event.consume();
         });
     }
 
@@ -220,8 +216,8 @@ public class BoardController implements Initializable, ILetterObservable {
             startY = pos2Coord(event.getY());
             //System.out.println("X: " + startX + ", Y: " + startY);
             // can only start a drag if the board cell is empty and the tempboard cell isn't
-            if(game.getCurrentGame().isCellEmpty(startX, startY) &&
-                    !game.getCurrentGame().isTempCellEmpty(startX, startY)) {
+            if(game.isBoardCellEmpty(startX, startY) &&
+                    !game.isTempCellEmpty(startX, startY)) {
                 draggedFromRack = false;
                 dragSequence(cellView);
             }
@@ -236,32 +232,29 @@ public class BoardController implements Initializable, ILetterObservable {
             int x = pos2Coord(event.getX());
             int y = pos2Coord(event.getY());
             //System.out.println("X: " + x + ", Y: " + y);
-            IGame current = game.getCurrentGame();
-            if(current.isCellEmpty(x, y) && current.isTempCellEmpty(x, y)){
+            if(game.isBoardCellEmpty(x, y) && game.isTempCellEmpty(x, y)){
                 if(draggedFromRack){
                     //get tile from rack
                     Tile tile = game.getRack().getTile(startX);
                     //remove tile from rack
                     game.getRack().remove(startX);
                     //add tile to tempboard
-                    current.getTempBoard().placeTile(x, y, tile);
+                    game.getTempBoard().placeTile(x, y, tile);
                     //rack image was reset on drag start
                     //set board image
                 }else{
                     //switch tiles on tempboard
-                    current.getTempBoard().switchTiles(startX, startY, x, y);
+                    game.switchTempCells(startX, startY, x, y);
                     //switch images
                     draggedFrom.changeToDefaultImage();
                     //switchImages(cellView);
                 }
                 cellView.setImage(dragImageView.getImage());
-            }else if(current.isCellEmpty(x, y) && !current.isTempCellEmpty(x, y)){
+            }else if(game.isBoardCellEmpty(x, y) && !game.isTempCellEmpty(x, y)){
                 if(draggedFromRack){
-                    Tile tile = game.getRack().getTile(startX);
-                    game.getRack().set(startX, game.getCurrentGame().getTempBoard().getTile(x, y));
-                    current.getTempBoard().placeTile(x, y, tile);
+                    game.switchRackBoardCells(startX, x, y);
                 }else{
-                    current.getTempBoard().switchTiles(startX, startY, x, y);
+                    game.switchTempCells(startX, startY, x, y);
                 }
                 switchImages(cellView);
             }
@@ -269,20 +262,22 @@ public class BoardController implements Initializable, ILetterObservable {
                 //cell dragged to wasn't empty so reset image
                 draggedFrom.setImage(dragImageView.getImage());
             }
+            event.setDragDetect(false);
+            event.consume();
         });
     }
 
     private void populateBoard() throws FileNotFoundException {
         int x = 0;
         int y = 0;
-        int length = game.getBoardSize();
+        int length = gameManager.getBoardSize();
         for (int i = 0; i < length; i++){
             for (int j = 0; j < length; j++){
                 CellView img;
                 if(i == length/2 && j == length/2){
                      img = new CellView(IMAGE_PATH + "Middle.png");
                 }
-                 else img = new CellView(IMAGE_PATH + game.getBoardCells()[i][j].GetCellWordMultiplier() + "" + game.getBoardCells()[i][j].GetCellLetterMultiplier() + ".png");
+                 else img = new CellView(IMAGE_PATH + gameManager.getBoardCells()[i][j].GetCellWordMultiplier() + "" + gameManager.getBoardCells()[i][j].GetCellLetterMultiplier() + ".png");
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
                 img.setFitHeight(33);
@@ -318,7 +313,7 @@ public class BoardController implements Initializable, ILetterObservable {
             counter++;
             spacing = -spacing;
 
-            img.setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRack().getTile(i).getLetter() + ".png")));
+            img.setImage(new Image(new FileInputStream(IMAGE_PATH + gameManager.getRack().getTile(i).getLetter() + ".png")));
 
             registerRackCellEvents(img);
         }
@@ -326,7 +321,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     //Converts index in 2D array to index in 1D array.
     private int coordinateToIndex(int x, int y){
-        return x + y*game.getBoardSize();
+        return x + y* gameManager.getBoardSize();
     }
 
     @Override
@@ -346,6 +341,7 @@ public class BoardController implements Initializable, ILetterObservable {
                 e.printStackTrace();
             }
         }
+
         updateScores();
         updateTilesLeft();
     }

@@ -18,6 +18,16 @@ public class Player implements IPlayers{
     }
 
     @Override
+    public Tile getRackTile(int x) {
+        return rack.getTile(x);
+    }
+
+    @Override
+    public void placeRackTile(int x, Tile tile) {
+        rack.set(x, tile);
+    }
+
+    @Override
     public void beginTurn(TileBag bag) {
 
     }
