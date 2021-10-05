@@ -274,7 +274,7 @@ public class Board {
     //TODO checkCoherence
     /*--- Checks if all letters on the board are in contact with each other. ---*/
     private  boolean checkCoherence(Board board){
-        List<CellTuple> newCells = getNewCells(board);
+       /* List<CellTuple> newCells = getNewCells(board);
         if (!containsLetter(board,7,7))
             return false;
         /*
@@ -282,8 +282,8 @@ public class Board {
 
 
         checkConnection
-            for every new tile check the cells directly over/under and left/right of it, there should be at least one connection to a old cell or the middle
-            controll row+-1 and col +-1 make sure not to get out of bounds error, for + 1: row==14?row:row+1.
+            for every new tile check the cells directly over/under and left/right of it, there should be at least one connection to an old cell or the middle
+            control row+-1 and col +-1 make sure not to get out of bounds error, for + 1: row==14?row:row+1.
         for (int i = 0; i <newCells.size() ; i++) {
             newCells.get(i).getI();
         }
