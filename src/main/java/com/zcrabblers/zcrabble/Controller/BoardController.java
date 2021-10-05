@@ -1,6 +1,7 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.*;
+import com.zcrabblers.zcrabble.Utils.RandomSeed;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -65,6 +66,9 @@ public class BoardController implements Initializable, ILetterObservable {
     public BoardController() throws FileNotFoundException {
     }
 
+    /**
+     * Initializes the GUI.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         menuController = new MenuController(this);
@@ -74,16 +78,14 @@ public class BoardController implements Initializable, ILetterObservable {
         scoreLabelList.add(p3Score);
         scoreLabelList.add(p4Score);
 
-        final int[] playerCount = {2};
         SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,4,2,1);
-        SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, playerCount[0],1,1);
+        SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
         playerSpinner.setValueFactory(playerValueFactory);
         botSpinner.setValueFactory(botValueFactory);
         playerSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-                playerCount[0] = (int) playerSpinner.getValue();
-                botSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, playerCount[0],1,1));
+                botSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (int)playerSpinner.getValue(),0,1));
             }
         });
 
@@ -103,6 +105,10 @@ public class BoardController implements Initializable, ILetterObservable {
         updateTilesLeft();
     }
 
+    /**
+     * Renders the board and rack. Also attaches listeners to the ImageViews that represent the cells and tiles.
+     * @throws FileNotFoundException when an image cannot be found.
+     */
     public void populate() throws FileNotFoundException {
         populateBoard();
         populateRack();
@@ -267,6 +273,7 @@ public class BoardController implements Initializable, ILetterObservable {
         });
     }
 
+    //Renders the board. Gets called from the populate() method.
     private void populateBoard() throws FileNotFoundException {
         int x = 0;
         int y = 0;
@@ -295,6 +302,7 @@ public class BoardController implements Initializable, ILetterObservable {
         }
     }
 
+    //Renders the rack. Gets called from the populate() method.
     private void populateRack() throws FileNotFoundException {
         double x = rackRectangle.getWidth()/2-((double)33/2);
         double y = rackRectangle.getHeight()/2-((double)33/2);
@@ -319,11 +327,16 @@ public class BoardController implements Initializable, ILetterObservable {
         }
     }
 
-    //Converts index in 2D array to index in 1D array.
+    //Converts an index in a 2D array to an index in a 1D array.
     private int coordinateToIndex(int x, int y){
         return x + y* gameManager.getBoardSize();
     }
 
+    /**
+     * Updates the state of the game using the observer pattern. Gets called at the end of each turn.
+     * @param boardList a LetterTuple array that contain information about which tiles were placed last turn.
+     * @param rackList a LetterTuple array that contains information about which tiles were added to a player's rack.
+     */
     @Override
     public void update(LetterTuple[] boardList, LetterTuple[] rackList){
         for (LetterTuple letter : boardList){
@@ -346,19 +359,24 @@ public class BoardController implements Initializable, ILetterObservable {
         updateTilesLeft();
     }
 
+    //Updates all the players' scores by getting them from the GameManager object.
+    //Gets called from update() and initialize().
     private void updateScores(){
         for(int i = 0; i < game.getPlayers().size(); i++){
             scoreLabelList.get(i).setText(String.valueOf(game.getPlayerScore(i)));
         }
     }
 
+    //Updates the tilesLeftLabel by getting the remaining tiles from the GameManager object.
+    //Gets called from update() and initialize().
     private void updateTilesLeft(){
         tilesLeftLabel.setText(String.valueOf(game.getRemainingTiles()));
     }
 
+    //Shuffles the current player's rack.
     @FXML
     private void shuffleRack(){
-        Random rand = new Random(); //dont use random without a parameter, maybe use a singleton that returns a seed
+        Random rand = new Random(RandomSeed.INSTANCE.getSeed());
         for(int i = 0; i < rackList.size()-2; i++){
             int randomIndex = rand.nextInt(rackList.size());
             int tempX = (int)rackList.get(randomIndex).getX();
@@ -382,20 +400,25 @@ public class BoardController implements Initializable, ILetterObservable {
 
     }
 
-
+    //Closes the welcome screen by calling the toBack() method on the AnchorPane.
     @FXML
     private void closeWelcomeScreen(){
         welcomeScreen.toBack();
     }
 
-    @FXML void openNewGameMenu(){
+    //Opens the new game menu screen by calling the toFront() method on the AnchorPane.
+    @FXML
+    void openNewGameMenu(){
         newGameMenuBackground.toFront();
     }
 
-    @FXML private void closeNewGameMenu(){
+    //Closes the new game menu screen by calling the toBack() method on the AnchorPane.
+    @FXML
+    private void closeNewGameMenu(){
         newGameMenuBackground.toBack();
     }
 
+    //Sets the Zcrabble theme dark mode. Gets called from the MenuController class.
     void setDarkModeSkin(){
         gameAnchor.setStyle("-fx-background-color: #808080");
         rackAnchor.setStyle("-fx-background-color: #000000");
@@ -405,6 +428,7 @@ public class BoardController implements Initializable, ILetterObservable {
         endTurnButton.setTextFill(Color.WHITE);
     }
 
+    //Sets the Zcrabble theme the original Zcrabble skin. Gets called from the MenuController class.
     void setZcrabbleSkin(){
         gameAnchor.setStyle("-fx-background-color: #68BB59");
         rackAnchor.setStyle("-fx-background-color: #5C4425");
@@ -414,6 +438,7 @@ public class BoardController implements Initializable, ILetterObservable {
         endTurnButton.setTextFill(Color.WHITE);
     }
 
+    //Sets the Zcrabble theme to cyberpunk. Gets called from the MenuController class.
     void setCyberpunkSkin(){
         gameAnchor.setStyle("-fx-background-color: #711c91");
         rackAnchor.setStyle("-fx-background-color: #133e7c");
