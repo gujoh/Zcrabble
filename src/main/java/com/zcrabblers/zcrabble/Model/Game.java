@@ -129,12 +129,35 @@ public class Game extends Thread implements IGame {
         observer.removeAllSubscribers();
     }
 
-    public boolean isCellEmpty(int x, int y){
+    @Override
+    public boolean isBoardCellEmpty(int x, int y){
         return board.isCellEmpty(x, y);
     }
 
     public boolean isTempCellEmpty(int x, int y){
         return tempBoard.isCellEmpty(x, y);
+    }
+
+    @Override
+    public void switchBoardCells(int x1, int y1, int x2, int y2) {
+        board.switchTiles(x1, y1, x2, y2);
+    }
+
+    @Override
+    public void switchTempCells(int x1, int y1, int x2, int y2) {
+        tempBoard.switchTiles(x1, y1, x2, y2);
+    }
+
+    @Override
+    public void switchRackCells(int x1, int x2) {
+        current.getRack().switchTiles(x1, x2);
+    }
+
+    @Override
+    public void switchRackBoardCells(int rackX, int boardX, int boardY) {
+        Tile tile = tempBoard.getTile(boardX, boardY);
+        tempBoard.placeTile(boardX, boardY, current.getRackTile(rackX));
+        current.placeRackTile(rackX, tile);
     }
 
     public Rack getRack(){
