@@ -82,10 +82,11 @@ public class BoardController implements Initializable, ILetterObservable {
         populateRack();
         //makeOneTestTile();
         initDragTile();
-        rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
-        boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
-        rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        //rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        //boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
+        //rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setMouseTransparent(true);
+        gameAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
     }
 
     private void hideDragTile(){
