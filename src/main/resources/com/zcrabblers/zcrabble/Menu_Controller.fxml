@@ -11,7 +11,7 @@
         <menus>
           <Menu fx:id="MenuGame" mnemonicParsing="false" text="Game">
             <items>
-              <MenuItem fx:id="MenuNewGame" mnemonicParsing="false" text="New Game" />
+              <MenuItem fx:id="menuNewGame" mnemonicParsing="false" onAction="#newGame" text="New Game" />
                   <MenuItem fx:id="MenuEndGame" mnemonicParsing="false" text="End Game" />
                   <Menu fx:id="MenuGameMode" mnemonicParsing="false" text="Game Mode">
                     <items>

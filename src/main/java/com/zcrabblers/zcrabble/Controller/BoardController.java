@@ -1,11 +1,15 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -38,6 +42,9 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Label p4Score;
     @FXML private AnchorPane newGamePane;
     @FXML private AnchorPane newGameMenuBackground;
+    @FXML private AnchorPane welcomeScreen;
+    @FXML private Spinner playerSpinner;
+    @FXML private Spinner botSpinner;
 
     private ArrayList<ImageView> cellList = new ArrayList<>();
     private ArrayList<ImageView> rackList = new ArrayList<>();
@@ -66,6 +73,19 @@ public class BoardController implements Initializable, ILetterObservable {
         scoreLabelList.add(p3Score);
         scoreLabelList.add(p4Score);
 
+        final int[] playerCount = {2};
+        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,4,2,1);
+        SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, playerCount[0],1,1);
+        playerSpinner.setValueFactory(playerValueFactory);
+        botSpinner.setValueFactory(botValueFactory);
+        playerSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+                playerCount[0] = (int) playerSpinner.getValue();
+                botSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, playerCount[0],1,1));
+            }
+        });
+
         game.newGame();
 
         endTurnButton.setOnAction(actionEvent -> {
@@ -77,6 +97,8 @@ public class BoardController implements Initializable, ILetterObservable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        updateScores();
+        updateTilesLeft();
     }
 
     public void populate() throws FileNotFoundException {
@@ -324,9 +346,18 @@ public class BoardController implements Initializable, ILetterObservable {
                 e.printStackTrace();
             }
         }
+        updateScores();
+        updateTilesLeft();
+    }
+
+    private void updateScores(){
         for(int i = 0; i < game.getPlayers().size(); i++){
             scoreLabelList.get(i).setText(String.valueOf(game.getPlayerScore(i)));
         }
+    }
+
+    private void updateTilesLeft(){
+        //FIX later
     }
 
     @FXML
@@ -353,6 +384,20 @@ public class BoardController implements Initializable, ILetterObservable {
 
         //Maybe newCells can be located in Game, and this method updates that list
 
+    }
+
+
+    @FXML
+    private void closeWelcomeScreen(){
+        welcomeScreen.toBack();
+    }
+
+    @FXML void openNewGameMenu(){
+        newGameMenuBackground.toFront();
+    }
+
+    @FXML private void closeNewGameMenu(){
+        newGameMenuBackground.toBack();
     }
 
     void setDarkModeSkin(){
