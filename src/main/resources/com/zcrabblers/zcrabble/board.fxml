@@ -30,19 +30,19 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Spinner fx:id="playerSpinner" layoutX="81.0" layoutY="168.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="75.0" />
-                        <Spinner fx:id="botSpinner" layoutX="239.0" layoutY="168.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.rightAnchor="75.0" />
+                        <Spinner fx:id="playerSpinner" layoutX="81.0" layoutY="168.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="50.0" />
+                        <Spinner fx:id="botSpinner" layoutX="239.0" layoutY="168.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.rightAnchor="50.0" />
                         <Label layoutX="24.0" layoutY="25.0" text="Start a new game from here!">
                            <font>
                               <Font size="30.0" />
                            </font>
                         </Label>
-                        <Label layoutX="76.0" layoutY="143.0" text="Players:">
+                        <Label layoutX="76.0" layoutY="143.0" text="Players (including bots):" AnchorPane.leftAnchor="50.0">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="244.0" layoutY="143.0" text="Bots:">
+                        <Label layoutX="244.0" layoutY="143.0" text="Bots:" AnchorPane.rightAnchor="95.0">
                            <font>
                               <Font size="16.0" />
                            </font>
