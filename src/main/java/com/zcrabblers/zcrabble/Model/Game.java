@@ -160,8 +160,14 @@ public class Game extends Thread implements IGame {
         current.placeRackTile(rackX, tile);
     }
 
+    @Override
     public Rack getRack(){
         return current.getRack();
+    }
+
+    @Override
+    public int getRemainingTiles(){
+        return tileBag.remainingTiles();
     }
 
     public boolean isRackEmpty(int x){

@@ -22,4 +22,5 @@ public interface IGame {
     boolean isRackEmpty(int x);
     List<IPlayers> getPlayers();
     int getPlayerScore(int index);
+    int getRemainingTiles();
 }
