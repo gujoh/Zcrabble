@@ -18,12 +18,22 @@ public class Bot implements IPlayers {
 
     }
 
+    @Override
+    public void placeRackTile(int x, Tile tile){
+
+    }
+
     public int getScore(){
         return score;
     }
 
     @Override
     public Rack getRack(){
+        return null;
+    }
+
+    @Override
+    public Tile getRackTile(int x) {
         return null;
     }
 

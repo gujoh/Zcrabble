@@ -353,7 +353,7 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     private void updateTilesLeft(){
-        //FIX later
+        tilesLeftLabel.setText(String.valueOf(game.getRemainingTiles()));
     }
 
     @FXML
