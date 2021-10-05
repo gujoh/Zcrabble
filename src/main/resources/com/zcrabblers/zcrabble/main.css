@@ -10,3 +10,43 @@
     -fx-background-color: #484848;
     -fx-cursor: hand;
 }
+
+.start-button{
+    -fx-background-color: #000000;
+}
+
+.start-button:hover{
+    -fx-background-color: #484848;
+    -fx-cursor: hand;
+}
+
+.cancel-button{
+    -fx-background-color: #db1f12;
+    -fx-background-radius: 10;
+}
+
+.cancel-button:hover{
+    -fx-background-color: #991108;
+    -fx-cursor: hand;
+    -fx-background-radius: 10;
+}
+
+.begin-button{
+    -fx-background-color: #64c90c;
+    -fx-background-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.begin-button:hover{
+    -fx-background-color: #478f0a;
+    -fx-cursor: hand;
+    -fx-background-radius: 10;
+}
+
+.new-game-background{
+    -fx-background-color: #8d9492;
+    -fx-background-radius: 10;
+    -fx-border-radius: 2;
+    -fx-border-color: #68BB59;
+    -fx-border-radius: 10;
+}
