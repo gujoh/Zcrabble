@@ -118,6 +118,8 @@ public class BoardController implements Initializable, ILetterObservable {
         //boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setMouseTransparent(true);
+
+        //gameAnchor.setOnMouseDragReleased(event -> hideDragTile());
         gameAnchor.setOnMouseDragReleased(mouseDragEvent -> {
             if(mouseDragEvent.isConsumed())
                 return;
@@ -131,6 +133,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     private void hideDragTile(){
         dragImageView.setVisible(false);
+        //draggedFrom.setImage(dragImageView.getImage());
     }
 
     private void initDragTile() throws FileNotFoundException {
@@ -209,7 +212,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     switchImages(cellView);
                 }
             }
-            event.setDragDetect(false);
+            //event.setDragDetect(false);
             event.consume();
         });
     }
@@ -268,7 +271,7 @@ public class BoardController implements Initializable, ILetterObservable {
                 //cell dragged to wasn't empty so reset image
                 draggedFrom.setImage(dragImageView.getImage());
             }
-            event.setDragDetect(false);
+            //event.setDragDetect(false);
             event.consume();
         });
     }
@@ -321,9 +324,22 @@ public class BoardController implements Initializable, ILetterObservable {
             counter++;
             spacing = -spacing;
 
-            img.setImage(new Image(new FileInputStream(IMAGE_PATH + gameManager.getRack().getTile(i).getLetter() + ".png")));
-
             registerRackCellEvents(img);
+        }
+        
+        //Sorts the rack in order to match the way the rack is represented in the model.
+        for(int i = 0; i < rackList.size(); i++){
+            for(int j = 1; j < rackList.size()-1; j++){
+                if(rackList.get(j-1).getX() > rackList.get(i).getX()){
+                    double temp = rackList.get(j-1).getX();
+                    rackList.get(j-1).setX(rackList.get(i).getX());
+                    rackList.get(i).setX(temp);
+                }
+            }
+        }
+        //Fills the rack with images.
+        for(int i = 0; i < rackList.size(); i++){
+            rackList.get(i).setImage(new Image(new FileInputStream(IMAGE_PATH + gameManager.getRack().getTile(i).getLetter() + ".png")));
         }
     }
 
