@@ -1,4 +1,6 @@
 package com.zcrabblers.zcrabble.Model;
+import com.zcrabblers.zcrabble.Utils.RandomSeed;
+
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,7 +33,7 @@ public class TileBag {
             }
             scanner.close();
         }
-        Collections.shuffle(temp); //dont use this version of shuffle
+        Collections.shuffle(temp, new Random(RandomSeed.INSTANCE.getSeed())); //dont use this version of shuffle
         bag.addAll(temp);
 
     }
