@@ -86,4 +86,8 @@ public class GameManager {
         return currentGame.getPlayerScore(index);
     }
 
+    public int getRemainingTiles(){
+        return currentGame.getRemainingTiles();
+    }
+
 }
