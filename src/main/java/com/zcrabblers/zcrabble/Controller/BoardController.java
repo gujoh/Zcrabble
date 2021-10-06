@@ -118,6 +118,8 @@ public class BoardController implements Initializable, ILetterObservable {
         //boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setMouseTransparent(true);
+
+        //gameAnchor.setOnMouseDragReleased(event -> hideDragTile());
         gameAnchor.setOnMouseDragReleased(mouseDragEvent -> {
             if(mouseDragEvent.isConsumed())
                 return;
@@ -131,6 +133,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     private void hideDragTile(){
         dragImageView.setVisible(false);
+        //draggedFrom.setImage(dragImageView.getImage());
     }
 
     private void initDragTile() throws FileNotFoundException {
@@ -209,7 +212,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     switchImages(cellView);
                 }
             }
-            event.setDragDetect(false);
+            //event.setDragDetect(false);
             event.consume();
         });
     }
@@ -268,7 +271,7 @@ public class BoardController implements Initializable, ILetterObservable {
                 //cell dragged to wasn't empty so reset image
                 draggedFrom.setImage(dragImageView.getImage());
             }
-            event.setDragDetect(false);
+            //event.setDragDetect(false);
             event.consume();
         });
     }
