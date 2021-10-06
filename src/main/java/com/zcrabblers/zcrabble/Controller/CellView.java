@@ -34,7 +34,7 @@ public class CellView extends ImageView {
         return (int)Math.floor(getX() / getFitWidth());
     }
 
-    public int YCoord(){
+    public int yCoord(){
         return (int)Math.floor(getY() / getFitHeight());
     }
 }
