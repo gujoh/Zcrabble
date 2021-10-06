@@ -324,9 +324,22 @@ public class BoardController implements Initializable, ILetterObservable {
             counter++;
             spacing = -spacing;
 
-            img.setImage(new Image(new FileInputStream(IMAGE_PATH + gameManager.getRack().getTile(i).getLetter() + ".png")));
-
             registerRackCellEvents(img);
+        }
+        
+        //Sorts the rack in order to match the way the rack is represented in the model.
+        for(int i = 0; i < rackList.size(); i++){
+            for(int j = 1; j < rackList.size()-1; j++){
+                if(rackList.get(j-1).getX() > rackList.get(i).getX()){
+                    double temp = rackList.get(j-1).getX();
+                    rackList.get(j-1).setX(rackList.get(i).getX());
+                    rackList.get(i).setX(temp);
+                }
+            }
+        }
+        //Fills the rack with images.
+        for(int i = 0; i < rackList.size(); i++){
+            rackList.get(i).setImage(new Image(new FileInputStream(IMAGE_PATH + gameManager.getRack().getTile(i).getLetter() + ".png")));
         }
     }
 
