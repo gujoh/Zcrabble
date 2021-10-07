@@ -11,12 +11,16 @@ public class Game extends Thread implements IGame {
     private Board board;
     private Board tempBoard;
     private TileBag tileBag;
+    private int nrPLayers;
+    private int nrBots;
     private final LetterObserver observer = new LetterObserver();
 
-    public Game(){
+    public Game(int nrPlayers, int nrBots){
         this.board = new Board("defaultBoard");
         this.tempBoard = new Board("defaultBoard");
         this.tileBag = new TileBag("defaultBag");
+        this.nrPLayers = nrPlayers;
+        this.nrBots = nrBots;
     }
 
     public void newGame() {
@@ -29,8 +33,12 @@ public class Game extends Thread implements IGame {
             System.exit(1);
         }
         players = new ArrayList<>();
-        players.add(new Player(0,new Rack(tileBag)));
-        players.add(new Player(0, new Rack(tileBag)));
+        for(int i = 0; i < nrPLayers; i++){
+            players.add(new Player(0, new Rack(tileBag)));
+        }
+        for(int i = 0; i < nrBots; i++){
+            players.add(new Bot(0, new Rack(tileBag)));
+        }
         current = players.get(0);
     }
 

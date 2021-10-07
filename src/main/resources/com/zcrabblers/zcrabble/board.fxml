@@ -25,7 +25,7 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button layoutX="230.0" layoutY="322.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="begin-button" text="Begin" AnchorPane.rightAnchor="70.0">
+                        <Button layoutX="230.0" layoutY="322.0" mnemonicParsing="false" onAction="#newGame" prefHeight="40.0" prefWidth="100.0" styleClass="begin-button" text="Begin" AnchorPane.rightAnchor="70.0">
                            <font>
                               <Font size="20.0" />
                            </font>

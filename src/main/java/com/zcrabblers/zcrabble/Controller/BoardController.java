@@ -89,7 +89,7 @@ public class BoardController implements Initializable, ILetterObservable {
             }
         });
 
-        gameManager.newGame();
+        gameManager.newGame((int)playerSpinner.getValue()-(int)botSpinner.getValue(), (int)botSpinner.getValue());
         game = gameManager.getCurrentGame();
 
         endTurnButton.setOnAction(actionEvent -> {
@@ -113,7 +113,7 @@ public class BoardController implements Initializable, ILetterObservable {
         populateBoard();
         populateRack();
         //makeOneTestTile();
-        initDragTile();
+        //initDragTile();
         //rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
@@ -496,6 +496,23 @@ public class BoardController implements Initializable, ILetterObservable {
 
         //Maybe newCells can be located in Game, and this method updates that list
 
+    }
+
+    @FXML
+    private void newGame() throws FileNotFoundException {
+        gameManager.newGame((int)playerSpinner.getValue()-(int)botSpinner.getValue(), (int)botSpinner.getValue());
+        game = gameManager.getCurrentGame();
+        newGameMenuBackground.toBack();
+        rackAnchor.getChildren().clear();
+        rackList.clear();
+
+        for(Label label: scoreLabelList){
+            label.setText("");
+        }
+
+        populate();
+        updateScores();
+        updateTilesLeft();
     }
 
     //Closes the welcome screen by calling the toBack() method on the AnchorPane.

@@ -39,10 +39,10 @@ public class GameManager {
     /**
      * Creates a new Game and removes all subscribers from the observer.
      */
-    public void newGame(){
+    public void newGame(int nrPlayers, int nrBots){
         if(currentGame != null)
             currentGame.removeAllSubscribers();
-        currentGame = new Game();
+        currentGame = new Game(nrPlayers, nrBots);
         currentGame.start();
     }
 
@@ -89,5 +89,4 @@ public class GameManager {
     public int getRemainingTiles(){
         return currentGame.getRemainingTiles();
     }
-
 }
