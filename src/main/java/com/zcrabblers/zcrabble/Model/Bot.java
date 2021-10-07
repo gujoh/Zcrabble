@@ -8,10 +8,12 @@ import java.util.Map;
 public class Bot implements IPlayers {
 
     private int score;
+    private Rack rack;
     private static final Dictionary dict = Dictionary.getInstance();
 
-    public Bot(int score){
+    public Bot(int score, Rack rack){
         this.score = score;
+        this.rack = rack;
     }
 
     public void takeTurn(){
