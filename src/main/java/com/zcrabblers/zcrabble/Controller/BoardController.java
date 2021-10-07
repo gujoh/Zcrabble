@@ -89,7 +89,7 @@ public class BoardController implements Initializable, ILetterObservable {
             }
         });
 
-        gameManager.newGame((int)playerSpinner.getValue()-(int)botSpinner.getValue(), (int)botSpinner.getValue());
+        gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
         game = gameManager.getCurrentGame();
 
         endTurnButton.setOnAction(actionEvent -> {
@@ -416,7 +416,7 @@ public class BoardController implements Initializable, ILetterObservable {
         }
         //Fills the rack with images.
         for(int i = 0; i < rackList.size(); i++){
-            rackList.get(i).setImage(new Image(new FileInputStream(IMAGE_PATH + gameManager.getRack().getTile(i).getLetter() + ".png")));
+            rackList.get(i).setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRack().getTile(i).getLetter() + ".png")));
         }
     }
 
@@ -495,7 +495,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     @FXML
     private void newGame() throws FileNotFoundException {
-        gameManager.newGame((int)playerSpinner.getValue()-(int)botSpinner.getValue(), (int)botSpinner.getValue());
+        gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
         game = gameManager.getCurrentGame();
         newGameMenuBackground.toBack();
         rackAnchor.getChildren().clear();
