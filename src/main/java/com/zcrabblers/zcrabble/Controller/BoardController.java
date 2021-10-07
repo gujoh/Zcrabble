@@ -85,16 +85,16 @@ public class BoardController implements Initializable, ILetterObservable {
         playerSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-                botSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (int)playerSpinner.getValue(),0,1));
+                botSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4-(int)playerSpinner.getValue(),0,1));
             }
         });
 
         gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
         game = gameManager.getCurrentGame();
 
-        endTurnButton.setOnAction(actionEvent -> {
-            gameManager.getCurrentGame().endTurn();
-        });
+//        endTurnButton.setOnAction(actionEvent -> {
+//            gameManager.getCurrentGame().endTurn();
+//        });
 
         try {
             populate();
@@ -431,7 +431,7 @@ public class BoardController implements Initializable, ILetterObservable {
      * @param rackList a LetterTuple array that contains information about which tiles were added to a player's rack.
      */
     @Override
-    public void update(LetterTuple[] boardList, LetterTuple[] rackList){
+    public void update(ArrayList<LetterTuple> boardList, ArrayList<LetterTuple> rackList){
         for (LetterTuple letter : boardList){
             try {
                 cellList.get(coordinateToIndex(letter.getX(), letter.getY())).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
@@ -452,7 +452,7 @@ public class BoardController implements Initializable, ILetterObservable {
         updateTilesLeft();
     }
 
-    //Updates all the players' scores by getting them from the GameManager object.
+    //Updates all the players' scores by getting them from the Game object.
     //Gets called from update() and initialize().
     private void updateScores(){
         for(int i = 0; i < game.getPlayers().size(); i++){
@@ -460,7 +460,7 @@ public class BoardController implements Initializable, ILetterObservable {
         }
     }
 
-    //Updates the tilesLeftLabel by getting the remaining tiles from the GameManager object.
+    //Updates the tilesLeftLabel by getting the remaining tiles from the Game object.
     //Gets called from update() and initialize().
     private void updateTilesLeft(){
         tilesLeftLabel.setText(String.valueOf(game.getRemainingTiles()));
@@ -526,6 +526,10 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML
     private void closeNewGameMenu(){
         newGameMenuBackground.toBack();
+    }
+
+    @FXML private void endTurn(){
+        game.endTurn();
     }
 
     //Sets the Zcrabble theme dark mode. Gets called from the MenuController class.
