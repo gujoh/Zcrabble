@@ -16,6 +16,10 @@ public class Bot implements IPlayers {
         this.rack = rack;
     }
 
+    public void addScore(int score){
+        this.score += score;
+    }
+
     public void takeTurn(){
 
     }
