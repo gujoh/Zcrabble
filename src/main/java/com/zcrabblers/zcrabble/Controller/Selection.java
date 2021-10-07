@@ -45,10 +45,12 @@ public class Selection {
 
     public void select(CellView selection){
         selectedCell = selection;
+        System.out.println("Selected something.");
     }
 
     public void unSelect(){
         selectedCell = null; //TODO: avoid null
+        System.out.println("Unselected something.");
     }
 
     public int getStartX() {

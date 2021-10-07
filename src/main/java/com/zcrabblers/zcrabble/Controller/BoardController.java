@@ -202,11 +202,12 @@ public class BoardController implements Initializable, ILetterObservable {
                         Tile tile = game.getRack().getTile(selection.getStartX());
                         game.getRack().remove(selection.getStartX());
                         game.getTempBoard().placeTile(x, y, tile);
+                        cellView.setImage(selection.getSelectedImage());
+                        selection.changeToDefaultImage();
                     }else{
                         game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
-                        selection.changeToDefaultImage();
+                        switchImages(cellView);
                     }
-                    cellView.setImage(selection.getSelectedImage());
                 }else if(game.isBoardCellEmpty(x, y) && !game.isTempCellEmpty(x, y)){
                     if(selection.getFromRack())
                         game.switchRackBoardCells(selection.getStartX(), x, y);
@@ -214,7 +215,6 @@ public class BoardController implements Initializable, ILetterObservable {
                         game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
                     switchImages(cellView);
                 }
-                selection.changeToDefaultImage();
                 selection.unSelect();
             }else{
                 if(game.isBoardCellEmpty(x, y) && !game.isTempCellEmpty(x, y)){
@@ -237,13 +237,8 @@ public class BoardController implements Initializable, ILetterObservable {
                     switchImages(cellView);
                 }else{
                     // board -> rack
-                    if(game.isRackEmpty(x)){
-                        cellView.setImage(selection.getSelectedImage());
-                        selection.changeToDefaultImage();
-                    }
-                    else
-                        switchImages(cellView);
                     game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
+                    switchImages(cellView);
                 }
                 selection.unSelect();
             }else{
