@@ -156,8 +156,11 @@ public class BoardController implements Initializable, ILetterObservable {
 
     // Switches the images of the image that was dragged from and the parameter
     private void switchImages(CellView cellView){
-        draggedFrom.setImage(cellView.getImage());
-        cellView.setImage(dragImageView.getImage());
+        //draggedFrom.setImage(cellView.getImage());
+        //cellView.setImage(dragImageView.getImage());
+        Image image = selection.getSelectedImage();
+        selection.setImage(cellView.getImage());
+        cellView.setImage(image);
     }
 
     // Configure the drag image when dragging starts
@@ -174,6 +177,83 @@ public class BoardController implements Initializable, ILetterObservable {
         Point2D point = new Point2D(mouseEvent.getSceneX() - 45, mouseEvent.getSceneY() - 45);
         dragImageView.setX(point.getX());
         dragImageView.setY(point.getY());
+    }
+
+    /*
+        rack -> rack
+            switch on rack
+            switch image
+        board -> rack
+
+        rack -> board
+
+        board -> board
+
+     */
+
+    Selection selection = new Selection();
+    private void registerBoardCellClickEvent(CellView cellView){
+        cellView.setOnMousePressed(mouseEvent -> {
+            int x = pos2Coord(mouseEvent.getX());
+            int y = pos2Coord(mouseEvent.getY());
+            if(selection.hasSelected()){
+                if(game.isBoardCellEmpty(x, y) && game.isTempCellEmpty(x, y)){
+                    if(selection.getFromRack()){
+                        Tile tile = game.getRack().getTile(selection.getStartX());
+                        game.getRack().remove(selection.getStartX());
+                        game.getTempBoard().placeTile(x, y, tile);
+                    }else{
+                        game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
+                        selection.changeToDefaultImage();
+                    }
+                    cellView.setImage(selection.getSelectedImage());
+                }else if(game.isBoardCellEmpty(x, y) && !game.isTempCellEmpty(x, y)){
+                    if(selection.getFromRack())
+                        game.switchRackBoardCells(selection.getStartX(), x, y);
+                    else
+                        game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
+                    switchImages(cellView);
+                }
+                selection.changeToDefaultImage();
+                selection.unSelect();
+            }else{
+                if(game.isBoardCellEmpty(x, y) && !game.isTempCellEmpty(x, y)){
+                    selection.setFromRack(false);
+                    selection.select(cellView);
+                    selection.setStartX(pos2Coord(x));
+                    selection.setStartY(pos2Coord(y));
+                }
+            }
+        });
+
+    }
+    private void registerRackCellEvent(CellView cellView){
+        cellView.setOnMousePressed(mouseEvent -> {
+            int x = pos2Rack(mouseEvent.getX());
+            if(selection.hasSelected()){
+                if(selection.getFromRack()){
+                    // rack -> rack
+                    game.switchRackCells(selection.getStartX(), x);
+                    switchImages(cellView);
+                }else{
+                    // board -> rack
+                    if(game.isRackEmpty(x)){
+                        cellView.setImage(selection.getSelectedImage());
+                        selection.changeToDefaultImage();
+                    }
+                    else
+                        switchImages(cellView);
+                    game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
+                }
+                selection.unSelect();
+            }else{
+                if(!game.isRackEmpty(x)){
+                    selection.setFromRack(true);
+                    selection.select(cellView);
+                    selection.setStartX(x);
+                }
+            }
+        });
     }
 
     // Sets how tiles dragged from the rack behaves
@@ -298,7 +378,8 @@ public class BoardController implements Initializable, ILetterObservable {
 
                 //img.setImage((new Image(new FileInputStream(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png"))));
                 img.changeToDefaultImage();
-                registerBoardCellEvents(img);
+                //registerBoardCellEvents(img);
+                registerBoardCellClickEvent(img);
             }
             x = 0;
             y += 33;
@@ -324,7 +405,8 @@ public class BoardController implements Initializable, ILetterObservable {
             counter++;
             spacing = -spacing;
 
-            registerRackCellEvents(img);
+            //registerRackCellEvents(img);
+            registerRackCellEvent(img);
         }
         
         //Sorts the rack in order to match the way the rack is represented in the model.
