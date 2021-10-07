@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 public interface IGame {
-    void start();
     void addSubscriber(ILetterObservable sub);
     void removeSubscriber(ILetterObservable sub);
     void removeAllSubscribers();
