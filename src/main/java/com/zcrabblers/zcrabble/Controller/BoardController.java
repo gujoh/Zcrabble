@@ -120,15 +120,15 @@ public class BoardController implements Initializable, ILetterObservable {
         //rackAnchor.setMouseTransparent(true);
 
         //gameAnchor.setOnMouseDragReleased(event -> hideDragTile());
-        gameAnchor.setOnMouseDragReleased(mouseDragEvent -> {
-            if(mouseDragEvent.isConsumed())
-                return;
-            dragImageView.setVisible(false);
-            draggedFrom.setImage(dragImageView.getImage());
-            mouseDragEvent.setDragDetect(false);
-            System.out.println("reset");
-            System.out.println(mouseDragEvent.getTarget().toString());
-        });
+        //gameAnchor.setOnMouseDragReleased(mouseDragEvent -> {
+        //    if(mouseDragEvent.isConsumed())
+        //        return;
+        //    dragImageView.setVisible(false);
+        //    draggedFrom.setImage(dragImageView.getImage());
+        //    mouseDragEvent.setDragDetect(false);
+        //    System.out.println("reset");
+        //    System.out.println(mouseDragEvent.getTarget().toString());
+        //});
     }
 
     private void hideDragTile(){
@@ -179,17 +179,6 @@ public class BoardController implements Initializable, ILetterObservable {
         dragImageView.setY(point.getY());
     }
 
-    /*
-        rack -> rack
-            switch on rack
-            switch image
-        board -> rack
-
-        rack -> board
-
-        board -> board
-
-     */
 
     Selection selection = new Selection();
     private void registerBoardCellClickEvent(CellView cellView){
@@ -237,8 +226,15 @@ public class BoardController implements Initializable, ILetterObservable {
                     switchImages(cellView);
                 }else{
                     // board -> rack
+                    if(!game.isBoardCellEmpty(selection.getStartX(), selection.getStartY()))
+                        return;
                     game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
-                    switchImages(cellView);
+                    if(game.isTempCellEmpty(selection.getStartX(), selection.getStartY())){
+                        cellView.setImage(selection.getSelectedImage());
+                        selection.changeToDefaultImage();
+                    }else{
+                        switchImages(cellView);
+                    }
                 }
                 selection.unSelect();
             }else{
