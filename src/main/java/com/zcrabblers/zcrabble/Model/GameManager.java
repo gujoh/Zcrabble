@@ -43,7 +43,7 @@ public class GameManager {
         if(currentGame != null)
             currentGame.removeAllSubscribers();
         currentGame = new Game(nrPlayers, nrBots);
-        currentGame.start();
+        currentGame.newGame();
     }
 
     /**

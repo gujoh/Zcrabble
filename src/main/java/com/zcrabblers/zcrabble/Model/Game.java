@@ -47,7 +47,7 @@ public class Game implements IGame {
     @Override
     public void endTurn(){
         board.checkBoard(tempBoard);
-        board.countPoints(board.getNewCells(tempBoard));
+        current.addScore(board.countPoints(board.getNewCells(tempBoard)));
         getNextPlayer();
         current.beginTurn(tileBag);
         observer.notifySubscribers(boardList,rackList);

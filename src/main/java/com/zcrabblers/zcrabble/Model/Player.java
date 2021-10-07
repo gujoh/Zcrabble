@@ -10,6 +10,11 @@ public class Player implements IPlayers{
         this.rack = rack;
     }
 
+    @Override
+    public void addScore(int score){
+        this.score += score;
+    }
+
     public int getScore(){
         return score;
     }
