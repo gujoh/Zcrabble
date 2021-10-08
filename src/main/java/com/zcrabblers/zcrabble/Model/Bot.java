@@ -25,6 +25,11 @@ public class Bot implements IPlayers {
     }
 
     @Override
+    public void fillRack(TileBag bag){
+        rack.fillRack(bag);
+    }
+
+    @Override
     public void placeRackTile(int x, Tile tile){
 
     }

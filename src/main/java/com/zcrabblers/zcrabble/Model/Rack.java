@@ -92,6 +92,14 @@ public class Rack {
         return playerTiles[x].getLetter() == ' ';
     }
 
+    void fillRack(TileBag bag){
+        for(int i = 0; i < playerTiles.length; i++){
+            if(playerTiles[i].getLetter() == ' ' && !bag.isEmpty()){
+                playerTiles[i] = bag.takeTile();
+            }
+        }
+    }
+
     public void shuffleRack(){
         Random rand = new Random(RandomSeed.INSTANCE.getSeed());
         for(int i = 0; i < playerTiles.length - 2; i++){
@@ -100,5 +108,9 @@ public class Rack {
             playerTiles[randIndex] = playerTiles[i];
             playerTiles[i] = temp;
         }
+    }
+
+    Tile[] getTiles(){
+        return playerTiles;
     }
 }
