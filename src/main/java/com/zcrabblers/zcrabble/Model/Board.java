@@ -9,7 +9,7 @@ import java.util.Scanner;
 //TODO make a board deep copy
 
 public class Board {
-    private static final Dictionary dict = Dictionary.getInstance();
+    private final Dictionary dict = Dictionary.getInstance();
     private Cell[][] boardCells;
     private final String boardSelector;
 
@@ -218,7 +218,7 @@ public class Board {
     }
 
     /*--- Method for checking that all words in columns are valid. ---*/
-    private static boolean checkCol(Board board) {
+    private boolean checkCol(Board board) {
         boolean colAreIndeedValid = true;
         StringBuilder word = new StringBuilder();
 
@@ -247,7 +247,7 @@ public class Board {
     }
 
     /*--- Method for checking that all words in rows are valid. ---*/
-    private static boolean checkRow(Board board){
+    private boolean checkRow(Board board){
         boolean rowAreIndeedValid = true;
         StringBuilder word = new StringBuilder();
 
