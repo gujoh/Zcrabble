@@ -78,6 +78,8 @@ public class BoardController implements Initializable, ILetterObservable {
         scoreLabelList.add(p3Score);
         scoreLabelList.add(p4Score);
 
+        gameManager.addSubscriber(this);
+
         SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,4,2,1);
         SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
         playerSpinner.setValueFactory(playerValueFactory);
@@ -497,6 +499,7 @@ public class BoardController implements Initializable, ILetterObservable {
     private void newGame() throws FileNotFoundException {
         gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
         game = gameManager.getCurrentGame();
+        gameManager.addSubscriber(this);
         newGameMenuBackground.toBack();
         rackAnchor.getChildren().clear();
         rackList.clear();
