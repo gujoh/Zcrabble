@@ -26,7 +26,7 @@ public class TileBagTests {
         String validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
         while(!tilebag.isEmpty()){
             char letter = tilebag.getBag().peekFirst().getLetter();
-            int score = tilebag.getBag().pop().getTileScore();
+            int score = tilebag.takeTile().getTileScore();
             assertTrue(validChars.contains(String.valueOf(letter)));
             assertTrue(score <= 10);
         }

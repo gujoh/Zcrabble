@@ -1,4 +1,4 @@
 package com.zcrabblers.zcrabble.Tests;
 
-public class TestLetter {
+public class GameTests {
 }

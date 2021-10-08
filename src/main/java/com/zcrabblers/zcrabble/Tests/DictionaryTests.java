@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TestDictionary {
+public class DictionaryTests {
     @Test
     public void TestgetInstance(){
         Dictionary dictionary = Dictionary.getInstance();
