@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 
 public class Selection {
-    private Button selectedCell;
+    private CellView selectedCell;
     private boolean fromRack;
     private boolean selected;
 
@@ -15,11 +15,11 @@ public class Selection {
     }
 
     public void changeToDefaultImage(){
-        selectedCell.setGraphic(null);
+        selectedCell.changeToDefaultImage();
     }
 
-    public void setImage(Node image){
-        selectedCell.setGraphic(image);
+    public void setImage(Image image){
+        selectedCell.setImage(image);
     }
 
     public boolean getFromRack(){
@@ -34,8 +34,8 @@ public class Selection {
         return selected;//selectedCell != null;
     }
 
-    public Node getSelectedImage(){
-        return selectedCell.getGraphic();
+    public Image getSelectedImage(){
+        return selectedCell.getImage();
     }
 
     //public int getXCoord(){
@@ -46,7 +46,7 @@ public class Selection {
     //    return selectedCell.yCoord();
     //}
 
-    public void select(Button selection){
+    public void select(CellView selection){
         selected = true;
         selectedCell = selection;
         System.out.println("Selected something.");
