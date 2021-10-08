@@ -1,7 +1,6 @@
 package com.zcrabblers.zcrabble.Model;
 
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -97,8 +96,8 @@ public class Bot implements IPlayers {
     private static Cell[][] scrabbleWord(Cell[][] board, String rackString){
         int rows = board.length;
         int cols = board[0].length;
-        Cell[][] currentWord = new Cell[rows][cols];
-        Cell[][] bestWord = new Cell[rows][cols];
+        Cell[][] currentWord = new Cell[rows][cols];    //deep copy board
+        Cell[][] bestWord = new Cell[rows][cols];       //deep copy board
         int spaceBehind;
         int spaceAhead;
         ArrayList<String> writable;
@@ -115,9 +114,11 @@ public class Bot implements IPlayers {
                 spaceAhead = checkSpaceAhead(board, row, col);
                 wordSpace = createWordSpace(spaceBehind,spaceAhead,letters);
                 writable = actuallyWritable(wordSpace,tempRack.toString(),spaceBehind,spaceAhead,letters.toString());
-
             }
-            
+            letters.delete(0,letters.length());
+            tempRack = new StringBuilder(rackString);
+            wordSpace = new char[]{};
+
         }
     return bestWord;
     }
@@ -191,7 +192,7 @@ public class Bot implements IPlayers {
     /*--- Don't touch things below this line ---*
 
     /*---   Takes in a string of letters and returns all dictionary words that can be written with them   ---*/
-        private static ArrayList<String> canWrite (String letters){
+    private static ArrayList<String> canWrite (String letters){
             ArrayList<String> writableWords = new ArrayList<>();
             Map<Character, Integer> charCountMap = getCharCountMap(letters);
             for (String s : dict.getDictArray()) {
@@ -212,8 +213,8 @@ public class Bot implements IPlayers {
             return writableWords;
         }
 
-        /*---   Takes in a string of letters and returns HashMap with its Characters as keys and number of times it is used as value   ---*/
-        private static Map<Character, Integer> getCharCountMap (String letters){
+    /*---   Takes in a string of letters and returns HashMap with its Characters as keys and number of times it is used as value   ---*/
+    private static Map<Character, Integer> getCharCountMap (String letters){
             Map<Character, Integer> charCountMap = new HashMap<>();
             for (int i = 0; i < letters.length(); i++) {
 
