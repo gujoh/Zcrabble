@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,7 +21,7 @@ public class Dictionary {
      * Returns current Dictionary, if there is none; creates a dictionary and returns it
      * @return current Dictionary
      */
-    static Dictionary getInstance(){
+    public static Dictionary getInstance(){
 
         return Objects.requireNonNullElseGet(instance, Dictionary::new);
     }
@@ -29,7 +30,7 @@ public class Dictionary {
      * @return dictionary as an ArrayList.
      */
 
-    ArrayList<String> getDictArray(){
+    public ArrayList<String> getDictArray(){
         return dictArray;
     }
 
@@ -38,8 +39,8 @@ public class Dictionary {
      * @param word is the String to be tested against the dictionary.
      * @return dictionary contains word
      */
-    boolean checkWord (String word)  {
-        return dictArray.contains(word);
+    public boolean checkWord (String word)  {
+        return dictArray.contains(word.toUpperCase());
     }
 
 
