@@ -33,7 +33,7 @@ public class TileBag {
             }
             scanner.close();
         }
-        Collections.shuffle(temp, new Random(RandomSeed.INSTANCE.getSeed())); //dont use this version of shuffle
+        Collections.shuffle(temp, new Random(RandomSeed.INSTANCE.getSeed()));
         bag.addAll(temp);
 
     }

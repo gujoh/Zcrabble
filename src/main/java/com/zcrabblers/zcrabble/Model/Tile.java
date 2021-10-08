@@ -1,7 +1,5 @@
 package com.zcrabblers.zcrabble.Model;
 
-import javafx.geometry.Point2D;
-
 public class Tile {
     private char letter;
     private int tileScore;
