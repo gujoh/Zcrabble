@@ -125,6 +125,7 @@ public class Bot implements IPlayers {
 
 
 
+
     //TODO this method should be able to test for all positions of "letters" in the String,
     // right now it only checks if the word fits with the first instance of "letters" in String
     private static ArrayList<String> actuallyWritable(char[] wordSpace, String rackAndFriends, int spaceBehind, int spaceAhead, String letters) {
