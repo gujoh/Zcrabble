@@ -44,7 +44,6 @@ public class Bot implements IPlayers {
     public void beginTurn(TileBag bag) {
 
     }
-    //TODO bot need to be able to find all previous letter tiles and build a word with them in
     //TODO remove all words that does not fit with the board around it. (this seems to be the tricky part)
 
 
@@ -72,6 +71,24 @@ public class Bot implements IPlayers {
 
      */
 
+    /*
+
+    /*
+
+                    writeToTempBoard(tempBoard, writable, i, j, letters.toString(), spaceBehind);
+                    print2D(tempBoard);
+
+                letters.delete(0,letters.length());
+                tempRack = new StringBuilder(rack);
+                wordSpace = new char[0];
+                tempBoard = boardCopy(board);
+            }
+        }
+        return tempBoard;
+    }
+
+
+     */
 
     private static Cell[][] scrabbleWord(Cell[][] board, String rackString){
         int rows = board.length;
@@ -92,7 +109,7 @@ public class Bot implements IPlayers {
 
                 spaceBehind = checkSpaceBehind(board, row, col-letters.length());
                 spaceAhead = checkSpaceAhead(board, row, col);
-                wordSpace = createWordSpace(col-letters.length(),spaceBehind,spaceAhead,letters);
+                wordSpace = createWordSpace(spaceBehind,spaceAhead,letters);
                 writable = actuallyWritable(wordSpace,tempRack.toString(),spaceBehind,spaceAhead,letters.toString());
 
             }
@@ -101,16 +118,43 @@ public class Bot implements IPlayers {
     return bestWord;
     }
 
-    private static ArrayList<String> actuallyWritable(char[] wordSpace, String toString, int spaceBehind, int spaceAhead, String toString1) {
-        return null;
+
+
+    //TODO this method should be able to test for all positions of "letters" in the String,
+    // right now it only checks if the word fits with the first instance of "letters" in String
+    private static ArrayList<String> actuallyWritable(char[] wordSpace, String rackAndFriends, int spaceBehind, int spaceAhead, String letters) {
+
+        ArrayList<String> writable = canWrite(rackAndFriends);
+        ArrayList<String> actuallyWritable = new ArrayList<>();
+        for (String s : writable){
+            // eliminates all words that does not:
+            if (s.contains(letters) &&                      //contain the letter(s) in order
+                    s.length() <= wordSpace.length &&       //fit inside the size of the array
+                    s.indexOf(letters) <= spaceBehind &&    //have enough space before and after the letter(s)
+                    (s.length() - (s.indexOf(letters)+letters.length())) <= spaceAhead){
+                actuallyWritable.add(s);
+            }
+        }
+        return actuallyWritable;
     }
 
-    private static char[] createWordSpace(int i, int spaceBehind, int spaceAhead, StringBuilder letters) {
-        return null;
+    private static char[] createWordSpace(int spaceBehind, int spaceAhead, StringBuilder letters) {
+        char [] wordSpace = new char[spaceBehind+letters.length()+spaceAhead];
+        for (int i = spaceBehind; i <spaceBehind+letters.length() ; i++) {
+            wordSpace[i] = letters.charAt(i-spaceBehind);
+        }
+        return wordSpace;
     }
 
     private static int checkSpaceAhead(Cell[][] board, int row, int col) {
-        return 0;
+        int space = 0;
+        for (int k = col+1; k < board.length ; k++) {
+            if (!board[row][k].isEmpty()){
+                space -= 1;
+                break;
+            }else space += 1;
+        }
+        return space;
     }
 
     private static int checkSpaceBehind(Cell[][] board, int row, int startCol) {
@@ -124,31 +168,6 @@ public class Bot implements IPlayers {
         return space;
     }
 
-
-/*
-                    spaceBehind = checkSpaceBehind(tempBoard,i,startOfWord);
-                    spaceAhead = checkSpaceAhead(tempBoard,i,j);
-                    wordSpace = createWordSpace(startOfWord,spaceBehind,spaceAhead,letters);
-                    writable = actuallyWritable(wordSpace,tempRack.toString(),spaceBehind,spaceAhead,letters.toString());
-
-
-    /*
-
-                    writeToTempBoard(tempBoard, writable, i, j, letters.toString(), spaceBehind);
-                    print2D(tempBoard);
-                }
-                letters.delete(0,letters.length());
-                tempRack = new StringBuilder(rack);
-                wordSpace = new char[0];
-                tempBoard = boardCopy(board);
-            }
-        }
-        return tempBoard;
-    }
-
-
-     */
-
     private static void searchForLetters(Cell[][] board, StringBuilder letters, StringBuilder tempRack, int i, int j) {
 
         if (!board[i][j].isEmpty()) {
@@ -156,10 +175,8 @@ public class Bot implements IPlayers {
             letters.append(board[i][j].getTileLetter());
 
             //TODO make this loop better, while j != cols-1 && !j+1.isEmpty
-            while (!board[i][j == board[0].length - 1 ? j : j + 1].isEmpty()) {
-                if (j == board[0].length - 1) {
-                    break;
-                }
+            while (!board[i][j == board[0].length-1?j:j+1].isEmpty()) {
+                if (j == board[0].length - 1) {break;}
                 j++;
                 tempRack.append(board[i][j].getTileLetter());
                 letters.append(board[i][j].getTileLetter());
