@@ -22,4 +22,6 @@ public interface IGame {
     List<IPlayers> getPlayers();
     int getPlayerScore(int index);
     int getRemainingTiles();
+    void shuffleCurrentRack();
+    char getRackLetter(int index);
 }

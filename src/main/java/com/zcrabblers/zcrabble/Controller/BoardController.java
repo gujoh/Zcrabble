@@ -413,8 +413,17 @@ public class BoardController implements Initializable, ILetterObservable {
             }
         }
         //Fills the rack with images.
+        setRackImages();
+    }
+
+    //Adds the correct images to the rack.
+    private void setRackImages(){
         for(int i = 0; i < rackList.size(); i++){
-            rackList.get(i).setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRack().getTile(i).getLetter() + ".png")));
+            try {
+                rackList.get(i).setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png")));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -467,14 +476,8 @@ public class BoardController implements Initializable, ILetterObservable {
     //Shuffles the current player's rack.
     @FXML
     private void shuffleRack(){
-        Random rand = new Random(RandomSeed.INSTANCE.getSeed());
-        for(int i = 0; i < rackList.size()-2; i++){
-            int randomIndex = rand.nextInt(rackList.size());
-            int tempX = (int)rackList.get(randomIndex).getX();
-            rackList.get(randomIndex).setX(rackList.get(i).getX());
-            rackList.get(i).setX(tempX);
-            Collections.swap(rackList, i, randomIndex); //Do not know if we need this.
-        }
+        game.shuffleCurrentRack();
+        setRackImages();
     }
 
     private void addNewCell(){
