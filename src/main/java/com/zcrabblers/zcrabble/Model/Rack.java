@@ -1,5 +1,10 @@
 package com.zcrabblers.zcrabble.Model;
 
+import com.zcrabblers.zcrabble.Utils.RandomSeed;
+
+import java.util.Collections;
+import java.util.Random;
+
 public class Rack {
     private Tile[] playerTiles = new Tile[7];
 
@@ -85,5 +90,15 @@ public class Rack {
      */
     public boolean isEmpty(int x){
         return playerTiles[x].getLetter() == ' ';
+    }
+
+    public void shuffleRack(){
+        Random rand = new Random(RandomSeed.INSTANCE.getSeed());
+        for(int i = 0; i < playerTiles.length - 2; i++){
+            int randIndex = rand.nextInt(playerTiles.length);
+            Tile temp = playerTiles[randIndex];
+            playerTiles[randIndex] = playerTiles[i];
+            playerTiles[i] = temp;
+        }
     }
 }

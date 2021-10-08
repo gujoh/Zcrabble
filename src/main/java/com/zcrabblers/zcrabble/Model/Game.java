@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game extends Thread implements IGame {
+public class Game implements IGame {
 
     private List<IPlayers> players;
     private IPlayers current;
@@ -13,6 +13,8 @@ public class Game extends Thread implements IGame {
     private TileBag tileBag;
     private int nrPLayers;
     private int nrBots;
+    private ArrayList<LetterTuple> boardList = new ArrayList<>();
+    private ArrayList<LetterTuple> rackList = new ArrayList<>();
     private final LetterObserver observer = new LetterObserver();
 
     public Game(int nrPlayers, int nrBots){
@@ -43,19 +45,14 @@ public class Game extends Thread implements IGame {
     }
 
     @Override
-    public void endTurn(){
-        experimentalEndTurn();
-    }
-
-    @Override
-    public void run(){
-        experimentalGameLoop();
-    }
-
-    @Override
-    public void start(){
-        newGame();
-        super.start();
+    public void endTurn(){ // DISCUSS THIS.
+        board.checkBoard(tempBoard);
+        current.addScore(board.countPoints(board.getNewCells(tempBoard)));
+        getNextPlayer();
+        current.beginTurn(tileBag);
+        observer.notifySubscribers(boardList,rackList);
+        boardList.clear();
+        rackList.clear();
     }
 
     public synchronized void experimentalEndTurn(){
@@ -169,6 +166,11 @@ public class Game extends Thread implements IGame {
     }
 
     @Override
+    public void shuffleCurrentRack(){
+        current.getRack().shuffleRack();
+    }
+
+    @Override
     public Rack getRack(){
         return current.getRack();
     }
@@ -188,5 +190,10 @@ public class Game extends Thread implements IGame {
 
     public int getPlayerScore(int index){
         return players.get(index).getScore();
+    }
+
+    @Override
+    public char getRackLetter(int index){
+        return current.getRackTile(index).getLetter();
     }
 }

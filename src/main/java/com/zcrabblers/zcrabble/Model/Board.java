@@ -93,34 +93,43 @@ public class Board {
         boolean up = true;
         // it's worth noting when iterating over i what we are actually doing is checking everything in the same row of j
         // so iterating over i really means checking j and the reverse is true aswell
-        while(i + iIterator < boardCells.length && j + jIterator < boardCells.length && !stop){
-            //we only want to add the cell if the letter of that cell is not empty
-            if(boardCells[i+iIterator][j+jIterator].getPlacedTile().getLetter() != ' ') {
-                //when adding cells we make sure to save the coordinates in a "CellTuple"
-                wordList.get(wordCount).add(new CellTuple(i+iIterator,j+jIterator,boardCells[i+iIterator][j+jIterator]));
+        while(true){
+            if(i + iIterator < boardCells.length && j + jIterator < boardCells.length &&
+                    i + iIterator >= 0 && j +jIterator >= 0) {
+                //we only want to add the cell if the letter of that cell is not empty
+                if (boardCells[i + iIterator][j + jIterator].getPlacedTile().getLetter() != ' ') {
+                    //when adding cells we make sure to save the coordinates in a "CellTuple"
+                    wordList.get(wordCount).add(new CellTuple(i + iIterator, j + jIterator, boardCells[i + iIterator][j + jIterator]));
+                }
+                //when we've checked both ways and then find and empty cell we stop the loop since we've found our word
+                if (boardCells[i + iIterator][j + jIterator].getPlacedTile().getLetter() == ' ' && !up) {
+                    break;
+                }
+                //first time we find an empty cell we changed direction
+                if (boardCells[i + iIterator][j + jIterator].getPlacedTile().getLetter() == ' ' && up) {
+                    if (ignoreI) iIterator = -1;
+                    if (!ignoreI) jIterator = -1;
+                    up = false;
+                }
+                // if we are going "up" or in other words we've not changed directions yet, we go +
+                // if we have changed direction we go further in that direction and go -
+                //ignoreI exists to make sure we iterate over the right Iterator
+                else {
+                    if (up) {
+                        if (ignoreI) iIterator++;
+                        if (!ignoreI) jIterator++;
+                    } else {
+                        if (ignoreI) iIterator--;
+                        if (!ignoreI) jIterator--;
+                    }
+                }
             }
-            //when we've checked both ways and then find and empty cell we stop the loop since we've found our word
-            if(boardCells[i+iIterator][j+jIterator].getPlacedTile().getLetter() == ' ' && !up){
-                stop = true;
-            }
-            //first time we find an empty cell we changed direction
-            if(boardCells[i+iIterator][j+jIterator].getPlacedTile().getLetter() == ' ' && up){
+            else if(up){
                 if (ignoreI) iIterator = -1;
                 if (!ignoreI) jIterator = -1;
                 up = false;
             }
-            // if we are going "up" or in other words we've not changed directions yet we go +
-            // if we have changed direction we go further in that direction and go -
-            //ignoreI exists to make sure we iterate over the right Iterator
-            else {
-                if (up) {
-                    if (ignoreI) iIterator++;
-                    if (!ignoreI) jIterator++;
-                } else {
-                    if (ignoreI) iIterator--;
-                    if (!ignoreI) jIterator--;
-                }
-            }
+            else break;
         }
     }
     //given the word list and new cells it gives back the point value of those
@@ -158,12 +167,14 @@ public class Board {
                     if(!addedCell) letterScore += cells.get(x).getCell().getPlacedTile().getTileScore();
                 }
             }
+            score += letterScore * totalWordMultiplier;
+            letterScore = 0;
+            totalWordMultiplier = 1;
         }
         return score;
     }
 
     // returns a list of new cells comparing the differance between two boards
-
     public List<CellTuple> getNewCells(Board tempBoard){
         //CellTuples have i,j coordinate and a Cell
         List<CellTuple> newCells = new ArrayList<>();

@@ -68,7 +68,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="endTurnButton" layoutX="463.0" layoutY="540.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="62.0" styleClass="shuffle-button" text="End Turn" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Button fx:id="endTurnButton" layoutX="463.0" layoutY="540.0" mnemonicParsing="false" onAction="#endTurn" prefHeight="54.0" prefWidth="62.0" styleClass="shuffle-button" text="End Turn" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>

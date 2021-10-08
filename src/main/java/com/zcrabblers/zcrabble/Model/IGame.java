@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 public interface IGame {
-    void start();
     void addSubscriber(ILetterObservable sub);
     void removeSubscriber(ILetterObservable sub);
     void removeAllSubscribers();
@@ -23,4 +22,6 @@ public interface IGame {
     List<IPlayers> getPlayers();
     int getPlayerScore(int index);
     int getRemainingTiles();
+    void shuffleCurrentRack();
+    char getRackLetter(int index);
 }
