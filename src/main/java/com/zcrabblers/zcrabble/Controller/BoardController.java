@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -158,12 +159,10 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     // Switches the images of the image that was dragged from and the parameter
-    private void switchImages(CellView cellView){
-        //draggedFrom.setImage(cellView.getImage());
-        //cellView.setImage(dragImageView.getImage());
-        Image image = selection.getSelectedImage();
-        selection.setImage(cellView.getImage());
-        cellView.setImage(image);
+    private void switchImages(Button button){
+        Node image = selection.getSelectedImage();
+        selection.setImage(button.getGraphic());
+        button.setGraphic(image);
     }
 
     // Configure the drag image when dragging starts
@@ -184,17 +183,17 @@ public class BoardController implements Initializable, ILetterObservable {
 
 
     Selection selection = new Selection();
-    private void registerBoardCellClickEvent(CellView cellView){
-        cellView.setOnMousePressed(mouseEvent -> {
-            int x = pos2Coord(mouseEvent.getX());
-            int y = pos2Coord(mouseEvent.getY());
+    private void registerBoardCellClickEvent(Button cellView){
+        cellView.setOnAction(event -> {
+            int x = pos2Coord(cellView.getLayoutX()+16);
+            int y = pos2Coord(cellView.getLayoutY()+16);
             if(selection.hasSelected()){
                 if(game.isBoardCellEmpty(x, y) && game.isTempCellEmpty(x, y)){
                     if(selection.getFromRack()){
                         Tile tile = game.getRack().getTile(selection.getStartX());
                         game.getRack().remove(selection.getStartX());
                         game.getTempBoard().placeTile(x, y, tile);
-                        cellView.setImage(selection.getSelectedImage());
+                        cellView.setGraphic(selection.getSelectedImage());
                         selection.changeToDefaultImage();
                     }else{
                         game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
@@ -216,23 +215,21 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setStartY(pos2Coord(y));
                 }
             }
-            mouseEvent.consume();
         });
 
     }
-    private void registerRackCellEvent(CellView cellView){
-        cellView.setOnMousePressed(mouseEvent -> {
-            int x = pos2Rack(mouseEvent.getX());
+    private void registerRackCellEvent(Button cellView){
+        cellView.setOnAction(event -> {
+            int x = pos2Rack(cellView.getLayoutX()+16);
             if(selection.hasSelected()){
                 if(selection.getFromRack()){
                     // rack -> rack
                     game.switchRackCells(selection.getStartX(), x);
-                    switchImages(cellView);
                 }else{
                     // board -> rack
                     game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
-                    switchImages(cellView);
                 }
+                switchImages(cellView);
                 selection.unSelect();
             }else{
                 if(!game.isRackEmpty(x)){
@@ -241,7 +238,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setStartX(x);
                 }
             }
-            mouseEvent.consume();
+
         });
     }
 
@@ -271,14 +268,14 @@ public class BoardController implements Initializable, ILetterObservable {
                 game.switchRackCells(startX, x);
 
                 // switch images
-                switchImages(cellView);
+                //switchImages(cellView);
             }else{
                 game.switchRackBoardCells(x, startX, startY);
                 if(game.isRackEmpty(x)){
                     cellView.setImage(dragImageView.getImage());
                 }else{
                     // dragging from the tempboard to the rack switches the tiles
-                    switchImages(cellView);
+                    //switchImages(cellView);
                 }
             }
             //event.setDragDetect(false);
@@ -334,7 +331,7 @@ public class BoardController implements Initializable, ILetterObservable {
                 }else{
                     game.switchTempCells(startX, startY, x, y);
                 }
-                switchImages(cellView);
+                //switchImages(cellView);
             }
             else{
                 //cell dragged to wasn't empty so reset image
@@ -372,21 +369,12 @@ public class BoardController implements Initializable, ILetterObservable {
                 cellList.add(img);
                 img.setContentDisplay(ContentDisplay.CENTER);
                 img.setPrefSize(33,33);
-//                img.setFitHeight(33);
-//                img.setFitWidth(33);
-//                img.setLayoutX(x);
-//                img.setLayoutY(y);
                 img.relocate(x,y);
-                //img.getGraphic().setScaleX((double)33/50);
-                //img.getGraphic().setScaleY((double)33/50);
-//                img.setX(x);
-//                img.setY(y);
+
                 x+=33;
 
-                //img.setImage((new Image(new FileInputStream(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png"))));
-               // img.changeToDefaultImage();
-                //registerBoardCellEvents(img);
-               // registerBoardCellClickEvent(img);
+                // registerBoardCellEvents(img);
+                registerBoardCellClickEvent(img);
             }
             x = 0;
             y += 33;
@@ -423,7 +411,7 @@ public class BoardController implements Initializable, ILetterObservable {
             spacing = -spacing;
             img.setPickOnBounds(true);
             //registerRackCellEvents(img);
-           // registerRackCellEvent(img);
+            registerRackCellEvent(img);
         }
         
 //        //Sorts the rack in order to match the way the rack is represented in the model.
