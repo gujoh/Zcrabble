@@ -187,32 +187,62 @@ public class BoardController implements Initializable, ILetterObservable {
         cellView.setOnAction(event -> {
             int x = pos2Coord(cellView.getLayoutX()+16);
             int y = pos2Coord(cellView.getLayoutY()+16);
+            //System.out.println(x);
+            //System.out.println(y);
             if(selection.hasSelected()){
-                if(game.isBoardCellEmpty(x, y) && game.isTempCellEmpty(x, y)){
+                if(game.isBoardCellEmpty(y, x) && game.isTempCellEmpty(y, x)){
+                    // Rack -> Board(Tom)
                     if(selection.getFromRack()){
                         Tile tile = game.getRack().getTile(selection.getStartX());
-                        game.getRack().remove(selection.getStartX());
-                        game.getTempBoard().placeTile(x, y, tile);
+                        game.getTempBoard().placeTile(y, x, tile);
+
                         cellView.setGraphic(selection.getSelectedImage());
                         selection.changeToDefaultImage();
+
+                        game.getRack().remove(selection.getStartX());
                     }else{
-                        game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
-                        switchImages(cellView);
+                        // Board -> Board(Tom)
+                        Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
+                        game.getTempBoard().removeTile(selection.getStartY(), selection.getStartX());
+                        game.getTempBoard().placeTile(y, x, tile);
+
+                        cellView.setGraphic(selection.getSelectedImage());
+                        selection.changeToDefaultImage();
+                        //game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
+                        //switchImages(cellView);
                     }
-                }else if(game.isBoardCellEmpty(x, y) && !game.isTempCellEmpty(x, y)){
-                    if(selection.getFromRack())
-                        game.switchRackBoardCells(selection.getStartX(), x, y);
-                    else
-                        game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
-                    switchImages(cellView);
+                }else if(game.isBoardCellEmpty(y, x) && !game.isTempCellEmpty(y, x)){
+                    if(selection.getFromRack()){
+                        // Rack -> Board
+                        //game.switchRackBoardCells(selection.getStartX(), x, y);
+                        Tile tile = game.getRack().getTile(selection.getStartX());
+                        game.getRack().remove(selection.getStartX());
+                        game.getTempBoard().placeTile(y, x, tile);
+
+                        Node im = selection.getSelectedImage();
+                        selection.setImage(cellView.getGraphic());
+                        cellView.setGraphic(im);
+                    }
+                    else{
+                        // Board -> Board
+                        //game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
+                        Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
+                        game.getTempBoard().removeTile(y, x);
+                        game.getTempBoard().placeTile(y, x, tile);
+
+                        Node im = selection.getSelectedImage();
+                        selection.setImage(cellView.getGraphic());
+                        cellView.setGraphic(im);
+                    }
+                    //switchImages(cellView);
                 }
                 selection.unSelect();
             }else{
-                if(game.isBoardCellEmpty(x, y) && !game.isTempCellEmpty(x, y)){
+                if(game.isBoardCellEmpty(y, x) && !game.isTempCellEmpty(y, x)){
                     selection.setFromRack(false);
                     selection.select(cellView);
-                    selection.setStartX(pos2Coord(x));
-                    selection.setStartY(pos2Coord(y));
+                    selection.setStartX(x);
+                    selection.setStartY(y);
                 }
             }
         });
@@ -221,15 +251,52 @@ public class BoardController implements Initializable, ILetterObservable {
     private void registerRackCellEvent(Button cellView){
         cellView.setOnAction(event -> {
             int x = pos2Rack(cellView.getLayoutX()+16);
+            //System.out.println(x);
             if(selection.hasSelected()){
                 if(selection.getFromRack()){
-                    // rack -> rack
-                    game.switchRackCells(selection.getStartX(), x);
+                    if(game.isRackEmpty(x)){
+                        // rack -> rack(tom)
+                        Tile tile = game.getRack().getTile(selection.getStartX());
+                        game.getRack().set(x, tile);
+
+                        cellView.setGraphic(selection.getSelectedImage());
+                        selection.changeToDefaultImage();
+
+                        game.getRack().remove(selection.getStartX());
+                    }else{
+                        Tile tile = game.getRack().getTile(selection.getStartX());
+                        game.getRack().set(selection.getStartX(), game.getRack().getTile(x));
+                        game.getRack().set(x, tile);
+
+                        Node im = selection.getSelectedImage();
+                        selection.setImage(cellView.getGraphic());
+                        cellView.setGraphic(im);
+                    }
+                    //game.switchRackCells(selection.getStartX(), x);
                 }else{
-                    // board -> rack
-                    game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
+                    if(game.isRackEmpty(x)){
+                        // board -> rack(tom)
+                        Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
+                        game.getRack().set(x, tile);
+
+                        cellView.setGraphic(selection.getSelectedImage());
+                        selection.changeToDefaultImage();
+
+                        game.getTempBoard().removeTile(selection.getStartY(), selection.getStartX());
+                    }else{
+                        // board -> rack
+                        Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
+                        game.getTempBoard().placeTile(selection.getStartY(), selection.getStartX(), game.getRack().getTile(x));
+                        game.getRack().set(x, tile);
+
+                        Node im = selection.getSelectedImage();
+                        selection.setImage(cellView.getGraphic());
+                        cellView.setGraphic(im);
+                    }
+                    //System.out.println(selection.getFromRack());
+                    //game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
                 }
-                switchImages(cellView);
+                //switchImages(cellView);
                 selection.unSelect();
             }else{
                 if(!game.isRackEmpty(x)){
@@ -414,16 +481,16 @@ public class BoardController implements Initializable, ILetterObservable {
             registerRackCellEvent(img);
         }
         
-//        //Sorts the rack in order to match the way the rack is represented in the model.
-//        for(int i = 0; i < rackList.size(); i++){
-//            for(int j = 1; j < rackList.size()-1; j++){
-//                if(rackList.get(j-1).getX() > rackList.get(i).getX()){
-//                    double temp = rackList.get(j-1).getX();
-//                    rackList.get(j-1).setX(rackList.get(i).getX());
-//                    rackList.get(i).setX(temp);
-//                }
-//            }
-//        }
+        //Sorts the rack in order to match the way the rack is represented in the model.
+        for(int i = 0; i < rackList.size(); i++){
+            for(int j = 1; j < rackList.size()-1; j++){
+                if(rackList.get(j-1).getLayoutX() > rackList.get(i).getLayoutX()){
+                    double temp = rackList.get(j-1).getLayoutX();
+                    rackList.get(j-1).setLayoutX(rackList.get(i).getLayoutX());
+                    rackList.get(i).setLayoutX(temp);
+                }
+            }
+        }
         //Fills the rack with images.
         setRackImages();
     }

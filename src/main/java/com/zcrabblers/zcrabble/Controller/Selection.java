@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 public class Selection {
     private Button selectedCell;
     private boolean fromRack;
+    private boolean selected;
 
     private int startX, startY;
     public Selection(){
@@ -30,7 +31,7 @@ public class Selection {
     }
 
     public boolean hasSelected(){
-        return selectedCell != null;
+        return selected;//selectedCell != null;
     }
 
     public Node getSelectedImage(){
@@ -46,12 +47,14 @@ public class Selection {
     //}
 
     public void select(Button selection){
+        selected = true;
         selectedCell = selection;
         System.out.println("Selected something.");
     }
 
     public void unSelect(){
-        selectedCell = null; //TODO: avoid null
+        //selectedCell = null; //TODO: avoid null
+        selected = false;
         System.out.println("Unselected something.");
     }
 

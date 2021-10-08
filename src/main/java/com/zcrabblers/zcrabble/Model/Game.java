@@ -191,8 +191,9 @@ public class Game implements IGame {
      */
     @Override
     public void switchRackBoardCells(int rackX, int boardX, int boardY) {
-        Tile tile = tempBoard.getTile(boardX, boardY);
-        tempBoard.placeTile(boardX, boardY, current.getRackTile(rackX));
+        Tile tile = tempBoard.getTile(boardY, boardX);
+        System.out.println("From: " + tile.getLetter());
+        tempBoard.placeTile(boardY, boardX, current.getRackTile(rackX));
         current.placeRackTile(rackX, tile);
     }
 

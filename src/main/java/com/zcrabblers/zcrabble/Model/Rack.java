@@ -51,7 +51,7 @@ public class Rack {
      * @param index The position to remove at.
      */
     public void remove(int index){
-        Tile tile = playerTiles[index];
+        //Tile tile = playerTiles[index];
         playerTiles[index] = new Tile(' ', 0);
     }
 
