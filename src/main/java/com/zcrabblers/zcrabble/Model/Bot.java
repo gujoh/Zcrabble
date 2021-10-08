@@ -85,10 +85,10 @@ public class Bot implements IPlayers {
                 tempRack = new StringBuilder(rack);
                 wordSpace = new char[0];
                 tempBoard = boardCopy(board);
-            }
-        }
+
+
         return tempBoard;
-    }
+
 
 
      */
@@ -96,8 +96,10 @@ public class Bot implements IPlayers {
     private static Cell[][] scrabbleWord(Cell[][] board, String rackString){
         int rows = board.length;
         int cols = board[0].length;
-        Cell[][] currentWord = new Cell[rows][cols];    //deep copy board
-        Cell[][] bestWord = new Cell[rows][cols];       //deep copy board
+        Cell[][] currentBoard = copyBoardCells(board);
+        Cell[][] bestBoard = copyBoardCells(board);       //deep copy board
+        String bestWord = "";
+
         int spaceBehind;
         int spaceAhead;
         ArrayList<String> writable;
@@ -113,28 +115,55 @@ public class Bot implements IPlayers {
                 spaceBehind = checkSpaceBehind(board, row, col-letters.length());
                 spaceAhead = checkSpaceAhead(board, row, col);
                 wordSpace = createWordSpace(spaceBehind,spaceAhead,letters);
-                writable = actuallyWritable(wordSpace,tempRack.toString(),spaceBehind,spaceAhead,letters.toString());
+                writable = actuallyWritable(wordSpace,tempRack.toString(),spaceBehind,spaceAhead,letters.toString(),bestWord);
+
+
+                /*
+                Best word to write here
+                is the longest one that is still part of an overall valid board
+
+                sort the words by lengt, biggest start on index 0 all words smaller than previo
+                go trough list of words, the first word that is valid is the best word for the given position
+                }
+                 */
+
+
+
+
             }
             letters.delete(0,letters.length());
             tempRack = new StringBuilder(rackString);
             wordSpace = new char[]{};
 
         }
-    return bestWord;
+    return bestBoard;
+    }
+    //TODO sort the potencial words.
+    private static void quickSort(ArrayList<String> writable) {
+
     }
 
-
+    private static Cell[][] copyBoardCells(Cell[][] board){
+        Cell[][] tempCell = new Cell[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j <board[0].length ; j++) {
+                tempCell[i][j] = board[i][j];
+            }
+        }
+        return tempCell;
+    }
 
 
     //TODO this method should be able to test for all positions of "letters" in the String,
     // right now it only checks if the word fits with the first instance of "letters" in String
-    private static ArrayList<String> actuallyWritable(char[] wordSpace, String rackAndFriends, int spaceBehind, int spaceAhead, String letters) {
+    private static ArrayList<String> actuallyWritable(char[] wordSpace, String rackAndFriends, int spaceBehind, int spaceAhead, String letters, String bestWord) {
 
         ArrayList<String> writable = canWrite(rackAndFriends);
         ArrayList<String> actuallyWritable = new ArrayList<>();
         for (String s : writable){
             // eliminates all words that does not:
-            if (s.contains(letters) &&                      //contain the letter(s) in order
+            if (s.length() > bestWord.length() &&           //have more characters than bestWord
+                    s.contains(letters) &&                  //contain the letter(s) in order
                     s.length() <= wordSpace.length &&       //fit inside the size of the array
                     s.indexOf(letters) <= spaceBehind &&    //have enough space before and after the letter(s)
                     (s.length() - (s.indexOf(letters)+letters.length())) <= spaceAhead){
