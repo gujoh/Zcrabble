@@ -166,6 +166,11 @@ public class Game implements IGame {
     }
 
     @Override
+    public void shuffleCurrentRack(){
+        current.getRack().shuffleRack();
+    }
+
+    @Override
     public Rack getRack(){
         return current.getRack();
     }
@@ -185,5 +190,10 @@ public class Game implements IGame {
 
     public int getPlayerScore(int index){
         return players.get(index).getScore();
+    }
+
+    @Override
+    public char getRackLetter(int index){
+        return current.getRackTile(index).getLetter();
     }
 }
