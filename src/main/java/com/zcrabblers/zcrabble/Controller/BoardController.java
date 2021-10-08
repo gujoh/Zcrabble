@@ -213,6 +213,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setStartY(pos2Coord(y));
                 }
             }
+            mouseEvent.consume();
         });
 
     }
@@ -226,15 +227,8 @@ public class BoardController implements Initializable, ILetterObservable {
                     switchImages(cellView);
                 }else{
                     // board -> rack
-                    if(!game.isBoardCellEmpty(selection.getStartX(), selection.getStartY()))
-                        return;
                     game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
-                    if(game.isTempCellEmpty(selection.getStartX(), selection.getStartY())){
-                        cellView.setImage(selection.getSelectedImage());
-                        selection.changeToDefaultImage();
-                    }else{
-                        switchImages(cellView);
-                    }
+                    switchImages(cellView);
                 }
                 selection.unSelect();
             }else{
@@ -244,6 +238,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setStartX(x);
                 }
             }
+            mouseEvent.consume();
         });
     }
 
@@ -395,7 +390,7 @@ public class BoardController implements Initializable, ILetterObservable {
             img.setY(y);
             counter++;
             spacing = -spacing;
-
+            img.setPickOnBounds(true);
             //registerRackCellEvents(img);
             registerRackCellEvent(img);
         }
