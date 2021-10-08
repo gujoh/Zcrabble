@@ -139,25 +139,56 @@ public class Game implements IGame {
         return board.isCellEmpty(x, y);
     }
 
+    /**
+     * Returns true if the cell at x, y in the temporary board contains an empty cell.
+     * @param x X position of the cell.
+     * @param y Y position of the cell.
+     * @return True if an empty cell.
+     */
     public boolean isTempCellEmpty(int x, int y){
         return tempBoard.isCellEmpty(x, y);
     }
 
+    /**
+     * Switch the tiles of two cells on the actual board.
+     * @param x1 X position of the first cell.
+     * @param y1 Y position of the first cell.
+     * @param x2 X position of the second cell.
+     * @param y2 Y position of the second cell.
+     */
     @Override
     public void switchBoardCells(int x1, int y1, int x2, int y2) {
         board.switchTiles(x1, y1, x2, y2);
     }
 
+    /**
+     * Switch the tiles of two cells on the tempboard.
+     * @param x1 X position of the first cell.
+     * @param y1 Y position of the first cell.
+     * @param x2 X position of the second cell.
+     * @param y2 Y position of the second cell.
+     */
     @Override
     public void switchTempCells(int x1, int y1, int x2, int y2) {
         tempBoard.switchTiles(x1, y1, x2, y2);
     }
 
+    /**
+     * Switch the tiles of two cells in the current rack.
+     * @param x1 First index.
+     * @param x2 Second index.
+     */
     @Override
     public void switchRackCells(int x1, int x2) {
         current.getRack().switchTiles(x1, x2);
     }
 
+    /**
+     * Switches the tiles of two cells, one in the current rack and one on the temporary board.
+     * @param rackX Index of the rack cell.
+     * @param boardX X position of the board cell.
+     * @param boardY Y position of the board cell.
+     */
     @Override
     public void switchRackBoardCells(int rackX, int boardX, int boardY) {
         Tile tile = tempBoard.getTile(boardX, boardY);

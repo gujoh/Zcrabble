@@ -1,20 +1,21 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.*;
+import com.zcrabblers.zcrabble.Model.Cell;
 import com.zcrabblers.zcrabble.Utils.RandomSeed;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -47,8 +48,8 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Spinner playerSpinner;
     @FXML private Spinner botSpinner;
 
-    private ArrayList<ImageView> cellList = new ArrayList<>();
-    private ArrayList<ImageView> rackList = new ArrayList<>();
+    private ArrayList<Button> cellList = new ArrayList<>();
+    private ArrayList<Button> rackList = new ArrayList<>();
     private ArrayList<Tile> tempTiles = new ArrayList<>();
     private ArrayList<Cell> newCells = new ArrayList<>();
     private MenuController menuController;
@@ -215,6 +216,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setStartY(pos2Coord(y));
                 }
             }
+            mouseEvent.consume();
         });
 
     }
@@ -228,15 +230,8 @@ public class BoardController implements Initializable, ILetterObservable {
                     switchImages(cellView);
                 }else{
                     // board -> rack
-                    if(!game.isBoardCellEmpty(selection.getStartX(), selection.getStartY()))
-                        return;
                     game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
-                    if(game.isTempCellEmpty(selection.getStartX(), selection.getStartY())){
-                        cellView.setImage(selection.getSelectedImage());
-                        selection.changeToDefaultImage();
-                    }else{
-                        switchImages(cellView);
-                    }
+                    switchImages(cellView);
                 }
                 selection.unSelect();
             }else{
@@ -246,6 +241,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setStartX(x);
                 }
             }
+            mouseEvent.consume();
         });
     }
 
@@ -354,25 +350,43 @@ public class BoardController implements Initializable, ILetterObservable {
         int x = 0;
         int y = 0;
         int length = gameManager.getBoardSize();
+        BackgroundSize backgroundSize = new BackgroundSize(33,33,false,false,true,false);
         for (int i = 0; i < length; i++){
             for (int j = 0; j < length; j++){
-                CellView img;
+                Button img;
+                img = new Button();
                 if(i == length/2 && j == length/2){
-                     img = new CellView(IMAGE_PATH + "Middle.png");
+                    //img.setGraphic(new ImageView(new Image(new FileInputStream(IMAGE_PATH + "Middle.png"))));
+                    img.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream(IMAGE_PATH + "Middle.png")),null,null,null, backgroundSize)));
                 }
-                 else img = new CellView(IMAGE_PATH + gameManager.getBoardCells()[i][j].GetCellWordMultiplier() + "" + gameManager.getBoardCells()[i][j].GetCellLetterMultiplier() + ".png");
+                 else {
+                    //img.setGraphic(new ImageView(new Image(new FileInputStream(IMAGE_PATH + gameManager.getBoardCells()[i][j].GetCellWordMultiplier() + "" + gameManager.getBoardCells()[i][j].GetCellLetterMultiplier() + ".png"))));
+                    img.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream(IMAGE_PATH + gameManager.getBoardCells()[i][j].GetCellWordMultiplier() + "" + gameManager.getBoardCells()[i][j].GetCellLetterMultiplier() + ".png")),null,null,null,backgroundSize)));
+
+                }
+
+                img.getStyleClass().remove("button");
+                img.getStyleClass().add("image-view");
+
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
-                img.setFitHeight(33);
-                img.setFitWidth(33);
-                img.setX(x);
-                img.setY(y);
+                img.setContentDisplay(ContentDisplay.CENTER);
+                img.setPrefSize(33,33);
+//                img.setFitHeight(33);
+//                img.setFitWidth(33);
+//                img.setLayoutX(x);
+//                img.setLayoutY(y);
+                img.relocate(x,y);
+                //img.getGraphic().setScaleX((double)33/50);
+                //img.getGraphic().setScaleY((double)33/50);
+//                img.setX(x);
+//                img.setY(y);
                 x+=33;
 
                 //img.setImage((new Image(new FileInputStream(IMAGE_PATH + game.getBoard().Matrix()[i][j].GetCellWordMultiplier() + "" + game.getBoard().Matrix()[i][j].GetCellLetterMultiplier() + ".png"))));
-                img.changeToDefaultImage();
+               // img.changeToDefaultImage();
                 //registerBoardCellEvents(img);
-                registerBoardCellClickEvent(img);
+               // registerBoardCellClickEvent(img);
             }
             x = 0;
             y += 33;
@@ -385,33 +399,43 @@ public class BoardController implements Initializable, ILetterObservable {
         double y = rackRectangle.getHeight()/2-((double)33/2);
         int counter = 0;
         int spacing = 45;
+        BackgroundSize backgroundSize = new BackgroundSize(33,33,false,false,true,false);
         for(int i = 0; i < 7; i++){
-            CellView img = new CellView(IMAGE_PATH + "11.png");
+            Button img = new Button();
+            img.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png")),null,null,null, backgroundSize)));
+           // img.setGraphic(new ImageView(new Image(new FileInputStream(IMAGE_PATH + "11.png"))));
+
+            img.getStyleClass().remove("button");
+            img.getStyleClass().add("image-view");
+
             rackAnchor.getChildren().add(img);
             rackList.add(img);
-            img.setFitHeight(33);
-            img.setFitWidth(33);
+            img.setContentDisplay(ContentDisplay.CENTER);
+            img.setPrefSize(33,33);
+//            img.setFitHeight(33);
+//            img.setFitWidth(33);
 
             x += counter * spacing;
-            img.setX(x);
-            img.setY(y);
+            img.relocate(x,y);
+//            img.setX(x);
+//            img.setY(y);
             counter++;
             spacing = -spacing;
-
+            img.setPickOnBounds(true);
             //registerRackCellEvents(img);
-            registerRackCellEvent(img);
+           // registerRackCellEvent(img);
         }
         
-        //Sorts the rack in order to match the way the rack is represented in the model.
-        for(int i = 0; i < rackList.size(); i++){
-            for(int j = 1; j < rackList.size()-1; j++){
-                if(rackList.get(j-1).getX() > rackList.get(i).getX()){
-                    double temp = rackList.get(j-1).getX();
-                    rackList.get(j-1).setX(rackList.get(i).getX());
-                    rackList.get(i).setX(temp);
-                }
-            }
-        }
+//        //Sorts the rack in order to match the way the rack is represented in the model.
+//        for(int i = 0; i < rackList.size(); i++){
+//            for(int j = 1; j < rackList.size()-1; j++){
+//                if(rackList.get(j-1).getX() > rackList.get(i).getX()){
+//                    double temp = rackList.get(j-1).getX();
+//                    rackList.get(j-1).setX(rackList.get(i).getX());
+//                    rackList.get(i).setX(temp);
+//                }
+//            }
+//        }
         //Fills the rack with images.
         setRackImages();
     }
@@ -420,10 +444,15 @@ public class BoardController implements Initializable, ILetterObservable {
     private void setRackImages(){
         for(int i = 0; i < rackList.size(); i++){
             try {
-                rackList.get(i).setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png")));
+                ImageView image = new ImageView(new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png")));
+                image.setFitHeight(33);
+                image.setFitWidth(33);
+                rackList.get(i).setGraphic(image);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+            //rackList.get(i).getGraphic().resize(33,33);
+            //rackList.get(i).autosize();
         }
     }
 
@@ -439,24 +468,24 @@ public class BoardController implements Initializable, ILetterObservable {
      */
     @Override
     public void update(ArrayList<LetterTuple> boardList, ArrayList<LetterTuple> rackList){
-        for (LetterTuple letter : boardList){
-            try {
-                cellList.get(coordinateToIndex(letter.getX(), letter.getY())).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-        for (LetterTuple letter : rackList){
-            try {
-                this.rackList.get(letter.getX()).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-        updateScores();
-        updateTilesLeft();
+//        for (LetterTuple letter : boardList){
+//            try {
+//                cellList.get(coordinateToIndex(letter.getX(), letter.getY())).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        for (LetterTuple letter : rackList){
+//            try {
+//                this.rackList.get(letter.getX()).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        updateScores();
+//        updateTilesLeft();
     }
 
     //Updates all the players' scores by getting them from the Game object.
