@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+//TODO make a board deep copy
+
 public class Board {
     private static final Dictionary dict = Dictionary.getInstance();
     private Cell[][] boardCells;
@@ -178,6 +180,8 @@ public class Board {
         return newCells;
     }
 
+
+    //TODO this one should be called getBoardCells.
     public Cell[][] matrix(){
         return boardCells;
     }
