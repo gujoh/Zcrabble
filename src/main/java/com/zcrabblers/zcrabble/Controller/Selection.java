@@ -1,9 +1,11 @@
 package com.zcrabblers.zcrabble.Controller;
 
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 
 public class Selection {
-    private CellView selectedCell;
+    private Button selectedCell;
     private boolean fromRack;
 
     private int startX, startY;
@@ -12,11 +14,11 @@ public class Selection {
     }
 
     public void changeToDefaultImage(){
-        selectedCell.changeToDefaultImage();
+        selectedCell.setGraphic(null);
     }
 
-    public void setImage(Image image){
-        selectedCell.setImage(image);
+    public void setImage(Node image){
+        selectedCell.setGraphic(image);
     }
 
     public boolean getFromRack(){
@@ -31,19 +33,19 @@ public class Selection {
         return selectedCell != null;
     }
 
-    public Image getSelectedImage(){
-        return selectedCell.getImage();
+    public Node getSelectedImage(){
+        return selectedCell.getGraphic();
     }
 
-    public int getXCoord(){
-        return selectedCell.xCoord();
-    }
+    //public int getXCoord(){
+    //    return selectedCell.xCoord();
+    //}
+//
+    //public int getYCoord(){
+    //    return selectedCell.yCoord();
+    //}
 
-    public int getYCoord(){
-        return selectedCell.yCoord();
-    }
-
-    public void select(CellView selection){
+    public void select(Button selection){
         selectedCell = selection;
         System.out.println("Selected something.");
     }
