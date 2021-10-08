@@ -78,6 +78,8 @@ public class BoardController implements Initializable, ILetterObservable {
         scoreLabelList.add(p3Score);
         scoreLabelList.add(p4Score);
 
+        gameManager.addSubscriber(this);
+
         SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,4,2,1);
         SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
         playerSpinner.setValueFactory(playerValueFactory);
@@ -120,15 +122,15 @@ public class BoardController implements Initializable, ILetterObservable {
         //rackAnchor.setMouseTransparent(true);
 
         //gameAnchor.setOnMouseDragReleased(event -> hideDragTile());
-        gameAnchor.setOnMouseDragReleased(mouseDragEvent -> {
-            if(mouseDragEvent.isConsumed())
-                return;
-            dragImageView.setVisible(false);
-            draggedFrom.setImage(dragImageView.getImage());
-            mouseDragEvent.setDragDetect(false);
-            System.out.println("reset");
-            System.out.println(mouseDragEvent.getTarget().toString());
-        });
+        //gameAnchor.setOnMouseDragReleased(mouseDragEvent -> {
+        //    if(mouseDragEvent.isConsumed())
+        //        return;
+        //    dragImageView.setVisible(false);
+        //    draggedFrom.setImage(dragImageView.getImage());
+        //    mouseDragEvent.setDragDetect(false);
+        //    System.out.println("reset");
+        //    System.out.println(mouseDragEvent.getTarget().toString());
+        //});
     }
 
     private void hideDragTile(){
@@ -179,17 +181,6 @@ public class BoardController implements Initializable, ILetterObservable {
         dragImageView.setY(point.getY());
     }
 
-    /*
-        rack -> rack
-            switch on rack
-            switch image
-        board -> rack
-
-        rack -> board
-
-        board -> board
-
-     */
 
     Selection selection = new Selection();
     private void registerBoardCellClickEvent(CellView cellView){
@@ -237,8 +228,15 @@ public class BoardController implements Initializable, ILetterObservable {
                     switchImages(cellView);
                 }else{
                     // board -> rack
+                    if(!game.isBoardCellEmpty(selection.getStartX(), selection.getStartY()))
+                        return;
                     game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
-                    switchImages(cellView);
+                    if(game.isTempCellEmpty(selection.getStartX(), selection.getStartY())){
+                        cellView.setImage(selection.getSelectedImage());
+                        selection.changeToDefaultImage();
+                    }else{
+                        switchImages(cellView);
+                    }
                 }
                 selection.unSelect();
             }else{
@@ -415,8 +413,17 @@ public class BoardController implements Initializable, ILetterObservable {
             }
         }
         //Fills the rack with images.
+        setRackImages();
+    }
+
+    //Adds the correct images to the rack.
+    private void setRackImages(){
         for(int i = 0; i < rackList.size(); i++){
-            rackList.get(i).setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRack().getTile(i).getLetter() + ".png")));
+            try {
+                rackList.get(i).setImage(new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png")));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -469,14 +476,8 @@ public class BoardController implements Initializable, ILetterObservable {
     //Shuffles the current player's rack.
     @FXML
     private void shuffleRack(){
-        Random rand = new Random(RandomSeed.INSTANCE.getSeed());
-        for(int i = 0; i < rackList.size()-2; i++){
-            int randomIndex = rand.nextInt(rackList.size());
-            int tempX = (int)rackList.get(randomIndex).getX();
-            rackList.get(randomIndex).setX(rackList.get(i).getX());
-            rackList.get(i).setX(tempX);
-            Collections.swap(rackList, i, randomIndex); //Do not know if we need this.
-        }
+        game.shuffleCurrentRack();
+        setRackImages();
     }
 
     private void addNewCell(){
@@ -497,6 +498,7 @@ public class BoardController implements Initializable, ILetterObservable {
     private void newGame() throws FileNotFoundException {
         gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
         game = gameManager.getCurrentGame();
+        gameManager.addSubscriber(this);
         newGameMenuBackground.toBack();
         rackAnchor.getChildren().clear();
         rackList.clear();
