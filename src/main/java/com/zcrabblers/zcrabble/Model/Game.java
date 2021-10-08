@@ -46,13 +46,19 @@ public class Game implements IGame {
 
     @Override
     public void endTurn(){ // DISCUSS THIS.
-        board.checkBoard(tempBoard);
-        current.addScore(board.countPoints(board.getNewCells(tempBoard)));
-        getNextPlayer();
-        current.beginTurn(tileBag);
-        observer.notifySubscribers(boardList,rackList);
-        boardList.clear();
-        rackList.clear();
+        if (board.checkBoard(tempBoard)){
+            current.addScore(board.countPoints(board.getNewCells(tempBoard)));
+            current.fillRack(tileBag);
+            getNextPlayer();
+            current.beginTurn(tileBag);
+            observer.notifySubscribers(boardList,rackList);
+            boardList.clear();
+            rackList.clear();
+        }
+        else {
+            //TODO add something here
+        }
+
     }
 
     public synchronized void experimentalEndTurn(){

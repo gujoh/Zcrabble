@@ -7,5 +7,5 @@ public interface IPlayers {
     void placeRackTile(int x, Tile tile);
     void beginTurn(TileBag bag);
     void addScore(int score);
-
+    void fillRack(TileBag bag);
 }

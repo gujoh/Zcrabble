@@ -37,5 +37,10 @@ public class Player implements IPlayers{
 
     }
 
+    @Override
+    public void fillRack(TileBag bag){
+        rack.fillRack(bag);
+    }
+
     private boolean endTurn = false;
 }

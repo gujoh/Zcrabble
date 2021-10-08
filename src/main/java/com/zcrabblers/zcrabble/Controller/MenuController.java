@@ -3,6 +3,7 @@ package com.zcrabblers.zcrabble.Controller;
 import com.zcrabblers.zcrabble.Model.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 
@@ -14,6 +15,7 @@ public class MenuController extends AnchorPane {
     @FXML private MenuItem menuSkinsDarkMode;
     @FXML private MenuItem menuSkinsCyberpunk;
     @FXML private MenuItem menuNewGame;
+    @FXML private MenuBar menuBar;
     private BoardController parentController;
 
     public MenuController(BoardController parentController){
