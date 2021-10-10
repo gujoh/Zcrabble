@@ -141,8 +141,8 @@ public class Game implements IGame {
     }
 
     @Override
-    public boolean isBoardCellEmpty(int x, int y){
-        return board.isCellEmpty(x, y);
+    public boolean isBoardCellEmpty(int y, int x){
+        return board.isCellEmpty(y, x);
     }
 
     /**
@@ -151,8 +151,8 @@ public class Game implements IGame {
      * @param y Y position of the cell.
      * @return True if an empty cell.
      */
-    public boolean isTempCellEmpty(int x, int y){
-        return tempBoard.isCellEmpty(x, y);
+    public boolean isTempCellEmpty(int y, int x){
+        return tempBoard.isCellEmpty(y, x);
     }
 
     /**
@@ -196,7 +196,7 @@ public class Game implements IGame {
      * @param boardY Y position of the board cell.
      */
     @Override
-    public void switchRackBoardCells(int rackX, int boardX, int boardY) {
+    public void switchRackBoardCells(int rackX, int boardY, int boardX) {
         Tile tile = tempBoard.getTile(boardY, boardX);
         System.out.println("From: " + tile.getLetter());
         tempBoard.placeTile(boardY, boardX, current.getRackTile(rackX));
