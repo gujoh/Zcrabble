@@ -304,14 +304,19 @@ public class Board {
         return rowAreIndeedValid;
     }
 
-    //TODO checkCoherence
+    //TODO
     /*--- Checks if all letters on the board are in contact with each other. ---*/
     private  boolean checkCoherence(Board board){
-        System.out.println("coherence");
-       /* List<CellTuple> newCells = getNewCells(board);
-        if (!containsLetter(board,7,7))
-            return false;
-        /*
+        int numberOfLetters=0;
+        for (int row = 0; row < board.matrix().length; row++) {
+            for (int col = 0; col < board.matrix().length; col++) {
+                if (containsLetter(board, row, col)){
+                    numberOfLetters++;
+                }
+                }
+            }
+
+       /*
 
 
 
@@ -331,7 +336,7 @@ public class Board {
 
         if there is a gap in the new tiles it must be filled with old tiles.
          */
-        return containsLetter(board, 7, 7);
+        return (containsLetter(board, 7, 7)&&numberOfLetters!=1);
     }
 
     /*--- Checks if a cell contains a letter tile ---*/
