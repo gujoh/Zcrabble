@@ -57,7 +57,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="244.0" layoutY="143.0" text="Bots:" AnchorPane.rightAnchor="95.0">
+                        <Label layoutX="244.0" layoutY="143.0" text="Bots (Not working):" AnchorPane.rightAnchor="95.0">
                            <font>
                               <Font size="16.0" />
                            </font>
