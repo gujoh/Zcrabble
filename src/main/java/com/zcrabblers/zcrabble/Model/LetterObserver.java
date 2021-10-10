@@ -21,8 +21,8 @@ public class LetterObserver {
         }
     }
 
-    public void notifySubscribers(ArrayList<LetterTuple> boardList, ArrayList<LetterTuple> rackList){
-        subscribers.forEach(x -> x.update(boardList, rackList));
+    public void notifySubscribers(ArrayList<LetterTuple> boardList){
+        subscribers.forEach(x -> x.update(boardList));
     }
 
 }

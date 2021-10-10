@@ -511,7 +511,6 @@ public class BoardController implements Initializable, ILetterObservable {
         double y = rackRectangle.getHeight()/2-((double)33/2);
         int counter = 0;
         int spacing = 45;
-        BackgroundSize backgroundSize = new BackgroundSize(33,33,false,false,true,false);
         for(int i = 0; i < 7; i++){
             //Button img = new Button();
             //img.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png")),null,null,null, backgroundSize)));
@@ -575,10 +574,9 @@ public class BoardController implements Initializable, ILetterObservable {
     /**
      * Updates the state of the game using the observer pattern. Gets called at the end of each turn.
      * @param boardList a LetterTuple array that contain information about which tiles were placed last turn.
-     * @param rackList a LetterTuple array that contains information about which tiles were added to a player's rack.
      */
     @Override
-    public void update(ArrayList<LetterTuple> boardList, ArrayList<LetterTuple> rackList){
+    public void update(ArrayList<LetterTuple> boardList){
         for (LetterTuple letter : boardList){
             try {
                 cellList.get(coordinateToIndex(letter.getX(), letter.getY())).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
@@ -587,16 +585,9 @@ public class BoardController implements Initializable, ILetterObservable {
             }
         }
 
-        for (LetterTuple letter : rackList){
-            try {
-                this.rackList.get(letter.getX()).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
         updateScores();
         updateTilesLeft();
+        setRackImages();
     }
 
     //Updates all the players' scores by getting them from the Game object.
