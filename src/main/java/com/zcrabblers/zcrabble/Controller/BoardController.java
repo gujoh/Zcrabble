@@ -58,6 +58,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     private final GameManager gameManager = GameManager.getInstance();
     private IGame game;
+    Selection selection = new Selection();
 
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
 
@@ -117,7 +118,7 @@ public class BoardController implements Initializable, ILetterObservable {
         populateBoard();
         populateRack();
         //makeOneTestTile();
-        //initDragTile();
+        initDragTile();
         //rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
@@ -135,11 +136,13 @@ public class BoardController implements Initializable, ILetterObservable {
         //});
     }
 
+    // Hides the ImageView that is used to show what tile the user is dragging.
     private void hideDragTile(){
         dragImageView.setVisible(false);
         //draggedFrom.setImage(dragImageView.getImage());
     }
 
+    // Initializes the tile that is dragged around.
     private void initDragTile() throws FileNotFoundException {
         dragImageView.setFitWidth(30);
         dragImageView.setFitHeight(30);
@@ -150,12 +153,15 @@ public class BoardController implements Initializable, ILetterObservable {
         dragImageView.toFront();
     }
 
+    // Help method used to convert a mouse position to a board coordinate/index.
     private int pos2Coord(double x){
-        return (int)Math.floor(x / 33);
+        return (int)Math.floor(x / 33); // remove hard coding?
     }
 
+    // Help method used to convert a mouse position to a rack index.
     private int pos2Rack(double x){
-        return (int)Math.floor(x / (rackAnchor.getWidth() / 7));
+        int leftSpacingRemoved = (int)(x - rackList.get(5).getX()); // The leftmost rack cell is at index 5 apparently
+        return leftSpacingRemoved / 45; // remove hard coding?
     }
 
     // Switches the images of the image that was dragged from and the parameter
@@ -165,6 +171,13 @@ public class BoardController implements Initializable, ILetterObservable {
         cellView.setImage(image);
     }
 
+    // Moves selected's image to cellView and resets cellView
+    private void moveImage(CellView cellView){
+        cellView.setImage(selection.getSelectedImage());
+        selection.changeToDefaultImage();
+    }
+
+    // DRAGGING NOT USED NOW
     // Configure the drag image when dragging starts
     private void dragSequence(CellView cell){
         cell.startFullDrag();
@@ -174,6 +187,7 @@ public class BoardController implements Initializable, ILetterObservable {
         draggedFrom = cell;
     }
 
+    // DRAGGING NOT USED NOW
     // What happens continuously during a drag event
     private void OnDragged(MouseEvent mouseEvent){
         Point2D point = new Point2D(mouseEvent.getSceneX() - 45, mouseEvent.getSceneY() - 45);
@@ -181,70 +195,89 @@ public class BoardController implements Initializable, ILetterObservable {
         dragImageView.setY(point.getY());
     }
 
+    private void registerBoardEvents(Node board) {
+        //board.setOnMouseEntered(event -> {
+        //    if(!selection.hasSelected())
+        //        return;
+        //    dragImageView.setImage(selection.getSelectedImage());
+        //    dragImageView.setVisible(true);
+        //});
 
-    Selection selection = new Selection();
+        board.setOnMouseMoved(event -> {
+            if(!selection.hasSelected())
+                return;
+            dragImageView.setX(event.getSceneX() - 45);
+            dragImageView.setY(event.getSceneY() - 45);
+        });
+
+        //board.setOnMouseExited(event -> {
+        //    if(!selection.hasSelected())
+        //        return;
+        //    dragImageView.setVisible(false);
+        //});
+    }
+
     private void registerBoardCellClickEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
             int x = pos2Coord(cellView.getX());
             int y = pos2Coord(cellView.getY());
             //System.out.println(x);
             //System.out.println(y);
+            if(!game.isBoardCellEmpty(y, x))
+                return;
             if(selection.hasSelected()){
-                if(game.isBoardCellEmpty(y, x) && game.isTempCellEmpty(y, x)){
+                if(game.isTempCellEmpty(y, x)){
                     // Rack -> Board(Tom)
                     if(selection.getFromRack()){
-                        Tile tile = game.getRack().getTile(selection.getStartX());
-                        game.getTempBoard().placeTile(y, x, tile);
-
-                        cellView.setImage(selection.getSelectedImage());
-                        selection.changeToDefaultImage();
-
-                        game.getRack().remove(selection.getStartX());
-
+                        game.switchRackBoardCells(selection.getStartX(), y, x);
+                        //Tile tile = game.getRack().getTile(selection.getStartX());
+                        //game.getTempBoard().placeTile(y, x, tile);
+                        //game.getRack().remove(selection.getStartX());
                     }else{
                         // Board -> Board(Tom)
-                        Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
-                        game.getTempBoard().removeTile(selection.getStartY(), selection.getStartX());
-                        game.getTempBoard().placeTile(y, x, tile);
-
-                        cellView.setImage(selection.getSelectedImage());
-                        selection.changeToDefaultImage();
-                        //game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
-                        //switchImages(cellView);
+                        game.switchTempCells(selection.getStartY(), selection.getStartX(), y, x);
+                        //Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
+                        //game.getTempBoard().removeTile(selection.getStartY(), selection.getStartX());
+                        //game.getTempBoard().placeTile(y, x, tile);
                     }
-                    selection.unSelect();
-                }else if(game.isBoardCellEmpty(y, x) && !game.isTempCellEmpty(y, x)){
+                    moveImage(cellView);
+                    //cellView.setImage(selection.getSelectedImage());
+                    //selection.changeToDefaultImage();
+                }else if(!game.isTempCellEmpty(y, x)){
                     if(selection.getFromRack()){
                         // Rack -> Board
-                        //game.switchRackBoardCells(selection.getStartX(), x, y);
-                        Tile tile = game.getRack().getTile(selection.getStartX());
-                        game.getRack().remove(selection.getStartX());
-                        game.getTempBoard().placeTile(y, x, tile);
-
-                        Image im = selection.getSelectedImage();
-                        selection.setImage(cellView.getImage());
-                        cellView.setImage(im);
+                        game.switchRackBoardCells(selection.getStartX(), y, x);
+                        //Tile tile = game.getRack().getTile(selection.getStartX());
+                        //game.getRack().set(selection.getStartX(), game.getTempBoard().getTile(y, x));
+                        //game.getTempBoard().placeTile(y, x, tile);
                     }
                     else{
                         // Board -> Board
-                        //game.switchTempCells(selection.getStartX(), selection.getStartY(), x, y);
-                        Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
-                        game.getTempBoard().removeTile(y, x);
-                        game.getTempBoard().placeTile(y, x, tile);
-
-                        Image im = selection.getSelectedImage();
-                        selection.setImage(cellView.getImage());
-                        cellView.setImage(im);
+                        game.switchTempCells(selection.getStartY(), selection.getStartX(), y, x);
+                        //Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
+                        //game.getTempBoard().placeTile(selection.getStartY(),selection.getStartX(), game.getTempBoard().getTile(y, x));
+                        //game.getTempBoard().placeTile(y, x, tile);
                     }
-                    //switchImages(cellView);
-                    selection.unSelect();
+                    switchImages(cellView);
+                    //Image im = selection.getSelectedImage();
+                    //selection.setImage(cellView.getImage());
+                    //cellView.setImage(im);
+
                 }
+                dragImageView.setVisible(false);
+                selection.unSelect();
             }else{
                 if(game.isBoardCellEmpty(y, x) && !game.isTempCellEmpty(y, x)){
                     selection.setFromRack(false);
                     selection.select(cellView);
                     selection.setStartX(x);
                     selection.setStartY(y);
+                    System.out.println("Selected: " + game.getTempBoard().getTile(y, x).getLetter());
+
+                    dragImageView.setX(cellView.getX());
+                    dragImageView.setY(cellView.getY());
+                    dragImageView.setImage(selection.getSelectedImage());
+                    dragImageView.setVisible(true);
                 }
             }
         });
@@ -253,64 +286,79 @@ public class BoardController implements Initializable, ILetterObservable {
     private void registerRackCellEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
             int x = pos2Rack(cellView.getX());
-            //System.out.println(x);
+            //System.out.println("cell pos: " + cellView.getX());
+            //System.out.println("mouse pos: " + event.getX());
+            System.out.println("rack x: " + x);
             if(selection.hasSelected()){
                 if(selection.getFromRack()){
                     if(game.isRackEmpty(x)){
                         // rack -> rack(tom)
-                        Tile tile = game.getRack().getTile(selection.getStartX());
-                        game.getRack().set(x, tile);
+                        game.switchRackCells(selection.getStartX(), x);
+                        //Tile tile = game.getRack().getTile(selection.getStartX());
+                        //game.getRack().set(x, tile);
+                        //game.getRack().remove(selection.getStartX());
 
-                        cellView.setImage(selection.getSelectedImage());
-                        selection.changeToDefaultImage();
-
-                        game.getRack().remove(selection.getStartX());
+                        moveImage(cellView);
+                        //cellView.setImage(selection.getSelectedImage());
+                        //selection.changeToDefaultImage();
                     }else{
-                        Tile tile = game.getRack().getTile(selection.getStartX());
-                        game.getRack().set(selection.getStartX(), game.getRack().getTile(x));
-                        game.getRack().set(x, tile);
+                        // rack -> rack
+                        game.switchRackCells(selection.getStartX(), x);
+                        //Tile tile = game.getRack().getTile(selection.getStartX());
+                        //game.getRack().set(selection.getStartX(), game.getRack().getTile(x));
+                        //game.getRack().set(x, tile);
 
-                        Image im = selection.getSelectedImage();
-                        selection.setImage(cellView.getImage());
-                        cellView.setImage(im);
+                        switchImages(cellView);
+                        //Image im = selection.getSelectedImage();
+                        //selection.setImage(cellView.getImage());
+                        //cellView.setImage(im);
                     }
-                    //game.switchRackCells(selection.getStartX(), x);
                 }else{
                     if(game.isRackEmpty(x)){
                         // board -> rack(tom)
-                        Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
-                        game.getRack().set(x, tile);
+                        game.switchRackBoardCells(x, selection.getStartY(), selection.getStartX());
+                        //Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
+                        //game.getRack().set(x, tile);
+                        //game.getTempBoard().removeTile(selection.getStartY(), selection.getStartX());
 
-                        cellView.setImage(selection.getSelectedImage());
-                        selection.changeToDefaultImage();
-
-                        game.getTempBoard().removeTile(selection.getStartY(), selection.getStartX());
+                        moveImage(cellView);
+                        //cellView.setImage(selection.getSelectedImage());
+                        //selection.changeToDefaultImage();
                     }else{
                         // board -> rack
-                        Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
-                        game.getTempBoard().placeTile(selection.getStartY(), selection.getStartX(), game.getRack().getTile(x));
-                        game.getRack().set(x, tile);
+                        game.switchRackBoardCells(x, selection.getStartY(), selection.getStartX());
+                        //Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
+                        //game.getTempBoard().placeTile(selection.getStartY(), selection.getStartX(), game.getRack().getTile(x));
+                        //game.getRack().set(x, tile);
 
-                        Image im = selection.getSelectedImage();
-                        selection.setImage(cellView.getImage());
-                        cellView.setImage(im);
+                        switchImages(cellView);
+                        //Image im = selection.getSelectedImage();
+                        //selection.setImage(cellView.getImage());
+                        //cellView.setImage(im);
                     }
-                    //System.out.println(selection.getFromRack());
-                    //game.switchRackBoardCells(x, selection.getStartX(), selection.getStartY());
                 }
-                //switchImages(cellView);
+                dragImageView.setVisible(false);
                 selection.unSelect();
             }else{
                 if(!game.isRackEmpty(x)){
                     selection.setFromRack(true);
                     selection.select(cellView);
                     selection.setStartX(x);
+                    System.out.println("Selected: " + game.getRack().getTile(x).getLetter());
+                    Point2D point = boardAnchor.sceneToLocal(cellView.localToScene(cellView.getX(), cellView.getY()));
+
+                    dragImageView.setX(point.getX());
+                    dragImageView.setY(point.getY());
+                    //dragImageView.setX(cellView.getX()-45);
+                    //dragImageView.setY(cellView.getY()-45);
+                    dragImageView.setImage(selection.getSelectedImage());
+                    dragImageView.setVisible(true);
                 }
             }
-
         });
     }
 
+    // DRAGGING NOT USED NOW
     // Sets how tiles dragged from the rack behaves
     private void registerRackCellEvents(CellView cellView){
         // starting a drag event from a rack tile
@@ -352,6 +400,7 @@ public class BoardController implements Initializable, ILetterObservable {
         });
     }
 
+    // DRAGGING NOT USED NOW
     // Sets how tiles dragged from the board behaves
     private void registerBoardCellEvents(CellView cellView){
         // starting a drag event from a board tile
@@ -434,7 +483,6 @@ public class BoardController implements Initializable, ILetterObservable {
 
                 //img.getStyleClass().remove("button");
                 //img.getStyleClass().add("image-view");
-
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
                 img.setFitHeight(33);
@@ -449,6 +497,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
                 img.changeToDefaultImage();
                 // registerBoardCellEvents(img);
+                registerBoardEvents(boardAnchor);
                 registerBoardCellClickEvent(img);
             }
             x = 0;

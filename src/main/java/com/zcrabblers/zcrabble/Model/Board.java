@@ -196,10 +196,10 @@ public class Board {
     public Cell[][] matrix(){
         return boardCells;
     }
-    public void switchTiles(int x1, int y1, int x2, int y2){
-        Tile tile = boardCells[x1][y1].getPlacedTile();
-        boardCells[x1][y1].setTile(boardCells[x2][y2].getPlacedTile());
-        boardCells[x2][y2].setTile(tile);
+    public void switchTiles(int y1, int x1, int y2, int x2){
+        Tile tile = boardCells[y1][x1].getPlacedTile();
+        boardCells[y1][x1].setTile(boardCells[y2][x2].getPlacedTile());
+        boardCells[y2][x2].setTile(tile);
     }
     public Tile getTile(int i, int j){
         return boardCells[i][j].getPlacedTile();
@@ -210,8 +210,8 @@ public class Board {
     public void removeTile(int i, int j){
         boardCells[i][j].removeTile();
     }
-    public boolean isCellEmpty(int x, int y){
-        return boardCells[x][y].isEmpty();
+    public boolean isCellEmpty(int y, int x){
+        return boardCells[y][x].isEmpty();
     }
 
     /*--- BoardChecks in progress below ---*/

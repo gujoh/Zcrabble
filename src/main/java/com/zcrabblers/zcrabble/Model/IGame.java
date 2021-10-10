@@ -9,12 +9,12 @@ public interface IGame {
     void removeAllSubscribers();
     Board getBoard();
     Board getTempBoard();
-    boolean isBoardCellEmpty(int x, int y);
-    boolean isTempCellEmpty(int x, int y);
-    void switchBoardCells(int x1, int y1, int x2, int y2);
-    void switchTempCells(int x1, int y1, int x2, int y2);
+    boolean isBoardCellEmpty(int y, int x);
+    boolean isTempCellEmpty(int y, int x);
+    void switchBoardCells(int y1, int x1, int y2, int x2);
+    void switchTempCells(int y1, int x1, int y2, int x2);
     void switchRackCells(int x1, int x2);
-    void switchRackBoardCells(int rackX, int boardX, int boardY);
+    void switchRackBoardCells(int rackX, int boardY, int boardX);
     void newGame();
     void endTurn();
     Rack getRack();
