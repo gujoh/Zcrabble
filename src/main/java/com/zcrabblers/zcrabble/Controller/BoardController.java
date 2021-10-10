@@ -48,6 +48,8 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane welcomeScreen;
     @FXML private Spinner playerSpinner;
     @FXML private Spinner botSpinner;
+    @FXML private AnchorPane invalidWordBackground;
+    @FXML private Button invalidCancelButton;
 
     private ArrayList<ImageView> cellList = new ArrayList<>();
     private ArrayList<ImageView> rackList = new ArrayList<>();
@@ -667,9 +669,16 @@ public class BoardController implements Initializable, ILetterObservable {
         newGameMenuBackground.toBack();
     }
 
-    @FXML private void endTurn(){
-        game.endTurn();
+    @FXML
+    private void endTurn(){
+        if(!game.endTurn()){
+            invalidWordBackground.toFront();
+        }
+    }
 
+    @FXML
+    private void closeInvalidBackground(){
+        invalidWordBackground.toBack();
     }
 
     //Sets the Zcrabble theme dark mode. Gets called from the MenuController class.
