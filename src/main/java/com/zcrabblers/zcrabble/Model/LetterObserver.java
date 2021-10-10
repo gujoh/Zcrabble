@@ -22,7 +22,7 @@ public class LetterObserver {
     }
 
     public void notifySubscribers(ArrayList<LetterTuple> boardList){
-        subscribers.forEach(x -> x.update(boardList));
+        subscribers.forEach(x -> x.updateState(boardList));
     }
 
 }
