@@ -1,6 +1,8 @@
 package com.zcrabblers.zcrabble.Model;
 
 
+import com.zcrabblers.zcrabble.Controller.BoardController;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +20,6 @@ public class Bot implements IPlayers {
 
     public void addScore(int score){
         this.score += score;
-    }
-
-    public void takeTurn(){
-
     }
 
     @Override
@@ -52,10 +50,6 @@ public class Bot implements IPlayers {
     public void beginTurn(TileBag bag) {
 
     }
-    //TODO remove all words that does not fit with the board around it. (this seems to be the tricky part)
-
-
-
 
     /*
         {
@@ -77,32 +71,15 @@ public class Bot implements IPlayers {
     D   {  ,  ,  ,  ,  , X, X, X, X, X, X, X,  ,  ,  },
     E   {  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  },
 
-     */
-
-    /*
-
-    /*
-
-                    writeToTempBoard(tempBoard, writable, i, j, letters.toString(), spaceBehind);
-                    print2D(tempBoard);
-
-                letters.delete(0,letters.length());
-                tempRack = new StringBuilder(rack);
-                wordSpace = new char[0];
-                tempBoard = boardCopy(board);
-
-
-        return tempBoard;
-
-
+  Bot is under construction, lots of weird stuff going on here
 
      */
 
     private static Cell[][] scrabbleWord(Cell[][] board, String rackString){
         int rows = board.length;
         int cols = board[0].length;
-        Cell[][] currentBoard = copyBoardCells(board);
-        Cell[][] bestBoard = copyBoardCells(board);       //deep copy board
+        //Cell[][] currentBoard = copyBoardCells(board);
+        //Cell[][] bestBoard = copyBoardCells(board);
         String bestWord = "";
 
         int spaceBehind;
@@ -123,13 +100,16 @@ public class Bot implements IPlayers {
                 writable = actuallyWritable(wordSpace,tempRack.toString(),spaceBehind,spaceAhead,letters.toString(),bestWord);
 
 
+
+
+
+
                 /*
                 Best word to write here
                 is the longest one that is still part of an overall valid board
 
-                sort the words by lengt, biggest start on index 0 all words smaller than previo
-                go trough list of words, the first word that is valid is the best word for the given position
-                }
+                sort the words by length, the biggest start on index 0 all words smaller than previous
+                go through list of words, the first word that is valid is the best word for the given position
                  */
 
 
@@ -141,23 +121,24 @@ public class Bot implements IPlayers {
             wordSpace = new char[]{};
 
         }
-    return bestBoard;
-    }
-    //TODO sort the potencial words.
-    private static void quickSort(ArrayList<String> writable) {
-
+    return null;//bestBoard;
     }
 
-    private static Cell[][] copyBoardCells(Cell[][] board){
-        Cell[][] tempCell = new Cell[board.length][board[0].length];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j <board[0].length ; j++) {
-                tempCell[i][j] = board[i][j];
+        //TODO sort the writable words by length words.
+    private static void sort(String[] writable) {
+
+
+        for (int i = 0; i < writable.length-1; i++) {
+            for (int j = 0; j < writable.length - i - 1; j++) {
+                if (writable[j].length() > writable[j + 1].length()) {
+                    // swap arr[j+1] and arr[j]
+                    String temp = writable[j];
+                    writable[j] = writable[j + 1];
+                    writable[j + 1] = temp;
+                }
             }
         }
-        return tempCell;
     }
-
 
     //TODO this method should be able to test for all positions of "letters" in the String,
     // right now it only checks if the word fits with the first instance of "letters" in String
@@ -222,6 +203,50 @@ public class Bot implements IPlayers {
                 letters.append(board[i][j].getTileLetter());
             }
         }
+    }
+
+
+
+
+    //TODO: the operation of tilting a board should probably live in board, it is also a weird thing to do
+
+    /**
+     * Returns the cell matrix flipped pi/2 radians
+     * first row is last column, first column is first row
+     * @param board the cell pattern on the current board
+     * @return the cell pattern on the board flipped pi/1 radians
+     */
+    private Cell[][] tiltPiHalf (Cell[][] board){
+        Cell[][] tempBoard = new Cell[board[0].length][board.length];
+        for (int i = 0; i <board.length ; i++) {
+            for (int j = 0; j <board[0].length ; j++) {
+
+                tempBoard[board[0].length-j-1][i] = board[i][j];
+
+            }
+        }
+        return tempBoard;
+    }
+
+    //TODO: the operation of tilting a board should probably live in board
+
+    /**
+     * Returns the cell matrix flipped -pi/2 radians
+     * First row is first column, first column is last row
+     * @param board the cell pattern on the current board
+     * @return the cell pattern on the board flipped -pi/1 radians
+     */
+
+    private Cell[][] tilt3PiHalf (Cell [][] board){
+        Cell[][] tempBoard = new Cell[board[0].length][board.length];
+        for (int i = 0; i <board.length ; i++) {
+            for (int j = 0; j <board[0].length ; j++) {
+
+                tempBoard[j][board.length-i-1] = board[i][j];
+
+            }
+        }
+        return tempBoard;
     }
 
     /*--- Don't touch things below this line ---*
