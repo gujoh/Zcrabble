@@ -50,13 +50,13 @@ public class Game implements IGame {
             current.addScore(board.countPoints(board.getNewCells(tempBoard)));
             current.fillRack(tileBag);
             getNextPlayer();
-            current.beginTurn(tileBag);
             observer.notifySubscribers(boardList,rackList);
             boardList.clear();
             rackList.clear();
+            current.beginTurn(tileBag);
         }
         else {
-            //TODO add something here
+            //TODO add something here, maybe have the method return something, that triggers a popup in the view.
         }
 
     }
