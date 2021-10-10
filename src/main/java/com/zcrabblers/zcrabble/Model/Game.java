@@ -14,7 +14,6 @@ public class Game implements IGame {
     private int nrPLayers;
     private int nrBots;
     private ArrayList<LetterTuple> boardList = new ArrayList<>();
-    private ArrayList<LetterTuple> rackList = new ArrayList<>();
     private final LetterObserver observer = new LetterObserver();
 
     public Game(int nrPlayers, int nrBots){
@@ -49,10 +48,9 @@ public class Game implements IGame {
         if (board.checkBoard(tempBoard)){
             current.addScore(board.countPoints(board.getNewCells(tempBoard)));
             current.fillRack(tileBag);
-            getNextPlayer();
-            observer.notifySubscribers(boardList,rackList);
+            current = getNextPlayer();
+            observer.notifySubscribers(boardList);
             boardList.clear();
-            rackList.clear();
             current.beginTurn(tileBag);
         }
         else {
