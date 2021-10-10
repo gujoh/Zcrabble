@@ -160,7 +160,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     // Help method used to convert a mouse position to a rack index.
     private int pos2Rack(double x){
-        int leftSpacingRemoved = (int)(x - rackList.get(5).getX()); // The leftmost rack cell is at index 5 apparently
+        int leftSpacingRemoved = (int)(x - rackList.get(0).getX()); // The leftmost rack cell is at index 5 apparently
         return leftSpacingRemoved / 45; // remove hard coding?
     }
 
@@ -544,10 +544,10 @@ public class BoardController implements Initializable, ILetterObservable {
         //Sorts the rack in order to match the way the rack is represented in the model.
         for(int i = 0; i < rackList.size(); i++){
             for(int j = 1; j < rackList.size()-1; j++){
-                if(rackList.get(j-1).getLayoutX() > rackList.get(i).getLayoutX()){
-                    double temp = rackList.get(j-1).getLayoutX();
-                    rackList.get(j-1).setLayoutX(rackList.get(i).getLayoutX());
-                    rackList.get(i).setLayoutX(temp);
+                if(rackList.get(j-1).getX() > rackList.get(i).getX()){
+                    double temp = rackList.get(j-1).getX();
+                    rackList.get(j-1).setX(rackList.get(i).getX());
+                    rackList.get(i).setX(temp);
                 }
             }
         }
