@@ -81,7 +81,6 @@ public class BoardController implements Initializable, ILetterObservable {
         scoreLabelList.add(p3Score);
         scoreLabelList.add(p4Score);
 
-        gameManager.addSubscriber(this);
 
         SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,4,2,1);
         SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
@@ -100,6 +99,8 @@ public class BoardController implements Initializable, ILetterObservable {
 //        endTurnButton.setOnAction(actionEvent -> {
 //            gameManager.getCurrentGame().endTurn();
 //        });
+
+        gameManager.addSubscriber(this);
 
         try {
             populate();
@@ -149,7 +150,9 @@ public class BoardController implements Initializable, ILetterObservable {
         dragImageView.setVisible(false);
         dragImageView.setMouseTransparent(true);
         dragImageView.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
-        boardAnchor.getChildren().add(dragImageView);
+        if(!boardAnchor.getChildren().contains(dragImageView)){
+            boardAnchor.getChildren().add(dragImageView);
+        }
         dragImageView.toFront();
     }
 
@@ -274,10 +277,10 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setStartY(y);
                     System.out.println("Selected: " + game.getTempBoard().getTile(y, x).getLetter());
 
-                    dragImageView.setX(cellView.getX());
-                    dragImageView.setY(cellView.getY());
-                    dragImageView.setImage(selection.getSelectedImage());
-                    dragImageView.setVisible(true);
+//                    dragImageView.setX(cellView.getX());
+//                    dragImageView.setY(cellView.getY());
+//                    dragImageView.setImage(selection.getSelectedImage());
+//                    dragImageView.setVisible(true);
                 }
             }
         });
@@ -347,12 +350,12 @@ public class BoardController implements Initializable, ILetterObservable {
                     System.out.println("Selected: " + game.getRack().getTile(x).getLetter());
                     Point2D point = boardAnchor.sceneToLocal(cellView.localToScene(cellView.getX(), cellView.getY()));
 
-                    dragImageView.setX(point.getX());
-                    dragImageView.setY(point.getY());
-                    //dragImageView.setX(cellView.getX()-45);
-                    //dragImageView.setY(cellView.getY()-45);
-                    dragImageView.setImage(selection.getSelectedImage());
-                    dragImageView.setVisible(true);
+//                    dragImageView.setX(point.getX());
+//                    dragImageView.setY(point.getY());
+//                    //dragImageView.setX(cellView.getX()-45);
+//                    //dragImageView.setY(cellView.getY()-45);
+//                    dragImageView.setImage(selection.getSelectedImage());
+//                    dragImageView.setVisible(true);
                 }
             }
         });
@@ -497,7 +500,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
                 img.changeToDefaultImage();
                 // registerBoardCellEvents(img);
-                registerBoardEvents(boardAnchor);
+                //registerBoardEvents(boardAnchor);
                 registerBoardCellClickEvent(img);
             }
             x = 0;
@@ -507,6 +510,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     //Renders the rack. Gets called from the populate() method.
     private void populateRack() throws FileNotFoundException {
+        rackList.clear();
         double x = rackRectangle.getWidth()/2-((double)33/2);
         double y = rackRectangle.getHeight()/2-((double)33/2);
         int counter = 0;
@@ -576,7 +580,8 @@ public class BoardController implements Initializable, ILetterObservable {
      * @param boardList a LetterTuple array that contain information about which tiles were placed last turn.
      */
     @Override
-    public void update(ArrayList<LetterTuple> boardList){
+    public void updateState(ArrayList<LetterTuple> boardList){
+        System.out.println("update");
         for (LetterTuple letter : boardList){
             try {
                 cellList.get(coordinateToIndex(letter.getX(), letter.getY())).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
@@ -584,7 +589,7 @@ public class BoardController implements Initializable, ILetterObservable {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("update");
         updateScores();
         updateTilesLeft();
         setRackImages();
@@ -633,6 +638,7 @@ public class BoardController implements Initializable, ILetterObservable {
         newGameMenuBackground.toBack();
         rackAnchor.getChildren().clear();
         rackList.clear();
+        dragImageView.toFront();
 
         for(Label label: scoreLabelList){
             label.setText("");
@@ -663,6 +669,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     @FXML private void endTurn(){
         game.endTurn();
+
     }
 
     //Sets the Zcrabble theme dark mode. Gets called from the MenuController class.

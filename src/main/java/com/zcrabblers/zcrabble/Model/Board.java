@@ -41,6 +41,20 @@ public class Board {
         }
     }
 
+    public void copyBoardCells(Board board){
+        Cell[][] tempCell = new Cell[board.matrix().length][board.matrix()[0].length];
+        for (int i = 0; i < board.matrix().length; i++) {
+            for (int j = 0; j <board.matrix()[0].length ; j++) {
+                Cell newCell = board.matrix()[i][j];
+                if(newCell.isEmpty()){
+                    tempCell[i][j] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
+                }
+                else tempCell[i][j] = new Cell(1,1, newCell.getPlacedTile());
+            }
+        }
+        boardCells = tempCell;
+    }
+
     /* countPoints is called on the board and given a list of the new cells will return the number of points
     the given play is worth */
 
@@ -225,7 +239,7 @@ public class Board {
      * @return true/false validBoard
      */
     boolean checkBoard(Board tempBoard) {
-        return (checkRow(tempBoard)&&checkCol(tempBoard)&& checkCoherence(tempBoard));
+        return (checkCoherence(tempBoard)&&checkCol(tempBoard)&& checkRow(tempBoard));
     }
 
     /*--- Method for checking that all words in columns are valid. ---*/
@@ -234,19 +248,19 @@ public class Board {
         StringBuilder word = new StringBuilder();
 
         for (int col = 0; col < board.matrix().length; col++) {
-            if (word.length() > 0) {
+            if (word.length() > 1) {
                 colAreIndeedValid = dict.checkWord(word.toString());
-                word.delete(0, word.length());
             }
+            word.delete(0,word.length());
             for (int row = 0; row < board.matrix().length; row++) {
 
                 //if there is a letter on the current cell and that letter is part of a word, add the letter to word.
-                if (containsLetter(board, row, col) && containsLetter(board, row==0?row:row-1, col ) || containsLetter(board, row==14?row:row+1, col)) {
-                    word.append(board.matrix()[col][row].getPlacedTile().getLetter());
+                if (containsLetter(board, row, col) && (containsLetter(board, row==0?row:row-1, col ) || containsLetter(board, row==14?row:row+1, col))) {
+                    word.append(board.matrix()[row][col].getPlacedTile().getLetter());
                 }
                 //If there already is a String in word and there is no letter on the current cell,
                 // the String is finished, and will be checked, then deleted from word
-                if (word.length() > 1 && !containsLetter(board, col, row)) {
+                if (word.length() > 1 && !containsLetter(board, row, col)) {
                     colAreIndeedValid = dict.checkWord(word.toString());
                     word.delete(0, word.length());
                 }
@@ -254,7 +268,9 @@ public class Board {
                     return false;
                 }
             }
-        }return colAreIndeedValid;
+        }
+        System.out.println("col");
+        return colAreIndeedValid;
     }
 
     /*--- Method for checking that all words in rows are valid. ---*/
@@ -263,14 +279,14 @@ public class Board {
         StringBuilder word = new StringBuilder();
 
         for (int row = 0; row < board.matrix().length; row++) {
-            if (word.length() > 0) {
+            if (word.length() > 1) {
                 rowAreIndeedValid = dict.checkWord(word.toString());
-                word.delete(0, word.length());
             }
+            word.delete(0,word.length());
             for (int col = 0; col < board.matrix().length; col++) {
 
                 //if there is a letter on the current cell and that letter is part of a word, add the letter to word.
-                if (containsLetter(board, row, col) && containsLetter(board, row, col==0?col:col-1) || containsLetter(board, row, col==14?col:col+1)) {
+                if (containsLetter(board, row, col) && (containsLetter(board, row, col==0?col:col-1) || containsLetter(board, row, col==14?col:col+1))) {
                     word.append(board.matrix()[row][col].getPlacedTile().getLetter());
                 }
                 //If there already is a String in word and there is no letter on the current cell,
@@ -283,12 +299,15 @@ public class Board {
                     return false;
                 }
             }
-        }return rowAreIndeedValid;
+        }
+        System.out.println("row");
+        return rowAreIndeedValid;
     }
 
     //TODO checkCoherence
     /*--- Checks if all letters on the board are in contact with each other. ---*/
     private  boolean checkCoherence(Board board){
+        System.out.println("coherence");
        /* List<CellTuple> newCells = getNewCells(board);
         if (!containsLetter(board,7,7))
             return false;
@@ -312,8 +331,7 @@ public class Board {
 
         if there is a gap in the new tiles it must be filled with old tiles.
          */
-
-        return true;
+        return containsLetter(board, 7, 7);
     }
 
     /*--- Checks if a cell contains a letter tile ---*/

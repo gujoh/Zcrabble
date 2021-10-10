@@ -50,6 +50,20 @@
                      </children></AnchorPane>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="welcomeScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #68BB59#68BB59;">
+               <children>
+                  <Label layoutX="119.0" layoutY="114.0" text="Zcrabble">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="199.0" layoutY="382.0" mnemonicParsing="false" onAction="#closeWelcomeScreen" prefHeight="50.0" prefWidth="200.0" styleClass="start-button" text="Start" textFill="WHITE">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="gameAnchor" prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@main.css">
                <children>
                   <ImageView fx:id="dragImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
@@ -104,18 +118,13 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="welcomeScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #68BB59#68BB59;">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="119.0" layoutY="114.0" text="Zcrabble">
-                     <font>
-                        <Font size="96.0" />
-                     </font>
-                  </Label>
-                  <Button layoutX="199.0" layoutY="382.0" mnemonicParsing="false" onAction="#closeWelcomeScreen" prefHeight="50.0" prefWidth="200.0" styleClass="start-button" text="Start" textFill="WHITE">
-                     <font>
-                        <Font size="28.0" />
-                     </font>
-                  </Button>
+                  <AnchorPane layoutX="200.0" layoutY="177.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane layoutX="200.0" layoutY="209.0" prefHeight="100.0" prefWidth="300.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="200.0" />
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>

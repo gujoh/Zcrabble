@@ -44,16 +44,21 @@ public class Game implements IGame {
     }
 
     @Override
-    public void endTurn(){ // DISCUSS THIS.
-        if (board.checkBoard(tempBoard)){
-            current.addScore(board.countPoints(board.getNewCells(tempBoard)));
+    public boolean endTurn(){ // DISCUSS THIS.
+        if (tempBoard.checkBoard(tempBoard)){
+            current.addScore(tempBoard.countPoints(tempBoard.getNewCells(board))); //TODO does not currently work
             current.fillRack(tileBag);
             current = getNextPlayer();
+            board.copyBoardCells(tempBoard);
             observer.notifySubscribers(boardList);
             boardList.clear();
             current.beginTurn(tileBag);
+            System.out.println(players.indexOf(current));
+            return true;
         }
         else {
+            System.out.println("WRONG WORD");
+            return false;
             //TODO add something here, maybe have the method return something, that triggers a popup in the view.
         }
 

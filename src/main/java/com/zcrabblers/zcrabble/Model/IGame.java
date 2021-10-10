@@ -16,7 +16,7 @@ public interface IGame {
     void switchRackCells(int x1, int x2);
     void switchRackBoardCells(int rackX, int boardY, int boardX);
     void newGame();
-    void endTurn();
+    boolean endTurn();
     Rack getRack();
     boolean isRackEmpty(int x);
     List<IPlayers> getPlayers();
