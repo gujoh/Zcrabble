@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+//TODO make a board deep copy
+
 public class Board {
-    private static final Dictionary dict = Dictionary.getInstance();
+    private final Dictionary dict = Dictionary.getInstance();
     private Cell[][] boardCells;
     private final String boardSelector;
 
@@ -37,6 +39,20 @@ public class Board {
                 }
             }
         }
+    }
+
+    public void copyBoardCells(Board board){
+        Cell[][] tempCell = new Cell[board.matrix().length][board.matrix()[0].length];
+        for (int i = 0; i < board.matrix().length; i++) {
+            for (int j = 0; j <board.matrix()[0].length ; j++) {
+                Cell newCell = board.matrix()[i][j];
+                if(newCell.isEmpty()){
+                    tempCell[i][j] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
+                }
+                else tempCell[i][j] = new Cell(1,1, newCell.getPlacedTile());
+            }
+        }
+        boardCells = tempCell;
     }
 
     /* countPoints is called on the board and given a list of the new cells will return the number of points
@@ -85,6 +101,8 @@ public class Board {
         //we add the Iterators to the i and j coordinate of the current cell, so we iterate from the position we are at
         int iIterator = 0;
         int jIterator = 0;
+        //when we have found the full word stop becomes true
+        boolean stop = false;
         //when we have found all the cells belonging to the word "above" the cell we started with, we then go downward
         boolean up = true;
         // it's worth noting when iterating over i what we are actually doing is checking everything in the same row of j
@@ -187,13 +205,15 @@ public class Board {
         return newCells;
     }
 
+
+    //TODO this one should be called getBoardCells.
     public Cell[][] matrix(){
         return boardCells;
     }
-    public void switchTiles(int x1, int y1, int x2, int y2){
-        Tile tile = boardCells[x1][y1].getPlacedTile();
-        boardCells[x1][y1].setTile(boardCells[x2][y2].getPlacedTile());
-        boardCells[x2][y2].setTile(tile);
+    public void switchTiles(int y1, int x1, int y2, int x2){
+        Tile tile = boardCells[y1][x1].getPlacedTile();
+        boardCells[y1][x1].setTile(boardCells[y2][x2].getPlacedTile());
+        boardCells[y2][x2].setTile(tile);
     }
     public Tile getTile(int i, int j){
         return boardCells[i][j].getPlacedTile();
@@ -204,8 +224,8 @@ public class Board {
     public void removeTile(int i, int j){
         boardCells[i][j].removeTile();
     }
-    public boolean isCellEmpty(int x, int y){
-        return boardCells[x][y].isEmpty();
+    public boolean isCellEmpty(int y, int x){
+        return boardCells[y][x].isEmpty();
     }
 
     /*--- BoardChecks in progress below ---*/
@@ -219,28 +239,28 @@ public class Board {
      * @return true/false validBoard
      */
     boolean checkBoard(Board tempBoard) {
-        return (checkRow(tempBoard)&&checkCol(tempBoard)&& checkCoherence(tempBoard));
+        return (checkCoherence(tempBoard)&&checkCol(tempBoard)&& checkRow(tempBoard));
     }
 
     /*--- Method for checking that all words in columns are valid. ---*/
-    private static boolean checkCol(Board board) {
+    private boolean checkCol(Board board) {
         boolean colAreIndeedValid = true;
         StringBuilder word = new StringBuilder();
 
         for (int col = 0; col < board.matrix().length; col++) {
-            if (word.length() > 0) {
+            if (word.length() > 1) {
                 colAreIndeedValid = dict.checkWord(word.toString());
-                word.delete(0, word.length());
             }
+            word.delete(0,word.length());
             for (int row = 0; row < board.matrix().length; row++) {
 
                 //if there is a letter on the current cell and that letter is part of a word, add the letter to word.
-                if (containsLetter(board, row, col) && containsLetter(board, row==0?row:row-1, col ) || containsLetter(board, row==14?row:row+1, col)) {
-                    word.append(board.matrix()[col][row].getPlacedTile().getLetter());
+                if (containsLetter(board, row, col) && (containsLetter(board, row==0?row:row-1, col ) || containsLetter(board, row==14?row:row+1, col))) {
+                    word.append(board.matrix()[row][col].getPlacedTile().getLetter());
                 }
                 //If there already is a String in word and there is no letter on the current cell,
                 // the String is finished, and will be checked, then deleted from word
-                if (word.length() > 1 && !containsLetter(board, col, row)) {
+                if (word.length() > 1 && !containsLetter(board, row, col)) {
                     colAreIndeedValid = dict.checkWord(word.toString());
                     word.delete(0, word.length());
                 }
@@ -248,23 +268,25 @@ public class Board {
                     return false;
                 }
             }
-        }return colAreIndeedValid;
+        }
+        System.out.println("col");
+        return colAreIndeedValid;
     }
 
     /*--- Method for checking that all words in rows are valid. ---*/
-    private static boolean checkRow(Board board){
+    private boolean checkRow(Board board){
         boolean rowAreIndeedValid = true;
         StringBuilder word = new StringBuilder();
 
         for (int row = 0; row < board.matrix().length; row++) {
-            if (word.length() > 0) {
+            if (word.length() > 1) {
                 rowAreIndeedValid = dict.checkWord(word.toString());
-                word.delete(0, word.length());
             }
+            word.delete(0,word.length());
             for (int col = 0; col < board.matrix().length; col++) {
 
                 //if there is a letter on the current cell and that letter is part of a word, add the letter to word.
-                if (containsLetter(board, row, col) && containsLetter(board, row, col==0?col:col-1) || containsLetter(board, row, col==14?col:col+1)) {
+                if (containsLetter(board, row, col) && (containsLetter(board, row, col==0?col:col-1) || containsLetter(board, row, col==14?col:col+1))) {
                     word.append(board.matrix()[row][col].getPlacedTile().getLetter());
                 }
                 //If there already is a String in word and there is no letter on the current cell,
@@ -277,22 +299,30 @@ public class Board {
                     return false;
                 }
             }
-        }return rowAreIndeedValid;
+        }
+        System.out.println("row");
+        return rowAreIndeedValid;
     }
 
-    //TODO checkCoherence
+    //TODO
     /*--- Checks if all letters on the board are in contact with each other. ---*/
     private  boolean checkCoherence(Board board){
-        List<CellTuple> newCells = getNewCells(board);
-        if (!containsLetter(board,7,7))
-            return false;
-        /*
+        int numberOfLetters=0;
+        for (int row = 0; row < board.matrix().length; row++) {
+            for (int col = 0; col < board.matrix().length; col++) {
+                if (containsLetter(board, row, col)){
+                    numberOfLetters++;
+                }
+                }
+            }
+
+       /*
 
 
 
         checkConnection
-            for every new tile check the cells directly over/under and left/right of it, there should be at least one connection to a old cell or the middle
-            controll row+-1 and col +-1 make sure not to get out of bounds error, for + 1: row==14?row:row+1.
+            for every new tile check the cells directly over/under and left/right of it, there should be at least one connection to an old cell or the middle
+            control row+-1 and col +-1 make sure not to get out of bounds error, for + 1: row==14?row:row+1.
         for (int i = 0; i <newCells.size() ; i++) {
             newCells.get(i).getI();
         }
@@ -306,8 +336,7 @@ public class Board {
 
         if there is a gap in the new tiles it must be filled with old tiles.
          */
-
-        return true;
+        return (containsLetter(board, 7, 7)&&numberOfLetters!=1);
     }
 
     /*--- Checks if a cell contains a letter tile ---*/

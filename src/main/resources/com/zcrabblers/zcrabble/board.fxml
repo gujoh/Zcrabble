@@ -15,6 +15,21 @@
    <children>
       <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <AnchorPane fx:id="invalidWordBackground" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane layoutX="200.0" layoutY="177.0" onMouseClicked="#closeInvalidBackground" opacity="0.35" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane prefHeight="100.0" prefWidth="300.0" styleClass="new-game-background" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="200.0">
+                     <children>
+                        <Label layoutX="57.0" layoutY="14.0" text="Invalid word">
+                           <font>
+                              <Font size="37.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="invalidCancelButton" layoutX="122.0" layoutY="60.0" mnemonicParsing="false" onAction="#closeInvalidBackground" styleClass="cancel-button" text="Cancel" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="newGameMenuBackground" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <AnchorPane onMouseClicked="#closeNewGameMenu" opacity="0.35" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -37,12 +52,12 @@
                               <Font size="30.0" />
                            </font>
                         </Label>
-                        <Label layoutX="76.0" layoutY="143.0" text="Players (including bots):" AnchorPane.leftAnchor="50.0">
+                        <Label layoutX="76.0" layoutY="143.0" text="Players:" AnchorPane.leftAnchor="50.0">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="244.0" layoutY="143.0" text="Bots:" AnchorPane.rightAnchor="95.0">
+                        <Label layoutX="244.0" layoutY="143.0" text="Bots (Not working):" AnchorPane.rightAnchor="95.0">
                            <font>
                               <Font size="16.0" />
                            </font>

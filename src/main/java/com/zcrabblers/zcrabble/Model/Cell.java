@@ -32,4 +32,6 @@ public class Cell {
         return placedTile.getLetter() == ' ';
     }
 
+    public char getTileLetter() {return placedTile.getLetter();}
+
 }
