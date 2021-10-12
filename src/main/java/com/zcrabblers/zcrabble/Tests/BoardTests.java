@@ -8,6 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BoardTests {
     @Test
@@ -314,6 +315,31 @@ public class BoardTests {
         assertEquals(48, points);
     }
     @Test
+    public void TestBoard7() throws FileNotFoundException {
+        Board board = new Board("defaultBoard");
+        board.selectBoard();
+        board.placeTile(14,1,new Tile('C',2));
+        board.placeTile(14,2,new Tile('D',2));
+        board.placeTile(14,3,new Tile('T',2));
+        board.placeTile(12,0,new Tile('F',2));
+        board.placeTile(11,0,new Tile('G',2));
+
+        Board boardTwo = new Board("defaultBoard");
+        boardTwo.selectBoard();
+        boardTwo.placeTile(14,1,new Tile('C',2));
+        boardTwo.placeTile(14,2,new Tile('D',2));
+        boardTwo.placeTile(14,3,new Tile('T',2));
+        boardTwo.placeTile(12,0,new Tile('F',2));
+        boardTwo.placeTile(11,0,new Tile('G',2));
+
+        boardTwo.placeTile(14,0,new Tile('B',2));
+        boardTwo.placeTile(13,0,new Tile('S',2));
+
+        printBoard(boardTwo);
+        int points = boardTwo.countPoints(boardTwo.getNewCells(board));
+        assertEquals(48, points);
+    }
+    @Test
     public void TestRemoveTile() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
         board.selectBoard();
@@ -324,17 +350,58 @@ public class BoardTests {
         assertTrue(board.isCellEmpty(14,14));
     }
     @Test
-    public void TestSwitchTile() throws FileNotFoundException {
+    public void testSwitchTile() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
         board.selectBoard();
         board.placeTile(14,14,new Tile('S',2));
         board.placeTile(13,13,new Tile('A',7));
+        board.switchTiles(14, 14, 13, 13);
         assertEquals('S', board.getTile(13, 13).getLetter());
         assertEquals(2, board.getTile(13, 13).getTileScore());
         assertEquals('A', board.getTile(14, 14).getLetter());
         assertEquals(7, board.getTile(14, 14).getTileScore());
     }
+    @Test
+    public void testMatrix() throws FileNotFoundException {
+        Board board = new Board("defaultBoard");
+        board.selectBoard();
+        Cell cell = board.matrix()[0][0];
+        assertNotNull(cell);
+    }
+    @Test
+    public void testGetNewCells() throws FileNotFoundException {
+        Board board = new Board("defaultBoard");
+        board.selectBoard();
 
+        board.placeTile(14,12,new Tile('C',2));
+        board.placeTile(14,11,new Tile('D',2));
+        board.placeTile(13,14,new Tile('T',2));
+        board.placeTile(12,14,new Tile('F',2));
+        board.placeTile(11,14,new Tile('G',2));
+
+        Board boardTwo = new Board("defaultBoard");
+        boardTwo.selectBoard();
+        boardTwo.placeTile(14,12,new Tile('C',2));
+        boardTwo.placeTile(14,11,new Tile('D',2));
+        boardTwo.placeTile(13,14,new Tile('T',2));
+        boardTwo.placeTile(12,14,new Tile('F',2));
+        boardTwo.placeTile(11,14,new Tile('G',2));
+
+        boardTwo.placeTile(14,13,new Tile('B',2));
+        boardTwo.placeTile(14,14,new Tile('S',5));
+
+        List<CellTuple> celltuple = boardTwo.getNewCells(board);
+        assertEquals(14, celltuple.get(0).getI());
+        assertEquals(13, celltuple.get(0).getJ());
+        assertEquals('B', celltuple.get(0).getCell().getPlacedTile().getLetter());
+        assertEquals(2, celltuple.get(0).getCell().getPlacedTile().getTileScore());
+
+        assertEquals(14, celltuple.get(1).getI());
+        assertEquals(14, celltuple.get(1).getJ());
+        assertEquals('S', celltuple.get(1).getCell().getPlacedTile().getLetter());
+        assertEquals(5, celltuple.get(1).getCell().getPlacedTile().getTileScore());
+
+    }
 
     public void printBoard(Board pBoard){
         StringBuilder line = new StringBuilder();
