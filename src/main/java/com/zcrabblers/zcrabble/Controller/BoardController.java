@@ -115,6 +115,7 @@ public class BoardController implements Initializable, ILetterObservable {
         populateRack();
         //makeOneTestTile();
         initDragTile();
+        registerBoardEvents(gameAnchor);
         //rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
@@ -145,8 +146,8 @@ public class BoardController implements Initializable, ILetterObservable {
         dragImageView.setVisible(false);
         dragImageView.setMouseTransparent(true);
         dragImageView.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
-        if(!boardAnchor.getChildren().contains(dragImageView)){
-            boardAnchor.getChildren().add(dragImageView);
+        if(!gameAnchor.getChildren().contains(dragImageView)){
+            gameAnchor.getChildren().add(dragImageView);
         }
         dragImageView.toFront();
     }
@@ -204,8 +205,8 @@ public class BoardController implements Initializable, ILetterObservable {
         board.setOnMouseMoved(event -> {
             if(!selection.hasSelected())
                 return;
-            dragImageView.setX(event.getSceneX() - 45);
-            dragImageView.setY(event.getSceneY() - 45);
+            dragImageView.setX(event.getX() - 15);
+            dragImageView.setY(event.getY() - 15);
         });
 
         //board.setOnMouseExited(event -> {
@@ -272,14 +273,15 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setStartY(y);
                     System.out.println("Selected: " + game.getTempBoard().getTile(y, x).getLetter());
 
-//                    dragImageView.setX(cellView.getX());
-//                    dragImageView.setY(cellView.getY());
-//                    dragImageView.setImage(selection.getSelectedImage());
-//                    dragImageView.setVisible(true);
+                    Point2D p = cellView.localToScene(cellView.getX(), cellView.getY());
+                    Point2D p2 = gameAnchor.sceneToLocal(p);
+                    dragImageView.setX(p2.getX());
+                    dragImageView.setY(p2.getY());
+                    dragImageView.setImage(selection.getSelectedImage());
+                    dragImageView.setVisible(true);
                 }
             }
         });
-
     }
     private void registerRackCellEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
@@ -343,14 +345,13 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.select(cellView);
                     selection.setStartX(x);
                     System.out.println("Selected: " + game.getRack().getTile(x).getLetter());
-                    Point2D point = boardAnchor.sceneToLocal(cellView.localToScene(cellView.getX(), cellView.getY()));
 
-//                    dragImageView.setX(point.getX());
-//                    dragImageView.setY(point.getY());
-//                    //dragImageView.setX(cellView.getX()-45);
-//                    //dragImageView.setY(cellView.getY()-45);
-//                    dragImageView.setImage(selection.getSelectedImage());
-//                    dragImageView.setVisible(true);
+                    Point2D p = cellView.localToScene(cellView.getX(), cellView.getY());
+                    Point2D p2 = gameAnchor.sceneToLocal(p);
+                    dragImageView.setX(p2.getX());
+                    dragImageView.setY(p2.getY());
+                    dragImageView.setImage(selection.getSelectedImage());
+                    dragImageView.setVisible(true);
                 }
             }
         });
@@ -495,7 +496,6 @@ public class BoardController implements Initializable, ILetterObservable {
 
                 img.changeToDefaultImage();
                 // registerBoardCellEvents(img);
-                //registerBoardEvents(boardAnchor);
                 registerBoardCellClickEvent(img);
             }
             x = 0;
