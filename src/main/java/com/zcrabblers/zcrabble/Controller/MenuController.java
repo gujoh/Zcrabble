@@ -1,12 +1,10 @@
 package com.zcrabblers.zcrabble.Controller;
 
-import com.zcrabblers.zcrabble.Model.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
-
 import java.io.IOException;
 
 public class MenuController extends AnchorPane {

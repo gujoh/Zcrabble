@@ -18,6 +18,7 @@ public class Player implements IPlayers{
     public int getScore(){
         return score;
     }
+
     public Rack getRack(){
         return rack;
     }

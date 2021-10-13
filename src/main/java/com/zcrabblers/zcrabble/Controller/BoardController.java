@@ -2,7 +2,6 @@ package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.*;
 import com.zcrabblers.zcrabble.Model.Cell;
-import com.zcrabblers.zcrabble.Utils.RandomSeed;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,18 +13,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable, ILetterObservable {
@@ -632,6 +625,8 @@ public class BoardController implements Initializable, ILetterObservable {
 
     }
 
+    //Starts a new game by calling newGame in GameManager.
+    //Amount of players is based on the spinner values in the new game menu.
     @FXML
     private void newGame() throws FileNotFoundException {
         gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
@@ -677,6 +672,7 @@ public class BoardController implements Initializable, ILetterObservable {
         selection.unSelect();
     }
 
+    //Closes the modal panel that shows up when the player tries to play an invalid word.
     @FXML
     private void closeInvalidBackground(){
         invalidWordBackground.toBack();
