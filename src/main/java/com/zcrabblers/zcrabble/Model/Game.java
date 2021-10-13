@@ -13,7 +13,7 @@ public class Game implements IGame, ITurnObservable {
     private TileBag tileBag;
     private int nrPLayers;
     private int nrBots;
-    private ArrayList<LetterTuple> boardList = new ArrayList<>();
+    private ArrayList<CellTuple> boardList = new ArrayList<>();
     private final LetterObserver observer = new LetterObserver();
 
     public Game(int nrPlayers, int nrBots){
