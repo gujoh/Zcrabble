@@ -1,8 +1,6 @@
 package com.zcrabblers.zcrabble.Model;
 
 import com.zcrabblers.zcrabble.Utils.RandomSeed;
-
-import java.util.Collections;
 import java.util.Random;
 
 public class Rack {

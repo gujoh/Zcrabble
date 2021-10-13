@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game implements IGame {
+public class Game implements IGame, ITurnObservable {
 
     private List<IPlayers> players;
     private IPlayers current;
@@ -38,7 +38,7 @@ public class Game implements IGame {
             players.add(new Player(0, new Rack(tileBag)));
         }
         for(int i = 0; i < nrBots; i++){
-            players.add(new Bot(0, new Rack(tileBag)));
+            players.add(new Bot(0, new Rack(tileBag), this));
         }
         current = players.get(0);
     }
@@ -52,7 +52,7 @@ public class Game implements IGame {
             board.copyBoardCells(tempBoard);
             observer.notifySubscribers(boardList);
             boardList.clear();
-            current.beginTurn(tileBag);
+            current.beginTurn(tempBoard);
             System.out.println(players.indexOf(current));
             return true;
         }
@@ -71,7 +71,7 @@ public class Game implements IGame {
     public synchronized void experimentalGameLoop() {
         try {
             while(!isGameOver()){
-                current.beginTurn(tileBag);
+                current.beginTurn(tempBoard);
                 System.out.println("WAITING");
                 wait();
                 System.out.println("PASSED WAIT");

@@ -12,10 +12,12 @@ public class Bot implements IPlayers {
     private int score;
     private Rack rack;
     private static final Dictionary dict = Dictionary.getInstance();
+    private final TurnObserver observer = new TurnObserver();
 
-    public Bot(int score, Rack rack){
+    public Bot(int score, Rack rack, ITurnObservable sub){
         this.score = score;
         this.rack = rack;
+        observer.addSubscriber(sub);
     }
 
     public void addScore(int score){
@@ -47,7 +49,7 @@ public class Bot implements IPlayers {
     }
 
     @Override
-    public void beginTurn(TileBag bag) {
+    public void beginTurn(Board board) {
 
     }
 
@@ -284,5 +286,4 @@ public class Bot implements IPlayers {
             }
             return charCountMap;
         }
-
-    }
+}
