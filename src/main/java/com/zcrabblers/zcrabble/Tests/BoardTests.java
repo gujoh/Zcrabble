@@ -15,14 +15,14 @@ public class BoardTests {
     public void testSize() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
         board.selectBoard();
-        assertEquals(15, board.matrix()[0].length);
+        assertEquals(15, board.getBoardCells()[0].length);
     }
     @Test
     public void testCalculateScore() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
         board.selectBoard();
-        for(int i = 0; i < board.matrix().length; i++){
-            for(int j = 0; j < board.matrix().length; j++)
+        for(int i = 0; i < board.getBoardCells().length; i++){
+            for(int j = 0; j < board.getBoardCells().length; j++)
                 if((7 > j && i == 8)) {
                 }
                 else{
@@ -31,8 +31,8 @@ public class BoardTests {
         }
         Board boardTwo = new Board("defaultBoard");
         boardTwo.selectBoard();
-        for(int i = 0; i < boardTwo.matrix().length; i++){
-            for(int j = 0; j < boardTwo.matrix().length; j++)
+        for(int i = 0; i < boardTwo.getBoardCells().length; i++){
+            for(int j = 0; j < boardTwo.getBoardCells().length; j++)
                 if((7 > j && i == 8)) {
                     boardTwo.placeTile(i, j, new Tile('B', 2));
                 }
@@ -365,7 +365,7 @@ public class BoardTests {
     public void testMatrix() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
         board.selectBoard();
-        Cell cell = board.matrix()[0][0];
+        Cell cell = board.getBoardCells()[0][0];
         assertNotNull(cell);
     }
     @Test
@@ -405,12 +405,12 @@ public class BoardTests {
 
     public void printBoard(Board pBoard){
         StringBuilder line = new StringBuilder();
-        for(int i = 0; i < pBoard.matrix().length + 1; i++){
+        for(int i = 0; i < pBoard.getBoardCells().length + 1; i++){
             if(i < 11) {
                 line.append(Math.abs(i - 1)).append(" ");
             }
             else line.append(i - 11).append(" ");
-            for(int j = 0; j < pBoard.matrix().length; j++){
+            for(int j = 0; j < pBoard.getBoardCells().length; j++){
                 if(i == 0){
                     if(j > 0 && j < 10) {
                         line.append(j - 1);
@@ -424,15 +424,15 @@ public class BoardTests {
                         line.append("4");}
                 }
                 else {
-                    if (pBoard.matrix()[i-1][j].getPlacedTile().getLetter() == ' ') {
-                        line.append(pBoard.matrix()[i - 1][j].GetCellLetterMultiplier());
+                    if (pBoard.getBoardCells()[i-1][j].getPlacedTile().getLetter() == ' ') {
+                        line.append(pBoard.getBoardCells()[i - 1][j].GetCellLetterMultiplier());
                         line.append('_');
-                        line.append(pBoard.matrix()[i - 1][j].GetCellWordMultiplier());
+                        line.append(pBoard.getBoardCells()[i - 1][j].GetCellWordMultiplier());
                         line.append(" ");
                     } else {
-                        line.append(pBoard.matrix()[i - 1][j].GetCellLetterMultiplier());
-                        line.append(pBoard.matrix()[i - 1][j].getPlacedTile().getLetter());
-                        line.append(pBoard.matrix()[i - 1][j].GetCellWordMultiplier());
+                        line.append(pBoard.getBoardCells()[i - 1][j].GetCellLetterMultiplier());
+                        line.append(pBoard.getBoardCells()[i - 1][j].getPlacedTile().getLetter());
+                        line.append(pBoard.getBoardCells()[i - 1][j].GetCellWordMultiplier());
                         line.append(" ");
                     }
                 }
@@ -443,12 +443,12 @@ public class BoardTests {
     }
     public void printBoardJustLetters(Board pBoard){
         StringBuilder line = new StringBuilder();
-        for(int i = 0; i < pBoard.matrix().length + 1; i++){
+        for(int i = 0; i < pBoard.getBoardCells().length + 1; i++){
             if(i < 11) {
                 line.append(Math.abs(i - 1)).append(" ");
             }
             else line.append(i - 11).append(" ");
-            for(int j = 0; j < pBoard.matrix().length; j++){
+            for(int j = 0; j < pBoard.getBoardCells().length; j++){
                 if(i == 0){
                     if(j > 0 && j < 10) {
                         line.append(j - 1);
@@ -462,10 +462,10 @@ public class BoardTests {
                         line.append("4");}
                 }
                 else {
-                    if (pBoard.matrix()[i-1][j].getPlacedTile().getLetter() == ' ') {
+                    if (pBoard.getBoardCells()[i-1][j].getPlacedTile().getLetter() == ' ') {
                         line.append('_');
                     } else {
-                        line.append(pBoard.matrix()[i - 1][j].getPlacedTile().getLetter());
+                        line.append(pBoard.getBoardCells()[i - 1][j].getPlacedTile().getLetter());
                     }
                     line.append(" ");
                 }
@@ -476,10 +476,10 @@ public class BoardTests {
     }
     public void printBoardPoints(Board pBoard){
         StringBuilder line = new StringBuilder();
-        for(int i = 0; i < pBoard.matrix().length; i++){
-            for(int j = 0; j < pBoard.matrix().length; j++){
-                String letterMult = String.valueOf(pBoard.matrix()[i][j].GetCellLetterMultiplier());
-                line.append(letterMult).append(pBoard.matrix()[i][j].GetCellWordMultiplier());
+        for(int i = 0; i < pBoard.getBoardCells().length; i++){
+            for(int j = 0; j < pBoard.getBoardCells().length; j++){
+                String letterMult = String.valueOf(pBoard.getBoardCells()[i][j].GetCellLetterMultiplier());
+                line.append(letterMult).append(pBoard.getBoardCells()[i][j].GetCellWordMultiplier());
                 line.append(" ");
             }
             System.out.println(line);

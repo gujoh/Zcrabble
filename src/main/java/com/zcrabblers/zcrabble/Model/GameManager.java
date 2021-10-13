@@ -71,7 +71,7 @@ public class GameManager {
     }
 
     public Cell[][] getBoardCells(){
-            return getBoard().matrix();
+            return getBoard().getBoardCells();
     }
 
     public Rack getRack(){
