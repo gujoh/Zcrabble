@@ -43,6 +43,7 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Spinner botSpinner;
     @FXML private AnchorPane invalidWordBackground;
     @FXML private Button invalidCancelButton;
+    @FXML private Label needMorePlayersLabel;
 
     private ArrayList<ImageView> cellList = new ArrayList<>();
     private ArrayList<ImageView> rackList = new ArrayList<>();
@@ -71,13 +72,14 @@ public class BoardController implements Initializable, ILetterObservable {
     public void initialize(URL url, ResourceBundle rb) {
         menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
+        needMorePlayersLabel.setVisible(false);
         scoreLabelList.add(p1Score);
         scoreLabelList.add(p2Score);
         scoreLabelList.add(p3Score);
         scoreLabelList.add(p4Score);
 
 
-        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,4,2,1);
+        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,4,2,1);
         SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
         playerSpinner.setValueFactory(playerValueFactory);
         botSpinner.setValueFactory(botValueFactory);
@@ -115,6 +117,7 @@ public class BoardController implements Initializable, ILetterObservable {
         populateRack();
         //makeOneTestTile();
         initDragTile();
+        registerBoardEvents(gameAnchor);
         //rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
         //rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
@@ -145,8 +148,8 @@ public class BoardController implements Initializable, ILetterObservable {
         dragImageView.setVisible(false);
         dragImageView.setMouseTransparent(true);
         dragImageView.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
-        if(!boardAnchor.getChildren().contains(dragImageView)){
-            boardAnchor.getChildren().add(dragImageView);
+        if(!gameAnchor.getChildren().contains(dragImageView)){
+            gameAnchor.getChildren().add(dragImageView);
         }
         dragImageView.toFront();
     }
@@ -204,8 +207,8 @@ public class BoardController implements Initializable, ILetterObservable {
         board.setOnMouseMoved(event -> {
             if(!selection.hasSelected())
                 return;
-            dragImageView.setX(event.getSceneX() - 45);
-            dragImageView.setY(event.getSceneY() - 45);
+            dragImageView.setX(event.getX() - 15);
+            dragImageView.setY(event.getY() - 15);
         });
 
         //board.setOnMouseExited(event -> {
@@ -272,14 +275,15 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setStartY(y);
                     System.out.println("Selected: " + game.getTempBoard().getTile(y, x).getLetter());
 
-//                    dragImageView.setX(cellView.getX());
-//                    dragImageView.setY(cellView.getY());
-//                    dragImageView.setImage(selection.getSelectedImage());
-//                    dragImageView.setVisible(true);
+                    Point2D p = cellView.localToScene(cellView.getX(), cellView.getY());
+                    Point2D p2 = gameAnchor.sceneToLocal(p);
+                    dragImageView.setX(p2.getX());
+                    dragImageView.setY(p2.getY());
+                    dragImageView.setImage(selection.getSelectedImage());
+                    dragImageView.setVisible(true);
                 }
             }
         });
-
     }
     private void registerRackCellEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
@@ -343,14 +347,13 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.select(cellView);
                     selection.setStartX(x);
                     System.out.println("Selected: " + game.getRack().getTile(x).getLetter());
-                    Point2D point = boardAnchor.sceneToLocal(cellView.localToScene(cellView.getX(), cellView.getY()));
 
-//                    dragImageView.setX(point.getX());
-//                    dragImageView.setY(point.getY());
-//                    //dragImageView.setX(cellView.getX()-45);
-//                    //dragImageView.setY(cellView.getY()-45);
-//                    dragImageView.setImage(selection.getSelectedImage());
-//                    dragImageView.setVisible(true);
+                    Point2D p = cellView.localToScene(cellView.getX(), cellView.getY());
+                    Point2D p2 = gameAnchor.sceneToLocal(p);
+                    dragImageView.setX(p2.getX());
+                    dragImageView.setY(p2.getY());
+                    dragImageView.setImage(selection.getSelectedImage());
+                    dragImageView.setVisible(true);
                 }
             }
         });
@@ -495,7 +498,6 @@ public class BoardController implements Initializable, ILetterObservable {
 
                 img.changeToDefaultImage();
                 // registerBoardCellEvents(img);
-                //registerBoardEvents(boardAnchor);
                 registerBoardCellClickEvent(img);
             }
             x = 0;
@@ -575,11 +577,11 @@ public class BoardController implements Initializable, ILetterObservable {
      * @param boardList a LetterTuple array that contain information about which tiles were placed last turn.
      */
     @Override
-    public void updateState(ArrayList<LetterTuple> boardList){
+    public void updateState(ArrayList<CellTuple> boardList){
         System.out.println("update");
-        for (LetterTuple letter : boardList){
+        for (CellTuple cell : boardList){
             try {
-                cellList.get(coordinateToIndex(letter.getX(), letter.getY())).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
+                cellList.get(coordinateToIndex(cell.getI(), cell.getJ())).setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -629,21 +631,28 @@ public class BoardController implements Initializable, ILetterObservable {
     //Amount of players is based on the spinner values in the new game menu.
     @FXML
     private void newGame() throws FileNotFoundException {
-        gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
-        game = gameManager.getCurrentGame();
-        gameManager.addSubscriber(this);
-        newGameMenuBackground.toBack();
-        rackAnchor.getChildren().clear();
-        rackList.clear();
-        dragImageView.toFront();
+        if((int)playerSpinner.getValue() + (int)botSpinner.getValue() <= 1){
+            needMorePlayersLabel.setVisible(true);
+        }
+        else{
+            needMorePlayersLabel.setVisible(false);
+            gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
+            game = gameManager.getCurrentGame();
+            gameManager.addSubscriber(this);
+            newGameMenuBackground.toBack();
+            rackAnchor.getChildren().clear();
+            rackList.clear();
+            dragImageView.toFront();
 
-        for(Label label: scoreLabelList){
-            label.setText("");
+            for(Label label: scoreLabelList){
+                label.setText("");
+            }
+
+            populate();
+            updateScores();
+            updateTilesLeft();
         }
 
-        populate();
-        updateScores();
-        updateTilesLeft();
     }
 
     //Closes the welcome screen by calling the toBack() method on the AnchorPane.

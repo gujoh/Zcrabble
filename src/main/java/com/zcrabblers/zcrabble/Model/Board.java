@@ -8,6 +8,9 @@ import java.util.Scanner;
 
 //TODO make a board deep copy
 
+/**
+ *
+ */
 public class Board {
     private final Dictionary dict = Dictionary.getInstance();
     private Cell[][] boardCells;
@@ -246,27 +249,57 @@ public class Board {
         return newCells;
     }
 
-
-    //TODO this one should be called getBoardCells.
+    /**
+     * @return returns the cell matrix of the board
+     */
     public Cell[][] getBoardCells(){
         return boardCells;
     }
-    public void switchTiles(int y1, int x1, int y2, int x2){
-        Tile tile = boardCells[y1][x1].getPlacedTile();
-        boardCells[y1][x1].setTile(boardCells[y2][x2].getPlacedTile());
-        boardCells[y2][x2].setTile(tile);
+
+    /**
+     * switches two tiles on a board given their positions
+     * @param i1 i coordinate of the first tile
+     * @param j1 j coordinate of the first tile
+     * @param i2 i coordinate of the second tile
+     * @param j2 j coordinate of the second tile
+     */
+    public void switchTiles(int i1, int j1, int i2, int j2){
+        Tile tile = boardCells[i1][j1].getPlacedTile();
+        boardCells[i1][j1].setTile(boardCells[i2][j2].getPlacedTile());
+        boardCells[i2][j2].setTile(tile);
     }
+
+    /**
+     * @param i i corresponds to the position in the first list
+     * @param j j corresponds to the position in the second list
+     * @return returns the tile of the given cell
+     */
     public Tile getTile(int i, int j){
         return boardCells[i][j].getPlacedTile();
     }
+    /**
+     * @param i i corresponds to the position in the first list
+     * @param j j corresponds to the position in the second list
+     * @return places a tile in the given position
+     */
     public void placeTile( int i, int j, Tile tile){
             boardCells[i][j].setTile(tile);
     }
+    /**
+     * removes the tile of the given position
+     * @param i i corresponds to the position in the first list
+     * @param j j corresponds to the position in the second list
+     */
     public void removeTile(int i, int j){
         boardCells[i][j].removeTile();
     }
-    public boolean isCellEmpty(int y, int x){
-        return boardCells[y][x].isEmpty();
+    /**
+     * @param i i corresponds to the position in the first list
+     * @param j j corresponds to the position in the second list
+     * @return returns a true boolean if the cell is empty
+     */
+    public boolean isCellEmpty(int i, int j){
+        return boardCells[i][j].isEmpty();
     }
 
     /*--- BoardChecks in progress below ---*/
