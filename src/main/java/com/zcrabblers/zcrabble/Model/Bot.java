@@ -45,7 +45,7 @@ public class Bot implements IPlayers {
 
     @Override
     public Tile getRackTile(int x) {
-        return null;
+        return rack.getTile(x);
     }
 
     @Override
