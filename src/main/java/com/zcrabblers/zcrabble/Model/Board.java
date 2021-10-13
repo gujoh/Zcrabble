@@ -32,8 +32,8 @@ public class Board {
      * called after creating a new board taking the inputted string and using it in this method
      * to fill its board with cells
      * see src/main/resources/ for the files
-     * @throws FileNotFoundException
-     * @return returns a board with cells filled with information from the corresponding txt file
+     * @throws FileNotFoundException throws an error if the reading of the txt is incorrect
+     * fills a board with cells filled with information from the corresponding txt file
      */
     public void selectBoard() throws FileNotFoundException {
         if(boardSelector.equals("defaultBoard")){
@@ -129,8 +129,6 @@ public class Board {
         //we add the Iterators to the i and j coordinate of the current cell, so we iterate from the position we are at
         int iIterator = 0;
         int jIterator = 0;
-        //when we have found the full word stop becomes true
-        boolean stop = false;
         //when we have found all the cells belonging to the word "above" the cell we started with, we then go downward
         boolean up = true;
         // it's worth noting when iterating over i what we are actually doing is checking everything in the same row of j
@@ -280,7 +278,7 @@ public class Board {
     /**
      * @param i i corresponds to the position in the first list
      * @param j j corresponds to the position in the second list
-     * @return places a tile in the given position
+     * places a tile in the given position
      */
     public void placeTile( int i, int j, Tile tile){
             boardCells[i][j].setTile(tile);
