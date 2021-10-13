@@ -46,7 +46,7 @@ public class Game implements IGame, ITurnObservable {
     @Override
     public boolean endTurn(){ // DISCUSS THIS.
         if (tempBoard.checkBoard(tempBoard)){
-            current.addScore(tempBoard.countPoints(tempBoard.getNewCells(board))); //TODO does not currently work
+            current.addScore(tempBoard.countPoints(tempBoard.getNewCells(board)));
             current.fillRack(tileBag);
             current = getNextPlayer();
             board.copyBoardCells(tempBoard);
@@ -59,7 +59,6 @@ public class Game implements IGame, ITurnObservable {
         else {
             System.out.println("WRONG WORD");
             return false;
-            //TODO add something here, maybe have the method return something, that triggers a popup in the view.
         }
 
     }

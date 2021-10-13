@@ -43,6 +43,7 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Spinner botSpinner;
     @FXML private AnchorPane invalidWordBackground;
     @FXML private Button invalidCancelButton;
+    @FXML private Label needMorePlayersLabel;
 
     private ArrayList<ImageView> cellList = new ArrayList<>();
     private ArrayList<ImageView> rackList = new ArrayList<>();
@@ -71,13 +72,14 @@ public class BoardController implements Initializable, ILetterObservable {
     public void initialize(URL url, ResourceBundle rb) {
         menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
+        needMorePlayersLabel.setVisible(false);
         scoreLabelList.add(p1Score);
         scoreLabelList.add(p2Score);
         scoreLabelList.add(p3Score);
         scoreLabelList.add(p4Score);
 
 
-        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,4,2,1);
+        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,4,2,1);
         SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
         playerSpinner.setValueFactory(playerValueFactory);
         botSpinner.setValueFactory(botValueFactory);
@@ -629,21 +631,28 @@ public class BoardController implements Initializable, ILetterObservable {
     //Amount of players is based on the spinner values in the new game menu.
     @FXML
     private void newGame() throws FileNotFoundException {
-        gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
-        game = gameManager.getCurrentGame();
-        gameManager.addSubscriber(this);
-        newGameMenuBackground.toBack();
-        rackAnchor.getChildren().clear();
-        rackList.clear();
-        dragImageView.toFront();
+        if((int)playerSpinner.getValue() + (int)botSpinner.getValue() <= 1){
+            needMorePlayersLabel.setVisible(true);
+        }
+        else{
+            needMorePlayersLabel.setVisible(false);
+            gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
+            game = gameManager.getCurrentGame();
+            gameManager.addSubscriber(this);
+            newGameMenuBackground.toBack();
+            rackAnchor.getChildren().clear();
+            rackList.clear();
+            dragImageView.toFront();
 
-        for(Label label: scoreLabelList){
-            label.setText("");
+            for(Label label: scoreLabelList){
+                label.setText("");
+            }
+
+            populate();
+            updateScores();
+            updateTilesLeft();
         }
 
-        populate();
-        updateScores();
-        updateTilesLeft();
     }
 
     //Closes the welcome screen by calling the toBack() method on the AnchorPane.
