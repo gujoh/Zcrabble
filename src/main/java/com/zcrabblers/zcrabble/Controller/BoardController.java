@@ -577,11 +577,11 @@ public class BoardController implements Initializable, ILetterObservable {
      * @param boardList a LetterTuple array that contain information about which tiles were placed last turn.
      */
     @Override
-    public void updateState(ArrayList<LetterTuple> boardList){
+    public void updateState(ArrayList<CellTuple> boardList){
         System.out.println("update");
-        for (LetterTuple letter : boardList){
+        for (CellTuple cell : boardList){
             try {
-                cellList.get(coordinateToIndex(letter.getX(), letter.getY())).setImage(new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
+                cellList.get(coordinateToIndex(cell.getI(), cell.getJ())).setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
