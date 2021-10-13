@@ -33,7 +33,7 @@ public class Player implements IPlayers{
     }
 
     @Override
-    public void beginTurn(TileBag bag) {
+    public void beginTurn(Board board) {
 
     }
 
