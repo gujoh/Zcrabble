@@ -674,6 +674,7 @@ public class BoardController implements Initializable, ILetterObservable {
         if(!game.endTurn()){
             invalidWordBackground.toFront();
         }
+        selection.unSelect();
     }
 
     @FXML
