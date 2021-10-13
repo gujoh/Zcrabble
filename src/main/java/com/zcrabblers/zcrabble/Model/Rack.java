@@ -98,6 +98,9 @@ public class Rack {
         }
     }
 
+    /**
+     * Shuffles the current rack.
+     */
     public void shuffleRack(){
         Random rand = new Random(RandomSeed.INSTANCE.getSeed());
         for(int i = 0; i < playerTiles.length - 2; i++){
@@ -108,6 +111,10 @@ public class Rack {
         }
     }
 
+    /**
+     * Getter for playerTiles i.e a player's rack.
+     * @return an array of tiles.
+     */
     Tile[] getTiles(){
         return playerTiles;
     }
