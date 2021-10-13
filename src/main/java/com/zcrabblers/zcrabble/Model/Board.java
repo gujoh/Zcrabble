@@ -25,6 +25,13 @@ public class Board {
     //then iterates through the txt file and creates new cells for each matrix
     // each cell reads two numbers from the txt and creates a tile with the "empty" values of ' ' and 0
 
+    /**
+     * called after creating a new board taking the inputted string and using it in this method
+     * to fill its board with cells
+     * see src/main/resources/ for the files
+     * @throws FileNotFoundException
+     * @return returns a board with cells filled with information from the corresponding txt file
+     */
     public void selectBoard() throws FileNotFoundException {
         if(boardSelector.equals("defaultBoard")){
             File file = new File("src/main/resources/"+boardSelector);
@@ -42,10 +49,10 @@ public class Board {
     }
 
     public void copyBoardCells(Board board){
-        Cell[][] tempCell = new Cell[board.matrix().length][board.matrix()[0].length];
-        for (int i = 0; i < board.matrix().length; i++) {
-            for (int j = 0; j <board.matrix()[0].length ; j++) {
-                Cell newCell = board.matrix()[i][j];
+        Cell[][] tempCell = new Cell[board.getBoardCells().length][board.getBoardCells()[0].length];
+        for (int i = 0; i < board.getBoardCells().length; i++) {
+            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
+                Cell newCell = board.getBoardCells()[i][j];
                 if(newCell.isEmpty()){
                     tempCell[i][j] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
                 }
@@ -55,9 +62,16 @@ public class Board {
         boardCells = tempCell;
     }
 
+    /**
+     * counts the point on a board any play gives, called on the newest board and given a list of new cells
+     * @param newCells a List of the new cells added to the board, see getNewCells to find these
+     *                 newCells is a cellTuple which carries the position of the cell on the board but also
+     *                 it's tile, and the cell value
+     * @return returns the score any given play will yield
+     * @see CellTuple
+     */
     /* countPoints is called on the board and given a list of the new cells will return the number of points
     the given play is worth */
-
     public int countPoints(List<CellTuple> newCells){
         //since any scrabble play can only be made fully vertically or fully horizontally
         // we only want to check any row that has multiple new tiles placed only once
@@ -97,6 +111,17 @@ public class Board {
         return helpCalculateScore(wordList, newCells);
     }
 
+    /**
+     * helper function to count points that is used to find newly created words in any given play
+     * it doesn't return anything since a reference is passed and that is mutated
+     * @param ignoreI used to know if all the tiles were placed vertically or horizontally
+     *                in order not to count the same word multiple times
+     * @param wordList the passed reference that the words will be added to
+     * @param wordCount a counter to keep track of how many words have been added
+     * @param i the vertical counter
+     * @param j the horizontal counter
+     * @see CellTuple         
+     */
     private void helpBuildWords (boolean ignoreI ,List<ArrayList<CellTuple>> wordList, int wordCount, int i, int j ){
         //we add the Iterators to the i and j coordinate of the current cell, so we iterate from the position we are at
         int iIterator = 0;
@@ -146,8 +171,16 @@ public class Board {
             else break;
         }
     }
-    //given the word list and new cells it gives back the point value of those
 
+    /**
+     * a helper function to countPoints that returns the point value of a set of words
+     * @param wordList The list of words which points are to be counted
+     * @param newCells a List of the new cells added to the board, see getNewCells to find these
+     *      *          newCells is a cellTuple which carries the position of the cell on the board but also
+     *      *          it's tile, and the cell value
+     * @return returns the final point value
+     * @see CellTuple
+     */
     private int helpCalculateScore(List<ArrayList<CellTuple>> wordList, List<CellTuple> newCells){
         // score keeps track of the total score of the entire sets of words
         int score = 0;
@@ -188,11 +221,19 @@ public class Board {
         return score;
     }
 
+    /**
+     * returns a list of the new cells on a board comparing the old and new board 
+     * call this method on the new board and send the old board as a parameter 
+     * @param tempBoard the older board with fewer cells being compared to the current object
+     * @return returns all the cells which the old board did not have 
+     *         compared to the new board in the form of cellTuples
+     * @see CellTuple
+     */
     // returns a list of new cells comparing the differance between two boards
     public List<CellTuple> getNewCells(Board tempBoard){
         //CellTuples have i,j coordinate and a Cell
         List<CellTuple> newCells = new ArrayList<>();
-        Cell[][] tempBoardCells = tempBoard.matrix();
+        Cell[][] tempBoardCells = tempBoard.getBoardCells();
         // double for loop checking each individual cell if they have the same tile
         for(int i = 0; i < tempBoardCells[0].length; i++){
             for(int j = 0; j < boardCells[0].length; j++){
@@ -207,7 +248,7 @@ public class Board {
 
 
     //TODO this one should be called getBoardCells.
-    public Cell[][] matrix(){
+    public Cell[][] getBoardCells(){
         return boardCells;
     }
     public void switchTiles(int y1, int x1, int y2, int x2){
@@ -247,16 +288,16 @@ public class Board {
         boolean colAreIndeedValid = true;
         StringBuilder word = new StringBuilder();
 
-        for (int col = 0; col < board.matrix().length; col++) {
+        for (int col = 0; col < board.getBoardCells().length; col++) {
             if (word.length() > 1) {
                 colAreIndeedValid = dict.checkWord(word.toString());
             }
             word.delete(0,word.length());
-            for (int row = 0; row < board.matrix().length; row++) {
+            for (int row = 0; row < board.getBoardCells().length; row++) {
 
                 //if there is a letter on the current cell and that letter is part of a word, add the letter to word.
                 if (containsLetter(board, row, col) && (containsLetter(board, row==0?row:row-1, col ) || containsLetter(board, row==14?row:row+1, col))) {
-                    word.append(board.matrix()[row][col].getPlacedTile().getLetter());
+                    word.append(board.getBoardCells()[row][col].getPlacedTile().getLetter());
                 }
                 //If there already is a String in word and there is no letter on the current cell,
                 // the String is finished, and will be checked, then deleted from word
@@ -278,16 +319,16 @@ public class Board {
         boolean rowAreIndeedValid = true;
         StringBuilder word = new StringBuilder();
 
-        for (int row = 0; row < board.matrix().length; row++) {
+        for (int row = 0; row < board.getBoardCells().length; row++) {
             if (word.length() > 1) {
                 rowAreIndeedValid = dict.checkWord(word.toString());
             }
             word.delete(0,word.length());
-            for (int col = 0; col < board.matrix().length; col++) {
+            for (int col = 0; col < board.getBoardCells().length; col++) {
 
                 //if there is a letter on the current cell and that letter is part of a word, add the letter to word.
                 if (containsLetter(board, row, col) && (containsLetter(board, row, col==0?col:col-1) || containsLetter(board, row, col==14?col:col+1))) {
-                    word.append(board.matrix()[row][col].getPlacedTile().getLetter());
+                    word.append(board.getBoardCells()[row][col].getPlacedTile().getLetter());
                 }
                 //If there already is a String in word and there is no letter on the current cell,
                 // the String is finished, and will be checked, then deleted from word
@@ -308,8 +349,8 @@ public class Board {
     /*--- Checks if all letters on the board are in contact with each other. ---*/
     private  boolean checkCoherence(Board board){
         int numberOfLetters=0;
-        for (int row = 0; row < board.matrix().length; row++) {
-            for (int col = 0; col < board.matrix().length; col++) {
+        for (int row = 0; row < board.getBoardCells().length; row++) {
+            for (int col = 0; col < board.getBoardCells().length; col++) {
                 if (containsLetter(board, row, col)){
                     numberOfLetters++;
                 }
@@ -341,7 +382,7 @@ public class Board {
 
     /*--- Checks if a cell contains a letter tile ---*/
     private static boolean containsLetter (Board board,int row, int col){
-        return board.matrix()[row][col].getPlacedTile().getLetter() != ' ';
+        return board.getBoardCells()[row][col].getPlacedTile().getLetter() != ' ';
     }
 
 }
