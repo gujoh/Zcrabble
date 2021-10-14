@@ -84,7 +84,7 @@ public class BoardTests {
         boardTwo.placeTile(3,9,new Tile('P',2));
         boardTwo.placeTile(3,10,new Tile('Q',2));
         boardTwo.placeTile(3,11,new Tile('R',2));
-        int points = boardTwo.countPoints(boardTwo.getNewCells(board));
+        int points = boardTwo.countPoints(board);
         assertEquals(46, points);
 
     }
@@ -149,7 +149,7 @@ public class BoardTests {
         boardTwo.placeTile(7,7,new Tile('N',2));
         boardTwo.placeTile(8,7,new Tile('P',2));
         boardTwo.placeTile(10,7,new Tile('R',2));
-        int points = boardTwo.countPoints(boardTwo.getNewCells(board));
+        int points = boardTwo.countPoints(board);
         assertEquals(36, points);
 
     }
@@ -226,7 +226,7 @@ public class BoardTests {
         boardTwo.placeTile(7,7,new Tile('N',2));
         boardTwo.placeTile(8,7,new Tile('P',2));
         boardTwo.placeTile(10,7,new Tile('R',2));
-        int points = boardTwo.countPoints(boardTwo.getNewCells(board));
+        int points = boardTwo.countPoints(board);
         assertEquals(64, points);
     }
 
@@ -258,7 +258,7 @@ public class BoardTests {
         boardTwo.placeTile(2,1,new Tile('S',2));
 
         printBoard(boardTwo);
-        int points = boardTwo.countPoints(boardTwo.getNewCells(board));
+        int points = boardTwo.countPoints(board);
         assertEquals(24, points);
     }
 
@@ -290,7 +290,7 @@ public class BoardTests {
         boardTwo.placeTile(13,13,new Tile('S',2));
 
         printBoard(boardTwo);
-        int points = boardTwo.countPoints(boardTwo.getNewCells(board));
+        int points = boardTwo.countPoints(board);
         assertEquals(24, points);
     }
 
@@ -316,7 +316,7 @@ public class BoardTests {
         boardTwo.placeTile(14,14,new Tile('S',2));
 
         printBoard(boardTwo);
-        int points = boardTwo.countPoints(boardTwo.getNewCells(board));
+        int points = boardTwo.countPoints(board);
         assertEquals(48, points);
     }
     @Test
@@ -341,7 +341,7 @@ public class BoardTests {
         boardTwo.placeTile(13,0,new Tile('S',2));
 
         printBoard(boardTwo);
-        int points = boardTwo.countPoints(boardTwo.getNewCells(board));
+        int points = boardTwo.countPoints(board);
         assertEquals(48, points);
     }
 

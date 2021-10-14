@@ -23,7 +23,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        GameManager manager = new GameManager();
+        //GameManager manager = new GameManager();
 
         launch();
     }

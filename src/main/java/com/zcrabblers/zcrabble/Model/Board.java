@@ -67,15 +67,14 @@ public class Board {
 
     /**
      * counts the point on a board any play gives, called on the newest board and given a list of new cells
-     * @param newCells a List of the new cells added to the board, see getNewCells to find these
-     *                 newCells is a cellTuple which carries the position of the cell on the board but also
-     *                 it's tile, and the cell value
+     * @param board a board that gets compared to this board in order to get the cells that were placed this round.
      * @return returns the score any given play will yield
      * @see CellTuple
      */
     /* countPoints is called on the board and given a list of the new cells will return the number of points
     the given play is worth */
-    public int countPoints(List<CellTuple> newCells){
+    public int countPoints(Board board){
+        List<CellTuple> newCells = this.getNewCells(board);
         //since any scrabble play can only be made fully vertically or fully horizontally
         // we only want to check any row that has multiple new tiles placed only once
         //ignoreI will be used to make sure of that
