@@ -22,7 +22,7 @@ public class Board {
 
     /**
      * the board constructor is called with a string it will search resources for a matching txt file to load
-     * the board layout from
+     * the board layout from. Use "defaultBoard" for the default board
      * @param boardSelector string to select which board will be used
      */
     public Board(String boardSelector){

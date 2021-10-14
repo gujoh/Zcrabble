@@ -3,9 +3,18 @@ package com.zcrabblers.zcrabble.Model;
 import com.zcrabblers.zcrabble.Utils.RandomSeed;
 import java.util.Random;
 
+/**
+ * the array from which players can see and play their tiles, draws from TileBag
+ * @see TileBag
+ */
 public class Rack {
     private Tile[] playerTiles = new Tile[7];
 
+    /**
+     * when called takes 7 tiles from the bag
+     * @param bag the TileBag for the game
+     * @see TileBag
+     */
     public Rack(TileBag bag){
         for(int i = 0; i < 7; i++){
             playerTiles[i] = bag.takeTile();
