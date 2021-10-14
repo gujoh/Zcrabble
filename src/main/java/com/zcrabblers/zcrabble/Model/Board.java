@@ -9,7 +9,8 @@ import java.util.Scanner;
 //TODO make a board deep copy
 
 /**
- *
+ *The board on which the game is played, it's made up of a matrix of cells
+ * @see Cell
  */
 public class Board {
     private final Dictionary dict = Dictionary.getInstance();
@@ -19,6 +20,11 @@ public class Board {
     // constructor takes a string in order to search for the matching text file
     // then calls the selectBoard function to fill the new board with cells
 
+    /**
+     * the board constructor is called with a string it will search resources for a matching txt file to load
+     * the board layout from
+     * @param boardSelector string to select which board will be used
+     */
     public Board(String boardSelector){
         this.boardSelector = boardSelector;
     }
