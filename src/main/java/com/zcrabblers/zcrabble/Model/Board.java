@@ -129,7 +129,7 @@ public class Board {
      * @param wordCount a counter to keep track of how many words have been added
      * @param i the vertical counter
      * @param j the horizontal counter
-     * @see CellTuple         
+     * @see CellTuple
      */
     private void helpBuildWords (boolean ignoreI ,List<ArrayList<CellTuple>> wordList, int wordCount, int i, int j ){
         //we add the Iterators to the i and j coordinate of the current cell, so we iterate from the position we are at
@@ -138,7 +138,7 @@ public class Board {
         //when we have found all the cells belonging to the word "above" the cell we started with, we then go downward
         boolean up = true;
         // it's worth noting when iterating over i what we are actually doing is checking everything in the same row of j
-        // so iterating over i really means checking j and the reverse is true aswell
+        // so iterating over i really means checking j and the reverse is true as well
         while(true){
             if(i + iIterator < boardCells.length && j + jIterator < boardCells.length &&
                     i + iIterator >= 0 && j +jIterator >= 0) {
@@ -229,10 +229,10 @@ public class Board {
     }
 
     /**
-     * returns a list of the new cells on a board comparing the old and new board 
-     * call this method on the new board and send the old board as a parameter 
+     * returns a list of the new cells on a board comparing the old and new board
+     * call this method on the new board and send the old board as a parameter
      * @param tempBoard the older board with fewer cells being compared to the current object
-     * @return returns all the cells which the old board did not have 
+     * @return returns all the cells which the old board did not have
      *         compared to the new board in the form of cellTuples
      * @see CellTuple
      */
@@ -313,11 +313,13 @@ public class Board {
 
     /**
      * Checks that all words on the board is valid and connected to each other
+     *
+     * @param board
      * @param tempBoard
      * @return true/false validBoard
      */
-    boolean checkBoard(Board tempBoard) {
-        return (checkCoherence(tempBoard)&&checkCol(tempBoard)&& checkRow(tempBoard));
+    public boolean checkBoard(Board tempBoard,Board board) {
+        return (checkCoherence(tempBoard,board)&&checkCol(tempBoard)&& checkRow(tempBoard));
     }
 
     /*--- Method for checking that all words in columns are valid. ---*/
@@ -383,17 +385,31 @@ public class Board {
     }
 
     //TODO
-    /*--- Checks if all letters on the board are in contact with each other. ---*/
-    private  boolean checkCoherence(Board board){
+    /*--- Checks if all letters on the board are in contact with each other and everything is in contact with the middle. ---*/
+    private  boolean checkCoherence(Board tempBoard, Board board){
+
+
         int numberOfLetters=0;
-        for (int row = 0; row < board.getBoardCells().length; row++) {
-            for (int col = 0; col < board.getBoardCells().length; col++) {
-                if (containsLetter(board, row, col)){
+        for (int row = 0; row < tempBoard.getBoardCells().length; row++) {
+            for (int col = 0; col < tempBoard.getBoardCells().length; col++) {
+                if (containsLetter(tempBoard, row, col)){
                     numberOfLetters++;
-                }
+                    if (numberOfLetters>1){break;}
                 }
             }
+        }
+        //checks if all new cells is either on one row or one column
+        List<CellTuple> newCells = tempBoard.getNewCells(board);
 
+        for (int i = 0; i <newCells.size() ; i++) {
+            if (!(newCells.get(i).getI()==newCells.get(i== newCells.size()-1?i:i+1).getI())){
+                for (int j = 0; j <newCells.size() ; j++) {
+                    if (!(newCells.get(j).getJ()==newCells.get(j==newCells.size()-1?j:j+1).getJ())){
+                       return false;
+                    }
+                }
+            }
+        }
        /*
 
 
@@ -414,7 +430,7 @@ public class Board {
 
         if there is a gap in the new tiles it must be filled with old tiles.
          */
-        return (containsLetter(board, 7, 7)&&numberOfLetters!=1);
+        return (containsLetter(tempBoard, 7, 7)&&numberOfLetters!=1);
     }
 
     /*--- Checks if a cell contains a letter tile ---*/

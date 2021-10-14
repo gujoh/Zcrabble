@@ -4,6 +4,7 @@ import com.zcrabblers.zcrabble.Model.Board;
 import com.zcrabblers.zcrabble.Model.Cell;
 import com.zcrabblers.zcrabble.Model.CellTuple;
 import com.zcrabblers.zcrabble.Model.Tile;
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ public class BoardTests {
         board.selectBoard();
         assertEquals(15, board.getBoardCells()[0].length);
     }
+
     @Test
     public void testCalculateScore() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
@@ -86,6 +88,7 @@ public class BoardTests {
         assertEquals(46, points);
 
     }
+
     @Test
     public void TestBoard2() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
@@ -113,7 +116,6 @@ public class BoardTests {
         board.placeTile(6,6,new Tile('Y',2));
         board.placeTile(6,7,new Tile('Q',2));
         board.placeTile(6,8,new Tile('I',2));
-
 
 
         Board boardTwo = new Board("defaultBoard");
@@ -151,6 +153,7 @@ public class BoardTests {
         assertEquals(36, points);
 
     }
+
     @Test
     public void TestBoard3() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
@@ -184,7 +187,6 @@ public class BoardTests {
         board.placeTile(7,11,new Tile('H',2));
         board.placeTile(8,6,new Tile('A',2));
         board.placeTile(8,4,new Tile('B',2));
-
 
 
         Board boardTwo = new Board("defaultBoard");
@@ -227,6 +229,7 @@ public class BoardTests {
         int points = boardTwo.countPoints(boardTwo.getNewCells(board));
         assertEquals(64, points);
     }
+
     @Test
     public void TestBoard4() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
@@ -258,6 +261,7 @@ public class BoardTests {
         int points = boardTwo.countPoints(boardTwo.getNewCells(board));
         assertEquals(24, points);
     }
+
     @Test
     public void TestBoard5() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
@@ -289,6 +293,7 @@ public class BoardTests {
         int points = boardTwo.countPoints(boardTwo.getNewCells(board));
         assertEquals(24, points);
     }
+
     @Test
     public void TestBoard6() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
@@ -339,6 +344,7 @@ public class BoardTests {
         int points = boardTwo.countPoints(boardTwo.getNewCells(board));
         assertEquals(48, points);
     }
+
     @Test
     public void TestRemoveTile() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
@@ -349,6 +355,7 @@ public class BoardTests {
         board.removeTile(14,14);
         assertTrue(board.isCellEmpty(14,14));
     }
+
     @Test
     public void testSwitchTile() throws FileNotFoundException {
         Board board = new Board("defaultBoard");
@@ -486,4 +493,51 @@ public class BoardTests {
             line = new StringBuilder();
         }
     }
+
+    /*---- BoardCheckTests below ----*/
+
+    @Test
+    public void testRowCheck() throws FileNotFoundException {
+        Board board = new Board("defaultBoard");
+        board.selectBoard();
+
+        board.placeTile(7, 4, new Tile('S', 2));
+        board.placeTile(7, 5, new Tile('C', 2));
+        board.placeTile(7, 6, new Tile('R', 2));
+        board.placeTile(7, 7, new Tile('A', 2));
+        board.placeTile(7, 8, new Tile('B', 2));
+        board.placeTile(7, 9, new Tile('B', 2));
+        board.placeTile(7, 10, new Tile('L', 2));
+        board.placeTile(7, 11, new Tile('E', 2));
+        board.placeTile(7, 12, new Tile('R', 2));
+        board.placeTile(7, 13, new Tile('S', 2));
+
+        Board tempBoard = new Board("defaultBoard");
+        tempBoard.selectBoard();
+
+        tempBoard.placeTile(7, 4, new Tile('S', 2));
+        tempBoard.placeTile(7, 5, new Tile('C', 2));
+        tempBoard.placeTile(7, 6, new Tile('R', 2));
+        tempBoard.placeTile(7, 7, new Tile('A', 2));
+        tempBoard.placeTile(7, 8, new Tile('B', 2));
+        tempBoard.placeTile(7, 9, new Tile('B', 2));
+        tempBoard.placeTile(7, 10, new Tile('L', 2));
+        tempBoard.placeTile(7, 11, new Tile('E', 2));
+        tempBoard.placeTile(7, 12, new Tile('R', 2));
+        tempBoard.placeTile(7, 13, new Tile('S', 2));
+
+        tempBoard.placeTile(2, 11, new Tile('F', 2));
+        tempBoard.placeTile(3, 11, new Tile('O', 2));
+        tempBoard.placeTile(4, 11, new Tile('R', 2));
+        tempBoard.placeTile(5, 11, new Tile('E', 2));
+        tempBoard.placeTile(6, 11, new Tile('V', 2));
+        tempBoard.placeTile(7, 11, new Tile('V', 2));
+        tempBoard.placeTile(8, 11, new Tile('E', 2));
+        tempBoard.placeTile(9, 11, new Tile('R', 2));
+        tempBoard.placeTile(10, 11, new Tile('R', 2));
+
+        assertFalse(tempBoard.checkBoard(tempBoard, board));
+    }
+
+
 }

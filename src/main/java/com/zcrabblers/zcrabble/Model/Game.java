@@ -13,7 +13,7 @@ public class Game implements IGame, ITurnObservable {
     private TileBag tileBag;
     private int nrPLayers;
     private int nrBots;
-    private ArrayList<LetterTuple> boardList = new ArrayList<>();
+    private ArrayList<CellTuple> boardList = new ArrayList<>();
     private final LetterObserver observer = new LetterObserver();
 
     public Game(int nrPlayers, int nrBots){
@@ -45,12 +45,13 @@ public class Game implements IGame, ITurnObservable {
 
     @Override
     public boolean endTurn(){ // DISCUSS THIS.
-        if (tempBoard.checkBoard(tempBoard)){
-            current.addScore(tempBoard.countPoints(tempBoard.getNewCells(board))); //TODO does not currently work
+        if (tempBoard.checkBoard(tempBoard, board)){
+            current.addScore(tempBoard.countPoints(tempBoard.getNewCells(board)));  //TODO addScore should make it's own cellTuple, getNewCells is in the same class.
             current.fillRack(tileBag);
             current = getNextPlayer();
+            observer.notifySubscribers((ArrayList<CellTuple>) tempBoard.getNewCells(board));
+            System.out.println(tempBoard.getNewCells(board).size());
             board.copyBoardCells(tempBoard);
-            observer.notifySubscribers(boardList);
             boardList.clear();
             current.beginTurn(tempBoard);
             System.out.println(players.indexOf(current));
@@ -59,7 +60,6 @@ public class Game implements IGame, ITurnObservable {
         else {
             System.out.println("WRONG WORD");
             return false;
-            //TODO add something here, maybe have the method return something, that triggers a popup in the view.
         }
 
     }
