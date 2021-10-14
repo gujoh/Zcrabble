@@ -3,9 +3,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
@@ -22,6 +24,30 @@
                      <children>
                         <Button layoutX="321.0" layoutY="152.0" mnemonicParsing="false" onAction="#closeSwapPane" styleClass="cancel-button" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                         <Button mnemonicParsing="false" onAction="#swapPaneSwap" styleClass="begin-button" text="Confirm" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="65.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="tutorialPane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane onMouseClicked="#closeTutorialPane" opacity="0.35" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane prefHeight="400.0" prefWidth="400.0" styleClass="new-game-background" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0">
+                     <children>
+                        <FlowPane layoutX="25.0" layoutY="57.0" prefHeight="250.0" prefWidth="350.0">
+                           <children>
+                              <TextArea fx:id="tutorialTextArea" editable="false" prefHeight="250.0" prefWidth="350.0" wrapText="true" />
+                           </children>
+                        </FlowPane>
+                        <Label layoutX="173.0" layoutY="14.0" text="Rules">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="160.0" layoutY="334.0" mnemonicParsing="false" onAction="#closeTutorialPane" prefHeight="40.0" prefWidth="80.0" styleClass="begin-button" text="Close">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
                      </children>
                   </AnchorPane>
                </children>
