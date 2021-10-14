@@ -523,6 +523,7 @@ public class BoardController implements Initializable, ILetterObservable {
             try {
                 Image image = new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png"));
                 rackList.get(i).setImage(image);
+                rackList.get(i);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -540,14 +541,14 @@ public class BoardController implements Initializable, ILetterObservable {
      */
     @Override
     public void updateState(ArrayList<CellTuple> boardList){
-        System.out.println("update");
         for (CellTuple cell : boardList){
-            try {
-                cellList.get(coordinateToIndex(cell.getI(), cell.getJ()))
-                        .setImage(new Image(new FileInputStream(
-                                IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
+            try { //TODO cache this
+                ImageView currentCell = cellList.get(coordinateToIndex(cell.getI(), cell.getJ()));
+                currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
                 //TODO: Make this work with Letter instead of char (see comment below)
                 //cellList.get(coordinateToIndex(cell.getI(), cell.getJ())).setImage(tileImageMap.get(cell.getCell().getTileLetter()));
+                currentCell.toBack();  //Calling toFront and toBack to force a repaint of this object. Does not work otherwise.
+                currentCell.toFront();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

@@ -9,7 +9,8 @@ import java.util.Scanner;
 //TODO make a board deep copy
 
 /**
- *
+ *The board on which the game is played, it's made up of a matrix of cells
+ * @see Cell
  */
 public class Board {
     private final Dictionary dict = Dictionary.getInstance();
@@ -19,6 +20,11 @@ public class Board {
     // constructor takes a string in order to search for the matching text file
     // then calls the selectBoard function to fill the new board with cells
 
+    /**
+     * the board constructor is called with a string it will search resources for a matching txt file to load
+     * the board layout from
+     * @param boardSelector string to select which board will be used
+     */
     public Board(String boardSelector){
         this.boardSelector = boardSelector;
     }
@@ -32,8 +38,8 @@ public class Board {
      * called after creating a new board taking the inputted string and using it in this method
      * to fill its board with cells
      * see src/main/resources/ for the files
-     * @throws FileNotFoundException
-     * @return returns a board with cells filled with information from the corresponding txt file
+     * @throws FileNotFoundException throws an error if the reading of the txt is incorrect
+     * fills a board with cells filled with information from the corresponding txt file
      */
     public void selectBoard() throws FileNotFoundException {
         if(boardSelector.equals("defaultBoard")){
@@ -67,15 +73,14 @@ public class Board {
 
     /**
      * counts the point on a board any play gives, called on the newest board and given a list of new cells
-     * @param newCells a List of the new cells added to the board, see getNewCells to find these
-     *                 newCells is a cellTuple which carries the position of the cell on the board but also
-     *                 it's tile, and the cell value
+     * @param board a board that gets compared to this board in order to get the cells that were placed this round.
      * @return returns the score any given play will yield
      * @see CellTuple
      */
     /* countPoints is called on the board and given a list of the new cells will return the number of points
     the given play is worth */
-    public int countPoints(List<CellTuple> newCells){
+    public int countPoints(Board board){
+        List<CellTuple> newCells = this.getNewCells(board);
         //since any scrabble play can only be made fully vertically or fully horizontally
         // we only want to check any row that has multiple new tiles placed only once
         //ignoreI will be used to make sure of that
@@ -129,8 +134,6 @@ public class Board {
         //we add the Iterators to the i and j coordinate of the current cell, so we iterate from the position we are at
         int iIterator = 0;
         int jIterator = 0;
-        //when we have found the full word stop becomes true
-        boolean stop = false;
         //when we have found all the cells belonging to the word "above" the cell we started with, we then go downward
         boolean up = true;
         // it's worth noting when iterating over i what we are actually doing is checking everything in the same row of j
@@ -280,7 +283,7 @@ public class Board {
     /**
      * @param i i corresponds to the position in the first list
      * @param j j corresponds to the position in the second list
-     * @return places a tile in the given position
+     * places a tile in the given position
      */
     public void placeTile( int i, int j, Tile tile){
             boardCells[i][j].setTile(tile);
