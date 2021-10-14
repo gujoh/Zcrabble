@@ -302,6 +302,14 @@ public class Board {
         return boardCells[i][j].isEmpty();
     }
 
+    /**
+     * Returns the length of one side of the board, both sides should always be the same length.
+     * @return Number of rows in the board.
+     */
+    public int getSize(){
+        return boardCells.length;
+    }
+
     /*--- BoardChecks in progress below ---*/
     //TODO checkCoherence
     //TODO cleanup after the move from BoardCheck, make sure all checks are done on tempBoard.
