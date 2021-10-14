@@ -18,9 +18,7 @@ import javafx.scene.shape.Rectangle;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane boardAnchor;
@@ -66,7 +64,24 @@ public class BoardController implements Initializable, ILetterObservable {
     private int startX;
     private int startY;
 
-    public BoardController() throws FileNotFoundException {
+    Map<Letter, Image> tileImageMap = new HashMap<>();
+    Map<Integer, Image> cellImageMap = new HashMap<>();
+
+    private void initImages(){
+       try{
+           cellImageMap.put(0, new Image(new FileInputStream(IMAGE_PATH + "Middle.png")));
+           cellImageMap.put(11, new Image(new FileInputStream(IMAGE_PATH + "11.png")));
+           cellImageMap.put(12, new Image(new FileInputStream(IMAGE_PATH + "12.png")));
+           cellImageMap.put(13, new Image(new FileInputStream(IMAGE_PATH + "13.png")));
+           cellImageMap.put(21, new Image(new FileInputStream(IMAGE_PATH + "21.png")));
+           cellImageMap.put(31, new Image(new FileInputStream(IMAGE_PATH + "31.png")));
+
+           for (Letter letter : Letter.values()) {
+               tileImageMap.put(letter, new Image(new FileInputStream(IMAGE_PATH + letter.getLetter() + ".png")));
+           }
+       }catch (FileNotFoundException e) {
+           e.printStackTrace();
+       }
     }
 
     /**
@@ -74,6 +89,8 @@ public class BoardController implements Initializable, ILetterObservable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        initImages();
+
         menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
         needMorePlayersLabel.setVisible(false);
@@ -123,21 +140,6 @@ public class BoardController implements Initializable, ILetterObservable {
         //makeOneTestTile();
         initDragTile();
         registerBoardEvents(gameAnchor);
-        //rackRectangle.setOnMouseDragReleased(mouseEvent -> hideDragTile());
-        //boardAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
-        //rackAnchor.setOnMouseDragReleased(mouseEvent -> hideDragTile());
-        //rackAnchor.setMouseTransparent(true);
-
-        //gameAnchor.setOnMouseDragReleased(event -> hideDragTile());
-        //gameAnchor.setOnMouseDragReleased(mouseDragEvent -> {
-        //    if(mouseDragEvent.isConsumed())
-        //        return;
-        //    dragImageView.setVisible(false);
-        //    draggedFrom.setImage(dragImageView.getImage());
-        //    mouseDragEvent.setDragDetect(false);
-        //    System.out.println("reset");
-        //    System.out.println(mouseDragEvent.getTarget().toString());
-        //});
     }
 
     // Hides the ImageView that is used to show what tile the user is dragging.
@@ -201,28 +203,17 @@ public class BoardController implements Initializable, ILetterObservable {
         dragImageView.setY(point.getY());
     }
 
+    // Makes the currently selected tile follow the mouse.
     private void registerBoardEvents(Node board) {
-        //board.setOnMouseEntered(event -> {
-        //    if(!selection.hasSelected())
-        //        return;
-        //    dragImageView.setImage(selection.getSelectedImage());
-        //    dragImageView.setVisible(true);
-        //});
-
         board.setOnMouseMoved(event -> {
             if(!selection.hasSelected())
                 return;
             dragImageView.setX(event.getX() - 15);
             dragImageView.setY(event.getY() - 15);
         });
-
-        //board.setOnMouseExited(event -> {
-        //    if(!selection.hasSelected())
-        //        return;
-        //    dragImageView.setVisible(false);
-        //});
     }
 
+    // What happens when user clicks on a cell on the board.
     private void registerBoardCellClickEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
             int x = pos2Coord(cellView.getX());
@@ -236,39 +227,21 @@ public class BoardController implements Initializable, ILetterObservable {
                     // Rack -> Board(Tom)
                     if(selection.getFromRack()){
                         game.switchRackBoardCells(selection.getStartX(), y, x);
-                        //Tile tile = game.getRack().getTile(selection.getStartX());
-                        //game.getTempBoard().placeTile(y, x, tile);
-                        //game.getRack().remove(selection.getStartX());
                     }else{
                         // Board -> Board(Tom)
                         game.switchTempCells(selection.getStartY(), selection.getStartX(), y, x);
-                        //Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
-                        //game.getTempBoard().removeTile(selection.getStartY(), selection.getStartX());
-                        //game.getTempBoard().placeTile(y, x, tile);
                     }
                     moveImage(cellView);
-                    //cellView.setImage(selection.getSelectedImage());
-                    //selection.changeToDefaultImage();
                 }else if(!game.isTempCellEmpty(y, x)){
                     if(selection.getFromRack()){
                         // Rack -> Board
                         game.switchRackBoardCells(selection.getStartX(), y, x);
-                        //Tile tile = game.getRack().getTile(selection.getStartX());
-                        //game.getRack().set(selection.getStartX(), game.getTempBoard().getTile(y, x));
-                        //game.getTempBoard().placeTile(y, x, tile);
                     }
                     else{
                         // Board -> Board
                         game.switchTempCells(selection.getStartY(), selection.getStartX(), y, x);
-                        //Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
-                        //game.getTempBoard().placeTile(selection.getStartY(),selection.getStartX(), game.getTempBoard().getTile(y, x));
-                        //game.getTempBoard().placeTile(y, x, tile);
                     }
                     switchImages(cellView);
-                    //Image im = selection.getSelectedImage();
-                    //selection.setImage(cellView.getImage());
-                    //cellView.setImage(im);
-
                 }
                 dragImageView.setVisible(false);
                 selection.unSelect();
@@ -290,6 +263,8 @@ public class BoardController implements Initializable, ILetterObservable {
             }
         });
     }
+
+    // What happens when the user clicks on a cell on the rack.
     private void registerRackCellEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
             int x = pos2Rack(cellView.getX());
@@ -467,28 +442,21 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     //Renders the board. Gets called from the populate() method.
-    private void populateBoard() throws FileNotFoundException {
+    private void populateBoard() {
         int x = 0;
         int y = 0;
-        int length = gameManager.getBoardSize();
-        //BackgroundSize backgroundSize = new BackgroundSize(33,33,false,false,true,false);
+        int length = game.getBoardSize();
+
         for (int i = 0; i < length; i++){
             for (int j = 0; j < length; j++){
                 CellView img;
                 if(i == length/2 && j == length/2){
-                    //img.setGraphic(new ImageView(new Image(new FileInputStream(IMAGE_PATH + "Middle.png"))));
-                    //img.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream(IMAGE_PATH + "Middle.png")),null,null,null, backgroundSize)));
-                    img = new CellView(IMAGE_PATH + "Middle.png");
+                    img = new CellView(cellImageMap.get(0)); // Middle image
                 }
                  else {
-                    //img.setGraphic(new ImageView(new Image(new FileInputStream(IMAGE_PATH + gameManager.getBoardCells()[i][j].GetCellWordMultiplier() + "" + gameManager.getBoardCells()[i][j].GetCellLetterMultiplier() + ".png"))));
-                    //img.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream(IMAGE_PATH + gameManager.getBoardCells()[i][j].GetCellWordMultiplier() + "" + gameManager.getBoardCells()[i][j].GetCellLetterMultiplier() + ".png")),null,null,null,backgroundSize)));
-                    img = new CellView(IMAGE_PATH + gameManager.getBoardCells()[i][j].GetCellWordMultiplier() + "" + gameManager.getBoardCells()[i][j].GetCellLetterMultiplier() + ".png");
-                }
+                    img = new CellView(cellImageMap.get(game.getBoard().getBoardCells()[i][j].GetCellWordMultiplier() * 10 + game.getBoard().getBoardCells()[i][j].GetCellLetterMultiplier()));
+                 }
 
-
-                //img.getStyleClass().remove("button");
-                //img.getStyleClass().add("image-view");
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
                 img.setFitHeight(33);
@@ -496,9 +464,6 @@ public class BoardController implements Initializable, ILetterObservable {
                 img.setX(x);
                 img.setY(y);
 
-                //img.setContentDisplay(ContentDisplay.CENTER);
-                //img.setPrefSize(33,33);
-                //img.relocate(x,y);
                 x+=33;
 
                 img.changeToDefaultImage();
@@ -518,14 +483,7 @@ public class BoardController implements Initializable, ILetterObservable {
         int counter = 0;
         int spacing = 45;
         for(int i = 0; i < 7; i++){
-            //Button img = new Button();
-            //img.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream(IMAGE_PATH + "BasicCell.png")),null,null,null, backgroundSize)));
-           // img.setGraphic(new ImageView(new Image(new FileInputStream(IMAGE_PATH + "11.png"))));
-
-            //img.getStyleClass().remove("button");
-            //img.getStyleClass().add("image-view");
-
-            CellView img = new CellView(IMAGE_PATH + "11.png");
+            CellView img = new CellView(cellImageMap.get(11)); // Empty cell image
             rackAnchor.getChildren().add(img);
             rackList.add(img);
             img.setFitHeight(33);
@@ -536,7 +494,6 @@ public class BoardController implements Initializable, ILetterObservable {
 
 
             x += counter * spacing;
-            //img.relocate(x,y);
             img.setX(x);
             img.setY(y);
             counter++;
@@ -575,7 +532,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     //Converts an index in a 2D array to an index in a 1D array.
     private int coordinateToIndex(int x, int y){
-        return y + x * gameManager.getBoardSize();
+        return x + y* game.getBoardSize();
     }
 
     /**
@@ -588,9 +545,10 @@ public class BoardController implements Initializable, ILetterObservable {
             try { //TODO cache this
                 ImageView currentCell = cellList.get(coordinateToIndex(cell.getI(), cell.getJ()));
                 currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
+                //TODO: Make this work with Letter instead of char (see comment below)
+                //cellList.get(coordinateToIndex(cell.getI(), cell.getJ())).setImage(tileImageMap.get(cell.getCell().getTileLetter()));
                 currentCell.toBack();  //Calling toFront and toBack to force a repaint of this object. Does not work otherwise.
                 currentCell.toFront();
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

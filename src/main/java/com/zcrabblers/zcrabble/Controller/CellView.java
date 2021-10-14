@@ -8,33 +8,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class CellView extends ImageView {
-    private Image defaultImage;
+    private final Image defaultImage;
 
-    public CellView(String defaultImageLocation){
-        try {
-            FileInputStream stream = new FileInputStream(defaultImageLocation);
-            defaultImage = new Image(stream);
-            setImage(defaultImage);
-            stream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
-
-    public boolean isDeafultImage(){
-        return defaultImage == getImage();
+    public CellView(Image defaultImage){
+        this.defaultImage = defaultImage;
+        changeToDefaultImage();
     }
 
     public void changeToDefaultImage(){
         setImage(defaultImage);
-    }
-
-    public int xCoord(){
-        return (int)Math.floor(getX() / getFitWidth());
-    }
-
-    public int yCoord(){
-        return (int)Math.floor(getY() / getFitHeight());
     }
 }

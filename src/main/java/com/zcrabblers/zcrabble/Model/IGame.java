@@ -11,6 +11,7 @@ public interface IGame {
     Board getTempBoard();
     boolean isBoardCellEmpty(int y, int x);
     boolean isTempCellEmpty(int y, int x);
+    int getBoardSize();
     void switchBoardCells(int y1, int x1, int y2, int x2);
     void switchTempCells(int y1, int x1, int y2, int x2);
     void switchRackCells(int x1, int x2);
