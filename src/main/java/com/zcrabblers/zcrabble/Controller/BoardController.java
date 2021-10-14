@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable, ILetterObservable {
@@ -45,10 +46,13 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Button invalidCancelButton;
     @FXML private Label needMorePlayersLabel;
 
-    private ArrayList<ImageView> cellList = new ArrayList<>();
-    private ArrayList<ImageView> rackList = new ArrayList<>();
-    private ArrayList<Tile> tempTiles = new ArrayList<>();
-    private ArrayList<Cell> newCells = new ArrayList<>();
+    @FXML private AnchorPane swapTilesPane;
+    @FXML private AnchorPane swapTilesPopupPane;
+
+    private List<ImageView> cellList = new ArrayList<>();
+    private List<ImageView> rackList = new ArrayList<>();
+    private List<ImageView> swapTileList = new ArrayList<>();
+
     private MenuController menuController;
     private ArrayList<Label> scoreLabelList = new ArrayList<>();
 
@@ -106,6 +110,7 @@ public class BoardController implements Initializable, ILetterObservable {
         }
         updateScores();
         updateTilesLeft();
+        initSwapPane();
     }
 
     /**
@@ -685,6 +690,51 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML
     private void closeInvalidBackground(){
         invalidWordBackground.toBack();
+    }
+
+    // Init the popup pane where the user can exchange their tile for new ones.
+    private void initSwapPane(){
+        int tileSideLength = 45;
+        double x = swapTilesPopupPane.getPrefWidth()/2-((double)tileSideLength/2);
+        double y = swapTilesPopupPane.getPrefHeight()/2-((double)tileSideLength/2);
+        int counter = 0;
+        int spacing = 50;
+        for (int i = 0; i < 7; i++) {
+            ImageView img = new ImageView();
+            img.toFront();
+            img.setFitWidth(tileSideLength);
+            img.setFitHeight(tileSideLength);
+
+            swapTilesPopupPane.getChildren().add(img);
+            swapTileList.add(img);
+
+            x += counter * spacing;
+            img.setX(x);
+            img.setY(y);
+            counter++;
+            spacing = -spacing;
+        }
+    }
+
+    // Open the exchange tiles pane.
+    @FXML private void openSwapPane(){
+        //swapTilesPane.setVisible(true);
+        swapTilesPane.toFront();
+        for (int i = 0; i < rackList.size(); i++) {
+            ImageView img = swapTileList.get(i);
+            img.setImage(rackList.get(i).getImage());
+        }
+    }
+
+    // Close the exchange tiles pane.
+    @FXML private void closeSwapPane(){
+        //swapTilesPane.setVisible(false);
+        swapTilesPane.toBack();
+    }
+
+    // Exchange tiles in the model after it is confirmed by the user in the swapTilesPane.
+    @FXML private void swapPaneSwap(){
+
     }
 
     //Sets the Zcrabble theme dark mode. Gets called from the MenuController class.
