@@ -1,5 +1,8 @@
 package com.zcrabblers.zcrabble.Model;
 
+/**
+ * Enumerated letter used to specify our allowed characters to be played
+ */
 public enum Letter {
     A("A"),
     B("B"),
@@ -30,10 +33,17 @@ public enum Letter {
 
     private final String letter;
 
+    /**
+     * creates an enum
+     * @param letter the letter to be represented as an enum must be a english alphabetical letter
+     */
     Letter(String letter) {
         this.letter = letter;
     }
 
+    /**
+     * @return returns the letter
+     */
     public String getLetter(){
         return letter;
     }

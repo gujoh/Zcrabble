@@ -7,6 +7,9 @@ import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * the set of allowable words
+ */
 public class Dictionary {
 
     private static Dictionary instance;
