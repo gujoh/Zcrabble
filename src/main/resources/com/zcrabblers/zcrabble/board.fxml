@@ -17,17 +17,6 @@
    <children>
       <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane fx:id="swapTilesPane" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <AnchorPane onMouseClicked="#closeSwapPane" opacity="0.35" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <AnchorPane fx:id="swapTilesPopupPane" prefHeight="200.0" prefWidth="400.0" styleClass="new-game-background" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="200.0">
-                     <children>
-                        <Button layoutX="321.0" layoutY="152.0" mnemonicParsing="false" onAction="#closeSwapPane" styleClass="cancel-button" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                        <Button mnemonicParsing="false" onAction="#swapPaneSwap" styleClass="begin-button" text="Confirm" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="65.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
             <AnchorPane fx:id="tutorialPane" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <AnchorPane onMouseClicked="#closeTutorialPane" opacity="0.35" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -179,6 +168,22 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="swapTilesPane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane onMouseClicked="#closeSwapPane" opacity="0.35" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane fx:id="swapTilesPopupPane" prefHeight="200.0" prefWidth="400.0" styleClass="new-game-background" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="200.0">
+                     <children>
+                        <Button layoutX="321.0" layoutY="152.0" mnemonicParsing="false" onAction="#closeSwapPane" styleClass="cancel-button" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <Button mnemonicParsing="false" onAction="#swapPaneSwap" styleClass="begin-button" text="Confirm" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="65.0" />
+                        <Label layoutX="79.0" layoutY="38.0" text="Choose the tiles you want to exchange.">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>

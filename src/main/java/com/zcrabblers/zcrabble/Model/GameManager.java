@@ -55,14 +55,6 @@ public class GameManager {
     }
 
     /**
-     * Getter for the size of the current board.
-     * @return the size of the current board.
-     */
-    public int getBoardSize(){
-        return getBoardCells().length;
-    }
-
-    /**
      * Getter for the current game being played.
      * @return the board of the current game being played.
      */
@@ -70,23 +62,4 @@ public class GameManager {
         return currentGame.getBoard();
     }
 
-    public Cell[][] getBoardCells(){
-            return getBoard().getBoardCells();
-    }
-
-    public Rack getRack(){
-        return currentGame.getRack();
-    }
-
-    public List<IPlayers> getPlayers(){
-        return currentGame.getPlayers();
-    }
-
-    public int getPlayerScore(int index){
-        return currentGame.getPlayerScore(index);
-    }
-
-    public int getRemainingTiles(){
-        return currentGame.getRemainingTiles();
-    }
 }

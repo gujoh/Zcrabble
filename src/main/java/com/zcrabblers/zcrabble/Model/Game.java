@@ -130,6 +130,11 @@ public class Game implements IGame, ITurnObservable {
     }
 
     @Override
+    public int getBoardSize(){
+        return board.getSize();
+    }
+
+    @Override
     public void addSubscriber(ILetterObservable sub) {
         observer.addSubscriber(sub);
     }
