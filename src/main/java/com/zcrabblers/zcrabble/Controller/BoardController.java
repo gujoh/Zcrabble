@@ -1,7 +1,6 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.*;
-import com.zcrabblers.zcrabble.Model.Cell;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -35,13 +34,11 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Label p2Score;
     @FXML private Label p3Score;
     @FXML private Label p4Score;
-    @FXML private AnchorPane newGamePane;
     @FXML private AnchorPane newGameMenuBackground;
     @FXML private AnchorPane welcomeScreen;
     @FXML private Spinner playerSpinner;
     @FXML private Spinner botSpinner;
     @FXML private AnchorPane invalidWordBackground;
-    @FXML private Button invalidCancelButton;
     @FXML private Label needMorePlayersLabel;
     @FXML private TextArea tutorialTextArea;
     @FXML private AnchorPane tutorialPane;
@@ -543,7 +540,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     //Converts an index in a 2D array to an index in a 1D array.
     private int coordinateToIndex(int x, int y){
-        return x + y* game.getBoardSize();
+        return y + x * game.getBoardSize();
     }
 
     /**
