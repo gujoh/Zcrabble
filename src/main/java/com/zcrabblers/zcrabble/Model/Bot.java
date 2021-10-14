@@ -3,10 +3,8 @@ package com.zcrabblers.zcrabble.Model;
 
 import com.zcrabblers.zcrabble.Controller.BoardController;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Bot implements IPlayers {
 
@@ -52,7 +50,20 @@ public class Bot implements IPlayers {
     @Override
     public void beginTurn(Board board) {
         board.copyBoardCells(scrabbleWord(board,getRackString()));
+        printBoard(board);
         observer.notifySubscribers();
+    }
+
+        //Prints the board for debugging p
+    private void printBoard(Board board) {
+        char[][] boardPrint = new char[15][15];
+        for (int i = 0; i <board.getBoardCells().length ; i++) {
+            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
+                boardPrint[i][j] = board.getBoardCells()[i][j].getTileLetter();
+            }
+        }
+        for (char[] row : boardPrint)
+            System.out.println(Arrays.toString(row));
     }
 
     /*
@@ -80,8 +91,7 @@ public class Bot implements IPlayers {
      */
 
     private  Board scrabbleWord(Board board, String rackString){
-        int rows = board.getBoardCells().length;
-        int cols = board.getBoardCells()[0].length;
+
         Board currentBoard = new Board("defaultBoard");
         currentBoard.copyBoardCells(board);
         Board bestBoard = new Board("defaultBoard");
@@ -117,20 +127,15 @@ public class Bot implements IPlayers {
                     }
                     int k = s.indexOf(String.valueOf(letters)) + letters.length();
                     for (int i = col + letters.length(); i < col + s.length() - s.indexOf(String.valueOf(letters)); i++) {
-                        System.out.println(letters);
-                        System.out.println(col);
-                        System.out.println(s.indexOf(letters.toString()));
-                        System.out.println(i);
                         writeToBoard(getRackIndex(s.charAt(k)), row, i, currentBoard);
                         k++;
                     }
-                    bestWord = s;
-
                     if (!currentBoard.checkBoard(currentBoard, board)) {
-                        System.out.println("AJAJAJ!!");
                         currentBoard.copyBoardCells(board);
                     } else {
                         bestBoard.copyBoardCells(currentBoard);
+                        currentBoard.copyBoardCells(board);
+                        bestWord = s;
                         break;
                     }
                 }
@@ -146,6 +151,7 @@ public class Bot implements IPlayers {
             letters.delete(0,letters.length());
             tempRack = new StringBuilder(rackString);
             wordSpace = new char[]{};
+            System.out.println(bestWord);
 
         }
     return bestBoard;//bestBoard;
@@ -225,8 +231,6 @@ public class Bot implements IPlayers {
                 break;
             }else space += 1;
         }
-        System.out.println("space ahead: " + space);
-
         return space;
     }
 
@@ -238,14 +242,13 @@ public class Bot implements IPlayers {
                 break;
             }else space += 1;
         }
-        System.out.println("space behind: " + space);
         return space;
     }
 
     private static void searchForLetters(Board board, StringBuilder letters, StringBuilder tempRack, int i, int j) {
 
         if (!board.getBoardCells()[i][j].isEmpty()) {
-            System.out.println("HEJBABERIBA");
+
             tempRack.append(board.getBoardCells()[i][j].getTileLetter());
             letters.append(board.getBoardCells()[i][j].getTileLetter());
             System.out.println(tempRack);
@@ -294,18 +297,18 @@ public class Bot implements IPlayers {
     //TODO: the operation of tilting a board should probably live in board
 
     /**
-     * Returns the cell matrix flipped -pi/2 radians
+     * Returns the board
      * First row is first column, first column is last row
-     * @param board the cell pattern on the current board
+     * @param board the current board.
      * @return the cell pattern on the board flipped -pi/1 radians
      */
 
-    private Cell[][] tilt3PiHalf (Cell [][] board){
-        Cell[][] tempBoard = new Cell[board[0].length][board.length];
-        for (int i = 0; i <board.length ; i++) {
-            for (int j = 0; j <board[0].length ; j++) {
+    private Board tilt3PiHalf (Board board){
+        Board tempBoard = new Board("defaultBoard");
+        for (int i = 0; i <board.getBoardCells().length ; i++) {
+            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
 
-                tempBoard[j][board.length-i-1] = board[i][j];
+                tempBoard.getBoardCells()[j][board.getBoardCells().length-i-1] = board.getBoardCells()[i][j];
 
             }
         }
