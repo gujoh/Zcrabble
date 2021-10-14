@@ -15,6 +15,17 @@
    <children>
       <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <AnchorPane fx:id="swapTilesPane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane onMouseClicked="#closeSwapPane" opacity="0.35" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane fx:id="swapTilesPopupPane" prefHeight="200.0" prefWidth="400.0" styleClass="new-game-background" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="200.0">
+                     <children>
+                        <Button layoutX="321.0" layoutY="152.0" mnemonicParsing="false" onAction="#closeSwapPane" styleClass="cancel-button" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <Button mnemonicParsing="false" onAction="#swapPaneSwap" styleClass="begin-button" text="Confirm" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="65.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="invalidWordBackground" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <AnchorPane layoutX="200.0" layoutY="177.0" onMouseClicked="#closeInvalidBackground" opacity="0.35" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -71,6 +82,20 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="welcomeScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #68BB59#68BB59;">
+               <children>
+                  <Label layoutX="119.0" layoutY="114.0" text="Zcrabble">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="199.0" layoutY="382.0" mnemonicParsing="false" onAction="#closeWelcomeScreen" prefHeight="50.0" prefWidth="200.0" styleClass="start-button" text="Start" textFill="WHITE">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="gameAnchor" prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@main.css">
                <children>
                   <ImageView fx:id="dragImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
@@ -123,18 +148,9 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="welcomeScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #68BB59#68BB59;">
-               <children>
-                  <Label layoutX="119.0" layoutY="114.0" text="Zcrabble">
+                  <Button layoutX="529.0" layoutY="540.0" mnemonicParsing="false" onAction="#openSwapPane" prefHeight="54.0" prefWidth="62.0" styleClass="shuffle-button" text="Swap" textFill="WHITE">
                      <font>
-                        <Font size="96.0" />
-                     </font>
-                  </Label>
-                  <Button layoutX="199.0" layoutY="382.0" mnemonicParsing="false" onAction="#closeWelcomeScreen" prefHeight="50.0" prefWidth="200.0" styleClass="start-button" text="Start" textFill="WHITE">
-                     <font>
-                        <Font size="28.0" />
+                        <Font size="14.0" />
                      </font>
                   </Button>
                </children>
