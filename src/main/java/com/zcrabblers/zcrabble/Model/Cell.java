@@ -13,7 +13,7 @@ public class Cell {
      * boards are made up of a grid of cells
      * @param cellWordMultiplier the multiplier for a word that a tile that is placed on this cell is a part of
      * @param cellLetterMultiplier a multiplier for the specific letter placed on this tile
-     * @param placedTile
+     * @param placedTile The tile of the given cell
      * @see Tile
      */
     public Cell(int cellWordMultiplier,int cellLetterMultiplier, Tile placedTile) {

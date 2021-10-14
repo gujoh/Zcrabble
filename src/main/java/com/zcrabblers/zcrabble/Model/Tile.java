@@ -1,5 +1,8 @@
 package com.zcrabblers.zcrabble.Model;
 
+/**
+ * tile represents the individual playable pieces with letters and a score associated with them
+ */
 public class Tile {
     private char letter;
     private int tileScore;
