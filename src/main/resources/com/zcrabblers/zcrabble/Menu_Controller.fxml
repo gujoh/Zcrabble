@@ -34,7 +34,7 @@
           </Menu>
           <Menu fx:id="MenuHelp" mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem fx:id="MenuTutorial" mnemonicParsing="false" text="Tutorial(under construction)" />
+              <MenuItem fx:id="tutorialMenuItem" mnemonicParsing="false" onAction="#openTutorialPane" text="Tutorial" />
             </items>
           </Menu>
         </menus>

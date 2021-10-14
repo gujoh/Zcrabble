@@ -15,8 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -43,7 +43,8 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane invalidWordBackground;
     @FXML private Button invalidCancelButton;
     @FXML private Label needMorePlayersLabel;
-
+    @FXML private TextArea tutorialTextArea;
+    @FXML private AnchorPane tutorialPane;
     @FXML private AnchorPane swapTilesPane;
     @FXML private AnchorPane swapTilesPopupPane;
 
@@ -128,6 +129,11 @@ public class BoardController implements Initializable, ILetterObservable {
         updateScores();
         updateTilesLeft();
         initSwapPane();
+        try {
+            initTutorialPane();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -504,17 +510,23 @@ public class BoardController implements Initializable, ILetterObservable {
         }
         
         //Sorts the rack in order to match the way the rack is represented in the model.
-        for(int i = 0; i < rackList.size(); i++){
-            for(int j = 1; j < rackList.size()-1; j++){
-                if(rackList.get(j-1).getX() > rackList.get(i).getX()){
-                    double temp = rackList.get(j-1).getX();
-                    rackList.get(j-1).setX(rackList.get(i).getX());
-                    rackList.get(i).setX(temp);
+        sortBasedOnX(rackList);
+
+        //Fills the rack with images.
+        setRackImages();
+    }
+
+    //Sorts a list of ImageViews based on their x coordinate.
+    private void sortBasedOnX(List<ImageView> list){
+        for(int i = 0; i < list.size(); i++){
+            for(int j = 1; j < list.size()-1; j++){
+                if(list.get(j-1).getX() > list.get(i).getX()){
+                    double temp = list.get(j-1).getX();
+                    list.get(j-1).setX(list.get(i).getX());
+                    list.get(i).setX(temp);
                 }
             }
         }
-        //Fills the rack with images.
-        setRackImages();
     }
 
     //Adds the correct images to the rack.
@@ -523,7 +535,6 @@ public class BoardController implements Initializable, ILetterObservable {
             try {
                 Image image = new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png"));
                 rackList.get(i).setImage(image);
-                rackList.get(i);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -654,6 +665,40 @@ public class BoardController implements Initializable, ILetterObservable {
         invalidWordBackground.toBack();
     }
 
+    //Initializes the tutorial pane. Reads a .txt file that contains the rules.
+    private void initTutorialPane() throws IOException {
+        File file = new File("src/main/resources/ScrabbleRules.txt");
+        StringBuilder contents = new StringBuilder();
+        BufferedReader reader = null;
+        String text;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        while (true) {
+            assert reader != null;
+            if ((text = reader.readLine()) == null) break;
+            contents.append(text).append(System.getProperty("line.separator"));
+        }
+        reader.close();
+
+        tutorialTextArea.setText(contents.toString());
+    }
+
+    //Opens the tutorial pane. Gets called from MenuController, hence why it is package private.
+    @FXML
+    void openTutorialPane(){
+        tutorialPane.toFront();
+    }
+
+    //Closes the tutorial pane.
+    @FXML
+    private void closeTutorialPane(){
+        tutorialPane.toBack();
+    }
+
     // Init the popup pane where the user can exchange their tile for new ones.
     private void initSwapPane(){
         int tileSideLength = 45;
@@ -676,6 +721,7 @@ public class BoardController implements Initializable, ILetterObservable {
             counter++;
             spacing = -spacing;
         }
+        sortBasedOnX(swapTileList);
     }
 
     // Open the exchange tiles pane.

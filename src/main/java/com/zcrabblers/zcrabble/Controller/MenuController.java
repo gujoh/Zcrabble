@@ -9,11 +9,6 @@ import java.io.IOException;
 
 public class MenuController extends AnchorPane {
 
-    @FXML private MenuItem menuSkinsZcrabble;
-    @FXML private MenuItem menuSkinsDarkMode;
-    @FXML private MenuItem menuSkinsCyberpunk;
-    @FXML private MenuItem menuNewGame;
-    @FXML private MenuBar menuBar;
     private BoardController parentController;
 
     public MenuController(BoardController parentController){
@@ -46,5 +41,10 @@ public class MenuController extends AnchorPane {
     @FXML
     private void cyberPunkSkinOnClick(){
         parentController.setCyberpunkSkin();
+    }
+
+    @FXML
+    private void openTutorialPane(){
+        parentController.openTutorialPane();
     }
 }
