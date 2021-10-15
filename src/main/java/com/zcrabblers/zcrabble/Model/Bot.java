@@ -160,7 +160,7 @@ public class Bot implements IPlayers {
     private  void writeToBoard(int rackX, int boardRow, int boardCol, Board board){
         Tile tile = board.getTile(boardCol, boardRow);
         board.placeTile(boardRow, boardCol, rack.getTile(rackX));
-        placeRackTile(rackX, tile);
+        rack.set(rackX, tile);
     }
 
     private int getRackIndex(char c){

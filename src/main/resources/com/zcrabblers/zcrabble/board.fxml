@@ -41,6 +41,16 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="winnerPane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane onMouseClicked="#hideWinnerPane" opacity="0.35" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="winnerLabel" text="Player 1 is victorious!" textFill="WHITE" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="200.0">
+                     <font>
+                        <Font size="45.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="swapTilesPane" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <AnchorPane onMouseClicked="#closeSwapPane" opacity="0.35" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

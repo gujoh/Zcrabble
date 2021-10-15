@@ -44,6 +44,8 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane tutorialPane;
     @FXML private AnchorPane swapTilesPane;
     @FXML private AnchorPane swapTilesPopupPane;
+    @FXML private AnchorPane winnerPane;
+    @FXML private Label winnerLabel;
 
     private List<ImageView> cellList = new ArrayList<>();
     private List<ImageView> rackList = new ArrayList<>();
@@ -548,7 +550,7 @@ public class BoardController implements Initializable, ILetterObservable {
      * @param boardList a LetterTuple array that contain information about which tiles were placed last turn.
      */
     @Override
-    public void updateState(ArrayList<CellTuple> boardList){
+    public void updateState(ArrayList<CellTuple> boardList, boolean isGameOver){
         for (CellTuple cell : boardList){
             try { //TODO cache this
                 ImageView currentCell = cellList.get(coordinateToIndex(cell.getI(), cell.getJ()));
@@ -556,11 +558,16 @@ public class BoardController implements Initializable, ILetterObservable {
                 //TODO: Make this work with Letter instead of char (see comment below)
                 //cellList.get(coordinateToIndex(cell.getI(), cell.getJ())).setImage(tileImageMap.get(cell.getCell().getTileLetter()));
                 currentCell.toBack();  //Calling toFront and toBack to force a repaint of this object. Does not work otherwise.
-                currentCell.toFront();
+                currentCell.toFront(); //Seems to be some kind of JavaFX bug.
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
+
+        if(isGameOver){
+            showWinnerPane(game.getWinner());
+        }
+
         System.out.println("update");
         updateScores();
         updateTilesLeft();
@@ -586,6 +593,16 @@ public class BoardController implements Initializable, ILetterObservable {
     private void shuffleRack(){
         game.shuffleCurrentRack();
         setRackImages();
+    }
+
+    private void showWinnerPane(int winningPlayerNumber){
+        winnerLabel.setText("Player " + winningPlayerNumber + " is victorious!");
+        winnerPane.toFront();
+    }
+
+    @FXML
+    private void hideWinnerPane(){
+        winnerPane.toBack();
     }
 
     private void addNewCell(){

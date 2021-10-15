@@ -25,4 +25,5 @@ public interface IGame {
     int getRemainingTiles();
     void shuffleCurrentRack();
     char getRackLetter(int index);
+    int getWinner();
 }

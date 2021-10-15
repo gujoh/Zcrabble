@@ -15,6 +15,7 @@ public class Game implements IGame, ITurnObservable {
     private int nrBots;
     private ArrayList<CellTuple> boardList = new ArrayList<>();
     private final LetterObserver observer = new LetterObserver();
+    private int passCounter;
 
     public Game(int nrPlayers, int nrBots){
         this.board = new Board("defaultBoard");
@@ -47,10 +48,16 @@ public class Game implements IGame, ITurnObservable {
     @Override
     public boolean endTurn(){ // DISCUSS THIS.
         if (tempBoard.checkBoard(tempBoard, board)){
-            current.addScore(tempBoard.countPoints(board));
+            int score = tempBoard.countPoints(board);
+            if (score == 0){
+                passCounter++;
+            }
+            else passCounter = 0;
+
+            current.addScore(score);
             current.fillRack(tileBag);
             current = getNextPlayer();
-            observer.notifySubscribers((ArrayList<CellTuple>) tempBoard.getNewCells(board));
+            observer.notifySubscribers((ArrayList<CellTuple>) tempBoard.getNewCells(board), isGameOver());
             System.out.println(tempBoard.getNewCells(board).size());
             board.copyBoardCells(tempBoard);
             boardList.clear();
@@ -87,7 +94,7 @@ public class Game implements IGame, ITurnObservable {
 
                 current = getNextPlayer();
             }
-            IPlayers winner = getWinner();
+           // IPlayers winner = getWinner();
             // End game if there's a winner and display results
         } catch(InterruptedException e){
             e.printStackTrace();
@@ -97,7 +104,10 @@ public class Game implements IGame, ITurnObservable {
     }
 
     private boolean isGameOver(){
-        return tileBag.isEmpty();
+        if(tileBag.isEmpty() && current.getRack().rackIsEmpty()) {
+            return true;
+        }
+        return passCounter == 7;
     }
 
     private IPlayers getNextPlayer(){
@@ -109,14 +119,15 @@ public class Game implements IGame, ITurnObservable {
         return players.get(index);
     }
 
-    private IPlayers getWinner(){
+    @Override
+    public int getWinner(){
         IPlayers winner = players.get(0);
         for (IPlayers player : players) {
             if (player.getScore() > winner.getScore()) {
                 winner = player;
             }
         }
-        return winner;
+        return players.indexOf(winner) + 1;
     }
 
     @Override
