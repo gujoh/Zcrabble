@@ -90,6 +90,15 @@ public class Rack {
         return playerTiles[x].getLetter() == ' ';
     }
 
+    public boolean rackIsEmpty(){
+        for(int i = 0; i < playerTiles.length; i++){
+            if(!isEmpty(i)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     void fillRack(TileBag bag){
         for(int i = 0; i < playerTiles.length; i++){
             if(playerTiles[i].getLetter() == ' ' && !bag.isEmpty()){

@@ -21,8 +21,8 @@ public class LetterObserver {
         }
     }
 
-    public void notifySubscribers(ArrayList<CellTuple> boardList){
-        subscribers.forEach(x -> x.updateState(boardList));
+    public void notifySubscribers(ArrayList<CellTuple> boardList, boolean isGameOver){
+        subscribers.forEach(x -> x.updateState(boardList,isGameOver));
     }
 
 }
