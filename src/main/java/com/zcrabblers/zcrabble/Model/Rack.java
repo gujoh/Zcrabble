@@ -35,6 +35,15 @@ public class Rack {
         }
     }
 
+    // probably bad, prob not needed
+    public int getFirstFreeIndex(){
+        for (int i = 0; i < playerTiles.length; i++) {
+            if(isEmpty(i))
+                return i;
+        }
+        return -1;
+    }
+
     /**
      * Sets position at index to the specified tile.
      * @param index Where in the rack to set the tile.
@@ -49,7 +58,6 @@ public class Rack {
      * @param index The position to remove at.
      */
     public void remove(int index){
-        //Tile tile = playerTiles[index];
         playerTiles[index] = new Tile(' ', 0);
     }
 

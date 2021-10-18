@@ -43,7 +43,9 @@ public class TileBag {
     public Tile takeTile(){
         return bag.pop();
     }
-
+    public void add(Tile tile){
+        bag.add(tile);
+    }
     public boolean isEmpty(){
         return bag.isEmpty();
     }

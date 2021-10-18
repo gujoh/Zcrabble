@@ -223,6 +223,24 @@ public class Game implements IGame, ITurnObservable {
         current.placeRackTile(rackX, tile);
     }
 
+    /**
+     * Returns all tiles played on the temporary board to the current players rack.
+     */
+    @Override
+    public void returnTilesToRack(){
+        for(CellTuple ct : tempBoard.getNewCells(board)){
+            int rIndex = getRack().getFirstFreeIndex();
+            switchRackBoardCells(rIndex, ct.getI(), ct.getJ());
+        }
+    }
+
+    @Override
+    public void fromRackToBag(int i){
+        Tile t = current.getRackTile(i);
+        current.removeRackTile(i);
+        tileBag.add(t); //TODO: will just add tile to the end, might want to shuffle the tileBag
+    }
+
     @Override
     public void shuffleCurrentRack(){
         current.getRack().shuffleRack();

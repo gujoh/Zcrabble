@@ -57,6 +57,7 @@ public class BoardController implements Initializable, ILetterObservable {
     private final GameManager gameManager = GameManager.getInstance();
     private IGame game;
     Selection selection = new Selection();
+    MultiSelection mSelection = new MultiSelection();
 
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
 
@@ -173,7 +174,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     // Help method used to convert a mouse position to a rack index.
     private int pos2Rack(double x){
-        int leftSpacingRemoved = (int)(x - rackList.get(0).getX()); // The leftmost rack cell is at index 5 apparently
+        int leftSpacingRemoved = (int)(x - rackList.get(0).getX());
         return leftSpacingRemoved / 45; // remove hard coding?
     }
 
@@ -341,6 +342,16 @@ public class BoardController implements Initializable, ILetterObservable {
                     dragImageView.setVisible(true);
                 }
             }
+        });
+    }
+
+    // What happens when user clicks on rack cells in the swap popup pane
+    private void registerSwapRackCellEvent(CellView cellView){
+        cellView.setOnMousePressed(event -> {
+            if(mSelection.isSelected(cellView))
+                mSelection.unSelect(cellView);
+            else
+                mSelection.select(cellView);
         });
     }
 
@@ -721,7 +732,7 @@ public class BoardController implements Initializable, ILetterObservable {
         int counter = 0;
         int spacing = 50;
         for (int i = 0; i < 7; i++) {
-            ImageView img = new ImageView();
+            CellView img = new CellView(cellImageMap.get(11));
             img.toFront();
             img.setFitWidth(tileSideLength);
             img.setFitHeight(tileSideLength);
@@ -734,6 +745,7 @@ public class BoardController implements Initializable, ILetterObservable {
             img.setY(y);
             counter++;
             spacing = -spacing;
+            registerSwapRackCellEvent(img);
         }
         sortBasedOnX(swapTileList);
     }
@@ -741,6 +753,7 @@ public class BoardController implements Initializable, ILetterObservable {
     // Open the exchange tiles pane.
     @FXML private void openSwapPane(){
         //swapTilesPane.setVisible(true);
+        game.returnTilesToRack();
         swapTilesPane.toFront();
         for (int i = 0; i < rackList.size(); i++) {
             ImageView img = swapTileList.get(i);
@@ -756,7 +769,14 @@ public class BoardController implements Initializable, ILetterObservable {
 
     // Exchange tiles in the model after it is confirmed by the user in the swapTilesPane.
     @FXML private void swapPaneSwap(){
-
+        for (CellView cV : mSelection.getSelected()) {
+            int index = (int) (cV.getX() - swapTileList.get(0).getX());
+            index /= 50;
+            game.fromRackToBag(index);
+        }
+        mSelection.unSelectAll();
+        game.endTurn();
+        closeSwapPane();
     }
 
     //Sets the Zcrabble theme dark mode. Gets called from the MenuController class.
