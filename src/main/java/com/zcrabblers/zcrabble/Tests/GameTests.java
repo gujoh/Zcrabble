@@ -24,4 +24,23 @@ public class GameTests {
         assertEquals(oBoard, rackT.getLetter());
         assertEquals(oRack, tempT.getLetter());
     }
+
+    @Test
+    public void testFromRackToBag(){
+        IGame game = new Game(2, 0);
+        game.newGame();
+        int temp = game.getRemainingTiles();
+        game.fromRackToBag(0);
+        assertEquals(game.getRemainingTiles(), temp + 1);
+    }
+
+    @Test
+    public void testFromRackToBag2(){
+        IGame game = new Game(2, 0);
+        game.newGame();
+        int index = 2;
+        game.fromRackToBag(index);
+        assertEquals(index, game.getRack().getFirstFreeIndex());
+    }
+
 }
