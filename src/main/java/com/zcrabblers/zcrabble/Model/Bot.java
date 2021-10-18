@@ -29,8 +29,18 @@ public class Bot implements IPlayers {
     }
 
     @Override
-    public void placeRackTile(int x, Tile tile){
+    public void addRackTile(Tile tile) {
+        rack.add(tile);
+    }
 
+    @Override
+    public void removeRackTile(int x) {
+        rack.remove(x);
+    }
+
+    @Override
+    public void placeRackTile(int x, Tile tile){
+        rack.set(x, tile);
     }
 
     public int getScore(){

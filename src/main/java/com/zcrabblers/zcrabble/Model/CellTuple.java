@@ -3,9 +3,9 @@ package com.zcrabblers.zcrabble.Model;
  * a simple class to group a cell with its position
  */
 public class CellTuple{
-    private int i;
-    private int j;
-    private Cell cell;
+    private final int i;
+    private final int j;
+    private final Cell cell;
 
     /**
      * a simple class to group a cell with its position

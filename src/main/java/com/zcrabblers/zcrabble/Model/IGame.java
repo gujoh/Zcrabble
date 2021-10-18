@@ -26,4 +26,6 @@ public interface IGame {
     void shuffleCurrentRack();
     char getRackLetter(int index);
     int getWinner();
+    void returnTilesToRack();
+    void fromRackToBag(int i);
 }
