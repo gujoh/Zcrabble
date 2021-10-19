@@ -1,6 +1,9 @@
 package com.zcrabblers.zcrabble.Model;
 
 
+import com.zcrabblers.zcrabble.Controller.BoardController;
+
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Bot implements IPlayers {
@@ -71,9 +74,9 @@ public class Bot implements IPlayers {
         Rack verticalRack = new Rack();
         verticalRack.getRackCopy(rack);
 
-        Board horizontalBoard = new Board("defaultBoard");
+        Board horizontalBoard = new Board();
         horizontalBoard.copyBoardCells(board);
-        Board verticalBoard = new Board("defaultBoard");
+        Board verticalBoard = new Board();
         verticalBoard.copyBoardCells(board);
 
 
@@ -117,9 +120,9 @@ public class Bot implements IPlayers {
 
         //Temporary boards and racks for comparison
 
-        Board currentBoard = new Board("defaultBoard");
+        Board currentBoard = new Board();
         currentBoard.copyBoardCells(board);
-        Board bestBoard = new Board("defaultBoard");
+        Board bestBoard = new Board();
         bestBoard.copyBoardCells(board);
         String bestWord = "";
         Rack tempRack = new Rack();
@@ -310,19 +313,10 @@ public class Bot implements IPlayers {
         return rackString.toString();
     }
 
-    //TODO: the operation of tilting a board should probably live in board, also it might be an insane thing to do.
-
-
-
-
-    //TODO: the operation of tilting a board should probably live in board, also it might be an insane thing to do.
-
-
-
     //TODO first word is longest word not highest scoring word, should be the other way around.
     private Board takeFirstTurn(Board board) {
         //Temporary boards and racks for comparison
-        Board bestBoard = new Board("defaultBoard");
+        Board bestBoard = new Board();
         bestBoard.copyBoardCells(board);
         String bestWord = "";
 
@@ -347,7 +341,7 @@ public class Bot implements IPlayers {
     private static ArrayList<String> canWrite (String letters){
             ArrayList<String> writableWords = new ArrayList<>();
             Map<Character, Integer> charCountMap = getCharCountMap(letters);
-            for (String s : dict.getDictArray()) {
+            for (String s : dict.getDictSet()) {
                 Map<Character, Integer> currentDictWordMap = getCharCountMap(s);
                 boolean canMakeWord = true;
                 for (Character character : currentDictWordMap.keySet()) {

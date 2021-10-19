@@ -10,19 +10,14 @@ public class TileBagTests {
     // and makes sure the remaining tiles are correct
     @Test
     public void testTileBagNumbers() throws FileNotFoundException {
-        TileBag tilebag = new TileBag("");
-        tilebag.selectBag();
-        assertTrue(tilebag.isEmpty() && tilebag.remainingTiles() == 0);
-        tilebag = new TileBag("defaultBag");
-        tilebag.selectBag();
+        TileBag tilebag = new TileBag();
         assertTrue(tilebag.remainingTiles() == 100);
         assertFalse(tilebag.isEmpty());
     }
     //checks if the read tiles have allowed letters and numbers
     @Test
     public void testTileBagLogic() throws FileNotFoundException {
-        TileBag tilebag = new TileBag("defaultBag");
-        tilebag.selectBag();
+        TileBag tilebag = new TileBag();
         String validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
         while(!tilebag.isEmpty()){
             char letter = tilebag.getBag().peekFirst().getLetter();

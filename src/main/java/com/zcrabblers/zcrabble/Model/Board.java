@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,18 +20,20 @@ import java.util.Scanner;
 public class Board {
     private final Dictionary dict = Dictionary.getInstance();
     private Cell[][] boardCells;
-    private final String boardSelector;
 
     // constructor takes a string in order to search for the matching text file
     // then calls the selectBoard function to fill the new board with cells
 
     /**
-     * the board constructor is called with a string it will search resources for a matching txt file to load
+     * The board constructor is called with a string it will search resources for a matching txt file to load
      * the board layout from
-     * @param boardSelector string to select which board will be used
      */
-    public Board(String boardSelector){
-        this.boardSelector = boardSelector;
+    public Board(){
+        try {
+            fillBoard();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     //checks if the name matches the file
@@ -39,15 +42,12 @@ public class Board {
     // each cell reads two numbers from the txt and creates a tile with the "empty" values of ' ' and 0
 
     /**
-     * called after creating a new board taking the inputted string and using it in this method
-     * to fill its board with cells
-     * see src/main/resources/ for the files
+     * Called in the constructor.
+     * Fills the board with cells based on  a txt file called defaultBoard.
      * @throws FileNotFoundException throws an error if the reading of the txt is incorrect
-     * fills a board with cells filled with information from the corresponding txt file
      */
-    public void selectBoard() throws FileNotFoundException {
-        if(boardSelector.equals("defaultBoard")){
-            File file = new File("src/main/resources/"+boardSelector);
+    private void fillBoard() throws FileNotFoundException {
+            File file = new File("src/main/resources/defaultBoard");
             Scanner scanner = new Scanner(file);
             int boardSize = scanner.nextInt();
             boardCells = new Cell[boardSize][boardSize];
@@ -59,7 +59,7 @@ public class Board {
                 }
             }
         }
-    }
+
 
     /**
      * Copies the cells on a board
@@ -371,7 +371,7 @@ public class Board {
 
     /*--- Method for checking that all words in columns are valid. ---*/
     private boolean checkCol(Board board) {
-        Board tempboard = new Board("defaultBoard");
+        Board tempboard = new Board();
         tempboard.tiltPiHalf(board);
         return checkRow(tempboard);
 
@@ -472,9 +472,11 @@ public class Board {
             }
         }
 
+        //If all new cells have neighbours, there is at least one old cell connected to the new cells, rows and
+        //columns are valid, and there is a letter in the middle cell, then the play is valid.
         if(oldCellCount > 0 && rowOrColValid && containsLetter(this,7,7)){
             return true;
-        }
+        } //TODO: you can currently play two  valid words that arent connected on the first turn, FIX
         else{ //If it is the first round of play, oldCellCount will be 0 and there will not be a tile on the middle cell.
             return oldCellCount == 0 && board.isCellEmpty(7, 7) && containsLetter(this, 7, 7);
         }
@@ -498,7 +500,5 @@ public class Board {
     private static boolean containsLetter (Board board,int row, int col){
         return board.getBoardCells()[row][col].getPlacedTile().getLetter() != ' ';
     }
-
-
 }
 

@@ -62,6 +62,7 @@ public class BoardController implements Initializable, ILetterObservable {
     Selection selection = new Selection();
     MultiSelection mSelection = new MultiSelection();
 
+    private final static int IMAGE_SIZE = 33;
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
 
     private boolean draggedFromRack;
@@ -71,6 +72,7 @@ public class BoardController implements Initializable, ILetterObservable {
     Map<Letter, Image> tileImageMap = new HashMap<>();
     Map<Integer, Image> cellImageMap = new HashMap<>();
 
+    //Images get added to a HashMap here.
     private void initImages(){
        try{
            cellImageMap.put(0, new Image(new FileInputStream(IMAGE_PATH + "Middle.png")));
@@ -177,7 +179,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     // Help method used to convert a mouse position to a board coordinate/index.
     private int pos2Coord(double x){
-        return (int)Math.floor(x / 33); // remove hard coding?
+        return (int)Math.floor(x / IMAGE_SIZE); // remove hard coding?
     }
 
     // Help method used to convert a mouse position to a rack index.
@@ -230,6 +232,9 @@ public class BoardController implements Initializable, ILetterObservable {
     // What happens when user clicks on a cell on the board.
     private void registerBoardCellClickEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
+            if(game.isGameOver()){
+                return;
+            }
             int x = pos2Coord(cellView.getX());
             int y = pos2Coord(cellView.getY());
 
@@ -280,6 +285,9 @@ public class BoardController implements Initializable, ILetterObservable {
     // What happens when the user clicks on a cell on the rack.
     private void registerRackCellEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
+            if(game.isGameOver()){
+                return;
+            }
             int x = pos2Rack(cellView.getX());
 
             System.out.println("rack x: " + x);
@@ -361,34 +369,34 @@ public class BoardController implements Initializable, ILetterObservable {
 
                 boardAnchor.getChildren().add(img);
                 cellList.add(img);
-                img.setFitHeight(33);
-                img.setFitWidth(33);
+                img.setFitHeight(IMAGE_SIZE);
+                img.setFitWidth(IMAGE_SIZE);
                 img.setX(x);
                 img.setY(y);
 
-                x+=33;
+                x+=IMAGE_SIZE;
 
                 img.changeToDefaultImage();
                 registerBoardCellClickEvent(img);
             }
             x = 0;
-            y += 33;
+            y += IMAGE_SIZE;
         }
     }
 
     //Renders the rack. Gets called from the populate() method.
     private void populateRack() throws FileNotFoundException {
         rackList.clear();
-        double x = rackRectangle.getWidth()/2-((double)33/2);
-        double y = rackRectangle.getHeight()/2-((double)33/2);
+        double x = rackRectangle.getWidth()/2-((double)IMAGE_SIZE/2);
+        double y = rackRectangle.getHeight()/2-((double)IMAGE_SIZE/2);
         int counter = 0;
         int spacing = 45;
         for(int i = 0; i < 7; i++){
             CellView img = new CellView(cellImageMap.get(11)); // Empty cell image
             rackAnchor.getChildren().add(img);
             rackList.add(img);
-            img.setFitHeight(33);
-            img.setFitWidth(33);
+            img.setFitHeight(IMAGE_SIZE);
+            img.setFitWidth(IMAGE_SIZE);
 
             x += counter * spacing;
             img.setX(x);
@@ -441,9 +449,9 @@ public class BoardController implements Initializable, ILetterObservable {
      * @param boardList a LetterTuple array that contain information about which tiles were placed last turn.
      */
     @Override
-    public void updateState(ArrayList<CellTuple> boardList, boolean isGameOver){
+    public void updateState(List<CellTuple> boardList, boolean isGameOver){
         for (CellTuple cell : boardList){
-            try { //TODO cache this
+            try {
                 ImageView currentCell = cellList.get(coordinateToIndex(cell.getI(), cell.getJ()));
                 currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
                 //TODO: Make this work with Letter instead of char (see comment below)
@@ -486,6 +494,7 @@ public class BoardController implements Initializable, ILetterObservable {
         setRackImages();
     }
 
+    //Opens the winner pane.
     private void showWinnerPane(int winningPlayerNumber){
         winnerLabel.setText("Player " + winningPlayerNumber + " is victorious!");
         winnerPane.toFront();

@@ -2,19 +2,16 @@ package com.zcrabblers.zcrabble.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Dictionary {
 
     private static Dictionary instance;
-    private static ArrayList<String> dictArray;
+    private static Set<String> dictSet;
 
     private Dictionary()  {
         instance = this;
-        dictArray = createDictArray();
+        dictSet = createDictSet();
     }
 
     /**
@@ -30,8 +27,8 @@ public class Dictionary {
      * @return dictionary as an ArrayList.
      */
 
-    public ArrayList<String> getDictArray(){
-        return dictArray;
+    public Set<String> getDictSet(){
+        return dictSet;
     }
 
     /**
@@ -40,13 +37,13 @@ public class Dictionary {
      * @return dictionary contains word
      */
     public boolean checkWord (String word)  {
-        return dictArray.contains(word.toUpperCase());
+        return dictSet.contains(word.toUpperCase());
     }
 
 
     /*---   Reads the dictionary and returns it as an ArrayList   ---*/
-    private static ArrayList<String> createDictArray ()  {
-        ArrayList<String> dict = new ArrayList<>();
+    private static Set<String> createDictSet ()  {
+        Set<String> dict = new HashSet<>();
         File file = new File("src/main/resources/CollinsScrabbleWords2019");
         Scanner sc = null;
         try {

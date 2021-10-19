@@ -14,15 +14,13 @@ import java.util.List;
 public class BoardTests {
     @Test
     public void testSize() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         assertEquals(15, board.getBoardCells()[0].length);
     }
 
     @Test
     public void testCalculateScore() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         for(int i = 0; i < board.getBoardCells().length; i++){
             for(int j = 0; j < board.getBoardCells().length; j++)
                 if((7 > j && i == 8)) {
@@ -31,8 +29,7 @@ public class BoardTests {
                     board.placeTile(i, j, new Tile('A', 2));
                 }
         }
-        Board boardTwo = new Board("defaultBoard");
-        boardTwo.selectBoard();
+        Board boardTwo = new Board();
         for(int i = 0; i < boardTwo.getBoardCells().length; i++){
             for(int j = 0; j < boardTwo.getBoardCells().length; j++)
                 if((7 > j && i == 8)) {
@@ -47,8 +44,7 @@ public class BoardTests {
 
     @Test
     public void TestBoard1() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         board.placeTile(1,5,new Tile('A',2));
         board.placeTile(1,6,new Tile('B',2));
         board.placeTile(1,7,new Tile('C',2));
@@ -63,8 +59,7 @@ public class BoardTests {
         board.placeTile(2,5,new Tile('O',2));
 
 
-        Board boardTwo = new Board("defaultBoard");
-        boardTwo.selectBoard();
+        Board boardTwo = new Board();
         boardTwo.placeTile(1,5,new Tile('A',2));
         boardTwo.placeTile(1,6,new Tile('B',2));
         boardTwo.placeTile(1,7,new Tile('C',2));
@@ -91,8 +86,7 @@ public class BoardTests {
 
     @Test
     public void TestBoard2() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         board.placeTile(1,5,new Tile('A',2));
         board.placeTile(2,5,new Tile('B',2));
         board.placeTile(3,5,new Tile('C',2));
@@ -118,8 +112,7 @@ public class BoardTests {
         board.placeTile(6,8,new Tile('I',2));
 
 
-        Board boardTwo = new Board("defaultBoard");
-        boardTwo.selectBoard();
+        Board boardTwo = new Board();
         boardTwo.placeTile(1,5,new Tile('A',2));
         boardTwo.placeTile(2,5,new Tile('B',2));
         boardTwo.placeTile(3,5,new Tile('C',2));
@@ -156,8 +149,7 @@ public class BoardTests {
 
     @Test
     public void TestBoard3() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         board.placeTile(1,5,new Tile('A',2));
         board.placeTile(2,5,new Tile('B',2));
         board.placeTile(3,5,new Tile('C',2));
@@ -189,8 +181,7 @@ public class BoardTests {
         board.placeTile(8,4,new Tile('B',2));
 
 
-        Board boardTwo = new Board("defaultBoard");
-        boardTwo.selectBoard();
+        Board boardTwo = new Board();
         boardTwo.placeTile(1,5,new Tile('A',2));
         boardTwo.placeTile(2,5,new Tile('B',2));
         boardTwo.placeTile(3,5,new Tile('C',2));
@@ -232,8 +223,7 @@ public class BoardTests {
 
     @Test
     public void TestBoard4() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         board.placeTile(0,0,new Tile('A',2));
         board.placeTile(0,1,new Tile('B',2));
         board.placeTile(0,2,new Tile('C',2));
@@ -243,8 +233,7 @@ public class BoardTests {
         board.placeTile(2,0,new Tile('F',2));
         board.placeTile(3,0,new Tile('G',2));
 
-        Board boardTwo = new Board("defaultBoard");
-        boardTwo.selectBoard();
+        Board boardTwo = new Board();
         boardTwo.placeTile(0,0,new Tile('A',2));
         boardTwo.placeTile(0,1,new Tile('B',2));
         boardTwo.placeTile(0,2,new Tile('C',2));
@@ -264,8 +253,7 @@ public class BoardTests {
 
     @Test
     public void TestBoard5() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         board.placeTile(14,14,new Tile('A',2));
         board.placeTile(14,13,new Tile('B',2));
         board.placeTile(14,12,new Tile('C',2));
@@ -275,8 +263,7 @@ public class BoardTests {
         board.placeTile(12,14,new Tile('F',2));
         board.placeTile(11,14,new Tile('T',2));
 
-        Board boardTwo = new Board("defaultBoard");
-        boardTwo.selectBoard();
+        Board boardTwo = new Board();
         boardTwo.placeTile(14,14,new Tile('A',2));
         boardTwo.placeTile(14,13,new Tile('B',2));
         boardTwo.placeTile(14,12,new Tile('C',2));
@@ -296,16 +283,14 @@ public class BoardTests {
 
     @Test
     public void TestBoard6() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         board.placeTile(14,12,new Tile('C',2));
         board.placeTile(14,11,new Tile('D',2));
         board.placeTile(13,14,new Tile('T',2));
         board.placeTile(12,14,new Tile('F',2));
         board.placeTile(11,14,new Tile('G',2));
 
-        Board boardTwo = new Board("defaultBoard");
-        boardTwo.selectBoard();
+        Board boardTwo = new Board();
         boardTwo.placeTile(14,12,new Tile('C',2));
         boardTwo.placeTile(14,11,new Tile('D',2));
         boardTwo.placeTile(13,14,new Tile('T',2));
@@ -321,16 +306,14 @@ public class BoardTests {
     }
     @Test
     public void TestBoard7() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         board.placeTile(14,1,new Tile('C',2));
         board.placeTile(14,2,new Tile('D',2));
         board.placeTile(14,3,new Tile('T',2));
         board.placeTile(12,0,new Tile('F',2));
         board.placeTile(11,0,new Tile('G',2));
 
-        Board boardTwo = new Board("defaultBoard");
-        boardTwo.selectBoard();
+        Board boardTwo = new Board();
         boardTwo.placeTile(14,1,new Tile('C',2));
         boardTwo.placeTile(14,2,new Tile('D',2));
         boardTwo.placeTile(14,3,new Tile('T',2));
@@ -347,8 +330,7 @@ public class BoardTests {
 
     @Test
     public void TestRemoveTile() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         board.placeTile(14,14,new Tile('S',2));
         assertEquals('S', board.getTile(14, 14).getLetter());
         assertEquals(2, board.getTile(14, 14).getTileScore());
@@ -358,8 +340,7 @@ public class BoardTests {
 
     @Test
     public void testSwitchTile() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         board.placeTile(14,14,new Tile('S',2));
         board.placeTile(13,13,new Tile('A',7));
         board.switchTiles(14, 14, 13, 13);
@@ -370,15 +351,13 @@ public class BoardTests {
     }
     @Test
     public void testMatrix() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
         Cell cell = board.getBoardCells()[0][0];
         assertNotNull(cell);
     }
     @Test
     public void testGetNewCells() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
 
         board.placeTile(14,12,new Tile('C',2));
         board.placeTile(14,11,new Tile('D',2));
@@ -386,8 +365,7 @@ public class BoardTests {
         board.placeTile(12,14,new Tile('F',2));
         board.placeTile(11,14,new Tile('G',2));
 
-        Board boardTwo = new Board("defaultBoard");
-        boardTwo.selectBoard();
+        Board boardTwo = new Board();
         boardTwo.placeTile(14,12,new Tile('C',2));
         boardTwo.placeTile(14,11,new Tile('D',2));
         boardTwo.placeTile(13,14,new Tile('T',2));
@@ -498,8 +476,7 @@ public class BoardTests {
 
     @Test
     public void testRowCheck() throws FileNotFoundException {
-        Board board = new Board("defaultBoard");
-        board.selectBoard();
+        Board board = new Board();
 
         board.placeTile(7, 4, new Tile('S', 2));
         board.placeTile(7, 5, new Tile('C', 2));
@@ -512,8 +489,7 @@ public class BoardTests {
         board.placeTile(7, 12, new Tile('R', 2));
         board.placeTile(7, 13, new Tile('S', 2));
 
-        Board tempBoard = new Board("defaultBoard");
-        tempBoard.selectBoard();
+        Board tempBoard = new Board();
 
         tempBoard.placeTile(7, 4, new Tile('S', 2));
         tempBoard.placeTile(7, 5, new Tile('C', 2));
