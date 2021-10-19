@@ -1,6 +1,5 @@
 package com.zcrabblers.zcrabble.Model;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class Game implements ITurnObservable {
         current.beginTurn(tempBoard);
     }
 
-    //TODO, if checkBoard is false, rack and board should be reset. it can be done by playing with a copy of the rack and resetting tempboard to board and temprack to rack. Method rackCopy is added to rack to facilitate this.
+    //TODO, if checkBoard is false, rack and board should be reset. it can be done by playing with a copy of the rack and resetting tempBoard to board and tempRack to rack. Method rackCopy is added to rack to facilitate this.
 
     public boolean endTurn(){ // DISCUSS THIS.
         if (tempBoard.checkBoard(tempBoard, board)){
@@ -51,15 +50,15 @@ public class Game implements ITurnObservable {
             current.fillRack(tileBag);
             current = getNextPlayer();
             observer.notifySubscribers(tempBoard.getNewCells(board), isGameOver());
-            System.out.println(tempBoard.getNewCells(board).size());
+            //System.out.println(tempBoard.getNewCells(board).size());
             board.copyBoardCells(tempBoard);
             boardList.clear();
             current.beginTurn(tempBoard);
-            System.out.println(players.indexOf(current));
+            //System.out.println(players.indexOf(current));
             return true;
         }
         else {
-            System.out.println("WRONG WORD");
+            //System.out.println("WRONG WORD");
             return false;
         }
 
@@ -149,7 +148,7 @@ public class Game implements ITurnObservable {
     }
 
     /**
-     * Switch the tiles of two cells on the tempboard.
+     * Switch the tiles of two cells on the tempBoard.
      * @param x1 X position of the first cell.
      * @param y1 Y position of the first cell.
      * @param x2 X position of the second cell.
@@ -176,7 +175,7 @@ public class Game implements ITurnObservable {
      */
     public void switchRackBoardCells(int rackX, int boardY, int boardX) {
         Tile tile = tempBoard.getTile(boardY, boardX);
-        System.out.println("From: " + tile.getLetter());
+        //System.out.println("From: " + tile.getLetter());
         tempBoard.placeTile(boardY, boardX, current.getRackTile(rackX));
         current.placeRackTile(rackX, tile);
     }
