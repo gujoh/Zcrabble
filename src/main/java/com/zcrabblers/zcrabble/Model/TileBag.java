@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class TileBag {
-    private Deque<Tile> bag = new ArrayDeque<>();
+    private final Deque<Tile> bag = new ArrayDeque<>();
     String bagSelector;
 
     public TileBag(String bagSelector){

@@ -71,37 +71,6 @@ public class Game implements ITurnObservable {
 
     }
 
-    public synchronized void experimentalEndTurn(){
-        notifyAll();
-    }
-
-    public synchronized void experimentalGameLoop() {
-        try {
-            while(!isGameOver()){
-                current.beginTurn(tempBoard);
-                System.out.println("WAITING");
-                wait();
-                System.out.println("PASSED WAIT");
-                // Add score from tempboard to current if it was correct
-
-                // Låta Game vara en Thread och starta en ny Thread varje gång
-                // vi startar ett nytt game, den tråden blir då "modell tråden"
-                // och javafx sköter grafik tråden. Game tråden väntar till vi
-                // trycker på en knapp på grafik tråden som notifyar game tråden
-                // då körs hela loopen med all input spelaren gett innan hon tryckte
-                // på end turn
-
-                current = getNextPlayer();
-            }
-           // IPlayers winner = getWinner();
-            // End game if there's a winner and display results
-        } catch(InterruptedException e){
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-    }
-
     private boolean isGameOver(){
         if(tileBag.isEmpty() && current.getRack().rackIsEmpty()) {
             return true;
@@ -118,6 +87,10 @@ public class Game implements ITurnObservable {
         return players.get(index);
     }
 
+    /**
+     * Return the player with the highest score.
+     * @return The index of the player + 1, to get the nth player.
+     */
     public int getWinner(){
         IPlayers winner = players.get(0);
         for (IPlayers player : players) {
