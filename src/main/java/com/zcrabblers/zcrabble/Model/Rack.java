@@ -12,6 +12,13 @@ public class Rack {
         }
     }
 
+    public Rack() {
+        for(Tile t : playerTiles){
+            t = new Tile(' ',0);
+        }
+    }
+
+
     /**
      * Switches positions of tiles at index x1 and x2.
      * @param x1 Index of the first tile.
@@ -72,6 +79,17 @@ public class Rack {
         }
     }
 
+    public void getRackCopy(Rack rack) {
+        Tile[] tempTile = new Tile[rack.getTiles().length];
+        for (int i = 0; i <rack.getTiles().length ; i++) {
+            Tile rackTile = rack.getTile(i);
+            tempTile[i] = new Tile(rackTile.getLetter(), rackTile.getTileScore());
+        }
+        playerTiles = tempTile;
+    }
+
+
+    //TODO do we need this one? I don't think so
     public Tile getTile(char letter){
         for (Tile playerTile : playerTiles) {
             if (letter == playerTile.getLetter())
