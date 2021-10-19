@@ -48,5 +48,5 @@ public class Player implements IPlayers{
         rack.fillRack(bag);
     }
 
-    private boolean endTurn = false;
+    private boolean endTurn = false;//TODO what is this?
 }
