@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -326,7 +327,7 @@ public class Board {
      * @return true/false validBoard
      */
     public boolean checkBoard(Board tempBoard,Board board) {
-        return (checkCoherence(tempBoard,board)&&checkCol(tempBoard)&& checkRow(tempBoard));
+        return (checkCoherence(board)&&checkCol(tempBoard)&& checkRow(tempBoard));
     }
 
     /*--- Method for checking that all words in columns are valid. ---*/
@@ -391,36 +392,62 @@ public class Board {
         return rowIsValid;
     }
 
-    private  boolean checkCoherence(Board tempBoard, Board board){
-        List<CellTuple> newCells = tempBoard.getNewCells(board);
+    //Checks if all letters on the board are in contact with each other and everything is in contact with the middle.
+    private  boolean checkCoherence(Board board){
+        List<CellTuple> newCells = getNewCells(board);
 
-        int numberOfLetters = 0;
-        for (int row = 0; row < tempBoard.getBoardCells().length; row++) {
-            for (int col = 0; col < tempBoard.getBoardCells().length; col++) {
-                if (containsLetter(tempBoard, row, col)){
-                    numberOfLetters++;
-                    if (numberOfLetters>1){break;}
+        if(newCells.size() == 0){
+            return true;
+        }
+
+        int neighbourCount;
+        int oldCellCount = 0;
+        boolean rowOrColValid = checkRowAndColCoherence(newCells);
+
+        //Checks if all new cells have a neighbour.
+        for(CellTuple cell : newCells){
+            neighbourCount = 0;
+            for(int i = -1; i < 2; i++){
+                for(int j = -1; j < 2; j++){
+                    int row = cell.getI() + i;
+                    int col = cell.getJ() + j;
+                    if(row <= 14 && row >= 0 && col <= 14 && col >= 0 && !(row == cell.getI() && col == cell.getJ())){ //If we are not checking "ourselves" and we are within the board.
+                        System.out.println("test");
+                        if((row == cell.getI() || col == cell.getJ())  && !isCellEmpty(row,col)){ //We do not check diagonal cells.
+                            neighbourCount++;
+                            if(getTile(row,col).getLetter() == board.getTile(row,col).getLetter()){
+                                oldCellCount++;
+                            }
+
+                        }
+                    }
                 }
+            }
+            if (neighbourCount == 0){
+                return false;
             }
         }
 
+        if(oldCellCount > 0 && rowOrColValid && containsLetter(this,7,7)){
+            return true;
+        }
+        else{ //If it is the first round of play, oldCellCount will be 0 and there will not be a tile on the middle cell.
+            return oldCellCount == 0 && board.isCellEmpty(7, 7) && containsLetter(this, 7, 7);
+        }
+    }
 
-        //checks if all new cells is either on one row or one column
-        for (int i = 0; i <newCells.size() ; i++) {
+    //Checks if all new cells are either on one row or one column
+    private boolean checkRowAndColCoherence(List<CellTuple> newCells){
+        for (int i = 0; i < newCells.size() ; i++) {
             if (!(newCells.get(i).getI()==newCells.get(i== newCells.size()-1?i:i+1).getI())){
                 for (int j = 0; j <newCells.size() ; j++) {
-                    if (!(newCells.get(j).getJ()==newCells.get(j==newCells.size()-1?j:j+1).getJ())){
-                       return false;
+                    if (!(newCells.get(j).getJ() == newCells.get(j == newCells.size() - 1 ? j : j + 1).getJ())) {
+                        return false;
                     }
                 }
             }
         }
-
-
-
-
-
-        return (containsLetter(tempBoard, 7, 7)&&numberOfLetters!=1);
+        return true;
     }
 
     /*--- Checks if a cell contains a letter tile ---*/
