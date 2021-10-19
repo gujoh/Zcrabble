@@ -19,6 +19,9 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * BoardController contains
+ */
 public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane boardAnchor;
     @FXML private AnchorPane rackAnchor;
@@ -91,6 +94,8 @@ public class BoardController implements Initializable, ILetterObservable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initImages();
+        initPlayerSpinner();
+        initSwapPane();
 
         menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
@@ -101,34 +106,21 @@ public class BoardController implements Initializable, ILetterObservable {
         scoreLabelList.add(p4Score);
 
 
-        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,4,2,1);
-        SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
-        playerSpinner.setValueFactory(playerValueFactory);
-        botSpinner.setValueFactory(botValueFactory);
-        playerSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
-            @Override
-            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-                botSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4-(int)playerSpinner.getValue(),0,1));
-            }
-        });
-
         gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
         game = gameManager.getCurrentGame();
+        gameManager.addSubscriber(this);
 
 //        endTurnButton.setOnAction(actionEvent -> {
 //            gameManager.getCurrentGame().endTurn();
 //        });
 
-        gameManager.addSubscriber(this);
-
+        updateScores();
+        updateTilesLeft();
         try {
             populate();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        updateScores();
-        updateTilesLeft();
-        initSwapPane();
         try {
             initTutorialPane();
         } catch (IOException e) {
@@ -152,6 +144,21 @@ public class BoardController implements Initializable, ILetterObservable {
     private void hideDragTile(){
         dragImageView.setVisible(false);
         //draggedFrom.setImage(dragImageView.getImage());
+    }
+
+    //Initializes the spinners that set the number of players and bots.
+    private void initPlayerSpinner(){
+        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,4,2,1);
+        SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
+        playerSpinner.setValueFactory(playerValueFactory);
+        botSpinner.setValueFactory(botValueFactory);
+        playerSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+                botSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4-(int)playerSpinner.getValue(),0,1));
+            }
+        });
+
     }
 
     // Initializes the tile that is dragged around.
@@ -224,8 +231,7 @@ public class BoardController implements Initializable, ILetterObservable {
         cellView.setOnMousePressed(event -> {
             int x = pos2Coord(cellView.getX());
             int y = pos2Coord(cellView.getY());
-            //System.out.println(x);
-            //System.out.println(y);
+
             if(!game.isBoardCellEmpty(y, x))
                 return;
             if(selection.hasSelected()){
@@ -274,40 +280,26 @@ public class BoardController implements Initializable, ILetterObservable {
     private void registerRackCellEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
             int x = pos2Rack(cellView.getX());
-            //System.out.println("cell pos: " + cellView.getX());
-            //System.out.println("mouse pos: " + event.getX());
+
             System.out.println("rack x: " + x);
             if(selection.hasSelected()){
                 if(selection.getFromRack()){
                     if(game.isRackEmpty(x)){
                         // rack -> rack(tom)
                         game.switchRackCells(selection.getStartX(), x);
-                        //Tile tile = game.getRack().getTile(selection.getStartX());
-                        //game.getRack().set(x, tile);
-                        //game.getRack().remove(selection.getStartX());
 
                         moveImage(cellView);
-                        //cellView.setImage(selection.getSelectedImage());
-                        //selection.changeToDefaultImage();
+
                     }else{
                         // rack -> rack
                         game.switchRackCells(selection.getStartX(), x);
-                        //Tile tile = game.getRack().getTile(selection.getStartX());
-                        //game.getRack().set(selection.getStartX(), game.getRack().getTile(x));
-                        //game.getRack().set(x, tile);
 
                         switchImages(cellView);
-                        //Image im = selection.getSelectedImage();
-                        //selection.setImage(cellView.getImage());
-                        //cellView.setImage(im);
                     }
                 }else{
                     if(game.isRackEmpty(x)){
                         // board -> rack(tom)
                         game.switchRackBoardCells(x, selection.getStartY(), selection.getStartX());
-                        //Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
-                        //game.getRack().set(x, tile);
-                        //game.getTempBoard().removeTile(selection.getStartY(), selection.getStartX());
 
                         moveImage(cellView);
                         //cellView.setImage(selection.getSelectedImage());
@@ -315,14 +307,9 @@ public class BoardController implements Initializable, ILetterObservable {
                     }else{
                         // board -> rack
                         game.switchRackBoardCells(x, selection.getStartY(), selection.getStartX());
-                        //Tile tile = game.getTempBoard().getTile(selection.getStartY(), selection.getStartX());
-                        //game.getTempBoard().placeTile(selection.getStartY(), selection.getStartX(), game.getRack().getTile(x));
-                        //game.getRack().set(x, tile);
 
                         switchImages(cellView);
-                        //Image im = selection.getSelectedImage();
-                        //selection.setImage(cellView.getImage());
-                        //cellView.setImage(im);
+
                     }
                 }
                 dragImageView.setVisible(false);
@@ -355,108 +342,6 @@ public class BoardController implements Initializable, ILetterObservable {
         });
     }
 
-    // DRAGGING NOT USED NOW
-    // Sets how tiles dragged from the rack behaves
-    private void registerRackCellEvents(CellView cellView){
-        // starting a drag event from a rack tile
-        cellView.setOnDragDetected(event -> {
-            // get index based on mouse position
-            startX = pos2Rack(event.getX());
-            //System.out.println(startX);
-
-            // if not empty start drag sequence
-            if(!game.isRackEmpty(startX)){
-                draggedFromRack = true;
-                dragSequence(cellView);
-            }
-        });
-
-        cellView.setOnMouseDragged(mouseEvent -> OnDragged(mouseEvent));
-
-        // ending a drag on a rack tile (could be started from a rack or board tile)
-        cellView.setOnMouseDragReleased(event -> {
-            dragImageView.setVisible(false);
-            int x = pos2Rack(event.getX());
-            if(draggedFromRack){
-                // switch tiles in the rack
-                game.switchRackCells(startX, x);
-
-                // switch images
-                //switchImages(cellView);
-            }else{
-                game.switchRackBoardCells(x, startX, startY);
-                if(game.isRackEmpty(x)){
-                    cellView.setImage(dragImageView.getImage());
-                }else{
-                    // dragging from the tempboard to the rack switches the tiles
-                    //switchImages(cellView);
-                }
-            }
-            //event.setDragDetect(false);
-            event.consume();
-        });
-    }
-
-    // DRAGGING NOT USED NOW
-    // Sets how tiles dragged from the board behaves
-    private void registerBoardCellEvents(CellView cellView){
-        // starting a drag event from a board tile
-        cellView.setOnDragDetected(event -> {
-            startX = pos2Coord(event.getX());
-            startY = pos2Coord(event.getY());
-            //System.out.println("X: " + startX + ", Y: " + startY);
-            // can only start a drag if the board cell is empty and the tempboard cell isn't
-            if(game.isBoardCellEmpty(startX, startY) &&
-                    !game.isTempCellEmpty(startX, startY)) {
-                draggedFromRack = false;
-                dragSequence(cellView);
-            }
-        });
-
-        cellView.setOnMouseDragged(mouseEvent -> OnDragged(mouseEvent));
-
-        // ending a drag on a board tile (could be started from a rack or board tile)
-        cellView.setOnMouseDragReleased(event -> {
-            dragImageView.setVisible(false);
-
-            int x = pos2Coord(event.getX());
-            int y = pos2Coord(event.getY());
-            //System.out.println("X: " + x + ", Y: " + y);
-            if(game.isBoardCellEmpty(x, y) && game.isTempCellEmpty(x, y)){
-                if(draggedFromRack){
-                    //get tile from rack
-                    Tile tile = game.getRack().getTile(startX);
-                    //remove tile from rack
-                    game.getRack().remove(startX);
-                    //add tile to tempboard
-                    game.getTempBoard().placeTile(x, y, tile);
-                    //rack image was reset on drag start
-                    //set board image
-                }else{
-                    //switch tiles on tempboard
-                    game.switchTempCells(startX, startY, x, y);
-                    //switch images
-                    draggedFrom.changeToDefaultImage();
-                    //switchImages(cellView);
-                }
-                cellView.setImage(dragImageView.getImage());
-            }else if(game.isBoardCellEmpty(x, y) && !game.isTempCellEmpty(x, y)){
-                if(draggedFromRack){
-                    game.switchRackBoardCells(startX, x, y);
-                }else{
-                    game.switchTempCells(startX, startY, x, y);
-                }
-                //switchImages(cellView);
-            }
-            else{
-                //cell dragged to wasn't empty so reset image
-                draggedFrom.setImage(dragImageView.getImage());
-            }
-            //event.setDragDetect(false);
-            event.consume();
-        });
-    }
-
     //Renders the board. Gets called from the populate() method.
     private void populateBoard() {
         int x = 0;
@@ -483,7 +368,6 @@ public class BoardController implements Initializable, ILetterObservable {
                 x+=33;
 
                 img.changeToDefaultImage();
-                // registerBoardCellEvents(img);
                 registerBoardCellClickEvent(img);
             }
             x = 0;
@@ -505,17 +389,12 @@ public class BoardController implements Initializable, ILetterObservable {
             img.setFitHeight(33);
             img.setFitWidth(33);
 
-            //img.setContentDisplay(ContentDisplay.CENTER);
-            //img.setPrefSize(33,33);
-
-
             x += counter * spacing;
             img.setX(x);
             img.setY(y);
             counter++;
             spacing = -spacing;
 
-            //registerRackCellEvents(img);
             registerRackCellEvent(img);
         }
         
@@ -616,20 +495,6 @@ public class BoardController implements Initializable, ILetterObservable {
         winnerPane.toBack();
     }
 
-    private void addNewCell(){
-        //Get the index from the tile you want to move. From there figure out what letter is on the tile.
-        //When you place your tile, get the index of that position. Make a copy of the cell that is located there.
-        //Then add the tile to the copy of the cell, and add the cell to newCells.
-        //When a tile that was previously placed on the board is being moved, remove the cell from newCells. 
-        //Somehow send this list of new cells to the Model when endTurn has been called.
-        //Other methods will check if you are able to move a certain tile when you try to move it.
-        //The same goes for when you want to place a tile. The game will only let you place a tile in a
-        //valid position. This will also be checked by another method.
-
-        //Maybe newCells can be located in Game, and this method updates that list
-
-    }
-
     //Starts a new game by calling newGame in GameManager.
     //Amount of players is based on the spinner values in the new game menu.
     @FXML
@@ -676,6 +541,7 @@ public class BoardController implements Initializable, ILetterObservable {
         newGameMenuBackground.toBack();
     }
 
+    //Attempts to end the current turn. If endTurn() returns false, the word is invalid and a modal panel pops up.
     @FXML
     private void endTurn(){
         if(!game.endTurn()){
