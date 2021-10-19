@@ -55,7 +55,7 @@ public class BoardController implements Initializable, ILetterObservable {
     private ArrayList<Label> scoreLabelList = new ArrayList<>();
 
     private final GameManager gameManager = GameManager.getInstance();
-    private IGame game;
+    private Game game;
     Selection selection = new Selection();
     MultiSelection mSelection = new MultiSelection();
 

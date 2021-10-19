@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class GameTests {
     @Test
     public void testSwitchRackBoardTile(){
-        IGame game = new Game(2, 0);
+        Game game = new Game(2, 0);
         game.newGame();
         Board temp = game.getTempBoard();
         Rack rack = game.getRack();
@@ -27,7 +27,7 @@ public class GameTests {
 
     @Test
     public void testFromRackToBag(){
-        IGame game = new Game(2, 0);
+        Game game = new Game(2, 0);
         game.newGame();
         int temp = game.getRemainingTiles();
         game.fromRackToBag(0);
@@ -36,7 +36,7 @@ public class GameTests {
 
     @Test
     public void testFromRackToBag2(){
-        IGame game = new Game(2, 0);
+        Game game = new Game(2, 0);
         game.newGame();
         int index = 2;
         game.fromRackToBag(index);

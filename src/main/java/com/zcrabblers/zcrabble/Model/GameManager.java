@@ -5,7 +5,7 @@ import java.util.List;
 
 // Is the class with the main responsibility over the model and starting new games
 public class GameManager {
-    private IGame currentGame;
+    private Game currentGame;
     private static GameManager instance;
 
     /**
@@ -50,7 +50,7 @@ public class GameManager {
      * Getter for the current Game.
      * @return the Game that is being played.
      */
-    public IGame getCurrentGame(){
+    public Game getCurrentGame(){
         return currentGame;
     }
 
