@@ -41,7 +41,7 @@ public class Bot implements IPlayers {
 
     @Override
     public Rack getRack(){
-        return null;
+        return rack;
     }
 
     @Override
@@ -51,12 +51,56 @@ public class Bot implements IPlayers {
 
     @Override
     public void beginTurn(Board board) {
-        board.copyBoardCells(scrabbleWord(board,getRackString()));
-        printBoard(board);
+
+        if (board.getBoardCells()[7][7].isEmpty()){
+            board.copyBoardCells(takeFirstTurn(board));
+        }else {
+            takeTurn(board);
+        }
         observer.notifySubscribers();
     }
 
-        //Prints the board for debugging p
+    private void takeTurn(Board board) {
+
+        String rackString = getRackString(rack);
+
+        Rack tempRack = new Rack();
+        tempRack.getRackCopy(rack);
+        Rack horizontalRack = new Rack();
+        horizontalRack.getRackCopy(rack);
+        Rack verticalRack = new Rack();
+        verticalRack.getRackCopy(rack);
+
+        Board horizontalBoard = new Board("defaultBoard");
+        horizontalBoard.copyBoardCells(board);
+        Board verticalBoard = new Board("defaultBoard");
+        verticalBoard.copyBoardCells(board);
+
+
+
+
+        horizontalBoard.copyBoardCells(scrabbleWord(horizontalBoard,rackString,tempRack));
+
+        verticalBoard.tiltPiHalf(verticalBoard);
+        verticalBoard.copyBoardCells(scrabbleWord(verticalBoard,rackString,tempRack));
+        verticalBoard.tilt3PiHalf(verticalBoard);
+
+    /*
+        System.out.println(getRackString(horizontalRack));
+        System.out.println(getRackString(verticalRack));
+
+     */
+        if (horizontalBoard.countPoints(board )>verticalBoard.countPoints(board)){
+            board.copyBoardCells(horizontalBoard);
+            rack.getRackCopy(horizontalRack);
+        }else {
+            board.copyBoardCells(verticalBoard);
+            rack.getRackCopy(verticalRack);}
+
+
+    }
+
+    //Prints the board for debugging p
     private void printBoard(Board board) {
         char[][] boardPrint = new char[15][15];
         for (int i = 0; i <board.getBoardCells().length ; i++) {
@@ -67,32 +111,11 @@ public class Bot implements IPlayers {
         for (char[] row : boardPrint)
             System.out.println(Arrays.toString(row));
     }
+    //TODO the longest word is not necessarily the highest scoring word, if there is time this should be used as a metric instead.
+    //Takes a Board and a rack and returns a board with the longest horizontal word it can write
+    private  Board scrabbleWord(Board board, String rackString, Rack rack1){
 
-    /*
-        {
-          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E
-
-    0   {  ,  ,  ,  , X,  ,  ,  ,  ,  ,  ,  ,  ,  ,  },
-    1   {  ,  ,  ,  , X,  ,  ,  ,  ,  ,  ,  ,  ,  ,  },
-    2   {  ,  ,  ,  , X,  ,  ,  ,  ,  , X,  ,  ,  ,  },
-    3   {  ,  , X, X, X, X, X, X, X,  , X,  ,  ,  ,  },
-    4   {  ,  ,  ,  , X,  ,  ,  ,  ,  , X,  ,  ,  ,  },
-    5   {  ,  ,  ,  , X,  ,  ,  ,  ,  , X,  ,  ,  ,  },
-    6   {  ,  ,  ,  , X,  , X,  ,  ,  , X,  ,  ,  ,  },
-    7   {  ,  ,  , X, X, X, X, X, X, X, X,  ,  ,  ,  },
-    8   {  ,  ,  ,  ,  ,  , X,  ,  ,  , X,  ,  ,  ,  },
-    9   {  ,  ,  ,  ,  ,  , X, X, X, X, X, X, X,  ,  },
-    A   {  ,  ,  ,  ,  ,  , X,  ,  ,  , X,  ,  ,  ,  },
-    B   {  , X, X, X, X, X, X,  ,  ,  ,  ,  ,  ,  ,  },
-    C   {  ,  ,  ,  ,  ,  , X,  ,  ,  ,  ,  ,  ,  ,  },
-    D   {  ,  ,  ,  ,  , X, X, X, X, X, X, X,  ,  ,  },
-    E   {  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  },
-
-  Bot is under construction, lots of weird stuff going on here
-
-     */
-
-    private  Board scrabbleWord(Board board, String rackString){
+        //Temporary boards and racks for comparison
 
         Board currentBoard = new Board("defaultBoard");
         currentBoard.copyBoardCells(board);
@@ -100,16 +123,20 @@ public class Bot implements IPlayers {
         bestBoard.copyBoardCells(board);
         String bestWord = "";
         Rack tempRack = new Rack();
-        tempRack.getRackCopy(rack);
+        tempRack.getRackCopy(rack1);
         Rack bestRack = new Rack();
-        bestRack.getRackCopy(rack);
+        bestRack.getRackCopy(rack1);
+
+        //variables
 
         int spaceBehind;
         int spaceAhead;
         ArrayList<String> writable;
         StringBuilder letters = new StringBuilder();
         StringBuilder tempRackString = new StringBuilder(rackString);
-        char [] wordSpace;  //Should this be Cell[], we will se I guess.
+        char [] wordSpace;
+
+        //method starts here
 
         for (int row = 0; row <board.getBoardCells().length ; row++) {
             for (int col = 0; col <board.getBoardCells()[0].length ; col++) {
@@ -127,7 +154,7 @@ public class Bot implements IPlayers {
                 sort(writable);
 
                 for (String s : writable) {
-                    tempRack.getRackCopy(rack);
+                    tempRack.getRackCopy(rack1);
                     System.out.println(s);
                     int j = 0;
                     for (int i = col - s.indexOf(letters.toString()); i < col; i++) {
@@ -141,34 +168,34 @@ public class Bot implements IPlayers {
                     }
                     if (!currentBoard.checkBoard(currentBoard, board)) {
                         currentBoard.copyBoardCells(board);
-                        tempRack.getRackCopy(rack);
+                        tempRack.getRackCopy(rack1);
                     } else {
                         bestBoard.copyBoardCells(currentBoard);
                         currentBoard.copyBoardCells(board);
                         bestWord = s;
                         bestRack.getRackCopy(tempRack);
-                        tempRack.getRackCopy(rack);
+                        tempRack.getRackCopy(rack1);
                         break;
                     }
                 }
                 col += letters.length();
-            }
                 letters.delete(0,letters.length());
                 tempRackString = new StringBuilder(rackString);
             }
-            letters.delete(0,letters.length());
-            tempRackString = new StringBuilder(rackString);
-            System.out.println(bestWord);
+            }
 
         }
-    rack.getRackCopy(bestRack);
+    rack1.getRackCopy(bestRack);
+        System.out.println(getRackString(rack1));
     return bestBoard;//bestBoard;
     }
-
+        //Switches places between a tile in a given position on a rack and a tile in a given position on a board.
     private  void writeToBoard(int rackX, int boardRow, int boardCol, Board board, Rack currentRack){
+
         Tile tile = board.getTile(boardCol, boardRow);
         board.placeTile(boardRow, boardCol, currentRack.getTile(rackX));
         currentRack.set(rackX, tile);
+
     }
 
     //TODO make sure this can never return > 6
@@ -180,11 +207,13 @@ public class Bot implements IPlayers {
             }
             index++;
         }
-        return 6;
+        return 6;   //TODO this works but is hella ugly
     }
 
-        //TODO this is bubble sort because im lazy, make a quick sort.
-    private static void sort (ArrayList<String> writable) {
+
+
+    //Returns an ArrayList of strings in order from longest to shortest.
+    private static void sort (ArrayList<String> writable) { //TODO this is bubble sort because im lazy, make a quick sort.
 
         for (int i = 0; i < writable.size()-1; i++) {
             for (int j = 0; j < writable.size() - i - 1; j++) {
@@ -200,6 +229,15 @@ public class Bot implements IPlayers {
 
     //TODO this method should be able to test for all positions of "letters" in the String,
     // right now it only checks if the word fits with the first instance of "letters" in String
+    //Takes in a list of Strings and runs a series of checks on it to shorten the list of words that needs to be further processed.
+    //The checks in order are:
+    //
+    //eliminates all words that does not:
+    //have more characters than bestWord
+    //s can not be the String the bot is adding to
+    //s must contain the letter(s) in order
+    //fit inside the size of the array
+    //have enough space before and after the letter(s)
     private static ArrayList<String> getCheckedWritable(char[] wordSpace, String rackString, int spaceBehind, int spaceAhead, String letters, String bestWord) {
 
         ArrayList<String> writable = canWrite(rackString);
@@ -207,7 +245,7 @@ public class Bot implements IPlayers {
         for (String s : writable){
             // eliminates all words that does not:
             if (s.length() > bestWord.length() &&           //have more characters than bestWord
-                    !(s.equals(letters)) &&                 //s can not be a String already on the board
+                    !(s.equals(letters)) &&                 //s can not be the String the bot is adding to
                     s.contains(letters) &&                  //s must contain the letter(s) in order
                     s.length() <= wordSpace.length &&       //fit inside the size of the array
                     s.indexOf(letters) <= spaceBehind &&    //have enough space before and after the letter(s)
@@ -218,6 +256,7 @@ public class Bot implements IPlayers {
         return actuallyWritable;
     }
 
+    //Takes the available space around a cell on the board and creates a space that the new word needs to fit into.
     private static char[] createWordSpace(int spaceBehind, int spaceAhead, StringBuilder letters) {
         char [] wordSpace = new char[spaceBehind+letters.length()+spaceAhead];
         for (int i = spaceBehind; i <spaceBehind+letters.length() ; i++) {
@@ -227,6 +266,7 @@ public class Bot implements IPlayers {
         return wordSpace;
     }
 
+    //Checks the length of available space to the right of a cell
     private static int checkSpaceAhead(Board board, int row, int col, StringBuilder letters) {
         int space = 0;
         System.out.println(col);
@@ -239,6 +279,7 @@ public class Bot implements IPlayers {
         return space;
     }
 
+    //Checks the length of available space to the left of a cell
     private static int checkSpaceBehind(Board board, int row, int startCol) {
         int space = 0;
         for (int k = startCol-1; k >= 0; k--) {
@@ -250,6 +291,7 @@ public class Bot implements IPlayers {
         return space;
     }
 
+    //finds all consecutive letterTiles from left to right in a section of a row of the board
     private static void searchForLetters(Board board, StringBuilder letters, StringBuilder tempRack, int row, int col) {
         while (!board.getBoardCells()[row][col].isEmpty()){
             tempRack.append(board.getBoardCells()[row][col].getTileLetter());
@@ -259,7 +301,8 @@ public class Bot implements IPlayers {
         }
     }
 
-    private String getRackString(){
+    //Returns a given rack as a String
+    private String getRackString(Rack rack){
         StringBuilder rackString = new StringBuilder();
         for(Tile t : rack.getTiles()){
             rackString.append(t.getLetter());
@@ -267,47 +310,35 @@ public class Bot implements IPlayers {
         return rackString.toString();
     }
 
+    //TODO: the operation of tilting a board should probably live in board, also it might be an insane thing to do.
+
+
 
 
     //TODO: the operation of tilting a board should probably live in board, also it might be an insane thing to do.
 
-    /**
-     * Returns the cell matrix flipped pi/2 radians
-     * first row is last column, first column is first row
-     * @param board the cell pattern on the current board
-     * @return the cell pattern on the board flipped pi/1 radians
-     */
-    private Cell[][] tiltPiHalf (Cell[][] board){
-        Cell[][] tempBoard = new Cell[board[0].length][board.length];
-        for (int i = 0; i <board.length ; i++) {
-            for (int j = 0; j <board[0].length ; j++) {
 
-                tempBoard[board[0].length-j-1][i] = board[i][j];
 
+    //TODO first word is longest word not highest scoring word, should be the other way around.
+    private Board takeFirstTurn(Board board) {
+        //Temporary boards and racks for comparison
+        Board bestBoard = new Board("defaultBoard");
+        bestBoard.copyBoardCells(board);
+        String bestWord = "";
+
+        ArrayList<String> writable = canWrite(getRackString(rack));
+        for (String s : writable) {
+            if (s.length()>bestWord.length()){
+                bestWord = s;
             }
+            System.out.println(bestWord);
         }
-        return tempBoard;
-    }
-
-    //TODO: the operation of tilting a board should probably live in board, also it might be an insane thing to do.
-
-    /**
-     * Returns the board
-     * First row is first column, first column is last row
-     * @param board the current board.
-     * @return the cell pattern on the board flipped -pi/1 radians
-     */
-
-    private Board tilt3PiHalf (Board board){
-        Board tempBoard = new Board("defaultBoard");
-        for (int i = 0; i <board.getBoardCells().length ; i++) {
-            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
-
-                tempBoard.getBoardCells()[j][board.getBoardCells().length-i-1] = board.getBoardCells()[i][j];
-
-            }
+        for (int i = 7; i <7+bestWord.length(); i++) {
+            System.out.println(bestWord.charAt(i-7));
+            writeToBoard(getRackIndex(bestWord.charAt(i-7)),7,i,bestBoard,rack);
+            printBoard(bestBoard);
         }
-        return tempBoard;
+        return bestBoard;
     }
 
     /*--- Don't touch things below this line ---*
