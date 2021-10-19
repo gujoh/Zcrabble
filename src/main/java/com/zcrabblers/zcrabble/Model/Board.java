@@ -26,7 +26,7 @@ public class Board {
      */
     public Board(){
         try {
-            selectBoard();
+            fillBoard();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -38,13 +38,11 @@ public class Board {
     // each cell reads two numbers from the txt and creates a tile with the "empty" values of ' ' and 0
 
     /**
-     * called after creating a new board taking the inputted string and using it in this method
-     * to fill its board with cells
-     * see src/main/resources/ for the files
+     * Called in the constructor.
+     * Fills the board with cells based on  a txt file called defaultBoard.
      * @throws FileNotFoundException throws an error if the reading of the txt is incorrect
-     * fills a board with cells filled with information from the corresponding txt file
      */
-    public void selectBoard() throws FileNotFoundException {
+    private void fillBoard() throws FileNotFoundException {
             File file = new File("src/main/resources/defaultBoard");
             Scanner scanner = new Scanner(file);
             int boardSize = scanner.nextInt();
@@ -412,7 +410,6 @@ public class Board {
                     int row = cell.getI() + i;
                     int col = cell.getJ() + j;
                     if(row <= 14 && row >= 0 && col <= 14 && col >= 0 && !(row == cell.getI() && col == cell.getJ())){ //If we are not checking "ourselves" and we are within the board.
-                        System.out.println("test");
                         if((row == cell.getI() || col == cell.getJ())  && !isCellEmpty(row,col)){ //We do not check diagonal cells.
                             neighbourCount++;
                             if(getTile(row,col).getLetter() == board.getTile(row,col).getLetter()){

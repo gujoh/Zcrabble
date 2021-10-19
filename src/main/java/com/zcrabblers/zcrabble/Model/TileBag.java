@@ -10,16 +10,16 @@ public class TileBag {
 
     public TileBag(){
         try {
-            selectBag();
+            fillBag();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
-    /* selectBag creates a temporary List and then reads the document in resources which string is identical to "bagselector"
+    /* fillBag creates a temporary List and then reads the document in resources which string is identical to "bagselector"
     it then reads the file per line stopping between each space per line.
     the first set of characters is the letter of the tile the second is the score value the third is how many of then to create
     it then randomizes the List and adds it to the deque bag*/
-    public void selectBag() throws FileNotFoundException{
+    private void fillBag() throws FileNotFoundException{
         List<Tile> temp = new ArrayList<>();
             File file = new File("src/main/resources/defaultBag");
             Scanner scanner = new Scanner(file);

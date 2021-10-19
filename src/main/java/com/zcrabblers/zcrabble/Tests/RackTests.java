@@ -13,7 +13,6 @@ public class RackTests {
     @Test
     public void TestSwitchRack() throws FileNotFoundException {
         TileBag tilebag = new TileBag();
-        tilebag.selectBag();
         Rack rack = new Rack(tilebag);
         Tile tile1 = rack.getTile(1);
         Tile tile2 = rack.getTile(2);
@@ -25,7 +24,6 @@ public class RackTests {
     @Test
     public void TestRack() throws FileNotFoundException {
         TileBag tilebag = new TileBag();
-        tilebag.selectBag();
         Rack rack = new Rack(tilebag);
         Tile tile1 = rack.getTile(1);
         Tile tile2 = rack.getTile(2);
@@ -37,7 +35,6 @@ public class RackTests {
     @Test
     public void TestEmptyRack() throws FileNotFoundException {
         TileBag tileBag = new TileBag();
-        tileBag.selectBag();
         Rack rack = new Rack(tileBag);
         for (int i = 0; i < 7; i++)
             rack.remove(i);
@@ -47,7 +44,6 @@ public class RackTests {
     @Test
     public void TestEmptyRack2() throws FileNotFoundException {
         TileBag tileBag = new TileBag();
-        tileBag.selectBag();
         Rack rack = new Rack(tileBag);
         for (int i = 0; i < 6; i++)
             rack.remove(i);
@@ -57,7 +53,6 @@ public class RackTests {
     @Test
     public void shuffleTest() throws FileNotFoundException {
         TileBag tileBag = new TileBag();
-        tileBag.selectBag();
         Rack rack = new Rack(tileBag);
         Tile[] preShuffle = new Tile[7];
         Tile[] postShuffle = rack.getTiles();
@@ -78,7 +73,6 @@ public class RackTests {
     @Test
     public void fillRackTest() throws FileNotFoundException {
         TileBag tileBag = new TileBag();
-        tileBag.selectBag();
         Rack rack = new Rack(tileBag);
         for(int i = 0; i < 7; i++)
             rack.remove(i);
@@ -96,7 +90,6 @@ public class RackTests {
     @Test
     public void getFirstFreeIndexFailTest() throws FileNotFoundException {
         TileBag tileBag = new TileBag();
-        tileBag.selectBag();
         Rack rack = new Rack(tileBag);
         assertEquals(-1, rack.getFirstFreeIndex());
     }

@@ -9,7 +9,7 @@ public class DictionaryTests {
     @Test
     public void TestgetInstance(){
         Dictionary dictionary = Dictionary.getInstance();
-        assertNotNull(dictionary.getDictArray());
+        assertNotNull(dictionary.getDictSet());
         assertTrue(dictionary.checkWord("boat"));
     }
 }

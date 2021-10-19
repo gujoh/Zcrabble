@@ -13,7 +13,7 @@ public class Game implements ITurnObservable {
     private TileBag tileBag;
     private int nrPLayers;
     private int nrBots;
-    private ArrayList<CellTuple> boardList = new ArrayList<>();
+    private List<CellTuple> boardList = new ArrayList<>();
     private final LetterObserver observer = new LetterObserver();
     private int passCounter;
 
@@ -26,14 +26,6 @@ public class Game implements ITurnObservable {
     }
 
     public void newGame() {
-        try{
-            board.selectBoard();
-            tempBoard.selectBoard();
-            tileBag.selectBag();
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-            System.exit(1);
-        }
         players = new ArrayList<>();
         for(int i = 0; i < nrPLayers; i++){
             players.add(new Player(0, new Rack(tileBag)));
@@ -56,7 +48,7 @@ public class Game implements ITurnObservable {
             current.addScore(score);
             current.fillRack(tileBag);
             current = getNextPlayer();
-            observer.notifySubscribers((ArrayList<CellTuple>) tempBoard.getNewCells(board), isGameOver());
+            observer.notifySubscribers(tempBoard.getNewCells(board), isGameOver());
             System.out.println(tempBoard.getNewCells(board).size());
             board.copyBoardCells(tempBoard);
             boardList.clear();

@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.Model;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Objects;
 
 // Is the class with the main responsibility over the model and starting new games
 public class GameManager {
@@ -17,9 +18,7 @@ public class GameManager {
      * @return an instance of GameManager
      */
     public static GameManager getInstance(){
-        if(instance == null)
-            instance = new GameManager();
-        return instance;
+        return Objects.requireNonNullElseGet(instance, GameManager::new);
     }
 
     /**

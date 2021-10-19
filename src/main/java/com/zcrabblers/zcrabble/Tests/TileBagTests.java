@@ -11,10 +11,6 @@ public class TileBagTests {
     @Test
     public void testTileBagNumbers() throws FileNotFoundException {
         TileBag tilebag = new TileBag();
-        tilebag.selectBag();
-        assertTrue(tilebag.isEmpty() && tilebag.remainingTiles() == 0);
-        tilebag = new TileBag();
-        tilebag.selectBag();
         assertTrue(tilebag.remainingTiles() == 100);
         assertFalse(tilebag.isEmpty());
     }
@@ -22,7 +18,6 @@ public class TileBagTests {
     @Test
     public void testTileBagLogic() throws FileNotFoundException {
         TileBag tilebag = new TileBag();
-        tilebag.selectBag();
         String validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
         while(!tilebag.isEmpty()){
             char letter = tilebag.getBag().peekFirst().getLetter();
