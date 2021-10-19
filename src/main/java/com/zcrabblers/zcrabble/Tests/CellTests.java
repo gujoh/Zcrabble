@@ -26,4 +26,10 @@ public class CellTests {
         assertEquals(' ', cell.getPlacedTile().getLetter());
         assertTrue(cell.isEmpty());
     }
+
+    @Test
+    public void getTileLetterTest(){
+        Cell cell = new Cell(1, 1, new Tile('A', 1));
+        assertEquals(cell.getTileLetter(), 'A');
+    }
 }
