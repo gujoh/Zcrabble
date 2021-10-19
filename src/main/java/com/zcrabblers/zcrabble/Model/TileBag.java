@@ -7,19 +7,21 @@ import java.io.FileNotFoundException;
 
 public class TileBag {
     private final Deque<Tile> bag = new ArrayDeque<>();
-    String bagSelector;
 
-    public TileBag(String bagSelector){
-        this.bagSelector = bagSelector;
+    public TileBag(){
+        try {
+            fillBag();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
-    /* selectBag creates a temporary List and then reads the document in resources which string is identical to "bagselector"
+    /* fillBag creates a temporary List and then reads the document in resources which string is identical to "bagselector"
     it then reads the file per line stopping between each space per line.
     the first set of characters is the letter of the tile the second is the score value the third is how many of then to create
     it then randomizes the List and adds it to the deque bag*/
-    public void selectBag() throws FileNotFoundException{
+    private void fillBag() throws FileNotFoundException{
         List<Tile> temp = new ArrayList<>();
-        if(bagSelector.equals("defaultBag")){
-            File file = new File("src/main/resources/"+bagSelector);
+            File file = new File("src/main/resources/defaultBag");
             Scanner scanner = new Scanner(file);
             while(scanner.hasNextLine()){
                 char readLetter = scanner.next().toCharArray()[0];
@@ -32,7 +34,6 @@ public class TileBag {
                 }
             }
             scanner.close();
-        }
         Collections.shuffle(temp, new Random(RandomSeed.INSTANCE.getSeed()));
         bag.addAll(temp);
 

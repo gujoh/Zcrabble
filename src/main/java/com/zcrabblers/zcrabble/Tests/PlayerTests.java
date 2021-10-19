@@ -15,8 +15,7 @@ public class PlayerTests {
 
     @Test
     public void TestSwitchRack() throws FileNotFoundException {
-        TileBag tilebag = new TileBag("defaultBag");
-        tilebag.selectBag();
+        TileBag tilebag = new TileBag();
         Rack rack = new Rack(tilebag);
         Player player = new Player(0, rack);
         player.addScore(20);
