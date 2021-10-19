@@ -2,12 +2,15 @@ package com.zcrabblers.zcrabble.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-//TODO make a board deep copy
+//TODO split this class into:
+// - BoardMutations, for all methods that makes a mutated copy of the board
+// - BoardChecks, for all validations of a board
+// - Scoring, for all methods that help score a given play
+// - Board, for the obvious board stuff
 
 /**
  *The board on which the game is played, it's made up of a matrix of cells
@@ -58,6 +61,10 @@ public class Board {
         }
     }
 
+    /**
+     * Copies the cells on a board
+     * @param board the Board to be copied
+     */
     public void copyBoardCells(Board board){
         Cell[][] tempCell = new Cell[board.getBoardCells().length][board.getBoardCells()[0].length];
         for (int i = 0; i < board.getBoardCells().length; i++) {
@@ -314,14 +321,46 @@ public class Board {
         return boardCells.length;
     }
 
-    /*--- BoardChecks in progress below ---*/
-    //TODO checkCoherence
-    //TODO cleanup after the move from BoardCheck, make sure all checks are done on tempBoard.
+    //TODO the next two methods should definitively be private
+    /**
+     * Copies a board's cell matrix flipped 3pi/2 = -pi/2 radians
+     * First row is first column, first column is last row
+     * @param board the Board to be tilted.
+     */
+    public void tilt3PiHalf(Board board){
+        Cell[][] tempCell = new Cell[board.getBoardCells()[0].length][board.getBoardCells().length];
+        for (int i = 0; i <board.getBoardCells().length ; i++) {
+            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
+                Cell newCell = board.getBoardCells()[i][j];
+                tempCell[j][board.getBoardCells().length-i-1] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(),newCell.getPlacedTile());
+            }
+        }
+        boardCells = tempCell;
+    }
+
+    /**
+     * Copies a board's cell matrix flipped pi/2 radians
+     * First row is first column, first column is last row
+     * @param board the Board to be tilted.
+     */
+    public void tiltPiHalf(Board board){
+
+        Cell[][] tempCell = new Cell[board.getBoardCells()[0].length][board.getBoardCells().length];
+        for (int i = 0; i <board.getBoardCells().length ; i++) {
+            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
+                Cell newCell = board.getBoardCells()[i][j];
+                tempCell[board.getBoardCells()[0].length-j-1][i] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(),newCell.getPlacedTile());
+            }
+        }
+        boardCells = tempCell;
+    }
+
+    /*--- BoardChecks  below ---*/
+
     //TODO containsLetter should be replaced with isCellEmpty in all methods, no point in keeping both.
 
     /**
      * Checks that all words on the board is valid and connected to each other
-     *
      * @param board
      * @param tempBoard
      * @return true/false validBoard
@@ -332,7 +371,12 @@ public class Board {
 
     /*--- Method for checking that all words in columns are valid. ---*/
     private boolean checkCol(Board board) {
-        boolean colIsValid = true;
+        Board tempboard = new Board("defaultBoard");
+        tempboard.tiltPiHalf(board);
+        return checkRow(tempboard);
+
+        //TODO ask rest of group how we feel about this
+        /*boolean colIsValid = true;
         StringBuilder word = new StringBuilder();
 
         for (int col = 0; col < board.getBoardCells().length; col++) {
@@ -358,7 +402,7 @@ public class Board {
             }
         }
 
-        return colIsValid;
+        return colIsValid;*/
     }
 
     /*--- Method for checking that all words in rows are valid. ---*/
@@ -412,7 +456,7 @@ public class Board {
                     int row = cell.getI() + i;
                     int col = cell.getJ() + j;
                     if(row <= 14 && row >= 0 && col <= 14 && col >= 0 && !(row == cell.getI() && col == cell.getJ())){ //If we are not checking "ourselves" and we are within the board.
-                        System.out.println("test");
+                        //System.out.println("test");
                         if((row == cell.getI() || col == cell.getJ())  && !isCellEmpty(row,col)){ //We do not check diagonal cells.
                             neighbourCount++;
                             if(getTile(row,col).getLetter() == board.getTile(row,col).getLetter()){
@@ -454,6 +498,7 @@ public class Board {
     private static boolean containsLetter (Board board,int row, int col){
         return board.getBoardCells()[row][col].getPlacedTile().getLetter() != ' ';
     }
+
 
 }
 
