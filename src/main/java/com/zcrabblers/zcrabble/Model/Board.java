@@ -425,9 +425,11 @@ public class Board {
             }
         }
 
+        //If all new cells have neighbours, there is at least one old cell connected to the new cells, rows and
+        //columns are valid, and there is a letter in the middle cell, then the play is valid.
         if(oldCellCount > 0 && rowOrColValid && containsLetter(this,7,7)){
             return true;
-        }
+        } //TODO: you can currently play two  valid words that arent connected on the first turn, FIX
         else{ //If it is the first round of play, oldCellCount will be 0 and there will not be a tile on the middle cell.
             return oldCellCount == 0 && board.isCellEmpty(7, 7) && containsLetter(this, 7, 7);
         }
