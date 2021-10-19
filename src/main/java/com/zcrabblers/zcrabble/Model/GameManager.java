@@ -8,6 +8,10 @@ public class GameManager {
     private IGame currentGame;
     private static GameManager instance;
 
+    private GameManager(){
+        instance = this;
+    }
+
     /**
      * Getter for an instance of GameManager using the Singleton design pattern.
      * @return an instance of GameManager
