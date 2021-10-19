@@ -46,11 +46,41 @@ public class GameTests {
         assertEquals(index, game.getRack().getFirstFreeIndex());
     }
 
+    // placing a tile somewhere that isn't the middle on the first turn should fail to end turn
     @Test
     public void endTurnFailTest(){
         GameManager gm = GameManager.getInstance();
         gm.newGame(2, 0);
         Game game = gm.getCurrentGame();
+        Rack rack = game.getRack();
+        for (int i = 0; i < 7; i++)
+            rack.remove(i);
+        rack.set(0, new Tile('A', 1));
+        game.switchRackBoardCells(0, 2, 2);
+        assertFalse(game.endTurn());
+    }
+
+    // placing a word not connected to any other tiles should fail to end turn
+    @Test
+    public void endTurnFailTest2(){
+        GameManager gm = GameManager.getInstance();
+        gm.newGame(2, 0);
+        Game game = gm.getCurrentGame();
+        Rack rack = game.getRack();
+        for (int i = 0; i < 7; i++)
+            rack.remove(i);
+        rack.set(0, new Tile('L', 1));
+        rack.set(1, new Tile('A', 1));
+
+        rack.set(2, new Tile('L', 1));
+        rack.set(3, new Tile('A', 1));
+
+        game.switchRackBoardCells(0, 7, 7);
+        game.switchRackBoardCells(1, 7, 8);
+
+        game.switchRackBoardCells(2, 2, 2);
+        game.switchRackBoardCells(3, 2, 3);
+
         assertFalse(game.endTurn());
     }
 
