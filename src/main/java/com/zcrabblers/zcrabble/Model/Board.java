@@ -16,18 +16,20 @@ import java.util.Scanner;
 public class Board {
     private final Dictionary dict = Dictionary.getInstance();
     private Cell[][] boardCells;
-    private final String boardSelector;
 
     // constructor takes a string in order to search for the matching text file
     // then calls the selectBoard function to fill the new board with cells
 
     /**
-     * the board constructor is called with a string it will search resources for a matching txt file to load
+     * The board constructor is called with a string it will search resources for a matching txt file to load
      * the board layout from
-     * @param boardSelector string to select which board will be used
      */
-    public Board(String boardSelector){
-        this.boardSelector = boardSelector;
+    public Board(){
+        try {
+            selectBoard();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     //checks if the name matches the file
@@ -43,8 +45,7 @@ public class Board {
      * fills a board with cells filled with information from the corresponding txt file
      */
     public void selectBoard() throws FileNotFoundException {
-        if(boardSelector.equals("defaultBoard")){
-            File file = new File("src/main/resources/"+boardSelector);
+            File file = new File("src/main/resources/defaultBoard");
             Scanner scanner = new Scanner(file);
             int boardSize = scanner.nextInt();
             boardCells = new Cell[boardSize][boardSize];
@@ -55,7 +56,6 @@ public class Board {
                     boardCells[i][j] = new Cell(word,letter, new Tile(' ',0));
                 }
             }
-        }
     }
 
     public void copyBoardCells(Board board){
