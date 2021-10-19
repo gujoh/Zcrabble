@@ -45,6 +45,8 @@ public class Game implements ITurnObservable {
         current.beginTurn(tempBoard);
     }
 
+    //TODO, if checkBoard is false, rack and board should be reset. it can be done by playing with a copy of the rack and resetting tempboard to board and temprack to rack. Method rackCopy is added to rack to facilitate this.
+
     public boolean endTurn(){ // DISCUSS THIS.
         if (tempBoard.checkBoard(tempBoard, board)){
             int score = tempBoard.countPoints(board);
