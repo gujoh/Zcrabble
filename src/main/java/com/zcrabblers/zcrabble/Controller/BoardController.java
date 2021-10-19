@@ -119,7 +119,7 @@ public class BoardController implements Initializable, ILetterObservable {
 //            gameManager.getCurrentGame().endTurn();
 //        });
 
-        gameManager.addSubscriber(this);
+        game.addSubscriber(this);
 
         try {
             populate();
@@ -641,7 +641,7 @@ public class BoardController implements Initializable, ILetterObservable {
             needMorePlayersLabel.setVisible(false);
             gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
             game = gameManager.getCurrentGame();
-            gameManager.addSubscriber(this);
+            game.addSubscriber(this);
             newGameMenuBackground.toBack();
             rackAnchor.getChildren().clear();
             rackList.clear();
