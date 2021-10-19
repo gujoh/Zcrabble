@@ -214,4 +214,15 @@ public class GameTests {
         System.out.println(one + " " + two);
         assertTrue('L' == two && 'A' == one);
     }
+
+
+    @Test
+    public void getNextPlayerTest(){
+        GameManager gm = GameManager.getInstance();
+        gm.newGame(2, 0);
+        Game game = gm.getCurrentGame();
+        for (int i = 0; i < 7; i++) {
+            assertTrue(game.endTurn());
+        }
+    }
 }
