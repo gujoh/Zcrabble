@@ -326,7 +326,7 @@ public class Bot implements IPlayers {
     private static ArrayList<String> canWrite (String letters){
             ArrayList<String> writableWords = new ArrayList<>();
             Map<Character, Integer> charCountMap = getCharCountMap(letters);
-            for (String s : dict.getDictArray()) {
+            for (String s : dict.getDictSet()) {
                 Map<Character, Integer> currentDictWordMap = getCharCountMap(s);
                 boolean canMakeWord = true;
                 for (Character character : currentDictWordMap.keySet()) {
