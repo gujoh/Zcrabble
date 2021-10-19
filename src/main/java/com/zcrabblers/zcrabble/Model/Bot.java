@@ -1,9 +1,6 @@
 package com.zcrabblers.zcrabble.Model;
 
 
-import com.zcrabblers.zcrabble.Controller.BoardController;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Bot implements IPlayers {
@@ -107,86 +104,92 @@ public class Bot implements IPlayers {
         Board bestBoard = new Board("defaultBoard");
         bestBoard.copyBoardCells(board);
         String bestWord = "";
+        Rack tempRack = new Rack();
+        tempRack.getRackCopy(rack);
+        Rack bestRack = new Rack();
+        bestRack.getRackCopy(rack);
 
         int spaceBehind;
         int spaceAhead;
         ArrayList<String> writable;
         StringBuilder letters = new StringBuilder();
-        StringBuilder tempRack = new StringBuilder(rackString);
+        StringBuilder tempRackString = new StringBuilder(rackString);
         char [] wordSpace;  //Should this be Cell[], we will se I guess.
 
         for (int row = 0; row <board.getBoardCells().length ; row++) {
             for (int col = 0; col <board.getBoardCells()[0].length ; col++) {
 
             if (!board.getBoardCells()[row][col].isEmpty()) {
-
-                searchForLetters(board, letters, tempRack, row, col);
+                System.out.println(rackString);
+                System.out.println(col);
+                searchForLetters(board, letters, tempRackString, row, col);
+                System.out.println(col);
 
                 spaceBehind = checkSpaceBehind(board, row, col);        //SpaceBehind is negative. this breaks everything.
                 spaceAhead = checkSpaceAhead(board, row, col, letters);
                 wordSpace = createWordSpace(spaceBehind, spaceAhead, letters);
-                writable = actuallyWritable(wordSpace, tempRack.toString(), spaceBehind, spaceAhead, letters.toString(), bestWord);
+                writable = getCheckedWritable(wordSpace, tempRackString.toString(), spaceBehind, spaceAhead, letters.toString(), bestWord);
                 sort(writable);
 
                 for (String s : writable) {
+                    tempRack.getRackCopy(rack);
                     System.out.println(s);
                     int j = 0;
                     for (int i = col - s.indexOf(letters.toString()); i < col; i++) {
-                        writeToBoard(getRackIndex(s.charAt(j)), row, i, currentBoard);
+                        writeToBoard(getRackIndex(s.charAt(j)), row, i, currentBoard, tempRack);
                         j++;
                     }
                     int k = s.indexOf(String.valueOf(letters)) + letters.length();
                     for (int i = col + letters.length(); i < col + s.length() - s.indexOf(String.valueOf(letters)); i++) {
-                        writeToBoard(getRackIndex(s.charAt(k)), row, i, currentBoard);
+                        writeToBoard(getRackIndex(s.charAt(k)), row, i, currentBoard,tempRack);
                         k++;
                     }
                     if (!currentBoard.checkBoard(currentBoard, board)) {
                         currentBoard.copyBoardCells(board);
+                        tempRack.getRackCopy(rack);
                     } else {
                         bestBoard.copyBoardCells(currentBoard);
                         currentBoard.copyBoardCells(board);
                         bestWord = s;
+                        bestRack.getRackCopy(tempRack);
+                        tempRack.getRackCopy(rack);
                         break;
                     }
                 }
                 col += letters.length();
             }
-
-
-
-
-
-
+                letters.delete(0,letters.length());
+                tempRackString = new StringBuilder(rackString);
             }
             letters.delete(0,letters.length());
-            tempRack = new StringBuilder(rackString);
-            wordSpace = new char[]{};
+            tempRackString = new StringBuilder(rackString);
             System.out.println(bestWord);
 
         }
+    rack.getRackCopy(bestRack);
     return bestBoard;//bestBoard;
     }
 
-    private  void writeToBoard(int rackX, int boardRow, int boardCol, Board board){
+    private  void writeToBoard(int rackX, int boardRow, int boardCol, Board board, Rack currentRack){
         Tile tile = board.getTile(boardCol, boardRow);
-        board.placeTile(boardRow, boardCol, rack.getTile(rackX));
-        rack.set(rackX, tile);
+        board.placeTile(boardRow, boardCol, currentRack.getTile(rackX));
+        currentRack.set(rackX, tile);
     }
 
+    //TODO make sure this can never return > 6
     private int getRackIndex(char c){
         int index = 0;
         for (Tile t : rack.getTiles()) {
             if (t.getLetter() == c){
-                break;
+                return index;
             }
             index++;
         }
-        return index;
+        return 6;
     }
+
         //TODO this is bubble sort because im lazy, make a quick sort.
     private static void sort (ArrayList<String> writable) {
-
-
 
         for (int i = 0; i < writable.size()-1; i++) {
             for (int j = 0; j < writable.size() - i - 1; j++) {
@@ -198,22 +201,19 @@ public class Bot implements IPlayers {
                 }
             }
         }
-
-
-
-
     }
 
     //TODO this method should be able to test for all positions of "letters" in the String,
     // right now it only checks if the word fits with the first instance of "letters" in String
-    private static ArrayList<String> actuallyWritable(char[] wordSpace, String rackAndFriends, int spaceBehind, int spaceAhead, String letters, String bestWord) {
+    private static ArrayList<String> getCheckedWritable(char[] wordSpace, String rackString, int spaceBehind, int spaceAhead, String letters, String bestWord) {
 
-        ArrayList<String> writable = canWrite(rackAndFriends);
+        ArrayList<String> writable = canWrite(rackString);
         ArrayList<String> actuallyWritable = new ArrayList<>();
         for (String s : writable){
             // eliminates all words that does not:
             if (s.length() > bestWord.length() &&           //have more characters than bestWord
-                    s.contains(letters) &&                  //contain the letter(s) in order
+                    !(s.equals(letters)) &&                 //s can not be a String already on the board
+                    s.contains(letters) &&                  //s must contain the letter(s) in order
                     s.length() <= wordSpace.length &&       //fit inside the size of the array
                     s.indexOf(letters) <= spaceBehind &&    //have enough space before and after the letter(s)
                     (s.length() - (s.indexOf(letters)+letters.length())) <= spaceAhead){
@@ -255,22 +255,12 @@ public class Bot implements IPlayers {
         return space;
     }
 
-    private static void searchForLetters(Board board, StringBuilder letters, StringBuilder tempRack, int i, int j) {
-
-        if (!board.getBoardCells()[i][j].isEmpty()) {
-
-            tempRack.append(board.getBoardCells()[i][j].getTileLetter());
-            letters.append(board.getBoardCells()[i][j].getTileLetter());
-            System.out.println(tempRack);
-            System.out.println(letters);
-            while (!board.getBoardCells()[i][j==board.getBoardCells()[0].length - 1?j:j+1].isEmpty()) {
-                if (j == board.getBoardCells()[0].length - 1) {break;}
-                j++;
-                tempRack.append(board.getBoardCells()[i][j].getTileLetter());
-                System.out.println(tempRack);
-                letters.append(board.getBoardCells()[i][j].getTileLetter());
-                System.out.println(letters);
-            }
+    private static void searchForLetters(Board board, StringBuilder letters, StringBuilder tempRack, int row, int col) {
+        while (!board.getBoardCells()[row][col].isEmpty()){
+            tempRack.append(board.getBoardCells()[row][col].getTileLetter());
+            letters.append(board.getBoardCells()[row][col].getTileLetter());
+            if (col == board.getBoardCells()[0].length-1){break;}
+            col++;
         }
     }
 
@@ -284,7 +274,7 @@ public class Bot implements IPlayers {
 
 
 
-    //TODO: the operation of tilting a board should probably live in board, it is also a weird thing to do
+    //TODO: the operation of tilting a board should probably live in board, also it might be an insane thing to do.
 
     /**
      * Returns the cell matrix flipped pi/2 radians
@@ -304,7 +294,7 @@ public class Bot implements IPlayers {
         return tempBoard;
     }
 
-    //TODO: the operation of tilting a board should probably live in board
+    //TODO: the operation of tilting a board should probably live in board, also it might be an insane thing to do.
 
     /**
      * Returns the board
