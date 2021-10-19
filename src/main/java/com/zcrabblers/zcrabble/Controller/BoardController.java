@@ -58,7 +58,7 @@ public class BoardController implements Initializable, ILetterObservable {
     private ArrayList<Label> scoreLabelList = new ArrayList<>();
 
     private final GameManager gameManager = GameManager.getInstance();
-    private IGame game;
+    private Game game;
     Selection selection = new Selection();
     MultiSelection mSelection = new MultiSelection();
 
@@ -108,7 +108,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
         gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
         game = gameManager.getCurrentGame();
-        gameManager.addSubscriber(this);
+        game.addSubscriber(this);
 
 //        endTurnButton.setOnAction(actionEvent -> {
 //            gameManager.getCurrentGame().endTurn();
@@ -116,6 +116,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
         updateScores();
         updateTilesLeft();
+
         try {
             populate();
         } catch (FileNotFoundException e) {
@@ -506,7 +507,7 @@ public class BoardController implements Initializable, ILetterObservable {
             needMorePlayersLabel.setVisible(false);
             gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
             game = gameManager.getCurrentGame();
-            gameManager.addSubscriber(this);
+            game.addSubscriber(this);
             newGameMenuBackground.toBack();
             rackAnchor.getChildren().clear();
             rackList.clear();

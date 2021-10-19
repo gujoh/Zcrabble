@@ -5,7 +5,7 @@ import java.util.List;
 
 // Is the class with the main responsibility over the model and starting new games
 public class GameManager {
-    private IGame currentGame;
+    private Game currentGame;
     private static GameManager instance;
 
     private GameManager(){
@@ -23,24 +23,6 @@ public class GameManager {
     }
 
     /**
-     * Adds a subscriber to the current game.
-     * @param sub the subscriber.
-     */
-    public void addSubscriber(ILetterObservable sub){
-        if(currentGame != null)
-            currentGame.addSubscriber(sub);
-    }
-
-    /**
-     * Removes a subscriber from the current game.
-     * @param sub the subscriber.
-     */
-    public void removeSubscriber(ILetterObservable sub){
-        if(currentGame != null)
-            currentGame.removeSubscriber(sub);
-    }
-
-    /**
      * Creates a new Game and removes all subscribers from the observer.
      */
     public void newGame(int nrPlayers, int nrBots){
@@ -54,16 +36,8 @@ public class GameManager {
      * Getter for the current Game.
      * @return the Game that is being played.
      */
-    public IGame getCurrentGame(){
+    public Game getCurrentGame(){
         return currentGame;
-    }
-
-    /**
-     * Getter for the current game being played.
-     * @return the board of the current game being played.
-     */
-    public Board getBoard(){
-        return currentGame.getBoard();
     }
 
 }

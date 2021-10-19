@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game implements IGame, ITurnObservable {
+public class Game implements ITurnObservable {
 
     private List<IPlayers> players;
     private IPlayers current;
@@ -45,7 +45,6 @@ public class Game implements IGame, ITurnObservable {
         current.beginTurn(tempBoard);
     }
 
-    @Override
     public boolean endTurn(){ // DISCUSS THIS.
         if (tempBoard.checkBoard(tempBoard, board)){
             int score = tempBoard.countPoints(board);
@@ -72,37 +71,6 @@ public class Game implements IGame, ITurnObservable {
 
     }
 
-    public synchronized void experimentalEndTurn(){
-        notifyAll();
-    }
-
-    public synchronized void experimentalGameLoop() {
-        try {
-            while(!isGameOver()){
-                current.beginTurn(tempBoard);
-                System.out.println("WAITING");
-                wait();
-                System.out.println("PASSED WAIT");
-                // Add score from tempboard to current if it was correct
-
-                // Låta Game vara en Thread och starta en ny Thread varje gång
-                // vi startar ett nytt game, den tråden blir då "modell tråden"
-                // och javafx sköter grafik tråden. Game tråden väntar till vi
-                // trycker på en knapp på grafik tråden som notifyar game tråden
-                // då körs hela loopen med all input spelaren gett innan hon tryckte
-                // på end turn
-
-                current = getNextPlayer();
-            }
-           // IPlayers winner = getWinner();
-            // End game if there's a winner and display results
-        } catch(InterruptedException e){
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-    }
-
     private boolean isGameOver(){
         if(tileBag.isEmpty() && current.getRack().rackIsEmpty()) {
             return true;
@@ -119,7 +87,10 @@ public class Game implements IGame, ITurnObservable {
         return players.get(index);
     }
 
-    @Override
+    /**
+     * Return the player with the highest score.
+     * @return The index of the player + 1, to get the nth player.
+     */
     public int getWinner(){
         IPlayers winner = players.get(0);
         for (IPlayers player : players) {
@@ -130,37 +101,30 @@ public class Game implements IGame, ITurnObservable {
         return players.indexOf(winner) + 1;
     }
 
-    @Override
     public Board getBoard(){
         return board;
     }
 
-    @Override
     public Board getTempBoard(){
         return tempBoard;
     }
 
-    @Override
     public int getBoardSize(){
         return board.getSize();
     }
 
-    @Override
     public void addSubscriber(ILetterObservable sub) {
         observer.addSubscriber(sub);
     }
 
-    @Override
     public void removeSubscriber(ILetterObservable sub) {
         observer.removeSubscriber(sub);
     }
 
-    @Override
     public void removeAllSubscribers() {
         observer.removeAllSubscribers();
     }
 
-    @Override
     public boolean isBoardCellEmpty(int y, int x){
         return board.isCellEmpty(y, x);
     }
@@ -182,7 +146,6 @@ public class Game implements IGame, ITurnObservable {
      * @param x2 X position of the second cell.
      * @param y2 Y position of the second cell.
      */
-    @Override
     public void switchBoardCells(int x1, int y1, int x2, int y2) {
         board.switchTiles(x1, y1, x2, y2);
     }
@@ -194,7 +157,6 @@ public class Game implements IGame, ITurnObservable {
      * @param x2 X position of the second cell.
      * @param y2 Y position of the second cell.
      */
-    @Override
     public void switchTempCells(int x1, int y1, int x2, int y2) {
         tempBoard.switchTiles(x1, y1, x2, y2);
     }
@@ -204,7 +166,6 @@ public class Game implements IGame, ITurnObservable {
      * @param x1 First index.
      * @param x2 Second index.
      */
-    @Override
     public void switchRackCells(int x1, int x2) {
         current.getRack().switchTiles(x1, x2);
     }
@@ -215,7 +176,6 @@ public class Game implements IGame, ITurnObservable {
      * @param boardX X position of the board cell.
      * @param boardY Y position of the board cell.
      */
-    @Override
     public void switchRackBoardCells(int rackX, int boardY, int boardX) {
         Tile tile = tempBoard.getTile(boardY, boardX);
         System.out.println("From: " + tile.getLetter());
@@ -226,7 +186,6 @@ public class Game implements IGame, ITurnObservable {
     /**
      * Returns all tiles played on the temporary board to the current players rack.
      */
-    @Override
     public void returnTilesToRack(){
         for(CellTuple ct : tempBoard.getNewCells(board)){
             int rIndex = getRack().getFirstFreeIndex();
@@ -234,24 +193,20 @@ public class Game implements IGame, ITurnObservable {
         }
     }
 
-    @Override
     public void fromRackToBag(int i){
         Tile t = current.getRackTile(i);
         current.removeRackTile(i);
         tileBag.add(t); //TODO: will just add tile to the end, might want to shuffle the tileBag
     }
 
-    @Override
     public void shuffleCurrentRack(){
         current.getRack().shuffleRack();
     }
 
-    @Override
     public Rack getRack(){
         return current.getRack();
     }
 
-    @Override
     public int getRemainingTiles(){
         return tileBag.remainingTiles();
     }
@@ -268,7 +223,6 @@ public class Game implements IGame, ITurnObservable {
         return players.get(index).getScore();
     }
 
-    @Override
     public char getRackLetter(int index){
         return current.getRackTile(index).getLetter();
     }
