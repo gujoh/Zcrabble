@@ -331,12 +331,12 @@ public class Board {
 
     /*--- Method for checking that all words in columns are valid. ---*/
     private boolean checkCol(Board board) {
-        boolean colAreIndeedValid = true;
+        boolean colIsValid = true;
         StringBuilder word = new StringBuilder();
 
         for (int col = 0; col < board.getBoardCells().length; col++) {
             if (word.length() > 1) {
-                colAreIndeedValid = dict.checkWord(word.toString());
+                colIsValid = dict.checkWord(word.toString());
             }
             word.delete(0,word.length());
             for (int row = 0; row < board.getBoardCells().length; row++) {
@@ -348,26 +348,26 @@ public class Board {
                 //If there already is a String in word and there is no letter on the current cell,
                 // the String is finished, and will be checked, then deleted from word
                 if (word.length() > 1 && !containsLetter(board, row, col)) {
-                    colAreIndeedValid = dict.checkWord(word.toString());
+                    colIsValid = dict.checkWord(word.toString());
                     word.delete(0, word.length());
                 }
-                if (!colAreIndeedValid) {
+                if (!colIsValid) {
                     return false;
                 }
             }
         }
-        System.out.println("col");
-        return colAreIndeedValid;
+
+        return colIsValid;
     }
 
     /*--- Method for checking that all words in rows are valid. ---*/
     private boolean checkRow(Board board){
-        boolean rowAreIndeedValid = true;
+        boolean rowIsValid = true;
         StringBuilder word = new StringBuilder();
 
         for (int row = 0; row < board.getBoardCells().length; row++) {
             if (word.length() > 1) {
-                rowAreIndeedValid = dict.checkWord(word.toString());
+                rowIsValid = dict.checkWord(word.toString());
             }
             word.delete(0,word.length());
             for (int col = 0; col < board.getBoardCells().length; col++) {
@@ -379,24 +379,22 @@ public class Board {
                 //If there already is a String in word and there is no letter on the current cell,
                 // the String is finished, and will be checked, then deleted from word
                 if (word.length() > 1 && !containsLetter(board, row, col)) {
-                    rowAreIndeedValid = dict.checkWord(word.toString());
+                    rowIsValid = dict.checkWord(word.toString());
                     word.delete(0, word.length());
                 }
-                if (!rowAreIndeedValid) {
+                if (!rowIsValid) {
                     return false;
                 }
             }
         }
         System.out.println("row");
-        return rowAreIndeedValid;
+        return rowIsValid;
     }
 
-    //TODO
-    /*--- Checks if all letters on the board are in contact with each other and everything is in contact with the middle. ---*/
     private  boolean checkCoherence(Board tempBoard, Board board){
+        List<CellTuple> newCells = tempBoard.getNewCells(board);
 
-
-        int numberOfLetters=0;
+        int numberOfLetters = 0;
         for (int row = 0; row < tempBoard.getBoardCells().length; row++) {
             for (int col = 0; col < tempBoard.getBoardCells().length; col++) {
                 if (containsLetter(tempBoard, row, col)){
@@ -405,9 +403,9 @@ public class Board {
                 }
             }
         }
-        //checks if all new cells is either on one row or one column
-        List<CellTuple> newCells = tempBoard.getNewCells(board);
 
+
+        //checks if all new cells is either on one row or one column
         for (int i = 0; i <newCells.size() ; i++) {
             if (!(newCells.get(i).getI()==newCells.get(i== newCells.size()-1?i:i+1).getI())){
                 for (int j = 0; j <newCells.size() ; j++) {
@@ -417,26 +415,11 @@ public class Board {
                 }
             }
         }
-       /*
 
 
 
-        checkConnection
-            for every new tile check the cells directly over/under and left/right of it, there should be at least one connection to an old cell or the middle
-            control row+-1 and col +-1 make sure not to get out of bounds error, for + 1: row==14?row:row+1.
-        for (int i = 0; i <newCells.size() ; i++) {
-            newCells.get(i).getI();
-        }
 
 
-        read newCells, see witch direction the new word is going, new cells must go in one direction
-            If there is only one new cell the word is just an appendix, check that it is connected to something.
-            If all i values are the same, the word is horizontal
-            If all j values are the same, the word is vertical
-            If both i and j values differ the new board is not valid.
-
-        if there is a gap in the new tiles it must be filled with old tiles.
-         */
         return (containsLetter(tempBoard, 7, 7)&&numberOfLetters!=1);
     }
 
