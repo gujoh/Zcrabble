@@ -79,9 +79,6 @@ public class Bot implements IPlayers {
         Board verticalBoard = new Board();
         verticalBoard.copyBoardCells(board);
 
-
-
-
         horizontalBoard.copyBoardCells(scrabbleWord(horizontalBoard,rackString,tempRack));
 
         verticalBoard.tiltPiHalf(verticalBoard);
@@ -91,7 +88,6 @@ public class Bot implements IPlayers {
     /*
         System.out.println(getRackString(horizontalRack));
         System.out.println(getRackString(verticalRack));
-
      */
         if (horizontalBoard.countPoints(board )>verticalBoard.countPoints(board)){
             board.copyBoardCells(horizontalBoard);
@@ -99,8 +95,6 @@ public class Bot implements IPlayers {
         }else {
             board.copyBoardCells(verticalBoard);
             rack.getRackCopy(verticalRack);}
-
-
     }
 
     //Prints the board for debugging p
@@ -192,7 +186,8 @@ public class Bot implements IPlayers {
         System.out.println(getRackString(rack1));
     return bestBoard;//bestBoard;
     }
-        //Switches places between a tile in a given position on a rack and a tile in a given position on a board.
+
+    //Switches place between a tile in a given position on a rack and a tile in a given position on a board.
     private  void writeToBoard(int rackX, int boardRow, int boardCol, Board board, Rack currentRack){
 
         Tile tile = board.getTile(boardCol, boardRow);
