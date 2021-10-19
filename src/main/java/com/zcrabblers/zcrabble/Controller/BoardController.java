@@ -269,7 +269,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.select(cellView);
                     selection.setStartX(x);
                     selection.setStartY(y);
-                    System.out.println("Selected: " + game.getTempBoard().getTile(y, x).getLetter());
+                    //System.out.println("Selected: " + game.getTempBoard().getTile(y, x).getLetter());
 
                     Point2D p = cellView.localToScene(cellView.getX(), cellView.getY());
                     Point2D p2 = gameAnchor.sceneToLocal(p);
@@ -290,7 +290,7 @@ public class BoardController implements Initializable, ILetterObservable {
             }
             int x = pos2Rack(cellView.getX());
 
-            System.out.println("rack x: " + x);
+            //System.out.println("rack x: " + x);
             if(selection.hasSelected()){
                 if(selection.getFromRack()){
                     if(game.isRackEmpty(x)){
@@ -328,7 +328,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setFromRack(true);
                     selection.select(cellView);
                     selection.setStartX(x);
-                    System.out.println("Selected: " + game.getRack().getTile(x).getLetter());
+                    //System.out.println("Selected: " + game.getRack().getTile(x).getLetter());
 
                     Point2D p = cellView.localToScene(cellView.getX(), cellView.getY());
                     Point2D p2 = gameAnchor.sceneToLocal(p);
@@ -467,7 +467,7 @@ public class BoardController implements Initializable, ILetterObservable {
             showWinnerPane(game.getWinner());
         }
 
-        System.out.println("update");
+        //System.out.println("update");
         updateScores();
         updateTilesLeft();
         setRackImages();
