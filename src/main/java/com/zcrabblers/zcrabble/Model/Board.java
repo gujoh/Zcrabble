@@ -355,6 +355,23 @@ public class Board {
         boardCells = tempCell;
     }
 
+    /**
+     * Mirrors the board around row 7 (horizontally)
+     * first row is last row, last row is first row, col is col
+     * @param board the Board to be mirrored
+     */
+    public void mirrorAroundCol7(Board board){
+
+        Cell[][] tempCell = new Cell[board.getBoardCells()[0].length][board.getBoardCells().length];
+        for (int i = 0; i <board.getBoardCells().length ; i++) {
+            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
+                Cell newCell = board.getBoardCells()[i][j];
+                tempCell[board.getSize()-1-i][j] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(),newCell.getPlacedTile());
+            }
+        }
+        boardCells = tempCell;
+    }
+
     /*--- BoardChecks  below ---*/
 
     //TODO containsLetter should be replaced with isCellEmpty in all methods, no point in keeping both.
@@ -432,7 +449,6 @@ public class Board {
                 }
             }
         }
-        System.out.println("row");
         return rowIsValid;
     }
 
@@ -456,13 +472,11 @@ public class Board {
                     int row = cell.getI() + i;
                     int col = cell.getJ() + j;
                     if(row <= 14 && row >= 0 && col <= 14 && col >= 0 && !(row == cell.getI() && col == cell.getJ())){ //If we are not checking "ourselves" and we are within the board.
-                        //System.out.println("test");
                         if((row == cell.getI() || col == cell.getJ())  && !isCellEmpty(row,col)){ //We do not check diagonal cells.
                             neighbourCount++;
                             if(getTile(row,col).getLetter() == board.getTile(row,col).getLetter()){
                                 oldCellCount++;
                             }
-
                         }
                     }
                 }
