@@ -29,11 +29,6 @@ public class Bot implements IPlayers {
     }
 
     @Override
-    public void addRackTile(Tile tile) {
-        rack.add(tile);
-    }
-
-    @Override
     public void removeRackTile(int x) {
         rack.remove(x);
     }

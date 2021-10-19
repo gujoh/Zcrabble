@@ -23,18 +23,6 @@ public class Rack {
         playerTiles[x2] = fst;
     }
 
-    /**
-     * Adds a tile to the rack if there is space available.
-     * @param tile The tile to add.
-     */
-    public void add(Tile tile) {
-        for (int i = 0; i < playerTiles.length; i++) {
-            if(isEmpty(i)){
-                playerTiles[i] = tile;
-            }
-        }
-    }
-
     // probably bad, prob not needed
     public int getFirstFreeIndex(){
         for (int i = 0; i < playerTiles.length; i++) {
@@ -59,25 +47,6 @@ public class Rack {
      */
     public void remove(int index){
         playerTiles[index] = new Tile(' ', 0);
-    }
-
-    /**
-     * Removes a tile with the supplied letter if it exists.
-     * @param letter The letter to look for.
-     */
-    public void remove(char letter){
-        for (int i = 0; i < playerTiles.length; i++) {
-            if(letter == playerTiles[i].getLetter())
-                playerTiles[i] = new Tile(' ', 0);
-        }
-    }
-
-    public Tile getTile(char letter){
-        for (Tile playerTile : playerTiles) {
-            if (letter == playerTile.getLetter())
-                return playerTile;
-        }
-        return null; //TODO: this is bad
     }
 
     /**
@@ -107,7 +76,7 @@ public class Rack {
         return true;
     }
 
-    void fillRack(TileBag bag){
+    public void fillRack(TileBag bag){
         for(int i = 0; i < playerTiles.length; i++){
             if(playerTiles[i].getLetter() == ' ' && !bag.isEmpty()){
                 playerTiles[i] = bag.takeTile();
@@ -132,7 +101,7 @@ public class Rack {
      * Getter for playerTiles i.e a player's rack.
      * @return an array of tiles.
      */
-    Tile[] getTiles(){
+    public Tile[] getTiles(){
         return playerTiles;
     }
 }
