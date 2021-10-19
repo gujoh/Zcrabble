@@ -230,6 +230,9 @@ public class BoardController implements Initializable, ILetterObservable {
     // What happens when user clicks on a cell on the board.
     private void registerBoardCellClickEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
+            if(game.isGameOver()){
+                return;
+            }
             int x = pos2Coord(cellView.getX());
             int y = pos2Coord(cellView.getY());
 
@@ -280,6 +283,9 @@ public class BoardController implements Initializable, ILetterObservable {
     // What happens when the user clicks on a cell on the rack.
     private void registerRackCellEvent(CellView cellView){
         cellView.setOnMousePressed(event -> {
+            if(game.isGameOver()){
+                return;
+            }
             int x = pos2Rack(cellView.getX());
 
             System.out.println("rack x: " + x);
@@ -443,7 +449,7 @@ public class BoardController implements Initializable, ILetterObservable {
     @Override
     public void updateState(ArrayList<CellTuple> boardList, boolean isGameOver){
         for (CellTuple cell : boardList){
-            try { //TODO cache this
+            try {
                 ImageView currentCell = cellList.get(coordinateToIndex(cell.getI(), cell.getJ()));
                 currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
                 //TODO: Make this work with Letter instead of char (see comment below)

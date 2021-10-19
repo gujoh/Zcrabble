@@ -18,9 +18,9 @@ public class Game implements ITurnObservable {
     private int passCounter;
 
     public Game(int nrPlayers, int nrBots){
-        this.board = new Board("defaultBoard");
-        this.tempBoard = new Board("defaultBoard");
-        this.tileBag = new TileBag("defaultBag");
+        this.board = new Board();
+        this.tempBoard = new Board();
+        this.tileBag = new TileBag();
         this.nrPLayers = nrPlayers;
         this.nrBots = nrBots;
     }
@@ -71,7 +71,11 @@ public class Game implements ITurnObservable {
 
     }
 
-    private boolean isGameOver(){
+    /**
+     * Checks if the current game is over.
+     * @return true or false depending on the current game is over.
+     */
+    public boolean isGameOver(){
         if(tileBag.isEmpty() && current.getRack().rackIsEmpty()) {
             return true;
         }

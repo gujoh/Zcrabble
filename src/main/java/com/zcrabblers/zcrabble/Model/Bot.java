@@ -97,9 +97,9 @@ public class Bot implements IPlayers {
 
     private  Board scrabbleWord(Board board, String rackString){
 
-        Board currentBoard = new Board("defaultBoard");
+        Board currentBoard = new Board();
         currentBoard.copyBoardCells(board);
-        Board bestBoard = new Board("defaultBoard");
+        Board bestBoard = new Board();
         bestBoard.copyBoardCells(board);
         String bestWord = "";
 
@@ -309,7 +309,7 @@ public class Bot implements IPlayers {
      */
 
     private Board tilt3PiHalf (Board board){
-        Board tempBoard = new Board("defaultBoard");
+        Board tempBoard = new Board();
         for (int i = 0; i <board.getBoardCells().length ; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
 
