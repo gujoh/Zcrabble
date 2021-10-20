@@ -94,4 +94,22 @@ public class RackTests {
         assertEquals(-1, rack.getFirstFreeIndex());
     }
 
+    @Test
+    public void getRackCopyTest(){
+        Rack rack = new Rack();
+        rack.set(0, new Tile('A', 1));
+        rack.set(1, new Tile('B', 1));
+        rack.set(2, new Tile('C', 1));
+        //rack.set(3, new Tile(' ', 1));
+        //rack.set(4, new Tile(' ', 1));
+        //rack.set(5, new Tile(' ', 1));
+        //rack.set(6, new Tile(' ', 1));
+        rack.shuffleRack();
+        Rack rack2 = new Rack();
+        rack2.getRackCopy(rack);
+        for (int i = 0; i < 7; i++) {
+            assertEquals(rack.getTile(i).getLetter(), rack2.getTile(i).getLetter());
+        }
+    }
+
 }

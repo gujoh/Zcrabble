@@ -13,8 +13,8 @@ public class Rack {
     }
 
     public Rack() {
-        for(Tile t : playerTiles){
-            t = new Tile(' ',0);
+        for (int i = 0; i < 7; i++) {
+            playerTiles[i] = new Tile(' ', 0);
         }
     }
 
