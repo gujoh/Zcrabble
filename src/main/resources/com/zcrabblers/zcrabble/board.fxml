@@ -109,7 +109,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="244.0" layoutY="143.0" text="Bots (Not working):" AnchorPane.rightAnchor="95.0">
+                        <Label layoutX="244.0" layoutY="143.0" text="Bots:" AnchorPane.rightAnchor="95.0">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -175,7 +175,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Button layoutX="529.0" layoutY="540.0" mnemonicParsing="false" onAction="#openSwapPane" prefHeight="54.0" prefWidth="62.0" styleClass="shuffle-button" text="Swap" textFill="WHITE">
+                  <Button fx:id="swapButton" layoutX="529.0" layoutY="540.0" mnemonicParsing="false" onAction="#openSwapPane" prefHeight="54.0" prefWidth="62.0" styleClass="shuffle-button" text="Swap" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>

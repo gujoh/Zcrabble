@@ -223,4 +223,8 @@ public class Game implements ITurnObservable {
     public char getRackLetter(int index){
         return current.getRackTile(index).getLetter();
     }
+
+    public int getCurrentPlayerIndex(){
+        return players.indexOf(current);
+    }
 }

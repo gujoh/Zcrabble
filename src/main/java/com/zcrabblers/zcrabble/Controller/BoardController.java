@@ -49,6 +49,7 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane swapTilesPopupPane;
     @FXML private AnchorPane winnerPane;
     @FXML private Label winnerLabel;
+    @FXML private Button swapButton;
 
     private List<ImageView> cellList = new ArrayList<>();
     private List<ImageView> rackList = new ArrayList<>();
@@ -142,7 +143,8 @@ public class BoardController implements Initializable, ILetterObservable {
 
     //Initializes the spinners that set the number of players and bots.
     private void initPlayerSpinner(){
-        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,4,2,1);
+        //TODO: make it possible to only have bots play each other, currently it does not render correctly.
+        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,4,2,1);
         SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
         playerSpinner.setValueFactory(playerValueFactory);
         botSpinner.setValueFactory(botValueFactory);
@@ -479,7 +481,11 @@ public class BoardController implements Initializable, ILetterObservable {
     //Gets called from update() and initialize().
     private void updateScores(){
         for(int i = 0; i < game.getPlayers().size(); i++){
-            scoreLabelList.get(i).setText(String.valueOf(game.getPlayerScore(i)));
+            if(i == game.getCurrentPlayerIndex()){
+                scoreLabelList.get(i).setTextFill(Color.RED);
+            }
+            else scoreLabelList.get(i).setTextFill(Color.BLACK);
+            scoreLabelList.get(i).setText("P" + i + ": " + game.getPlayerScore(i));
         }
     }
 
@@ -492,6 +498,9 @@ public class BoardController implements Initializable, ILetterObservable {
     //Shuffles the current player's rack.
     @FXML
     private void shuffleRack(){
+        if(game.isGameOver()){
+            return;
+        }
         game.shuffleCurrentRack();
         setRackImages();
     }
@@ -556,6 +565,9 @@ public class BoardController implements Initializable, ILetterObservable {
     //Attempts to end the current turn. If endTurn() returns false, the word is invalid and a modal panel pops up.
     @FXML
     private void endTurn(){
+        if(game.isGameOver()){
+            return;
+        }
         if(!game.endTurn()){
             invalidWordBackground.toFront();
         }
@@ -631,6 +643,9 @@ public class BoardController implements Initializable, ILetterObservable {
     // Open the exchange tiles pane.
     @FXML
     private void openSwapPane(){
+        if(game.isGameOver()){
+            return;
+        }
         game.returnTilesToRack();
         swapTilesPane.toFront();
         for (int i = 0; i < rackList.size(); i++) {
@@ -666,6 +681,8 @@ public class BoardController implements Initializable, ILetterObservable {
         shuffleButton.setTextFill(Color.WHITE);
         endTurnButton.setStyle("fx-background-color: #ffffff");
         endTurnButton.setTextFill(Color.WHITE);
+        swapButton.setStyle("fx-background-color: #ffffff");
+        swapButton.setTextFill(Color.WHITE);
     }
 
     //Sets the Zcrabble theme the original Zcrabble skin. Gets called from the MenuController class.
@@ -676,6 +693,8 @@ public class BoardController implements Initializable, ILetterObservable {
         shuffleButton.setTextFill(Color.WHITE);
         endTurnButton.setStyle("fx-background-color: #ffffff");
         endTurnButton.setTextFill(Color.WHITE);
+        swapButton.setStyle("fx-background-color: #ffffff");
+        swapButton.setTextFill(Color.WHITE);
     }
 
     //Sets the Zcrabble theme to cyberpunk. Gets called from the MenuController class.
@@ -686,5 +705,7 @@ public class BoardController implements Initializable, ILetterObservable {
         shuffleButton.setTextFill(Color.BLACK);
         endTurnButton.setStyle("-fx-background-color: #fff200");
         endTurnButton.setTextFill(Color.BLACK);
+        swapButton.setStyle("-fx-background-color: #fff200");
+        swapButton.setTextFill(Color.BLACK);
     }
 }
