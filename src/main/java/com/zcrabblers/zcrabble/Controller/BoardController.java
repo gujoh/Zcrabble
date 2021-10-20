@@ -39,8 +39,8 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Label p4Score;
     @FXML private AnchorPane newGameMenuBackground;
     @FXML private AnchorPane welcomeScreen;
-    @FXML private Spinner playerSpinner;
-    @FXML private Spinner botSpinner;
+    @FXML private Spinner<Integer> playerSpinner;
+    @FXML private Spinner<Integer> botSpinner;
     @FXML private AnchorPane invalidWordBackground;
     @FXML private Label needMorePlayersLabel;
     @FXML private TextArea tutorialTextArea;
@@ -49,13 +49,14 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane swapTilesPopupPane;
     @FXML private AnchorPane winnerPane;
     @FXML private Label winnerLabel;
+    @FXML private Button swapButton;
 
     private List<CellView> cellList = new ArrayList<>();
     private List<ImageView> rackList = new ArrayList<>();
     private List<ImageView> swapTileList = new ArrayList<>();
+    private List<Label> scoreLabelList = new ArrayList<>();
 
     private MenuController menuController;
-    private ArrayList<Label> scoreLabelList = new ArrayList<>();
 
     private final GameManager gameManager = GameManager.getInstance();
     private Game game;
@@ -64,10 +65,6 @@ public class BoardController implements Initializable, ILetterObservable {
 
     private final static int IMAGE_SIZE = 33;
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
-
-    private boolean draggedFromRack;
-    private int startX;
-    private int startY;
 
     Map<Letter, Image> tileImageMap = new HashMap<>();
     Map<Integer, Image> cellImageMap = new HashMap<>();
@@ -108,13 +105,9 @@ public class BoardController implements Initializable, ILetterObservable {
         scoreLabelList.add(p4Score);
 
 
-        gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
+        gameManager.newGame(playerSpinner.getValue(), botSpinner.getValue());
         game = gameManager.getCurrentGame();
         game.addSubscriber(this);
-
-//        endTurnButton.setOnAction(actionEvent -> {
-//            gameManager.getCurrentGame().endTurn();
-//        });
 
         updateScores();
         updateTilesLeft();
@@ -138,7 +131,6 @@ public class BoardController implements Initializable, ILetterObservable {
     public void populate() throws FileNotFoundException {
         populateBoard();
         populateRack();
-        //makeOneTestTile();
         initDragTile();
         registerBoardEvents(gameAnchor);
     }
@@ -151,7 +143,8 @@ public class BoardController implements Initializable, ILetterObservable {
 
     //Initializes the spinners that set the number of players and bots.
     private void initPlayerSpinner(){
-        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,4,2,1);
+        //TODO: make it possible to only have bots play each other, currently it does not render correctly.
+        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,4,2,1);
         SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
         playerSpinner.setValueFactory(playerValueFactory);
         botSpinner.setValueFactory(botValueFactory);
@@ -437,8 +430,14 @@ public class BoardController implements Initializable, ILetterObservable {
     //TODO: use cached map instead of reading a file
     private void setRackImages(){
         for(int i = 0; i < rackList.size(); i++){
+            Image image;
             try {
-                Image image = new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png"));
+                if(game.getRackLetter(i) == ' '){
+                    image = cellImageMap.get(11);
+                }
+                else{
+                    image = new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png"));
+                }
                 rackList.get(i).setImage(image);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -486,7 +485,13 @@ public class BoardController implements Initializable, ILetterObservable {
         for (CellTuple cell : boardList){
             try {
                 ImageView currentCell = cellList.get(coordinateToIndex(cell.getI(), cell.getJ()));
-                currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
+                if(cell.getCell().getTileLetter() == ' '){
+                    currentCell.setImage(cellImageMap.get(11));
+                }
+                else{
+                    currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
+                }
+
                 //TODO: Make this work with Letter instead of char (see comment below)
                 //cellList.get(coordinateToIndex(cell.getI(), cell.getJ())).setImage(tileImageMap.get(cell.getCell().getTileLetter()));
                 currentCell.toBack();  //Calling toFront and toBack to force a repaint of this object. Does not work otherwise.
@@ -500,7 +505,6 @@ public class BoardController implements Initializable, ILetterObservable {
             showWinnerPane(game.getWinner());
         }
 
-        //System.out.println("update");
         updateScores();
         updateTilesLeft();
         setRackImages();
@@ -510,7 +514,11 @@ public class BoardController implements Initializable, ILetterObservable {
     //Gets called from update() and initialize().
     private void updateScores(){
         for(int i = 0; i < game.getPlayers().size(); i++){
-            scoreLabelList.get(i).setText(String.valueOf(game.getPlayerScore(i)));
+            if(i == game.getCurrentPlayerIndex()){
+                scoreLabelList.get(i).setTextFill(Color.RED);
+            }
+            else scoreLabelList.get(i).setTextFill(Color.BLACK);
+            scoreLabelList.get(i).setText("P" + (i+1) + ": " + game.getPlayerScore(i));
         }
     }
 
@@ -523,6 +531,9 @@ public class BoardController implements Initializable, ILetterObservable {
     //Shuffles the current player's rack.
     @FXML
     private void shuffleRack(){
+        if(game.isGameOver()){
+            return;
+        }
         game.shuffleCurrentRack();
         setRackImages();
     }
@@ -542,12 +553,12 @@ public class BoardController implements Initializable, ILetterObservable {
     //Amount of players is based on the spinner values in the new game menu.
     @FXML
     private void newGame() throws FileNotFoundException {
-        if((int)playerSpinner.getValue() + (int)botSpinner.getValue() <= 1){
+        if(playerSpinner.getValue() + botSpinner.getValue() <= 1){
             needMorePlayersLabel.setVisible(true);
         }
         else{
             needMorePlayersLabel.setVisible(false);
-            gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
+            gameManager.newGame(playerSpinner.getValue(), botSpinner.getValue());
             game = gameManager.getCurrentGame();
             game.addSubscriber(this);
             newGameMenuBackground.toBack();
@@ -587,6 +598,9 @@ public class BoardController implements Initializable, ILetterObservable {
     //Attempts to end the current turn. If endTurn() returns false, the word is invalid and a modal panel pops up.
     @FXML
     private void endTurn(){
+        if(game.isGameOver()){
+            return;
+        }
         if(!game.endTurn()){
             invalidWordBackground.toFront();
         }
@@ -666,8 +680,11 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     // Open the exchange tiles pane.
-    @FXML private void openSwapPane(){
-        //swapTilesPane.setVisible(true);
+    @FXML
+    private void openSwapPane(){
+        if(game.isGameOver()){
+            return;
+        }
         returnToRack();
         swapTilesPane.toFront();
         for (int i = 0; i < rackList.size(); i++) {
@@ -677,13 +694,14 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     // Close the exchange tiles pane.
-    @FXML private void closeSwapPane(){
-        //swapTilesPane.setVisible(false);
+    @FXML
+    private void closeSwapPane(){
         swapTilesPane.toBack();
     }
 
     // Exchange tiles in the model after it is confirmed by the user in the swapTilesPane.
-    @FXML private void swapPaneSwap(){
+    @FXML
+    private void swapPaneSwap(){
         for (CellView cV : mSelection.getSelected()) {
             int index = (int) (cV.getX() - swapTileList.get(0).getX());
             index /= 50;
@@ -702,6 +720,8 @@ public class BoardController implements Initializable, ILetterObservable {
         shuffleButton.setTextFill(Color.WHITE);
         endTurnButton.setStyle("fx-background-color: #ffffff");
         endTurnButton.setTextFill(Color.WHITE);
+        swapButton.setStyle("fx-background-color: #ffffff");
+        swapButton.setTextFill(Color.WHITE);
     }
 
     //Sets the Zcrabble theme the original Zcrabble skin. Gets called from the MenuController class.
@@ -712,6 +732,8 @@ public class BoardController implements Initializable, ILetterObservable {
         shuffleButton.setTextFill(Color.WHITE);
         endTurnButton.setStyle("fx-background-color: #ffffff");
         endTurnButton.setTextFill(Color.WHITE);
+        swapButton.setStyle("fx-background-color: #ffffff");
+        swapButton.setTextFill(Color.WHITE);
     }
 
     //Sets the Zcrabble theme to cyberpunk. Gets called from the MenuController class.
@@ -722,5 +744,7 @@ public class BoardController implements Initializable, ILetterObservable {
         shuffleButton.setTextFill(Color.BLACK);
         endTurnButton.setStyle("-fx-background-color: #fff200");
         endTurnButton.setTextFill(Color.BLACK);
+        swapButton.setStyle("-fx-background-color: #fff200");
+        swapButton.setTextFill(Color.BLACK);
     }
 }

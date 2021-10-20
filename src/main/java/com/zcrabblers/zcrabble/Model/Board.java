@@ -57,22 +57,25 @@ public class Board {
                     boardCells[i][j] = new Cell(word,letter, new Tile(' ',0));
                 }
             }
-        }
+    }
 
 
     /**
      * Copies the cells on a board
      * @param board the Board to be copied
      */
-    public void copyBoardCells(Board board){
+    public void copyBoardCells(Board board,boolean copyAllMultipliers){
         Cell[][] tempCell = new Cell[board.getBoardCells().length][board.getBoardCells()[0].length];
         for (int i = 0; i < board.getBoardCells().length; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
                 Cell newCell = board.getBoardCells()[i][j];
-                if(newCell.isEmpty()){
+                if (copyAllMultipliers){
                     tempCell[i][j] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
+                }else{
+                    if (newCell.isEmpty()) {
+                        tempCell[i][j] = new Cell(newCell.GetCellWordMultiplier(), newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
+                    } else tempCell[i][j] = new Cell(1, 1, newCell.getPlacedTile());
                 }
-                else tempCell[i][j] = new Cell(1,1, newCell.getPlacedTile());
             }
         }
         boardCells = tempCell;
@@ -326,7 +329,7 @@ public class Board {
      * First row is first column, first column is last row
      * @param board the Board to be tilted.
      */
-    public void tilt3PiHalf(Board board){
+     void tilt3PiHalf(Board board){
         Cell[][] tempCell = new Cell[board.getBoardCells()[0].length][board.getBoardCells().length];
         for (int i = 0; i <board.getBoardCells().length ; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
@@ -342,7 +345,7 @@ public class Board {
      * First row is first column, first column is last row
      * @param board the Board to be tilted.
      */
-    public void tiltPiHalf(Board board){
+     void tiltPiHalf(Board board){
 
         Cell[][] tempCell = new Cell[board.getBoardCells()[0].length][board.getBoardCells().length];
         for (int i = 0; i <board.getBoardCells().length ; i++) {
@@ -359,7 +362,7 @@ public class Board {
      * first row is last row, last row is first row, col is col
      * @param board the Board to be mirrored
      */
-    public void mirrorAroundCol7(Board board){
+     void mirrorAroundCol7(Board board){
 
         Cell[][] tempCell = new Cell[board.getBoardCells()[0].length][board.getBoardCells().length];
         for (int i = 0; i <board.getBoardCells().length ; i++) {
