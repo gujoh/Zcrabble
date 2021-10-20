@@ -111,4 +111,12 @@ public class Selection {
     public void setStartY(int startY) {
         this.startY = startY;
     }
+
+    /**
+     * Set the selected cell's opacity.
+     * @param v A value between 0 and 1, where 1 is fully opaque and 0 is fully transparent.
+     */
+    public void setSelectedOpacity(double v){
+        selectedCell.setOpacity(v);
+    }
 }

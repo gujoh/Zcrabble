@@ -25,17 +25,20 @@ public class MultiSelection {
 
     public void select(CellView cellView){
         //cellView.setImage(selectionImage);
+        cellView.setOpacity(0.25);
         System.out.println("Selected");
         selected.add(cellView);
     }
 
     public void unSelect(CellView cellView){
         //cellView.changeToDefaultImage();
+        cellView.setOpacity(1);
         System.out.println("Unselected");
         selected.remove(cellView);
     }
 
     public void unSelectAll(){
+        selected.forEach(x -> x.setOpacity(1));
         selected.clear();
     }
 }
