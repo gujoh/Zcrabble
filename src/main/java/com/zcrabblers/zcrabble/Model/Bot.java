@@ -3,58 +3,98 @@ package com.zcrabblers.zcrabble.Model;
 import java.util.*;
 
 
-//TODO Make the bot evaluate words by score, not by length
-//TODO Functional decomposition on method scrabbleWord
+//TODO Make the bot evaluate words by score, not by length. "A well-contested Scrabble game should end with around 600 to 700 total points" for now it's closer to 400
+//TODO Functional decomposition on everything, but particularly scrabbleWord
 //TODO comment and test everything, tidy up.
 //TODO make bot faster!
 //TODO when someone wins the game should stop, if bots play each other they just keep going.
+//TODO different difficulty levels
+//TODO what happens if the bot makes a mistake?
 
 public class Bot implements IPlayers {
 
     private int score;
-    private Rack rack;
+    private final Rack rack;
     private static final Dictionary dict = Dictionary.getInstance();
     private final TurnObserver observer = new TurnObserver();
 
+    /**
+     * ZcrabbleBot takes a Board and makes a play on it
+     * @param score the bots score
+     * @param rack  the bots rack
+     * @param sub
+     */
     public Bot(int score, Rack rack, ITurnObservable sub){
         this.score = score;
         this.rack = rack;
         observer.addSubscriber(sub);
     }
 
+    /**
+     * Adds points of the latest play to score
+     * @param score the points to be added to score
+     */
     public void addScore(int score){
         this.score += score;
     }
 
+    /**
+     * Fills the rack with tiles from the TileBag
+     * @param bag the Bag to get tiles from
+     */
     @Override
     public void fillRack(TileBag bag){
         rack.fillRack(bag);
     }
 
+    /**
+     * Removes a tile from the rack
+     * @param x index of tile to be removed
+     */
     @Override
     public void removeRackTile(int x) {
         rack.remove(x);
     }
 
+    /**
+     * Places a tile to x index on the rack
+     * @param x Int index of rack
+     * @param tile Tile to be placed
+     */
     @Override
     public void placeRackTile(int x, Tile tile){
         rack.set(x, tile);
     }
 
+    /**
+     * @return the bots score
+     */
     public int getScore(){
         return score;
     }
 
+    /**
+     * @return the bots rack
+     */
     @Override
     public Rack getRack(){
         return rack;
     }
 
+    /**
+     * @param x Int index of rack
+     * @return the tile at x index on the rack
+     */
     @Override
     public Tile getRackTile(int x) {
         return rack.getTile(x);
     }
 
+    /**
+     * Mutates a Board to include the bots best play
+     * Notifies subscribers when it is done
+     * @param board the Board to be mutated
+     */
     @Override
     public void beginTurn(Board board) {
 
@@ -66,7 +106,13 @@ public class Bot implements IPlayers {
         observer.notifySubscribers();
     }
 
+    /**
+     * Creates board copies with the best horizontal and vertical plays on a given board, compares them and mutates given board to the highest scoring one
+     * @param board the Board to be mutated
+     */
     private void takeTurn(Board board) {
+
+        //Temporary boards and racks for comparison
 
         Rack tempRack = new Rack();
         tempRack.getRackCopy(rack);
@@ -80,18 +126,14 @@ public class Bot implements IPlayers {
         Board verticalBoard = new Board();
         verticalBoard.copyBoardCells(board);
 
-        //TODO break out into separate method
-        //writes a horizontal word to board
-        horizontalBoard.copyBoardCells(scrabbleWord(horizontalBoard,horizontalRack));
 
-        //TODO break out into separate method
-        //tilts then mirrors board, writes a horizontal word to it, then mirrors and tilts it back
-        verticalBoard.tiltPiHalf(verticalBoard);
-        verticalBoard.mirrorAroundCol7(verticalBoard);
-        verticalBoard.copyBoardCells(scrabbleWord(verticalBoard,verticalRack));
-        verticalBoard.mirrorAroundCol7(verticalBoard);
-        verticalBoard.tilt3PiHalf(verticalBoard);
+        makeHorizontalBoard(horizontalBoard,horizontalRack);
+        makeVerticalBoard(verticalBoard,verticalRack);
+        chooseBoard(horizontalBoard,horizontalRack,verticalBoard,verticalRack,board);
+    }
 
+    //selects the best board to play
+    private void chooseBoard(Board horizontalBoard, Rack horizontalRack, Board verticalBoard, Rack verticalRack, Board board) {
         if (horizontalBoard.countPoints(board)>verticalBoard.countPoints(board)){
             board.copyBoardCells(horizontalBoard);
             rack.getRackCopy(horizontalRack);
@@ -102,6 +144,19 @@ public class Bot implements IPlayers {
         }
     }
 
+    //writes a horizontal word to board
+    private void makeHorizontalBoard(Board horizontalBoard, Rack horizontalRack) {
+        horizontalBoard.copyBoardCells(scrabbleWord(horizontalBoard,horizontalRack));
+    }
+
+    //tilts then mirrors board, writes a horizontal word to it, then mirrors and tilts it back
+    private void makeVerticalBoard(Board verticalBoard, Rack verticalRack) {
+        verticalBoard.tiltPiHalf(verticalBoard);
+        verticalBoard.mirrorAroundCol7(verticalBoard);
+        verticalBoard.copyBoardCells(scrabbleWord(verticalBoard,verticalRack));
+        verticalBoard.mirrorAroundCol7(verticalBoard);
+        verticalBoard.tilt3PiHalf(verticalBoard);
+    }
     //Prints the board for debugging purposes
     private void printBoard(Board board) {
         char[][] boardPrint = new char[15][15];
@@ -206,6 +261,7 @@ public class Bot implements IPlayers {
     }
 
     //TODO Sleep, then fix this
+    //returns the first index of the rack containing a given char
     private int getRackIndex(Rack tempRack, char c){
         int index = 0;
         for (Tile t : tempRack.getTiles()) {
@@ -314,6 +370,7 @@ public class Bot implements IPlayers {
     }
 
     //TODO first word is longest word not highest scoring word, should be the other way around.
+    //Takes an empty board, returns a board with a play in the middle
     private Board takeFirstTurn(Board board) {
         //Temporary boards and racks for comparison
         Board bestBoard = new Board();
