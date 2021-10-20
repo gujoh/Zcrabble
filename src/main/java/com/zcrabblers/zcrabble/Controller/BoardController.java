@@ -449,8 +449,8 @@ public class BoardController implements Initializable, ILetterObservable {
     // sets the images on the board based on the model
     //TODO: use cached map instead of reading a file
     private void setBoardImages(){
-                int y = 0;
-                int x = 0;
+        int y = 0;
+        int x = 0;
         for (CellView cellView : cellList) {
             if (game.getBoard().isCellEmpty(y, x)) {
                 cellView.changeToDefaultImage();
@@ -469,9 +469,7 @@ public class BoardController implements Initializable, ILetterObservable {
                 x = 0;
             }
             if (y > 14) y = 0;
-            //y = y >= 14 ? 0 : ++y;
         }
-
     }
 
     //Converts an index in a 2D array to an index in a 1D array.
@@ -635,6 +633,12 @@ public class BoardController implements Initializable, ILetterObservable {
         tutorialPane.toBack();
     }
 
+    @FXML private void returnToRack(){
+        game.returnTilesToRack();
+        setRackImages();
+        setBoardImages();
+    }
+
     // Init the popup pane where the user can exchange their tile for new ones.
     private void initSwapPane(){
         int tileSideLength = 45;
@@ -664,9 +668,7 @@ public class BoardController implements Initializable, ILetterObservable {
     // Open the exchange tiles pane.
     @FXML private void openSwapPane(){
         //swapTilesPane.setVisible(true);
-        game.returnTilesToRack();
-        setRackImages();
-        setBoardImages();
+        returnToRack();
         swapTilesPane.toFront();
         for (int i = 0; i < rackList.size(); i++) {
             ImageView img = swapTileList.get(i);
