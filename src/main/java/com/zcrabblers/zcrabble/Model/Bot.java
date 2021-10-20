@@ -81,10 +81,11 @@ public class Bot implements IPlayers {
         verticalBoard.copyBoardCells(board);
 
         //TODO break out into separate method
+        //writes a horizontal word to board
         horizontalBoard.copyBoardCells(scrabbleWord(horizontalBoard,horizontalRack));
 
         //TODO break out into separate method
-        printRack(verticalRack);
+        //tilts then mirrors board, writes a horizontal word to it, then mirrors and tilts it back
         verticalBoard.tiltPiHalf(verticalBoard);
         verticalBoard.mirrorAroundCol7(verticalBoard);
         verticalBoard.copyBoardCells(scrabbleWord(verticalBoard,verticalRack));
