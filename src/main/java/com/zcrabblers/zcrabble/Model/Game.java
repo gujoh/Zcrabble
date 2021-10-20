@@ -7,11 +7,11 @@ public class Game implements ITurnObservable {
 
     private List<IPlayers> players;
     private IPlayers current;
-    private Board board;
-    private Board tempBoard;
-    private TileBag tileBag;
-    private int nrPLayers;
-    private int nrBots;
+    private final Board board;
+    private final Board tempBoard;
+    private final TileBag tileBag;
+    private final int nrPLayers;
+    private final int nrBots;
     private List<CellTuple> boardList = new ArrayList<>();
     private final LetterObserver observer = new LetterObserver();
     private int passCounter;
@@ -50,15 +50,16 @@ public class Game implements ITurnObservable {
             current.fillRack(tileBag);
             current = getNextPlayer();
             observer.notifySubscribers(tempBoard.getNewCells(board), isGameOver());
+            board.copyBoardCells(tempBoard,false);
             //System.out.println(tempBoard.getNewCells(board).size());
             board.copyBoardCells(tempBoard,false);
             boardList.clear();
-            current.beginTurn(tempBoard);
-            //System.out.println(players.indexOf(current));
+            if(!isGameOver()){
+                current.beginTurn(tempBoard);
+            }
             return true;
         }
         else {
-            //System.out.println("WRONG WORD");
             return false;
         }
 
@@ -175,7 +176,6 @@ public class Game implements ITurnObservable {
      */
     public void switchRackBoardCells(int rackX, int boardY, int boardX) {
         Tile tile = tempBoard.getTile(boardY, boardX);
-        //System.out.println("From: " + tile.getLetter());
         tempBoard.placeTile(boardY, boardX, current.getRackTile(rackX));
         current.placeRackTile(rackX, tile);
     }
