@@ -2,7 +2,6 @@ package com.zcrabblers.zcrabble.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -517,5 +516,7 @@ public class Board {
     private static boolean containsLetter (Board board,int row, int col){
         return board.getBoardCells()[row][col].getPlacedTile().getLetter() != ' ';
     }
+
+
 }
 
