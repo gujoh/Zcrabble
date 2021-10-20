@@ -3,7 +3,7 @@ package com.zcrabblers.zcrabble.Model;
 import java.util.*;
 
 
-//TODO Make the bot evaluate words by score, not by length. "A well-contested Scrabble game should end with around 600 to 700 total points" for now it's closer to 400
+//TODO Make the bot evaluate words by score, not by length. "A well-contested Scrabble game should end with around 600 to 700 total points" Now it is 600! HUZZA!
 //TODO Functional decomposition on everything, but particularly scrabbleWord
 //TODO comment and test everything, tidy up.
 //TODO make bot faster!
@@ -11,6 +11,10 @@ import java.util.*;
 //TODO different difficulty levels
 //TODO what happens if the bot makes a mistake?
 
+
+/**
+ * Bot takes a Board and makes a play on it
+ */
 public class Bot implements IPlayers {
 
     private int score;
@@ -18,12 +22,6 @@ public class Bot implements IPlayers {
     private static final Dictionary dict = Dictionary.getInstance();
     private final TurnObserver observer = new TurnObserver();
 
-    /**
-     * ZcrabbleBot takes a Board and makes a play on it
-     * @param score the bots score
-     * @param rack  the bots rack
-     * @param sub
-     */
     public Bot(int score, Rack rack, ITurnObservable sub){
         this.score = score;
         this.rack = rack;
@@ -99,7 +97,7 @@ public class Bot implements IPlayers {
     public void beginTurn(Board board) {
 
         if (board.getBoardCells()[7][7].isEmpty()){
-            board.copyBoardCells(takeFirstTurn(board));
+            board.copyBoardCells(takeFirstTurn(board),true);
         }else {
             takeTurn(board);
         }
@@ -122,9 +120,9 @@ public class Bot implements IPlayers {
         verticalRack.getRackCopy(rack);
 
         Board horizontalBoard = new Board();
-        horizontalBoard.copyBoardCells(board);
+        horizontalBoard.copyBoardCells(board,true);
         Board verticalBoard = new Board();
-        verticalBoard.copyBoardCells(board);
+        verticalBoard.copyBoardCells(board,true);
 
 
         makeHorizontalBoard(horizontalBoard,horizontalRack);
@@ -135,25 +133,25 @@ public class Bot implements IPlayers {
     //selects the best board to play
     private void chooseBoard(Board horizontalBoard, Rack horizontalRack, Board verticalBoard, Rack verticalRack, Board board) {
         if (horizontalBoard.countPoints(board)>verticalBoard.countPoints(board)){
-            board.copyBoardCells(horizontalBoard);
+            board.copyBoardCells(horizontalBoard,true);
             rack.getRackCopy(horizontalRack);
 
         }else {
-            board.copyBoardCells(verticalBoard);
+            board.copyBoardCells(verticalBoard,true);
             rack.getRackCopy(verticalRack);
         }
     }
 
     //writes a horizontal word to board
     private void makeHorizontalBoard(Board horizontalBoard, Rack horizontalRack) {
-        horizontalBoard.copyBoardCells(scrabbleWord(horizontalBoard,horizontalRack));
+        horizontalBoard.copyBoardCells(scrabbleWord(horizontalBoard,horizontalRack),true);
     }
 
     //tilts then mirrors board, writes a horizontal word to it, then mirrors and tilts it back
     private void makeVerticalBoard(Board verticalBoard, Rack verticalRack) {
         verticalBoard.tiltPiHalf(verticalBoard);
         verticalBoard.mirrorAroundCol7(verticalBoard);
-        verticalBoard.copyBoardCells(scrabbleWord(verticalBoard,verticalRack));
+        verticalBoard.copyBoardCells(scrabbleWord(verticalBoard,verticalRack),true);
         verticalBoard.mirrorAroundCol7(verticalBoard);
         verticalBoard.tilt3PiHalf(verticalBoard);
     }
@@ -183,9 +181,9 @@ public class Bot implements IPlayers {
         //Temporary boards and racks for comparison
 
         Board currentBoard = new Board();
-        currentBoard.copyBoardCells(board);
+        currentBoard.copyBoardCells(board,true);
         Board bestBoard = new Board();
-        bestBoard.copyBoardCells(board);
+        bestBoard.copyBoardCells(board,true);
         String bestWord = "";
         Rack tempRack = new Rack();
         tempRack.getRackCopy(rack1);
@@ -229,11 +227,11 @@ public class Bot implements IPlayers {
                         k++;
                     }
                     if (!currentBoard.botBoardCheck(currentBoard)) {
-                        currentBoard.copyBoardCells(board);
+                        currentBoard.copyBoardCells(board,true);
                         tempRack.getRackCopy(rack1);
                     } else {
-                        bestBoard.copyBoardCells(currentBoard);
-                        currentBoard.copyBoardCells(board);
+                        bestBoard.copyBoardCells(currentBoard,true);
+                        currentBoard.copyBoardCells(board,true);
                         bestWord = s;
                         bestRack.getRackCopy(tempRack);
                         tempRack.getRackCopy(rack1);
@@ -374,7 +372,7 @@ public class Bot implements IPlayers {
     private Board takeFirstTurn(Board board) {
         //Temporary boards and racks for comparison
         Board bestBoard = new Board();
-        bestBoard.copyBoardCells(board);
+        bestBoard.copyBoardCells(board,true);
         String bestWord = "";
 
         ArrayList<String> writable = canWrite(getRackString(rack));

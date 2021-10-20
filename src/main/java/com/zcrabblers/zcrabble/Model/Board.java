@@ -57,22 +57,25 @@ public class Board {
                     boardCells[i][j] = new Cell(word,letter, new Tile(' ',0));
                 }
             }
-        }
+    }
 
 
     /**
      * Copies the cells on a board
      * @param board the Board to be copied
      */
-    public void copyBoardCells(Board board){
+    public void copyBoardCells(Board board,boolean copyAllMultipliers){
         Cell[][] tempCell = new Cell[board.getBoardCells().length][board.getBoardCells()[0].length];
         for (int i = 0; i < board.getBoardCells().length; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
                 Cell newCell = board.getBoardCells()[i][j];
-                if(newCell.isEmpty()){
+                if (copyAllMultipliers){
                     tempCell[i][j] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
+                }else{
+                    if (newCell.isEmpty()) {
+                        tempCell[i][j] = new Cell(newCell.GetCellWordMultiplier(), newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
+                    } else tempCell[i][j] = new Cell(1, 1, newCell.getPlacedTile());
                 }
-                else tempCell[i][j] = new Cell(1,1, newCell.getPlacedTile());
             }
         }
         boardCells = tempCell;

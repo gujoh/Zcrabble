@@ -51,7 +51,7 @@ public class Game implements ITurnObservable {
             current = getNextPlayer();
             observer.notifySubscribers(tempBoard.getNewCells(board), isGameOver());
             //System.out.println(tempBoard.getNewCells(board).size());
-            board.copyBoardCells(tempBoard);
+            board.copyBoardCells(tempBoard,false);
             boardList.clear();
             current.beginTurn(tempBoard);
             //System.out.println(players.indexOf(current));
