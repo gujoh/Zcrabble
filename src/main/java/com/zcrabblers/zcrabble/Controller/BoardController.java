@@ -39,8 +39,8 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Label p4Score;
     @FXML private AnchorPane newGameMenuBackground;
     @FXML private AnchorPane welcomeScreen;
-    @FXML private Spinner playerSpinner;
-    @FXML private Spinner botSpinner;
+    @FXML private Spinner<Integer> playerSpinner;
+    @FXML private Spinner<Integer> botSpinner;
     @FXML private AnchorPane invalidWordBackground;
     @FXML private Label needMorePlayersLabel;
     @FXML private TextArea tutorialTextArea;
@@ -54,9 +54,9 @@ public class BoardController implements Initializable, ILetterObservable {
     private List<ImageView> cellList = new ArrayList<>();
     private List<ImageView> rackList = new ArrayList<>();
     private List<ImageView> swapTileList = new ArrayList<>();
+    private List<Label> scoreLabelList = new ArrayList<>();
 
     private MenuController menuController;
-    private ArrayList<Label> scoreLabelList = new ArrayList<>();
 
     private final GameManager gameManager = GameManager.getInstance();
     private Game game;
@@ -105,7 +105,7 @@ public class BoardController implements Initializable, ILetterObservable {
         scoreLabelList.add(p4Score);
 
 
-        gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
+        gameManager.newGame(playerSpinner.getValue(), botSpinner.getValue());
         game = gameManager.getCurrentGame();
         game.addSubscriber(this);
 
@@ -485,7 +485,7 @@ public class BoardController implements Initializable, ILetterObservable {
                 scoreLabelList.get(i).setTextFill(Color.RED);
             }
             else scoreLabelList.get(i).setTextFill(Color.BLACK);
-            scoreLabelList.get(i).setText("P" + i + ": " + game.getPlayerScore(i));
+            scoreLabelList.get(i).setText("P" + (i+1) + ": " + game.getPlayerScore(i));
         }
     }
 
@@ -520,12 +520,12 @@ public class BoardController implements Initializable, ILetterObservable {
     //Amount of players is based on the spinner values in the new game menu.
     @FXML
     private void newGame() throws FileNotFoundException {
-        if((int)playerSpinner.getValue() + (int)botSpinner.getValue() <= 1){
+        if(playerSpinner.getValue() + botSpinner.getValue() <= 1){
             needMorePlayersLabel.setVisible(true);
         }
         else{
             needMorePlayersLabel.setVisible(false);
-            gameManager.newGame((int)playerSpinner.getValue(), (int)botSpinner.getValue());
+            gameManager.newGame(playerSpinner.getValue(), botSpinner.getValue());
             game = gameManager.getCurrentGame();
             game.addSubscriber(this);
             newGameMenuBackground.toBack();

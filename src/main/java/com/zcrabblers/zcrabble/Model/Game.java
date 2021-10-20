@@ -12,7 +12,7 @@ public class Game implements ITurnObservable {
     private final TileBag tileBag;
     private final int nrPLayers;
     private final int nrBots;
-    private List<CellTuple> boardList = new ArrayList<>();
+    //private List<CellTuple> boardList = new ArrayList<>();
     private final LetterObserver observer = new LetterObserver();
     private int passCounter;
 
@@ -51,9 +51,7 @@ public class Game implements ITurnObservable {
             current = getNextPlayer();
             observer.notifySubscribers(tempBoard.getNewCells(board), isGameOver());
             board.copyBoardCells(tempBoard,false);
-            //System.out.println(tempBoard.getNewCells(board).size());
-            board.copyBoardCells(tempBoard,false);
-            boardList.clear();
+            //boardList.clear();
             if(!isGameOver()){
                 current.beginTurn(tempBoard);
             }
