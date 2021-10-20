@@ -37,6 +37,7 @@ public class Game implements ITurnObservable {
 
     //TODO if checkBoard is false, rack and board should be reset. it can be done by playing with a copy of the rack and resetting tempBoard to board and tempRack to rack. Method rackCopy is added to rack to facilitate this.
     //TODO stop the game if someone wins, bots keep playing :(
+    @Override
     public boolean endTurn(){ // DISCUSS THIS.
         if (tempBoard.checkBoard(tempBoard, board)){
             int score = tempBoard.countPoints(board);
