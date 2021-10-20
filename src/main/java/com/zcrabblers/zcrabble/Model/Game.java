@@ -50,15 +50,14 @@ public class Game implements ITurnObservable {
             current.fillRack(tileBag);
             current = getNextPlayer();
             observer.notifySubscribers(tempBoard.getNewCells(board), isGameOver());
-            //System.out.println(tempBoard.getNewCells(board).size());
             board.copyBoardCells(tempBoard);
             boardList.clear();
-            current.beginTurn(tempBoard);
-            //System.out.println(players.indexOf(current));
+            if(!isGameOver()){
+                current.beginTurn(tempBoard);
+            }
             return true;
         }
         else {
-            //System.out.println("WRONG WORD");
             return false;
         }
 
