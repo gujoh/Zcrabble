@@ -1,6 +1,6 @@
 package com.zcrabblers.zcrabble.Model;
-import com.zcrabblers.zcrabble.Utils.RandomSeed;
 
+import com.zcrabblers.zcrabble.Utils.RandomSeed;
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
