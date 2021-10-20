@@ -430,8 +430,14 @@ public class BoardController implements Initializable, ILetterObservable {
     //Adds the correct images to the rack.
     private void setRackImages(){
         for(int i = 0; i < rackList.size(); i++){
+            Image image;
             try {
-                Image image = new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png"));
+                if(game.getRackLetter(i) == ' '){
+                    image = cellImageMap.get(11);
+                }
+                else{
+                    image = new Image(new FileInputStream(IMAGE_PATH + game.getRackLetter(i) + ".png"));
+                }
                 rackList.get(i).setImage(image);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -453,7 +459,13 @@ public class BoardController implements Initializable, ILetterObservable {
         for (CellTuple cell : boardList){
             try {
                 ImageView currentCell = cellList.get(coordinateToIndex(cell.getI(), cell.getJ()));
-                currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
+                if(cell.getCell().getTileLetter() == ' '){
+                    currentCell.setImage(cellImageMap.get(11));
+                }
+                else{
+                    currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
+                }
+
                 //TODO: Make this work with Letter instead of char (see comment below)
                 //cellList.get(coordinateToIndex(cell.getI(), cell.getJ())).setImage(tileImageMap.get(cell.getCell().getTileLetter()));
                 currentCell.toBack();  //Calling toFront and toBack to force a repaint of this object. Does not work otherwise.
