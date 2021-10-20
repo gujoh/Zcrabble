@@ -458,6 +458,7 @@ public class Board {
     private  boolean checkCoherence(Board board){
         List<CellTuple> newCells = getNewCells(board);
 
+        //If there are no new cells then the turn counts as a pass, and there is nothing to check.
         if(newCells.size() == 0){
             return true;
         }
@@ -492,9 +493,9 @@ public class Board {
         //columns are valid, and there is a letter in the middle cell, then the play is valid.
         if(oldCellCount > 0 && rowOrColValid && containsLetter(this,7,7)){
             return true;
-        } //TODO: you can currently play two  valid words that arent connected on the first turn, FIX
+        }
         else{ //If it is the first round of play, oldCellCount will be 0 and there will not be a tile on the middle cell.
-            return oldCellCount == 0 && board.isCellEmpty(7, 7) && containsLetter(this, 7, 7);
+            return oldCellCount == 0 && rowOrColValid && board.isCellEmpty(7, 7) && containsLetter(this, 7, 7);
         }
     }
 
