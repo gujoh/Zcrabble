@@ -51,7 +51,7 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Label winnerLabel;
     @FXML private Button swapButton;
 
-    private List<ImageView> cellList = new ArrayList<>();
+    private List<CellView> cellList = new ArrayList<>();
     private List<ImageView> rackList = new ArrayList<>();
     private List<ImageView> swapTileList = new ArrayList<>();
 
@@ -255,6 +255,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     switchImages(cellView);
                 }
                 dragImageView.setVisible(false);
+                selection.setSelectedOpacity(1);
                 selection.unSelect();
             }else{
                 if(game.isBoardCellEmpty(y, x) && !game.isTempCellEmpty(y, x)){
@@ -270,6 +271,8 @@ public class BoardController implements Initializable, ILetterObservable {
                     dragImageView.setY(p2.getY());
                     dragImageView.setImage(selection.getSelectedImage());
                     dragImageView.setVisible(true);
+
+                    cellView.setOpacity(0.25);
                 }
             }
         });
@@ -315,6 +318,7 @@ public class BoardController implements Initializable, ILetterObservable {
                     }
                 }
                 dragImageView.setVisible(false);
+                selection.setSelectedOpacity(1);
                 selection.unSelect();
             }else{
                 if(!game.isRackEmpty(x)){
@@ -329,6 +333,8 @@ public class BoardController implements Initializable, ILetterObservable {
                     dragImageView.setY(p2.getY());
                     dragImageView.setImage(selection.getSelectedImage());
                     dragImageView.setVisible(true);
+
+                    cellView.setOpacity(0.25);
                 }
             }
         });
@@ -421,6 +427,7 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     //Adds the correct images to the rack.
+    //TODO: use cached map instead of reading a file
     private void setRackImages(){
         for(int i = 0; i < rackList.size(); i++){
             Image image;
@@ -436,6 +443,34 @@ public class BoardController implements Initializable, ILetterObservable {
                 e.printStackTrace();
             }
         }
+    }
+
+    // sets the images on the board based on the model
+    //TODO: use cached map instead of reading a file
+    private void setBoardImages(){
+                int y = 0;
+                int x = 0;
+        for (CellView cellView : cellList) {
+            if (game.getBoard().isCellEmpty(y, x)) {
+                cellView.changeToDefaultImage();
+            } else {
+                Image img;
+                try {
+                    img = new Image(new FileInputStream(IMAGE_PATH + game.getBoard().getTile(y, x).getLetter() + ".png"));
+                } catch (FileNotFoundException e) {
+                    img = cellImageMap.get(11);
+                }
+                cellView.setImage(img);
+            }
+            x++;
+            if (x > 14) {
+                y++;
+                x = 0;
+            }
+            if (y > 14) y = 0;
+            //y = y >= 14 ? 0 : ++y;
+        }
+
     }
 
     //Converts an index in a 2D array to an index in a 1D array.
@@ -647,6 +682,8 @@ public class BoardController implements Initializable, ILetterObservable {
             return;
         }
         game.returnTilesToRack();
+        setRackImages();
+        setBoardImages();
         swapTilesPane.toFront();
         for (int i = 0; i < rackList.size(); i++) {
             ImageView img = swapTileList.get(i);
