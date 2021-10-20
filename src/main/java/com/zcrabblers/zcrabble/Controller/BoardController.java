@@ -65,10 +65,6 @@ public class BoardController implements Initializable, ILetterObservable {
     private final static int IMAGE_SIZE = 33;
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
 
-    private boolean draggedFromRack;
-    private int startX;
-    private int startY;
-
     Map<Letter, Image> tileImageMap = new HashMap<>();
     Map<Integer, Image> cellImageMap = new HashMap<>();
 
@@ -112,10 +108,6 @@ public class BoardController implements Initializable, ILetterObservable {
         game = gameManager.getCurrentGame();
         game.addSubscriber(this);
 
-//        endTurnButton.setOnAction(actionEvent -> {
-//            gameManager.getCurrentGame().endTurn();
-//        });
-
         updateScores();
         updateTilesLeft();
 
@@ -138,7 +130,6 @@ public class BoardController implements Initializable, ILetterObservable {
     public void populate() throws FileNotFoundException {
         populateBoard();
         populateRack();
-        //makeOneTestTile();
         initDragTile();
         registerBoardEvents(gameAnchor);
     }
@@ -479,7 +470,6 @@ public class BoardController implements Initializable, ILetterObservable {
             showWinnerPane(game.getWinner());
         }
 
-        //System.out.println("update");
         updateScores();
         updateTilesLeft();
         setRackImages();
@@ -639,8 +629,8 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     // Open the exchange tiles pane.
-    @FXML private void openSwapPane(){
-        //swapTilesPane.setVisible(true);
+    @FXML
+    private void openSwapPane(){
         game.returnTilesToRack();
         swapTilesPane.toFront();
         for (int i = 0; i < rackList.size(); i++) {
@@ -650,13 +640,14 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     // Close the exchange tiles pane.
-    @FXML private void closeSwapPane(){
-        //swapTilesPane.setVisible(false);
+    @FXML
+    private void closeSwapPane(){
         swapTilesPane.toBack();
     }
 
     // Exchange tiles in the model after it is confirmed by the user in the swapTilesPane.
-    @FXML private void swapPaneSwap(){
+    @FXML
+    private void swapPaneSwap(){
         for (CellView cV : mSelection.getSelected()) {
             int index = (int) (cV.getX() - swapTileList.get(0).getX());
             index /= 50;
