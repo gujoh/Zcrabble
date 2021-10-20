@@ -1,14 +1,10 @@
 package com.zcrabblers.zcrabble;
 
-import com.zcrabblers.zcrabble.Model.GameManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
 
