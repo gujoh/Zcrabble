@@ -173,7 +173,7 @@ public class Bot implements IPlayers {
                         writeToBoard(getRackIndex(tempRack,s.charAt(k)), row, i, currentBoard,tempRack);
                         k++;
                     }
-                    if (!currentBoard.checkBoard(currentBoard, board)) {
+                    if (!currentBoard.botBoardCheck(currentBoard)) {
                         currentBoard.copyBoardCells(board);
                         tempRack.getRackCopy(rack1);
                     } else {

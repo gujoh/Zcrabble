@@ -12,7 +12,7 @@ import java.util.Scanner;
 // - BoardChecks, for all validations of a board
 // - Scoring, for all methods that help score a given play
 // - Board, for the obvious board stuff
-
+//TODO make board tests faster
 /**
  *The board on which the game is played, it's made up of a matrix of cells
  * @see Cell
@@ -376,6 +376,9 @@ public class Board {
 
     //TODO containsLetter should be replaced with isCellEmpty in all methods, no point in keeping both.
 
+    public boolean botBoardCheck(Board board){
+        return checkCol(board);
+    }
     /**
      * Checks that all words on the board is valid and connected to each other
      * @param board
