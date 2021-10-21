@@ -60,6 +60,7 @@ public class BoardController implements Initializable, ILetterObservable {
     private List<Label> scoreLabelList = new ArrayList<>();
     private List<Button> buttonsChangedBySkinsList = new ArrayList<>();
 
+
     private MenuController menuController;
 
     private final GameManager gameManager = GameManager.getInstance();
@@ -101,10 +102,10 @@ public class BoardController implements Initializable, ILetterObservable {
         initSwapPane();
         initLists();
 
+
         menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
         needMorePlayersLabel.setVisible(false);
-
         gameManager.newGame(playerSpinner.getValue(), botSpinner.getValue());
         game = gameManager.getCurrentGame();
         game.addSubscriber(this);
@@ -762,5 +763,6 @@ public class BoardController implements Initializable, ILetterObservable {
             button.setStyle("-fx-background-color: #fff200");
             button.setTextFill(Color.BLACK);
         }
+
     }
 }

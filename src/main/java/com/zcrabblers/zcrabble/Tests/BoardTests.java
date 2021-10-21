@@ -1,5 +1,6 @@
 package com.zcrabblers.zcrabble.Tests;
 
+
 import com.zcrabblers.zcrabble.Model.GameBoard.Board;
 import com.zcrabblers.zcrabble.Model.GameBoard.Cell;
 import com.zcrabblers.zcrabble.Model.GameBoard.CellTuple;
@@ -9,15 +10,16 @@ import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+
 public class BoardTests {
     @Test
-    public void testSize() throws FileNotFoundException {
+    public void testSize() {
         Board board = new Board();
         assertEquals(15, board.getBoardCells()[0].length);
     }
 
     @Test
-    public void testCalculateScore() throws FileNotFoundException {
+    public void testCalculateScore() {
         Board board = new Board();
         for(int i = 0; i < board.getBoardCells().length; i++){
             for(int j = 0; j < board.getBoardCells().length; j++)
@@ -41,7 +43,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard1() throws FileNotFoundException {
+    public void TestBoard1()  {
         Board board = new Board();
         board.placeTile(1,5,new Tile('A',2));
         board.placeTile(1,6,new Tile('B',2));
@@ -83,7 +85,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard2() throws FileNotFoundException {
+    public void TestBoard2()  {
         Board board = new Board();
         board.placeTile(1,5,new Tile('A',2));
         board.placeTile(2,5,new Tile('B',2));
@@ -146,7 +148,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard3() throws FileNotFoundException {
+    public void TestBoard3() {
         Board board = new Board();
         board.placeTile(1,5,new Tile('A',2));
         board.placeTile(2,5,new Tile('B',2));
@@ -220,7 +222,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard4() throws FileNotFoundException {
+    public void TestBoard4() {
         Board board = new Board();
         board.placeTile(0,0,new Tile('A',2));
         board.placeTile(0,1,new Tile('B',2));
@@ -250,7 +252,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard5() throws FileNotFoundException {
+    public void TestBoard5() {
         Board board = new Board();
         board.placeTile(14,14,new Tile('A',2));
         board.placeTile(14,13,new Tile('B',2));
@@ -280,7 +282,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard6() throws FileNotFoundException {
+    public void TestBoard6() {
         Board board = new Board();
         board.placeTile(14,12,new Tile('C',2));
         board.placeTile(14,11,new Tile('D',2));
@@ -303,7 +305,7 @@ public class BoardTests {
         assertEquals(48, points);
     }
     @Test
-    public void TestBoard7() throws FileNotFoundException {
+    public void TestBoard7() {
         Board board = new Board();
         board.placeTile(14,1,new Tile('C',2));
         board.placeTile(14,2,new Tile('D',2));
@@ -327,7 +329,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestRemoveTile() throws FileNotFoundException {
+    public void TestRemoveTile() {
         Board board = new Board();
         board.placeTile(14,14,new Tile('S',2));
         assertEquals('S', board.getTile(14, 14).getLetter());
@@ -337,7 +339,7 @@ public class BoardTests {
     }
 
     @Test
-    public void testSwitchTile() throws FileNotFoundException {
+    public void testSwitchTile() {
         Board board = new Board();
         board.placeTile(14,14,new Tile('S',2));
         board.placeTile(13,13,new Tile('A',7));
@@ -354,7 +356,7 @@ public class BoardTests {
         assertNotNull(cell);
     }
     @Test
-    public void testGetNewCells() throws FileNotFoundException {
+    public void testGetNewCells() {
         Board board = new Board();
 
         board.placeTile(14,12,new Tile('C',2));
@@ -457,6 +459,7 @@ public class BoardTests {
             line = new StringBuilder();
         }
     }
+
     public void printBoardPoints(Board pBoard){
         StringBuilder line = new StringBuilder();
         for(int i = 0; i < pBoard.getBoardCells().length; i++){
@@ -473,7 +476,7 @@ public class BoardTests {
     /*---- BoardCheckTests below ----*/
 
     @Test
-    public void testRowCheck() throws FileNotFoundException {
+    public void testRowCheck() {
         Board board = new Board();
 
         board.placeTile(7, 4, new Tile('S', 2));

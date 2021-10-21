@@ -47,6 +47,7 @@ public class MenuController extends AnchorPane {
     }
 
     //Calls openTutorialPane in parentController (BoardController).
+
     @FXML
     private void openTutorialPane(){
         parentController.openTutorialPane();
@@ -58,7 +59,6 @@ public class MenuController extends AnchorPane {
         parentController.setWindowSize(1.03); //1 does not work on Windows for some reason. 1.03 is the smallest number that works.
     }
 
-    //Calls setWindowSize in parentController (BoardController). Sets the window size to 1.03 * initial size.
     @FXML
     private void setWindowSize125(){
         parentController.setWindowSize(1.25);
@@ -69,6 +69,7 @@ public class MenuController extends AnchorPane {
     private void setWindowSize150(){
         parentController.setWindowSize(1.5);
     }
+
 
     //Calls setWindowSize in parentController (BoardController). Sets the window size to 1.7 * initial size.
     @FXML
