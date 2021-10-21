@@ -1,6 +1,6 @@
 package com.zcrabblers.zcrabble.Tests;
 
-import com.zcrabblers.zcrabble.Model.Player;
+import com.zcrabblers.zcrabble.Model.Players.Player;
 import com.zcrabblers.zcrabble.Model.Rack;
 import com.zcrabblers.zcrabble.Model.Tile;
 import com.zcrabblers.zcrabble.Model.TileBag;

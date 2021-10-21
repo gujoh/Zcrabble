@@ -1,5 +1,8 @@
 package com.zcrabblers.zcrabble.Model;
 
+import com.zcrabblers.zcrabble.Model.Players.IPlayers;
+import com.zcrabblers.zcrabble.Model.Players.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
