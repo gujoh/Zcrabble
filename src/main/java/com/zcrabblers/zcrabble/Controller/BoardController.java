@@ -1,6 +1,7 @@
 package com.zcrabblers.zcrabble.Controller;
 
 import com.zcrabblers.zcrabble.Model.*;
+import com.zcrabblers.zcrabble.Model.Observers.ILetterObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
