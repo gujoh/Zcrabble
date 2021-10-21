@@ -1,7 +1,5 @@
-package com.zcrabblers.zcrabble.Controller;
+package com.zcrabblers.zcrabble.controller;
 
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 
 public class Selection {
