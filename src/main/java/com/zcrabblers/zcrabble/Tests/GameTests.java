@@ -1,6 +1,7 @@
 package com.zcrabblers.zcrabble.Tests;
 
 import com.zcrabblers.zcrabble.Model.*;
+import com.zcrabblers.zcrabble.Model.Players.IPlayers;
 import org.junit.Test;
 
 import java.util.List;
