@@ -1,4 +1,4 @@
-package com.zcrabblers.zcrabble.Controller;
+package com.zcrabblers.zcrabble.controller;
 
 import com.zcrabblers.zcrabble.Model.*;
 import com.zcrabblers.zcrabble.Model.GameBoard.CellTuple;

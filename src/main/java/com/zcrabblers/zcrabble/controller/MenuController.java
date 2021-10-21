@@ -1,4 +1,4 @@
-package com.zcrabblers.zcrabble.Controller;
+package com.zcrabblers.zcrabble.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,7 +49,7 @@ public class MenuController extends AnchorPane {
 
     @FXML
     private void setWindowSize100(){
-        parentController.setWindowSize(1);
+        parentController.setWindowSize(1.03);
     }
 
     @FXML

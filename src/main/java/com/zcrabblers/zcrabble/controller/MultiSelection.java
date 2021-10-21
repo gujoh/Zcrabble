@@ -1,4 +1,4 @@
-package com.zcrabblers.zcrabble.Controller;
+package com.zcrabblers.zcrabble.controller;
 
 import javafx.scene.image.Image;
 
