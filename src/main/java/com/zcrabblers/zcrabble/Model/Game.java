@@ -1,5 +1,9 @@
 package com.zcrabblers.zcrabble.Model;
 
+import com.zcrabblers.zcrabble.Model.Observers.ILetterObservable;
+import com.zcrabblers.zcrabble.Model.Observers.ITurnObservable;
+import com.zcrabblers.zcrabble.Model.Observers.LetterObserver;
+import com.zcrabblers.zcrabble.Model.Players.Bot;
 import com.zcrabblers.zcrabble.Model.Players.IPlayers;
 import com.zcrabblers.zcrabble.Model.Players.Player;
 
