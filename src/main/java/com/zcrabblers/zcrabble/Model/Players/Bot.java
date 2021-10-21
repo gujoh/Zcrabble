@@ -163,6 +163,7 @@ public class Bot implements IPlayers {
         verticalBoard.mirrorAroundCol7(verticalBoard);
         verticalBoard.tilt3PiHalf(verticalBoard);
     }
+
     //Prints the board for debugging purposes
     private void printBoard(Board board) {
         char[][] boardPrint = new char[15][15];
@@ -225,13 +226,17 @@ public class Bot implements IPlayers {
                 for (String s : writable) {
                     tempRack.getRackCopy(rack1);
                     int j = 0;
+                    System.out.println(s);
                     for (int i = col - s.indexOf(letters.toString()); i < col; i++) {
                         writeToBoard(getRackIndex(tempRack,s.charAt(j)), row, i, currentBoard, tempRack);
+                        printRack(tempRack);
                         j++;
                     }
                     int k = s.indexOf(String.valueOf(letters)) + letters.length();
+
                     for (int i = col + letters.length(); i < col + s.length() - s.indexOf(String.valueOf(letters)); i++) {
                         writeToBoard(getRackIndex(tempRack,s.charAt(k)), row, i, currentBoard,tempRack);
+                        printRack(tempRack);
                         k++;
                     }
                     if (!currentBoard.botBoardCheck(currentBoard)) {
@@ -257,12 +262,15 @@ public class Bot implements IPlayers {
     return bestBoard;//bestBoard;
     }
 
+    //TODO this was a quick fix, look over the reason for it
     //Switches place between a tile in a given position on a rack and a tile in a given position on a board.
     private  void writeToBoard(int rackX, int boardRow, int boardCol, Board board, Rack currentRack){
 
         Tile tile = board.getTile(boardCol, boardRow);
         board.placeTile(boardRow, boardCol, currentRack.getTile(rackX));
-        currentRack.set(rackX, tile);
+        if (tile.getLetter() == ' ') {
+            currentRack.set(rackX, tile);
+        }else{currentRack.set(rackX, new Tile(' ',0));}
 
     }
 
