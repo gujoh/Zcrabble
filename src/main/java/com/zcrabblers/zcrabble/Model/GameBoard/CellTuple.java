@@ -1,4 +1,7 @@
-package com.zcrabblers.zcrabble.Model;
+package com.zcrabblers.zcrabble.Model.GameBoard;
+
+import com.zcrabblers.zcrabble.Model.GameBoard.Cell;
+
 /**
  * a simple class to group a cell with its position
  */

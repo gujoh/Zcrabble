@@ -1,7 +1,10 @@
 package com.zcrabblers.zcrabble.Model.Players;
 
-import com.zcrabblers.zcrabble.Model.*;
 import com.zcrabblers.zcrabble.Model.Dictionary;
+import com.zcrabblers.zcrabble.Model.GameBoard.Board;
+import com.zcrabblers.zcrabble.Model.GameBoard.Rack;
+import com.zcrabblers.zcrabble.Model.GameBoard.Tile;
+import com.zcrabblers.zcrabble.Model.GameBoard.TileBag;
 import com.zcrabblers.zcrabble.Model.Observers.ITurnObservable;
 import com.zcrabblers.zcrabble.Model.Observers.TurnObserver;
 

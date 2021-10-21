@@ -1,9 +1,9 @@
 package com.zcrabblers.zcrabble.Model.Players;
 
-import com.zcrabblers.zcrabble.Model.Board;
-import com.zcrabblers.zcrabble.Model.Rack;
-import com.zcrabblers.zcrabble.Model.Tile;
-import com.zcrabblers.zcrabble.Model.TileBag;
+import com.zcrabblers.zcrabble.Model.GameBoard.Board;
+import com.zcrabblers.zcrabble.Model.GameBoard.Rack;
+import com.zcrabblers.zcrabble.Model.GameBoard.Tile;
+import com.zcrabblers.zcrabble.Model.GameBoard.TileBag;
 
 public interface IPlayers {
     int getScore();

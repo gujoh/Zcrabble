@@ -1,6 +1,9 @@
 package com.zcrabblers.zcrabble.Tests;
 
 import com.zcrabblers.zcrabble.Model.*;
+import com.zcrabblers.zcrabble.Model.GameBoard.Board;
+import com.zcrabblers.zcrabble.Model.GameBoard.Rack;
+import com.zcrabblers.zcrabble.Model.GameBoard.Tile;
 import com.zcrabblers.zcrabble.Model.Players.IPlayers;
 import org.junit.Test;
 

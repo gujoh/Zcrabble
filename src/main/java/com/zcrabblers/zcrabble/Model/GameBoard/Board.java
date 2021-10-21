@@ -1,4 +1,6 @@
-package com.zcrabblers.zcrabble.Model;
+package com.zcrabblers.zcrabble.Model.GameBoard;
+
+import com.zcrabblers.zcrabble.Model.Dictionary;
 
 import java.io.File;
 import java.io.FileNotFoundException;

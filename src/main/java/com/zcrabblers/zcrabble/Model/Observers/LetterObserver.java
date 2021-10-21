@@ -1,6 +1,6 @@
 package com.zcrabblers.zcrabble.Model.Observers;
 
-import com.zcrabblers.zcrabble.Model.CellTuple;
+import com.zcrabblers.zcrabble.Model.GameBoard.CellTuple;
 
 import java.util.ArrayList;
 import java.util.List;

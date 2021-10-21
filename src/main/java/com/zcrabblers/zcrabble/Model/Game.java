@@ -1,5 +1,6 @@
 package com.zcrabblers.zcrabble.Model;
 
+import com.zcrabblers.zcrabble.Model.GameBoard.*;
 import com.zcrabblers.zcrabble.Model.Observers.ILetterObservable;
 import com.zcrabblers.zcrabble.Model.Observers.ITurnObservable;
 import com.zcrabblers.zcrabble.Model.Observers.LetterObserver;

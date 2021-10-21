@@ -1,9 +1,9 @@
 package com.zcrabblers.zcrabble.Tests;
 
 import com.zcrabblers.zcrabble.Model.Players.Player;
-import com.zcrabblers.zcrabble.Model.Rack;
-import com.zcrabblers.zcrabble.Model.Tile;
-import com.zcrabblers.zcrabble.Model.TileBag;
+import com.zcrabblers.zcrabble.Model.GameBoard.Rack;
+import com.zcrabblers.zcrabble.Model.GameBoard.Tile;
+import com.zcrabblers.zcrabble.Model.GameBoard.TileBag;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
