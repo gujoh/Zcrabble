@@ -1,8 +1,8 @@
 package com.zcrabblers.zcrabble.controller;
 
-import com.zcrabblers.zcrabble.Model.*;
-import com.zcrabblers.zcrabble.Model.GameBoard.CellTuple;
-import com.zcrabblers.zcrabble.Model.Observers.ILetterObservable;
+import com.zcrabblers.zcrabble.model.*;
+import com.zcrabblers.zcrabble.model.gameBoard.CellTuple;
+import com.zcrabblers.zcrabble.model.observers.ILetterObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
