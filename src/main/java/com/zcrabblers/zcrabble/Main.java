@@ -25,11 +25,10 @@ public class Main extends Application {
         stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/com/zcrabblers/zcrabble/Images/z.png"))));
         letterbox(scene, (AnchorPane) scene.getRoot());
         stage.show();
+        stage.setResizable(false);
     }
 
     public static void main(String[] args) {
-        //GameManager manager = new GameManager();
-
         launch();
     }
 
@@ -48,9 +47,9 @@ public class Main extends Application {
         private final double ratio;
         private final double initHeight;
         private final double initWidth;
-        private final Pane contentPane;
+        private final AnchorPane contentPane;
 
-        public SceneSizeChangeListener(Scene scene, double ratio, double initHeight, double initWidth, Pane contentPane) {
+        public SceneSizeChangeListener(Scene scene, double ratio, double initHeight, double initWidth, AnchorPane contentPane) {
             this.scene = scene;
             this.ratio = ratio;
             this.initHeight = initHeight;

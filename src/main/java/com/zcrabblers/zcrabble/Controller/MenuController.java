@@ -2,8 +2,6 @@ package com.zcrabblers.zcrabble.Controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
@@ -24,7 +22,8 @@ public class MenuController extends AnchorPane {
         }
     }
 
-    @FXML private void newGame(){
+    @FXML
+    private void newGame(){
         parentController.openNewGameMenu();
     }
 
@@ -46,5 +45,30 @@ public class MenuController extends AnchorPane {
     @FXML
     private void openTutorialPane(){
         parentController.openTutorialPane();
+    }
+
+    @FXML
+    private void setWindowSize100(){
+        parentController.setWindowSize(1);
+    }
+
+    @FXML
+    private void setWindowSize125(){
+        parentController.setWindowSize(1.25);
+    }
+
+    @FXML
+    private void setWindowSize150(){
+        parentController.setWindowSize(1.5);
+    }
+
+    @FXML
+    private void setWindowSize175(){
+        parentController.setWindowSize(1.7);
+    }
+
+    @FXML
+    private void setWindowSize200(){
+        parentController.setWindowSize(2);
     }
 }

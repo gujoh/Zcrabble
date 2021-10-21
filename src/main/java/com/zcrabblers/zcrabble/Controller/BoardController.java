@@ -49,6 +49,7 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane winnerPane;
     @FXML private Label winnerLabel;
     @FXML private Button swapButton;
+    @FXML private AnchorPane rootPane;
 
     private List<CellView> cellList = new ArrayList<>();
     private List<ImageView> rackList = new ArrayList<>();
@@ -710,6 +711,14 @@ public class BoardController implements Initializable, ILetterObservable {
         game.endTurn();
         closeSwapPane();
     }
+
+    void setWindowSize(double scaleFactor){
+        int initialWindowWidth = 600;
+        int initialWindowHeight = 628;
+        rootPane.getScene().getWindow().setWidth(initialWindowWidth * scaleFactor);
+        rootPane.getScene().getWindow().setHeight(initialWindowHeight * scaleFactor);
+    }
+
 
     //Sets the Zcrabble theme dark mode. Gets called from the MenuController class.
     void setDarkModeSkin(){

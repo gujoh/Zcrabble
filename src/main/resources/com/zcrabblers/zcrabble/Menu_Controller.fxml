@@ -13,16 +13,19 @@
             <items>
               <MenuItem fx:id="menuNewGame" mnemonicParsing="false" onAction="#newGame" text="New Game" />
                   <MenuItem fx:id="MenuEndGame" mnemonicParsing="false" text="End Game" />
-                  <Menu fx:id="MenuGameMode" mnemonicParsing="false" text="Game Mode">
-                    <items>
-                        <MenuItem fx:id="MenuGameModeNormal" mnemonicParsing="false" text="Normal" />
-                      <MenuItem fx:id="MenuGameModeSpeed" mnemonicParsing="false" text="Speed demon" />
-                    </items>
-                  </Menu>
             </items>
           </Menu>
           <Menu fx:id="MenuView" mnemonicParsing="false" text="View">
             <items>
+                  <Menu mnemonicParsing="false" text="Window size">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#setWindowSize100" text="100%" />
+                      <MenuItem mnemonicParsing="false" onAction="#setWindowSize125" text="125%" />
+                        <MenuItem mnemonicParsing="false" onAction="#setWindowSize150" text="150%" />
+                        <MenuItem mnemonicParsing="false" onAction="#setWindowSize175" text="175%" />
+                        <MenuItem mnemonicParsing="false" onAction="#setWindowSize200" text="200%" />
+                    </items>
+                  </Menu>
                   <Menu fx:id="MenuSkins" mnemonicParsing="false" text="Skinz">
                     <items>
                       <MenuItem fx:id="menuSkinsZcrabble" mnemonicParsing="false" onAction="#zcrabbleSkinOnClick" text="Zcrabble" />
