@@ -105,7 +105,7 @@ public class Rack {
      * Shuffles the current rack.
      */
     public void shuffleRack(){
-        Random rand = new Random(RandomSeed.INSTANCE.getSeed());
+        Random rand = RandomSeed.INSTANCE.getRandom();
         for(int i = 0; i < playerTiles.length - 2; i++){
             int randIndex = rand.nextInt(playerTiles.length);
             Tile temp = playerTiles[randIndex];

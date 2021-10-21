@@ -34,7 +34,7 @@ public class TileBag {
                 }
             }
             scanner.close();
-        Collections.shuffle(temp, new Random(RandomSeed.INSTANCE.getSeed()));
+        Collections.shuffle(temp, RandomSeed.INSTANCE.getRandom());
         bag.addAll(temp);
 
     }
