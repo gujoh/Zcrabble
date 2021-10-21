@@ -1,7 +1,7 @@
 package com.zcrabblers.zcrabble.Model;
 
-import java.io.FileNotFoundException;
-import java.util.List;
+import com.zcrabblers.zcrabble.Model.Game.Game;
+
 import java.util.Objects;
 
 // Is the class with the main responsibility over the model and starting new games

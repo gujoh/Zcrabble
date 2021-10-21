@@ -1,4 +1,4 @@
-package com.zcrabblers.zcrabble.Model;
+package com.zcrabblers.zcrabble.Model.Game;
 
 /**
  * keeps track of the individual cells, word and letter multiplier as well as its placed tile

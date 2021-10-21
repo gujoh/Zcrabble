@@ -1,6 +1,6 @@
 package com.zcrabblers.zcrabble.Tests;
 
-import com.zcrabblers.zcrabble.Model.Tile;
+import com.zcrabblers.zcrabble.Model.Game.Tile;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

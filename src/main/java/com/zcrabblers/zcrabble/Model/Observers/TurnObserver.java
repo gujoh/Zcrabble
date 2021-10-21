@@ -1,4 +1,4 @@
-package com.zcrabblers.zcrabble.Model;
+package com.zcrabblers.zcrabble.Model.Observers;
 
 import java.util.ArrayList;
 import java.util.List;

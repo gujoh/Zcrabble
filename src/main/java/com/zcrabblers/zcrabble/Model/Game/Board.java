@@ -1,4 +1,7 @@
-package com.zcrabblers.zcrabble.Model;
+package com.zcrabblers.zcrabble.Model.Game;
+
+import com.zcrabblers.zcrabble.Model.CellTuple;
+import com.zcrabblers.zcrabble.Model.Dictionary;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -329,7 +332,7 @@ public class Board {
      * First row is first column, first column is last row
      * @param board the Board to be tilted.
      */
-     void tilt3PiHalf(Board board){
+     public void tilt3PiHalf(Board board){
         Cell[][] tempCell = new Cell[board.getBoardCells()[0].length][board.getBoardCells().length];
         for (int i = 0; i <board.getBoardCells().length ; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
@@ -345,7 +348,7 @@ public class Board {
      * First row is first column, first column is last row
      * @param board the Board to be tilted.
      */
-     void tiltPiHalf(Board board){
+     public void tiltPiHalf(Board board){
 
         Cell[][] tempCell = new Cell[board.getBoardCells()[0].length][board.getBoardCells().length];
         for (int i = 0; i <board.getBoardCells().length ; i++) {
@@ -362,7 +365,7 @@ public class Board {
      * first row is last row, last row is first row, col is col
      * @param board the Board to be mirrored
      */
-     void mirrorAroundCol7(Board board){
+     public void mirrorAroundCol7(Board board){
 
         Cell[][] tempCell = new Cell[board.getBoardCells()[0].length][board.getBoardCells().length];
         for (int i = 0; i <board.getBoardCells().length ; i++) {

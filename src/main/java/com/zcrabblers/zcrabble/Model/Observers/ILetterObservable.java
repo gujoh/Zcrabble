@@ -1,4 +1,6 @@
-package com.zcrabblers.zcrabble.Model;
+package com.zcrabblers.zcrabble.Model.Observers;
+
+import com.zcrabblers.zcrabble.Model.CellTuple;
 
 import java.util.List;
 

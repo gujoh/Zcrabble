@@ -1,14 +1,12 @@
 package com.zcrabblers.zcrabble.Tests;
 
-import com.zcrabblers.zcrabble.Model.Board;
-import com.zcrabblers.zcrabble.Model.Cell;
+import com.zcrabblers.zcrabble.Model.Game.Board;
+import com.zcrabblers.zcrabble.Model.Game.Cell;
 import com.zcrabblers.zcrabble.Model.CellTuple;
-import com.zcrabblers.zcrabble.Model.Tile;
-import org.junit.Assert;
+import com.zcrabblers.zcrabble.Model.Game.Tile;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BoardTests {
