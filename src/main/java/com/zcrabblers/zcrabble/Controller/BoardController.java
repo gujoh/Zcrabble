@@ -52,11 +52,13 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private Label winnerLabel;
     @FXML private Button swapButton;
     @FXML private AnchorPane rootPane;
+    @FXML private Button returnToRackButton;
 
     private List<CellView> cellList = new ArrayList<>();
     private List<ImageView> rackList = new ArrayList<>();
     private List<ImageView> swapTileList = new ArrayList<>();
     private List<Label> scoreLabelList = new ArrayList<>();
+    private List<Button> buttonsChangedBySkinsList = new ArrayList<>();
 
     private MenuController menuController;
 
@@ -97,15 +99,11 @@ public class BoardController implements Initializable, ILetterObservable {
         initImages();
         initPlayerSpinner();
         initSwapPane();
+        initLists();
 
         menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
         needMorePlayersLabel.setVisible(false);
-        scoreLabelList.add(p1Score);
-        scoreLabelList.add(p2Score);
-        scoreLabelList.add(p3Score);
-        scoreLabelList.add(p4Score);
-
 
         gameManager.newGame(playerSpinner.getValue(), botSpinner.getValue());
         game = gameManager.getCurrentGame();
@@ -141,6 +139,19 @@ public class BoardController implements Initializable, ILetterObservable {
     private void hideDragTile(){
         dragImageView.setVisible(false);
         //draggedFrom.setImage(dragImageView.getImage());
+    }
+
+    //Adds some buttons to a couple of lists.
+    private void initLists(){
+        scoreLabelList.add(p1Score);
+        scoreLabelList.add(p2Score);
+        scoreLabelList.add(p3Score);
+        scoreLabelList.add(p4Score);
+
+        buttonsChangedBySkinsList.add(shuffleButton);
+        buttonsChangedBySkinsList.add(swapButton);
+        buttonsChangedBySkinsList.add(returnToRackButton);
+        buttonsChangedBySkinsList.add(endTurnButton);
     }
 
     //Initializes the spinners that set the number of players and bots.
@@ -714,6 +725,7 @@ public class BoardController implements Initializable, ILetterObservable {
         closeSwapPane();
     }
 
+    //Sets the size of the GUI based on the scaleFactor.
     void setWindowSize(double scaleFactor){
         int initialWindowWidth = 600;
         int initialWindowHeight = 628;
@@ -726,35 +738,29 @@ public class BoardController implements Initializable, ILetterObservable {
     void setDarkModeSkin(){
         gameAnchor.setStyle("-fx-background-color: #808080");
         rackAnchor.setStyle("-fx-background-color: #000000");
-        shuffleButton.setStyle("fx-background-color: #ffffff");
-        shuffleButton.setTextFill(Color.WHITE);
-        endTurnButton.setStyle("fx-background-color: #ffffff");
-        endTurnButton.setTextFill(Color.WHITE);
-        swapButton.setStyle("fx-background-color: #ffffff");
-        swapButton.setTextFill(Color.WHITE);
+        for(Button button : buttonsChangedBySkinsList){
+            button.setStyle("fx-background-color: #ffffff");
+            button.setTextFill(Color.WHITE);
+        }
     }
 
     //Sets the Zcrabble theme the original Zcrabble skin. Gets called from the MenuController class.
     void setZcrabbleSkin(){
         gameAnchor.setStyle("-fx-background-color: #68BB59");
         rackAnchor.setStyle("-fx-background-color: #5C4425");
-        shuffleButton.setStyle("fx-background-color: #ffffff");
-        shuffleButton.setTextFill(Color.WHITE);
-        endTurnButton.setStyle("fx-background-color: #ffffff");
-        endTurnButton.setTextFill(Color.WHITE);
-        swapButton.setStyle("fx-background-color: #ffffff");
-        swapButton.setTextFill(Color.WHITE);
+        for(Button button : buttonsChangedBySkinsList){
+            button.setStyle("fx-background-color: #ffffff");
+            button.setTextFill(Color.WHITE);
+        }
     }
 
     //Sets the Zcrabble theme to cyberpunk. Gets called from the MenuController class.
     void setCyberpunkSkin(){
         gameAnchor.setStyle("-fx-background-color: #711c91");
         rackAnchor.setStyle("-fx-background-color: #133e7c");
-        shuffleButton.setStyle("-fx-background-color: #fff200");
-        shuffleButton.setTextFill(Color.BLACK);
-        endTurnButton.setStyle("-fx-background-color: #fff200");
-        endTurnButton.setTextFill(Color.BLACK);
-        swapButton.setStyle("-fx-background-color: #fff200");
-        swapButton.setTextFill(Color.BLACK);
+        for(Button button : buttonsChangedBySkinsList){
+            button.setStyle("-fx-background-color: #fff200");
+            button.setTextFill(Color.BLACK);
+        }
     }
 }
