@@ -1,5 +1,5 @@
 package com.zcrabblers.zcrabble.Tests;
-import com.zcrabblers.zcrabble.Model.TileBag;
+import com.zcrabblers.zcrabble.Model.GameBoard.TileBag;
 import org.junit.Test;
 import java.io.FileNotFoundException;
 
