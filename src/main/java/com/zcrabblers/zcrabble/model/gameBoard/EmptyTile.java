@@ -1,4 +1,4 @@
-package com.zcrabblers.zcrabble.Model.GameBoard;
+package com.zcrabblers.zcrabble.model.gameBoard;
 
 enum EmptyTile {
     INSTANCE;
