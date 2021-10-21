@@ -25,7 +25,6 @@ public class Main extends Application {
         stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/com/zcrabblers/zcrabble/Images/z.png"))));
         letterbox(scene, (AnchorPane) scene.getRoot());
         stage.show();
-        stage.setResizable(false);
     }
 
     public static void main(String[] args) {
