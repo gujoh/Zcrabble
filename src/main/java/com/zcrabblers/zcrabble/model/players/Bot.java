@@ -227,17 +227,14 @@ public class Bot implements IPlayers {
                     System.out.println(s);
                     tempRack.getRackCopy(rack1);
                     int j = 0;
-                    System.out.println(s);
                     for (int i = col - s.indexOf(letters.toString()); i < col; i++) {
                         writeToBoard(getRackIndex(tempRack,s.charAt(j)), row, i, currentBoard, tempRack);
-                        printRack(tempRack);
                         j++;
                     }
                     int k = s.indexOf(String.valueOf(letters)) + letters.length();
 
                     for (int i = col + letters.length(); i < col + s.length() - s.indexOf(String.valueOf(letters)); i++) {
                         writeToBoard(getRackIndex(tempRack,s.charAt(k)), row, i, currentBoard,tempRack);
-                        printRack(tempRack);
                         k++;
                     }
                     if (!currentBoard.botBoardCheck(currentBoard)) {
@@ -266,7 +263,6 @@ public class Bot implements IPlayers {
     //TODO bot can no longer copy letter tiles from board. Witch is good! However it should never try to either. the problem seems come from scrabbleWord. Also, the bot should never be able to steal random tiles in the first place.
     //Switches place between a tile in a given position on a rack and a tile in a given position on a board.
     private  void writeToBoard(int rackX, int boardRow, int boardCol, Board board, Rack currentRack){
-        System.out.println(boardRow+" "+boardCol);
         Tile tile = board.getTile(boardCol, boardRow);
         board.placeTile(boardRow, boardCol, currentRack.getTile(rackX));
         if (tile.getLetter() == ' ') {
