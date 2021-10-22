@@ -59,14 +59,14 @@ public class BoardController implements Initializable, ILetterObservable {
 
     private final GameManager gameManager = GameManager.getInstance();
     private Game game;
-    Selection selection = new Selection();
-    MultiSelection mSelection = new MultiSelection();
+    private final Selection selection = new Selection();
+    private final MultiSelection mSelection = new MultiSelection();
 
     private final static int IMAGE_SIZE = 33;
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
 
-    Map<Letter, Image> tileImageMap = new HashMap<>();
-    Map<Integer, Image> cellImageMap = new HashMap<>();
+    private final Map<Letter, Image> tileImageMap = new HashMap<>();
+    private final Map<Integer, Image> cellImageMap = new HashMap<>();
 
     //Images get added to a HashMap here.
     private void initImages(){

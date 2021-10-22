@@ -11,6 +11,9 @@ public class CellView extends ImageView {
         changeToDefaultImage();
     }
 
+    /**
+     * Change the current image displayed by the ImageView to the default image.
+     */
     public void changeToDefaultImage(){
         setImage(defaultImage);
     }
