@@ -401,7 +401,7 @@ public class Bot implements IPlayers {
     }
 
     /*--- Don't touch things below this line ---*
-
+    //TODO make a Map of Strings and CharCountMaps so that canWrite does not have to run getCharCountMap 270000*number of tiles on the board times.
     /*---   Takes in a string of letters and returns all dictionary words that can be written with them   ---*/
     private static ArrayList<String> canWrite (String letters){
             ArrayList<String> writableWords = new ArrayList<>();
