@@ -3,8 +3,6 @@ package com.zcrabblers.zcrabble.controller;
 import com.zcrabblers.zcrabble.model.*;
 import com.zcrabblers.zcrabble.model.gameBoard.CellTuple;
 import com.zcrabblers.zcrabble.model.observers.ILetterObservable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -12,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -28,7 +25,6 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane rackAnchor;
     @FXML private Rectangle rackRectangle;
     @FXML private ImageView dragImageView;
-    private CellView draggedFrom;
     @FXML private AnchorPane menuPane;
     @FXML private Button shuffleButton;
     @FXML private Button endTurnButton;
@@ -54,14 +50,12 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane rootPane;
     @FXML private Button returnToRackButton;
 
-    private List<CellView> cellList = new ArrayList<>();
-    private List<ImageView> rackList = new ArrayList<>();
-    private List<ImageView> swapTileList = new ArrayList<>();
-    private List<Label> scoreLabelList = new ArrayList<>();
-    private List<Button> buttonsChangedBySkinsList = new ArrayList<>();
+    private final List<CellView> cellList = new ArrayList<>();
+    private final List<ImageView> rackList = new ArrayList<>();
+    private final List<ImageView> swapTileList = new ArrayList<>();
+    private final List<Label> scoreLabelList = new ArrayList<>();
+    private final List<Button> buttonsChangedBySkinsList = new ArrayList<>();
 
-
-    private MenuController menuController;
 
     private final GameManager gameManager = GameManager.getInstance();
     private Game game;
@@ -103,7 +97,7 @@ public class BoardController implements Initializable, ILetterObservable {
         initLists();
 
 
-        menuController = new MenuController(this);
+        MenuController menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
         needMorePlayersLabel.setVisible(false);
         gameManager.newGame(playerSpinner.getValue(), botSpinner.getValue());
@@ -136,12 +130,6 @@ public class BoardController implements Initializable, ILetterObservable {
         registerBoardEvents(gameAnchor);
     }
 
-    // Hides the ImageView that is used to show what tile the user is dragging.
-    private void hideDragTile(){
-        dragImageView.setVisible(false);
-        //draggedFrom.setImage(dragImageView.getImage());
-    }
-
     //Adds some buttons to a couple of lists.
     private void initLists(){
         scoreLabelList.add(p1Score);
@@ -162,13 +150,9 @@ public class BoardController implements Initializable, ILetterObservable {
         SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
         playerSpinner.setValueFactory(playerValueFactory);
         botSpinner.setValueFactory(botValueFactory);
-        playerSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
-            @Override
-            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-                botSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4-(int)playerSpinner.getValue(),0,1));
-            }
-        });
-
+        playerSpinner.valueProperty().addListener(
+                (observable, oldValue, newValue) -> botSpinner.setValueFactory(
+                        new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4-(int)playerSpinner.getValue(),0,1)));
     }
 
     // Initializes the tile that is dragged around.
@@ -206,24 +190,6 @@ public class BoardController implements Initializable, ILetterObservable {
     private void moveImage(CellView cellView){
         cellView.setImage(selection.getSelectedImage());
         selection.changeToDefaultImage();
-    }
-
-    // DRAGGING NOT USED NOW
-    // Configure the drag image when dragging starts
-    private void dragSequence(CellView cell){
-        cell.startFullDrag();
-        dragImageView.setImage(cell.getImage());
-        dragImageView.setVisible(true);
-        cell.changeToDefaultImage();
-        draggedFrom = cell;
-    }
-
-    // DRAGGING NOT USED NOW
-    // What happens continuously during a drag event
-    private void OnDragged(MouseEvent mouseEvent){
-        Point2D point = new Point2D(mouseEvent.getSceneX() - 45, mouseEvent.getSceneY() - 45);
-        dragImageView.setX(point.getX());
-        dragImageView.setY(point.getY());
     }
 
     // Makes the currently selected tile follow the mouse.
@@ -277,7 +243,6 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.select(cellView);
                     selection.setStartX(x);
                     selection.setStartY(y);
-                    //System.out.println("Selected: " + game.getTempBoard().getTile(y, x).getLetter());
 
                     Point2D p = cellView.localToScene(cellView.getX(), cellView.getY());
                     Point2D p2 = gameAnchor.sceneToLocal(p);
@@ -300,33 +265,28 @@ public class BoardController implements Initializable, ILetterObservable {
             }
             int x = pos2Rack(cellView.getX());
 
-            //System.out.println("rack x: " + x);
             if(selection.hasSelected()){
                 if(selection.getFromRack()){
                     if(game.isRackEmpty(x)){
                         // rack -> rack(tom)
                         game.switchRackCells(selection.getStartX(), x);
-
                         moveImage(cellView);
 
                     }else{
                         // rack -> rack
                         game.switchRackCells(selection.getStartX(), x);
-
                         switchImages(cellView);
                     }
                 }else{
                     if(game.isRackEmpty(x)){
                         // board -> rack(tom)
                         game.switchRackBoardCells(x, selection.getStartY(), selection.getStartX());
-
                         moveImage(cellView);
                         //cellView.setImage(selection.getSelectedImage());
                         //selection.changeToDefaultImage();
                     }else{
                         // board -> rack
                         game.switchRackBoardCells(x, selection.getStartY(), selection.getStartX());
-
                         switchImages(cellView);
 
                     }
@@ -339,7 +299,6 @@ public class BoardController implements Initializable, ILetterObservable {
                     selection.setFromRack(true);
                     selection.select(cellView);
                     selection.setStartX(x);
-                    //System.out.println("Selected: " + game.getRack().getTile(x).getLetter());
 
                     Point2D p = cellView.localToScene(cellView.getX(), cellView.getY());
                     Point2D p2 = gameAnchor.sceneToLocal(p);
@@ -398,7 +357,7 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     //Renders the rack. Gets called from the populate() method.
-    private void populateRack() throws FileNotFoundException {
+    private void populateRack() {
         rackList.clear();
         double x = rackRectangle.getWidth()/2-((double)IMAGE_SIZE/2);
         double y = rackRectangle.getHeight()/2-((double)IMAGE_SIZE/2);

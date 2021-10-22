@@ -160,8 +160,8 @@ public class Game implements ITurnObservable {
      * @param x2 X position of the second cell.
      * @param y2 Y position of the second cell.
      */
-    public void switchTempCells(int x1, int y1, int x2, int y2) {
-        tempBoard.switchTiles(x1, y1, x2, y2);
+    public void switchTempCells(int y1, int x1, int y2, int x2) {
+        tempBoard.switchTiles(y1, x1, y2, x2);
     }
 
     /**
