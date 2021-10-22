@@ -82,7 +82,6 @@ public class BotLogic {
                     sort(writable);
 
                     for (String s : writable) {
-                        System.out.println(s);
                         tempRack.getRackCopy(rack1);
                         int j = 0;
 
