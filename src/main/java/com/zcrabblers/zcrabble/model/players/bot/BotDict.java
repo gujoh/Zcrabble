@@ -13,11 +13,10 @@ import java.util.Map;
 class BotDict {
 
     private static final com.zcrabblers.zcrabble.model.Dictionary dict = Dictionary.getInstance();
-    private static Map<String,Map<Character,Integer>> dictMap = new HashMap<>();
 
 
     //Creates a HashMap Of Strings and (Characters and Integers)
-    Map<String,Map<Character,Integer>> dictMap (){
+    static Map<String,Map<Character,Integer>> dictMap(){
         Map<String,Map<Character,Integer>> dictMap = new HashMap<>();
         for (String s : dict.getDictSet()){
             dictMap.put(s,getCharCountMap(s));
@@ -27,11 +26,11 @@ class BotDict {
 
     //TODO make a Map of Strings and CharCountMaps so that canWrite does not have to run getCharCountMap 270000*number of tiles on the board times.
     /*---   Takes in a string of letters and returns all dictionary words that can be written with them   ---*/
-    static ArrayList<String> canWrite(String letters){
+    static ArrayList<String> canWrite(String letters, Map<String, Map<Character, Integer>> dictMap){
         ArrayList<String> writableWords = new ArrayList<>();
         Map<Character, Integer> charCountMap = getCharCountMap(letters);
-        for (String s : dict.getDictSet()) {
-            Map<Character, Integer> currentDictWordMap = getCharCountMap(s);
+        for (String s : dictMap.keySet()) {
+            Map<Character, Integer> currentDictWordMap = dictMap.get(s);
             boolean canMakeWord = true;
             for (Character character : currentDictWordMap.keySet()) {
                 int currentDictWordMapCharCount = currentDictWordMap.get(character);
