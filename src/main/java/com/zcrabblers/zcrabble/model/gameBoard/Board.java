@@ -504,18 +504,52 @@ public class Board {
         }
     }
 
-    //Checks if all new cells are either on one row or one column
+    //Checks if all new cells are either on one row or one column and that the cells are coherent along that row or column.
     private boolean checkRowAndColCoherence(List<CellTuple> newCells){
-        for (int i = 0; i < newCells.size() ; i++) {
-            if (!(newCells.get(i).getI()==newCells.get(i== newCells.size()-1?i:i+1).getI())){
-                for (int j = 0; j <newCells.size() ; j++) {
-                    if (!(newCells.get(j).getJ() == newCells.get(j == newCells.size() - 1 ? j : j + 1).getJ())) {
-                        return false;
-                    }
+        if(newCells.size() <= 1) {
+            return true;
+        }
+
+        //Checking that all y coordinates (I) are the same if the first two y coordinates are.
+        if(newCells.get(0).getI() == newCells.get(1).getI()){
+            for(int i = 1; i < newCells.size()-1; i++){
+                CellTuple cell = newCells.get(i);
+                CellTuple previousCell = newCells.get(i-1);
+                if(!(cell.getI() == previousCell.getI())){
+                    return false;
                 }
             }
+
+            //Checking that the cells are coherent along the x coordinates.
+            for(int i = newCells.get(0).getJ(); i < newCells.get(newCells.size()-1).getJ(); i++){
+                Cell cell = boardCells[newCells.get(0).getI()][i];
+                if(cell.isEmpty()){
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
+
+        //Checking that all x coordinates (J) are the same if the first two x coordinates are.
+        if(newCells.get(0).getJ() == newCells.get(1).getJ()){
+            for(int i = 1; i < newCells.size()-1; i++){
+                CellTuple cell = newCells.get(i);
+                CellTuple previousCell = newCells.get(i-1);
+                if(!(cell.getJ() == previousCell.getJ())){
+                    return false;
+                }
+            }
+
+            //Checking that the cells are coherent along the y coordinates.
+            for(int i = newCells.get(0).getI(); i < newCells.get(newCells.size()-1).getI();i++){
+                Cell cell = boardCells[i][newCells.get(0).getJ()];
+                if(cell.isEmpty()){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /*--- Checks if a cell contains a letter tile ---*/
