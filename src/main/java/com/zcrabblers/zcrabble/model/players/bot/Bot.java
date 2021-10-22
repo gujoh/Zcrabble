@@ -28,7 +28,6 @@ public class Bot implements IPlayers {
 
     private int score;
     private final Rack rack;
-    static final com.zcrabblers.zcrabble.model.Dictionary dict = Dictionary.getInstance();
     private final TurnObserver observer = new TurnObserver();
 
     public Bot(int score, Rack rack, ITurnObservable sub) {

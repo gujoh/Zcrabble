@@ -100,7 +100,7 @@ public class BoardController implements Initializable, ILetterObservable {
         MenuController menuController = new MenuController(this);
         menuPane.getChildren().add(menuController);
         needMorePlayersLabel.setVisible(false);
-        gameManager.newGame(playerSpinner.getValue(), botSpinner.getValue());
+        gameManager.newGame(1,1);
         game = gameManager.getCurrentGame();
         game.addSubscriber(this);
 
