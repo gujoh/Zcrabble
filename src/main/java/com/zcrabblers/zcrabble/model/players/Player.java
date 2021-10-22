@@ -48,6 +48,10 @@ public class Player implements IPlayers {
 
     }
 
+    public int getFirstEmptyRackCell(){
+        return rack.getFirstFreeIndex();
+    }
+
     @Override
     public void fillRack(TileBag bag){
         rack.fillRack(bag);

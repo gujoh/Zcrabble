@@ -190,7 +190,7 @@ public class Game implements ITurnObservable {
      */
     public void returnTilesToRack(){
         for(CellTuple ct : tempBoard.getNewCells(board)){
-            int rIndex = getRack().getFirstFreeIndex();
+            int rIndex = getRack().getFirstFreeIndex();//getRack().getFirstFreeIndex();
             switchRackBoardCells(rIndex, ct.getI(), ct.getJ());
         }
     }
