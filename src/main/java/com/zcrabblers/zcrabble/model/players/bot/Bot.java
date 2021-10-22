@@ -1,6 +1,5 @@
 package com.zcrabblers.zcrabble.model.players.bot;
 
-import com.zcrabblers.zcrabble.model.Dictionary;
 import com.zcrabblers.zcrabble.model.gameBoard.Board;
 import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
@@ -320,7 +319,7 @@ public class Bot implements IPlayers {
     //have enough space before and after the letter(s)
     private static ArrayList<String> getCheckedWritable(char[] wordSpace, String rackString, int spaceBehind, int spaceAhead, String letters, String bestWord) {
 
-        ArrayList<String> writable = BotLogic.canWrite(rackString);
+        ArrayList<String> writable = BotDict.canWrite(rackString);
         ArrayList<String> actuallyWritable = new ArrayList<>();
         for (String s : writable) {
             // eliminates all words that does not:
@@ -398,7 +397,7 @@ public class Bot implements IPlayers {
         bestBoard.copyBoardCells(board, true);
         String bestWord = "";
 
-        ArrayList<String> writable = BotLogic.canWrite(getRackString(rack));
+        ArrayList<String> writable = BotDict.canWrite(getRackString(rack));
         for (String s : writable) {
             if (s.length() > bestWord.length()) {
                 bestWord = s;
