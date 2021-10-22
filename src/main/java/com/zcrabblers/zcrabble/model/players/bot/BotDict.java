@@ -13,8 +13,10 @@ import java.util.Map;
 class BotDict {
 
     private static final com.zcrabblers.zcrabble.model.Dictionary dict = Dictionary.getInstance();
+    private static Map<String,Map<Character,Integer>> dictMap = new HashMap<>();
 
-    //Creates a HashMap Of strings and (Characters and ints)
+
+    //Creates a HashMap Of Strings and (Characters and Integers)
     Map<String,Map<Character,Integer>> dictMap (){
         Map<String,Map<Character,Integer>> dictMap = new HashMap<>();
         for (String s : dict.getDictSet()){
