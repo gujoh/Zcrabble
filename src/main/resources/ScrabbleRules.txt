@@ -4,43 +4,21 @@ The first player combines two or more of their letters to form a word and places
 Diagonal words are not allowed.
 
 #2
-Complete your turn by counting and announcing your score for that turn. 
-Then draw as many new letters as you played; always keep seven letters on your rack, as long as there are enough tiles left in the bag.
+Complete your turn by pressing the end turn button. The game will automatically fill your rack as long as there are enough tiles left in the bag.
 
 #3
-Play passes to the left. The second player, and then each in turn, adds one or more letters to those already played to form new words. 
-All letters played on a turn must be placed in one row across or down the board, to form at least one complete word. 
-If, at the same time, they touch others letters in adjacent rows, those must also form complete words, crossword fashion, with all such letters. 
-The player gets full credit for all words formed or modified on his or her turn.
+New words may be formed by:
+- Adding one or more letters to a word or letters already on the board.
+- Placing a word at right angles to a word already on the board.
+- The new word must use one of the letters already on the board or must add a letter to it.
+- Placing a complete word parallel to a word already played so that adjacent letters also form complete words.
 
 #4
-New words may be formed by:
-Adding one or more letters to a word or letters already on the board.
-Placing a word at right angles to a word already on the board. 
-The new word must use one of the letters already on the board or must add a letter to it. 
-(See Turns 2, 3 and 4 below.)
-Placing a complete word parallel to a word already played so that adjacent letters also form complete words. 
-(See Turn 5 in the Scoring Examples section below.)
-
-#5
 No tile may be shifted or replaced after it has been played and scored.
 
-#6
-Blanks: The two blank tiles may be used as any letters. 
-When playing a blank, you must state which letter it represents. 
-It remains that letter for the rest of the game.
-
-#7
+#5
 You may use a turn to exchange all, some, or none of the letters.
-To do this, place your discarded letter(s) facedown. 
-Draw the same number of letters from the pool, then mix your discarded letter(s) into the pool. This ends your turn.
+To do this, press the swap button, then select which letters you want to exchange. This ends your turn.
 
-#8
-Any play may be challenged before the next player starts a turn. 
-If the play challenged is unacceptable, the challenged player takes back his or her tiles and loses that turn. 
-If the play challenged is acceptable, the challenger loses his or her next turn. Consult the dictionary for challenges only. 
-All words made in one play are challenged simultaneously. If any word is unacceptable, then the entire play is unacceptable. 
-Only one turn is lost on any challenge.
-
-#9
+#6
 The game ends when all letters have been drawn and one player uses their last letter; or when all possible plays have been made(no one has made a move for 7 turns).
