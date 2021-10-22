@@ -1,6 +1,6 @@
 package com.zcrabblers.zcrabble.tests;
 
-import com.zcrabblers.zcrabble.model.gameBoard.Board;
+import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
 import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;

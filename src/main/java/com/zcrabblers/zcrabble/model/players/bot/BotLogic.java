@@ -1,6 +1,6 @@
 package com.zcrabblers.zcrabble.model.players.bot;
 
-import com.zcrabblers.zcrabble.model.gameBoard.Board;
+import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
 import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 
