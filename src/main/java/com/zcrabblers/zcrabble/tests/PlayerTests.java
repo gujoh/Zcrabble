@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 public class PlayerTests {
 
     @Test
-    public void TestSwitchRack() throws FileNotFoundException {
+    public void TestSwitchRack(){
         TileBag tilebag = new TileBag();
         Rack rack = new Rack(tilebag);
         Player player = new Player(0, rack);

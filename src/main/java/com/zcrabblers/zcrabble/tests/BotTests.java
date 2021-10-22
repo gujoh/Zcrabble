@@ -8,6 +8,7 @@ import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
 import com.zcrabblers.zcrabble.model.players.bot.Bot;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class BotTests {
@@ -38,13 +39,24 @@ public class BotTests {
         bot.beginTurn(tempBoard);
 
         assertTrue(tempBoard.checkBoard(tempBoard,board));
+        assertEquals(tempBoard.getNewCells(board).size(), amountOfBlancRackTiles(rack));
 
 
+    }
+
+    private int amountOfBlancRackTiles (Rack rack){
+        int tileCount = 0;
+        for (Tile t : rack.getTiles()){
+            if (t.getLetter() == ' '){
+                tileCount++;
+            }
+        }
+        return tileCount;
     }
     //TODO tests:
     // - Test that the bot uses the correct number of tiles from rack
     // - Test that all the tiles in a play came are the same ones that are missing in rack
-    // - test that the bot can take a new turn with the same rack if a play is rejected
+    // - test that the bot can take a new turn with the same rack if a play is rejected. It can't and it won't
     // - No tests for optimal play for now
     // - more tests probably. the most important thing is that the board played and the rack is always correct.
 }

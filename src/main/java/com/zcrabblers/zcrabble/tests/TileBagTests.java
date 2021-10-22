@@ -11,7 +11,7 @@ public class TileBagTests {
     @Test
     public void testTileBagNumbers() throws FileNotFoundException {
         TileBag tilebag = new TileBag();
-        assertTrue(tilebag.remainingTiles() == 100);
+        assertEquals(100, tilebag.remainingTiles());
         assertFalse(tilebag.isEmpty());
     }
     //checks if the read tiles have allowed letters and numbers

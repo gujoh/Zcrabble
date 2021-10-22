@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 public class RackTests {
 
     @Test
-    public void TestSwitchRack() throws FileNotFoundException {
+    public void TestSwitchRack(){
         TileBag tilebag = new TileBag();
         Rack rack = new Rack(tilebag);
         Tile tile1 = rack.getTile(1);
@@ -22,7 +22,7 @@ public class RackTests {
 
     }
     @Test
-    public void TestRack() throws FileNotFoundException {
+    public void TestRack(){
         TileBag tilebag = new TileBag();
         Rack rack = new Rack(tilebag);
         Tile tile1 = rack.getTile(1);
@@ -33,7 +33,7 @@ public class RackTests {
     }
 
     @Test
-    public void TestEmptyRack() throws FileNotFoundException {
+    public void TestEmptyRack() {
         TileBag tileBag = new TileBag();
         Rack rack = new Rack(tileBag);
         for (int i = 0; i < 7; i++)
@@ -42,7 +42,7 @@ public class RackTests {
     }
 
     @Test
-    public void TestEmptyRack2() throws FileNotFoundException {
+    public void TestEmptyRack2(){
         TileBag tileBag = new TileBag();
         Rack rack = new Rack(tileBag);
         for (int i = 0; i < 6; i++)
@@ -51,7 +51,7 @@ public class RackTests {
     }
 
     @Test
-    public void shuffleTest() throws FileNotFoundException {
+    public void shuffleTest(){
         TileBag tileBag = new TileBag();
         Rack rack = new Rack(tileBag);
         Tile[] preShuffle = new Tile[7];
@@ -71,7 +71,7 @@ public class RackTests {
     }
 
     @Test
-    public void fillRackTest() throws FileNotFoundException {
+    public void fillRackTest(){
         TileBag tileBag = new TileBag();
         Rack rack = new Rack(tileBag);
         for(int i = 0; i < 7; i++)
@@ -88,7 +88,7 @@ public class RackTests {
     }
 
     @Test
-    public void getFirstFreeIndexFailTest() throws FileNotFoundException {
+    public void getFirstFreeIndexFailTest(){
         TileBag tileBag = new TileBag();
         Rack rack = new Rack(tileBag);
         assertEquals(-1, rack.getFirstFreeIndex());
