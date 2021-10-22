@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -31,40 +30,27 @@ public class Main extends Application {
         launch();
     }
 
+    //Letterboxing is a method to scale GUI applications, for instance.
     private void letterbox(final Scene scene, final AnchorPane contentPane) {
         final double initWidth  = scene.getWidth();
         final double initHeight = scene.getHeight();
-        final double ratio      = initWidth / initHeight;
+        final double ratio = initWidth / initHeight;
 
         SceneSizeChangeListener sizeListener = new SceneSizeChangeListener(scene, ratio, initHeight, initWidth, contentPane);
         scene.widthProperty().addListener(sizeListener);
         scene.heightProperty().addListener(sizeListener);
     }
 
-    private static class SceneSizeChangeListener implements ChangeListener<Number> {
-        private final Scene scene;
-        private final double ratio;
-        private final double initHeight;
-        private final double initWidth;
-        private final AnchorPane contentPane;
-
-        public SceneSizeChangeListener(Scene scene, double ratio, double initHeight, double initWidth, AnchorPane contentPane) {
-            this.scene = scene;
-            this.ratio = ratio;
-            this.initHeight = initHeight;
-            this.initWidth = initWidth;
-            this.contentPane = contentPane;
-        }
+    //SceneSizeChangeListener listens to change in the size of a scene and scales it accordingly.
+    private record SceneSizeChangeListener(Scene scene, double ratio, double initHeight, double initWidth,
+                                           AnchorPane rootPane) implements ChangeListener<Number> {
 
         @Override
         public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-            final double newWidth  = scene.getWidth();
+            final double newWidth = scene.getWidth();
             final double newHeight = scene.getHeight();
 
-            double scaleFactor =
-                    newWidth / newHeight > ratio
-                            ? newHeight / initHeight
-                            : newWidth / initWidth;
+            double scaleFactor = newWidth / newHeight > ratio ? newHeight / initHeight : newWidth / initWidth;
 
             if (scaleFactor >= 1) {
                 Scale scale = new Scale(scaleFactor, scaleFactor);
@@ -72,11 +58,11 @@ public class Main extends Application {
                 scale.setPivotY(0);
                 scene.getRoot().getTransforms().setAll(scale);
 
-                contentPane.setPrefWidth (newWidth  / scaleFactor);
-                contentPane.setPrefHeight(newHeight / scaleFactor);
+                rootPane.setPrefWidth(newWidth / scaleFactor);
+                rootPane.setPrefHeight(newHeight / scaleFactor);
             } else {
-                contentPane.setPrefWidth (Math.max(initWidth,  newWidth));
-                contentPane.setPrefHeight(Math.max(initHeight, newHeight));
+                rootPane.setPrefWidth(Math.max(initWidth, newWidth));
+                rootPane.setPrefHeight(Math.max(initHeight, newHeight));
             }
         }
     }

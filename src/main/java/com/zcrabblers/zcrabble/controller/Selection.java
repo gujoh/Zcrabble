@@ -8,10 +8,6 @@ public class Selection {
     private boolean selected;
     private int startX, startY;
 
-    public Selection(){
-        //TODO: set selected cell to some kind of non CellView
-    }
-
     /**
      * Change selected cell to its default image (See CellView).
      */
