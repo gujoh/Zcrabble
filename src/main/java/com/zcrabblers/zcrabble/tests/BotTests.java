@@ -5,7 +5,7 @@ import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
 import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
-import com.zcrabblers.zcrabble.model.players.Bot;
+import com.zcrabblers.zcrabble.model.players.Bot.Bot;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

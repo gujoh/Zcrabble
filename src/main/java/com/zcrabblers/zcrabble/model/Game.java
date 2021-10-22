@@ -4,7 +4,7 @@ import com.zcrabblers.zcrabble.model.gameBoard.*;
 import com.zcrabblers.zcrabble.model.observers.ILetterObservable;
 import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
 import com.zcrabblers.zcrabble.model.observers.LetterObserver;
-import com.zcrabblers.zcrabble.model.players.Bot;
+import com.zcrabblers.zcrabble.model.players.Bot.Bot;
 import com.zcrabblers.zcrabble.model.players.IPlayers;
 import com.zcrabblers.zcrabble.model.players.Player;
 

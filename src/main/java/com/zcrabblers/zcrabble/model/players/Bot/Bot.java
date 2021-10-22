@@ -1,4 +1,4 @@
-package com.zcrabblers.zcrabble.model.players;
+package com.zcrabblers.zcrabble.model.players.Bot;
 
 import com.zcrabblers.zcrabble.model.Dictionary;
 import com.zcrabblers.zcrabble.model.gameBoard.Board;
@@ -7,6 +7,7 @@ import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
 import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
 import com.zcrabblers.zcrabble.model.observers.TurnObserver;
+import com.zcrabblers.zcrabble.model.players.IPlayers;
 
 import java.util.*;
 
