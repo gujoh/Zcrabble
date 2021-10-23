@@ -162,11 +162,11 @@ public class Bot implements IPlayers {
 
     //tilts then mirrors board, writes a horizontal word to it, then mirrors and tilts it back
     private void makeVerticalBoard(Board verticalBoard, Rack verticalRack) {
-        verticalBoard.tiltPiHalf(verticalBoard);
-        verticalBoard.mirrorAroundCol7(verticalBoard);
+        UnsafeBoardMutations.tiltPiHalf(verticalBoard);
+        UnsafeBoardMutations.mirrorAroundCol7(verticalBoard);
         verticalBoard.copyBoardCells(BotLogic.scrabbleWord(verticalBoard, verticalRack), true);
-        verticalBoard.mirrorAroundCol7(verticalBoard);
-        verticalBoard.tilt3PiHalf(verticalBoard);
+        UnsafeBoardMutations.mirrorAroundCol7(verticalBoard);
+        UnsafeBoardMutations.tilt3PiHalf(verticalBoard);
     }
 
     //Prints the board for debugging purposes
