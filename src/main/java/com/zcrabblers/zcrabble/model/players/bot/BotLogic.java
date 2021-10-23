@@ -10,7 +10,7 @@ import java.util.Map;
 
 //TODO dictMap should be created at the beginning of the game and live in BotDict
 
-public class BotLogic {
+class BotLogic {
 
     //Returns a given rack as a String
     static String getRackString(Rack rack) {
