@@ -398,12 +398,8 @@ public class Board {
 
     /*--- Method for checking that all words in columns are valid. ---*/
     private boolean checkCol(Board board) {
-        Board tempboard = new Board();
-        tempboard.tiltPiHalf(board);
-        return checkRow(tempboard);
 
-        //TODO ask rest of group how we feel about this
-        /*boolean colIsValid = true;
+        boolean colIsValid = true;
         StringBuilder word = new StringBuilder();
 
         for (int col = 0; col < board.getBoardCells().length; col++) {
@@ -414,7 +410,7 @@ public class Board {
             for (int row = 0; row < board.getBoardCells().length; row++) {
 
                 //if there is a letter on the current cell and that letter is part of a word, add the letter to word.
-                if (containsLetter(board, row, col) && (containsLetter(board, row==0?row:row-1, col ) || containsLetter(board, row==14?row:row+1, col))) {
+                if (containsLetter(board, row, col) && (row==0?containsLetter(board, row+1, col ):containsLetter(board, row-1, col ) || containsLetter(board, row==14?row:row+1, col))) {
                     word.append(board.getBoardCells()[row][col].getPlacedTile().getLetter());
                 }
                 //If there already is a String in word and there is no letter on the current cell,
@@ -429,7 +425,7 @@ public class Board {
             }
         }
 
-        return colIsValid;*/
+        return colIsValid;
     }
 
     /*--- Method for checking that all words in rows are valid. ---*/

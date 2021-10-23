@@ -6,6 +6,8 @@ import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
 import com.zcrabblers.zcrabble.model.players.bot.Bot;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -17,29 +19,31 @@ public class BotTests {
         ITurnObservable observer = () -> false;
         TileBag bag = new TileBag();
         Rack rack = new Rack(bag);
-        Bot bot = new Bot(37,rack,observer);
+        Bot bot = new Bot(0,rack,observer);
         Board board = new Board();
-
-        board.placeTile(7, 4, new Tile('S', 2));
-        board.placeTile(7, 5, new Tile('C', 2));
-        board.placeTile(7, 6, new Tile('R', 2));
-        board.placeTile(7, 7, new Tile('A', 2));
-        board.placeTile(7, 8, new Tile('B', 2));
-        board.placeTile(7, 9, new Tile('B', 2));
-        board.placeTile(7, 10, new Tile('L', 2));
-        board.placeTile(7, 11, new Tile('E', 2));
-        board.placeTile(7, 12, new Tile('R', 2));
-        board.placeTile(7, 13, new Tile('S', 2));
-
         Board tempBoard = new Board();
         tempBoard.copyBoardCells(board,false);
 
         bot.beginTurn(tempBoard);
-
+        printBoard(tempBoard);
         assertTrue(tempBoard.checkBoard(tempBoard,board));
         assertEquals(tempBoard.getNewCells(board).size(), amountOfBlancRackTiles(rack));
 
 
+    }
+
+    //Prints the board for debugging purposes
+    private void printBoard(Board board) {
+        char[][] boardPrint = new char[15][15];
+        for (int i = 0; i < board.getBoardCells().length; i++) {
+            for (int j = 0; j < board.getBoardCells()[0].length; j++) {
+                boardPrint[i][j] = board.getBoardCells()[i][j].getTileLetter();
+            }
+        }
+        for (char[] row : boardPrint) {
+            System.out.println(Arrays.toString(row));
+        }
+        System.out.println(" ");
     }
 
     private int amountOfBlancRackTiles (Rack rack){
