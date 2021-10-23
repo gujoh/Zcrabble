@@ -58,8 +58,6 @@ public class BotLogic {
         Rack bestRack = new Rack();
         bestRack.getRackCopy(rack1);
 
-        //variables
-
         int spaceBehind;
         int spaceAhead;
         ArrayList<String> writable;
