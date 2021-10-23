@@ -4,8 +4,9 @@ import java.time.*;
 import java.util.Random;
 
 /**
- * Enum representing a seed that is to be used when utilising the Random class.
+ * Enum representing a Random object with a seed that changes each day.
  * Seed gets the current date and converts it to a long.
+ * Can be used for testing purposes, for instance.
  */
 public enum RandomSeed {
     INSTANCE;
@@ -20,8 +21,12 @@ public enum RandomSeed {
         return random;
     }
 
+    /**
+     * Returns the seed.
+     * @return the seed.
+     */
     public long getSeed(){
-        return 1;
+        return seed;
     }
 
 }

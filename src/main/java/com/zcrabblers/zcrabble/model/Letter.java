@@ -1,5 +1,8 @@
 package com.zcrabblers.zcrabble.model;
 
+/**
+ * Letter is an enum that represents a letter.
+ */
 public enum Letter {
     A("A"),
     B("B"),
@@ -34,6 +37,10 @@ public enum Letter {
         this.letter = letter;
     }
 
+    /**
+     * Returns a letter.
+     * @return a letter formatted as a String.
+     */
     public String getLetter(){
         return letter;
     }

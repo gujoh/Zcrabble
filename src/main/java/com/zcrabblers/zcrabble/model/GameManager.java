@@ -2,7 +2,10 @@ package com.zcrabblers.zcrabble.model;
 
 import java.util.Objects;
 
-// Is the class with the main responsibility over the model and starting new games
+/**
+ * GameManager is responsible for starting new games.
+ * It implements the singleton design pattern.
+ */
 public class GameManager {
     private Game currentGame;
     private static GameManager instance;
