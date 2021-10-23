@@ -35,65 +35,34 @@ public class Bot implements IPlayers {
         observer.addSubscriber(sub);
     }
 
-    /**
-     * Adds points of the latest play to score
-     *
-     * @param score the points to be added to score
-     */
     public void addScore(int score) {
         this.score += score;
     }
 
-    /**
-     * Fills the rack with tiles from the TileBag
-     *
-     * @param bag the Bag to get tiles from
-     */
     @Override
     public void fillRack(TileBag bag) {
         rack.fillRack(bag);
     }
 
-    /**
-     * Removes a tile from the rack
-     *
-     * @param x index of tile to be removed
-     */
     @Override
     public void removeRackTile(int x) {
         rack.remove(x);
     }
 
-    /**
-     * Places a tile to x index on the rack
-     *
-     * @param x    Int index of rack
-     * @param tile Tile to be placed
-     */
     @Override
     public void placeRackTile(int x, Tile tile) {
         rack.set(x, tile);
     }
 
-    /**
-     * @return the bots score
-     */
     public int getScore() {
         return score;
     }
 
-    /**
-     * @return the bots rack
-     */
     @Override
     public Rack getRack() {
         return rack;
     }
 
-    /**
-     * @param x Int index of rack
-     * @return the tile at x index on the rack
-     */
     @Override
     public Tile getRackTile(int x) {
         return rack.getTile(x);
@@ -102,7 +71,6 @@ public class Bot implements IPlayers {
     /**
      * Mutates a Board to include the bots best play
      * Notifies subscribers when it is done
-     *
      * @param board the Board to be mutated
      */
     @Override

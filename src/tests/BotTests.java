@@ -25,10 +25,10 @@ public class BotTests {
         tempBoard.copyBoardCells(board,false);
 
         bot.beginTurn(tempBoard);
-        printBoard(tempBoard);
         assertTrue(tempBoard.checkBoard(tempBoard,board));
         assertEquals(tempBoard.getNewCells(board).size(), amountOfBlancRackTiles(rack));
-
+        bot.fillRack(bag);
+        bot.addScore(bot.getScore());
 
     }
 
