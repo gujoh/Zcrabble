@@ -18,7 +18,8 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * BoardController contains
+ * BoardController is the controller class for the board.fxml file.
+ * It renders the game
  */
 public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane boardAnchor;

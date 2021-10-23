@@ -3,6 +3,9 @@ package com.zcrabblers.zcrabble.controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * CellView is like an ImageView but also has a so-called default image.
+ */
 public class CellView extends ImageView {
     private final Image defaultImage;
 
