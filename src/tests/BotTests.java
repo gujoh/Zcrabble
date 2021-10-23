@@ -24,11 +24,19 @@ public class BotTests {
         Board tempBoard = new Board();
         tempBoard.copyBoardCells(board,false);
 
-        bot.beginTurn(tempBoard);
-        assertTrue(tempBoard.checkBoard(tempBoard,board));
-        assertEquals(tempBoard.getNewCells(board).size(), amountOfBlancRackTiles(rack));
-        bot.fillRack(bag);
-        bot.addScore(bot.getScore());
+        for (int i = 0; i < 10; i++) {
+            bot.beginTurn(tempBoard);
+            assertTrue(tempBoard.checkBoard(tempBoard,board));
+            assertEquals(tempBoard.getNewCells(board).size(), amountOfBlancRackTiles(bot));
+            bot.fillRack(bag);
+            bot.addScore(bot.getScore());
+            printBoard(tempBoard);
+
+            board.copyBoardCells(tempBoard,false);
+            tempBoard.copyBoardCells(board,false);
+        }
+
+
 
     }
 
@@ -46,9 +54,9 @@ public class BotTests {
         System.out.println(" ");
     }
 
-    private int amountOfBlancRackTiles (Rack rack){
+    private int amountOfBlancRackTiles (Bot bot){
         int tileCount = 0;
-        for (Tile t : rack.getTiles()){
+        for (Tile t : bot.getRack().getTiles()){
             if (t.getLetter() == ' '){
                 tileCount++;
             }
