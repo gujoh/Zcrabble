@@ -183,17 +183,6 @@ public class Game implements ITurnObservable {
     }
 
     /**
-     * Switch the tiles of two cells on the actual board.
-     * @param x1 X position of the first cell.
-     * @param y1 Y position of the first cell.
-     * @param x2 X position of the second cell.
-     * @param y2 Y position of the second cell.
-     */
-    public void switchBoardCells(int x1, int y1, int x2, int y2) {
-        board.switchTiles(x1, y1, x2, y2);
-    }
-
-    /**
      * Switch the tiles of two cells on the tempBoard.
      * @param x1 X position of the first cell.
      * @param y1 Y position of the first cell.

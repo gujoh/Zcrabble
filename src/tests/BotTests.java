@@ -20,17 +20,23 @@ public class BotTests {
         TileBag bag = new TileBag();
         Rack rack = new Rack(bag);
         Bot bot = new Bot(0,rack,observer);
+        assertTrue(bot.getRackTile(3).getLetter() != ' ');
+        Tile tile3 = bot.getRackTile(3);
+        bot.removeRackTile(3);
+        assertEquals(' ', bot.getRackTile(3).getLetter());
+        bot.placeRackTile(3,tile3);
+        assertEquals(tile3,bot.getRackTile(3));
         Board board = new Board();
         Board tempBoard = new Board();
         tempBoard.copyBoardCells(board,false);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             bot.beginTurn(tempBoard);
             assertTrue(tempBoard.checkBoard(tempBoard,board));
             assertEquals(tempBoard.getNewCells(board).size(), amountOfBlancRackTiles(bot));
             bot.fillRack(bag);
             bot.addScore(bot.getScore());
-            printBoard(tempBoard);
+            //printBoard(tempBoard);
 
             board.copyBoardCells(tempBoard,false);
             tempBoard.copyBoardCells(board,false);

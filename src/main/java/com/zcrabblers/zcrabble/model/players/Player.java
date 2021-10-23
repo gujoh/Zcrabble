@@ -44,13 +44,7 @@ public class Player implements IPlayers {
     }
 
     @Override
-    public void beginTurn(Board board) {
-
-    }
-
-    public int getFirstEmptyRackCell(){
-        return rack.getFirstFreeIndex();
-    }
+    public void beginTurn(Board board) {}
 
     @Override
     public void fillRack(TileBag bag){
