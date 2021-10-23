@@ -1,7 +1,5 @@
 package com.zcrabblers.zcrabble.model.gameBoard.board;
 
-import com.zcrabblers.zcrabble.model.gameBoard.Cell;
-
 public class BoardMutations {
 
     /*

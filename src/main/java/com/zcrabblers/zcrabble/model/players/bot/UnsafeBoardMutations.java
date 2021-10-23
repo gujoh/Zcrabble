@@ -12,7 +12,7 @@ import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
  */
     //TODO Make above suggested changes, then delete this whole class.
 
-public class UnsafeBoardMutations {
+class UnsafeBoardMutations {
 
 
     //TODO the next two methods should definitively be private
@@ -21,7 +21,7 @@ public class UnsafeBoardMutations {
      * First row is first column, first column is last row
      * @param board the Board to be tilted.
      */
-    public static void tilt3PiHalf(Board board){
+    static void tilt3PiHalf(Board board){
         Board tempBoard = new Board();
         for (int i = 0; i <board.getBoardCells().length ; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
@@ -36,9 +36,8 @@ public class UnsafeBoardMutations {
      * Copies a board's cell matrix flipped pi/2 radians
      * First row is first column, first column is last row
      * @param board the Board to be tilted.
-     * @return
      */
-    public static void tiltPiHalf(Board board){
+    static void tiltPiHalf(Board board){
 
         Board tempBoard = new Board();
         for (int i = 0; i <board.getBoardCells().length ; i++) {
@@ -55,7 +54,7 @@ public class UnsafeBoardMutations {
      * first row is last row, last row is first row, col is col
      * @param board the Board to be mirrored
      */
-    public static void mirrorAroundCol7(Board board){
+    static void mirrorAroundCol7(Board board){
 
         Board tempBoard = new Board();
         for (int i = 0; i <board.getBoardCells().length ; i++) {
