@@ -20,13 +20,4 @@ public enum RandomSeed {
     public Random getRandom(){
         return random;
     }
-
-    /**
-     * Returns the seed.
-     * @return the seed.
-     */
-    public long getSeed(){
-        return seed;
-    }
-
 }
