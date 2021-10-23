@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * Dictionary contains a dictionary that other classes can use to look up words.
+ * It implements the singleton design pattern.
+ */
 public class Dictionary {
 
     private static Dictionary instance;
