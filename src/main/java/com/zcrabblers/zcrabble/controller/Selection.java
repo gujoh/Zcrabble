@@ -2,6 +2,9 @@ package com.zcrabblers.zcrabble.controller;
 
 import javafx.scene.image.Image;
 
+/**
+ * Selection is responsible for keeping track of what is selected.
+ */
 public class Selection {
     private CellView selectedCell;
     private boolean fromRack;

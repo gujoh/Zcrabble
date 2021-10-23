@@ -20,6 +20,7 @@ public class Game implements ITurnObservable {
 
     private List<IPlayers> players;
     private IPlayers current;
+    private IPlayers previous;
     private final Board board;
     private final Board tempBoard;
     private final TileBag tileBag;
@@ -64,6 +65,7 @@ public class Game implements ITurnObservable {
 
             current.addScore(score);
             current.fillRack(tileBag);
+            previous = current;
             current = getNextPlayer();
             observer.notifySubscribers(tempBoard.getNewCells(board), isGameOver());
             board.copyBoardCells(tempBoard,false);
@@ -83,7 +85,7 @@ public class Game implements ITurnObservable {
      * @return true or false depending on the current game is over.
      */
     public boolean isGameOver(){
-        if(tileBag.isEmpty() && current.getRack().rackIsEmpty()) {
+        if(tileBag.isEmpty() && previous.getRack().rackIsEmpty()) {
             return true;
         }
         return passCounter == 7;

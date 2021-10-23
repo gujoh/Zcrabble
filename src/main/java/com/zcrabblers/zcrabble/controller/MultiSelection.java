@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * MultiSelection is responsible for keeping track of several selected items.
+ */
 public class MultiSelection {
     private final List<CellView> selected = new ArrayList<>();
 
@@ -28,7 +31,6 @@ public class MultiSelection {
      * @param cellView Cell to select.
      */
     public void select(CellView cellView){
-        //System.out.println("Selected");
         selected.add(cellView);
         cellView.setOpacity(0.25);
     }
@@ -38,7 +40,6 @@ public class MultiSelection {
      * @param cellView Cell to unselect
      */
     public void unSelect(CellView cellView){
-        //System.out.println("Unselected");
         selected.remove(cellView);
         cellView.setOpacity(1);
     }
