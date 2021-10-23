@@ -64,6 +64,79 @@ public class Board {
             }
     }
 
+    public boolean botBoardCheck(Board board){
+        return checkCol(board);
+    }
+    /**
+     * Checks that all words on the board is valid and connected to each other
+     * @param board
+     * @param tempBoard
+     * @return true/false validBoard
+     */
+    public boolean checkBoard(Board tempBoard,Board board) {
+        return (checkCoherence(board)&&checkCol(tempBoard)&& checkRow(tempBoard));
+    }
+
+    /**
+     * @return returns the cell matrix of the board
+     */
+    public Cell[][] getBoardCells(){
+        return boardCells;
+    }
+
+    /**
+     * switches two tiles on a board given their positions
+     * @param i1 i-coordinate of the first tile
+     * @param j1 j-coordinate of the first tile
+     * @param i2 i-coordinate of the second tile
+     * @param j2 j-coordinate of the second tile
+     */
+    public void switchTiles(int i1, int j1, int i2, int j2){
+        Tile tile = boardCells[i1][j1].getPlacedTile();
+        boardCells[i1][j1].setTile(boardCells[i2][j2].getPlacedTile());
+        boardCells[i2][j2].setTile(tile);
+    }
+
+    /**
+     * @param i corresponds to the position in the first list
+     * @param j corresponds to the position in the second list
+     * @return returns the tile of the given cell
+     */
+    public Tile getTile(int i, int j){
+        return boardCells[i][j].getPlacedTile();
+    }
+    /**
+     * @param i i corresponds to the position in the first list
+     * @param j j corresponds to the position in the second list
+     * places a tile in the given position
+     */
+    public void placeTile( int i, int j, Tile tile){
+        boardCells[i][j].setTile(tile);
+    }
+    /**
+     * removes the tile of the given position
+     * @param i i corresponds to the position in the first list
+     * @param j j corresponds to the position in the second list
+     */
+    public void removeTile(int i, int j){
+        boardCells[i][j].removeTile();
+    }
+    /**
+     * @param i i corresponds to the position in the first list
+     * @param j j corresponds to the position in the second list
+     * @return returns a true boolean if the cell is empty
+     */
+    public boolean isCellEmpty(int i, int j){
+        return boardCells[i][j].isEmpty();
+    }
+
+    /**
+     * Returns the length of one side of the board, both sides should always be the same length.
+     * @return Number of rows in the board.
+     */
+    public int getSize(){
+        return boardCells.length;
+    }
 
     /**
      * Copies the cells on a board
@@ -267,85 +340,10 @@ public class Board {
         return newCells;
     }
 
-    /**
-     * @return returns the cell matrix of the board
-     */
-    public Cell[][] getBoardCells(){
-        return boardCells;
-    }
-
-    /**
-     * switches two tiles on a board given their positions
-     * @param i1 i coordinate of the first tile
-     * @param j1 j coordinate of the first tile
-     * @param i2 i coordinate of the second tile
-     * @param j2 j coordinate of the second tile
-     */
-    public void switchTiles(int i1, int j1, int i2, int j2){
-        Tile tile = boardCells[i1][j1].getPlacedTile();
-        boardCells[i1][j1].setTile(boardCells[i2][j2].getPlacedTile());
-        boardCells[i2][j2].setTile(tile);
-    }
-
-    /**
-     * @param i i corresponds to the position in the first list
-     * @param j j corresponds to the position in the second list
-     * @return returns the tile of the given cell
-     */
-    public Tile getTile(int i, int j){
-        return boardCells[i][j].getPlacedTile();
-    }
-    /**
-     * @param i i corresponds to the position in the first list
-     * @param j j corresponds to the position in the second list
-     * places a tile in the given position
-     */
-    public void placeTile( int i, int j, Tile tile){
-            boardCells[i][j].setTile(tile);
-    }
-    /**
-     * removes the tile of the given position
-     * @param i i corresponds to the position in the first list
-     * @param j j corresponds to the position in the second list
-     */
-    public void removeTile(int i, int j){
-        boardCells[i][j].removeTile();
-    }
-    /**
-     * @param i i corresponds to the position in the first list
-     * @param j j corresponds to the position in the second list
-     * @return returns a true boolean if the cell is empty
-     */
-    public boolean isCellEmpty(int i, int j){
-        return boardCells[i][j].isEmpty();
-    }
-
-    /**
-     * Returns the length of one side of the board, both sides should always be the same length.
-     * @return Number of rows in the board.
-     */
-    public int getSize(){
-        return boardCells.length;
-    }
-
-
 
     /*--- BoardChecks  below ---*/
 
     //TODO containsLetter should be replaced with isCellEmpty in all methods, no point in keeping both.
-
-    public boolean botBoardCheck(Board board){
-        return checkCol(board);
-    }
-    /**
-     * Checks that all words on the board is valid and connected to each other
-     * @param board
-     * @param tempBoard
-     * @return true/false validBoard
-     */
-    public boolean checkBoard(Board tempBoard,Board board) {
-        return (checkCoherence(board)&&checkCol(tempBoard)&& checkRow(tempBoard));
-    }
 
     /*--- Method for checking that all words in columns are valid. ---*/
     private boolean checkCol(Board board) {
