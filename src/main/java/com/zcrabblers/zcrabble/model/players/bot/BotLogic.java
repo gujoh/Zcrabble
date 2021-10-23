@@ -1,8 +1,8 @@
 package com.zcrabblers.zcrabble.model.players.bot;
 
-import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
 import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
+import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -199,6 +199,7 @@ public class BotLogic {
         return actuallyWritable;
     }
 
+    /*
     //Takes the available space around a cell on the board and creates a space that the new word needs to fit into.
     //Was probably made mostly to make it easier to think.
     private static char[] createWordSpace(int spaceBehind, int spaceAhead, StringBuilder letters) {
@@ -208,6 +209,7 @@ public class BotLogic {
         }
         return wordSpace;
     }
+    */
 
     //Checks the length of available space to the right of a cell
     private static int checkSpaceAhead(Board board, int row, int col, StringBuilder letters) {

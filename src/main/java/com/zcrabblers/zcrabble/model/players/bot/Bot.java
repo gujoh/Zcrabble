@@ -1,14 +1,12 @@
 package com.zcrabblers.zcrabble.model.players.bot;
 
-import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
 import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
+import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
 import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
 import com.zcrabblers.zcrabble.model.observers.TurnObserver;
 import com.zcrabblers.zcrabble.model.players.IPlayers;
-
-import java.util.*;
 
 
 //TODO Make the bot evaluate words by score, not by length. "A well-contested Scrabble game should end with around 600 to 700 total points" Now it is 600! HUZZA!
@@ -137,6 +135,7 @@ public class Bot implements IPlayers {
         UnsafeBoardMutations.tilt3PiHalf(verticalBoard);
     }
 
+    /*
     //Prints the board for debugging purposes
     private void printBoard(Board board) {
         char[][] boardPrint = new char[15][15];
@@ -155,7 +154,7 @@ public class Bot implements IPlayers {
     private void printRack(Rack rack) {
         System.out.println(BotLogic.getRackString(rack));
     }
-
+    */
 
 
 
