@@ -1,9 +1,9 @@
 package com.zcrabblers.zcrabble.model.players;
 
-import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
 import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
+import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
 
 public interface IPlayers {
 
