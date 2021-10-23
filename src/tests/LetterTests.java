@@ -1,5 +1,3 @@
-package com.zcrabblers.zcrabble.tests;
-
 import com.zcrabblers.zcrabble.model.Letter;
 import com.zcrabblers.zcrabble.model.LetterTuple;
 import org.junit.Test;
