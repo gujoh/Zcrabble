@@ -1,5 +1,3 @@
-package com.zcrabblers.zcrabble.tests;
-
 import com.zcrabblers.zcrabble.model.Dictionary;
 import org.junit.Test;
 

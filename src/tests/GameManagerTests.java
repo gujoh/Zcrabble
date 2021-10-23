@@ -1,5 +1,3 @@
-package com.zcrabblers.zcrabble.tests;
-
 import com.zcrabblers.zcrabble.model.GameManager;
 import org.junit.Test;
 import static org.junit.Assert.*;

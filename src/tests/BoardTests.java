@@ -1,6 +1,3 @@
-package com.zcrabblers.zcrabble.tests;
-
-
 import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
 import com.zcrabblers.zcrabble.model.gameBoard.Cell;
 import com.zcrabblers.zcrabble.model.gameBoard.CellTuple;

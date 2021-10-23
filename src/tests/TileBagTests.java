@@ -1,4 +1,3 @@
-package com.zcrabblers.zcrabble.tests;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
 import org.junit.Test;
 import java.io.FileNotFoundException;
