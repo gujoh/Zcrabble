@@ -5,6 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
+/**
+ * MenuController is the controller class for the Menu_Controller.fxml file.
+ */
 public class MenuController extends AnchorPane {
 
     private BoardController parentController;

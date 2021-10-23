@@ -12,6 +12,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Main is responsible for actually running the application.
+ * Main creates a Scene using an .fxml file and adds it to the stage.
+ * Further, it contains an inner record SceneSizeChangeListener that is used to scale the application using letterboxing.
+ */
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
@@ -30,7 +35,7 @@ public class Main extends Application {
         launch();
     }
 
-    //Letterboxing is a method to scale GUI applications, for instance.
+    //Letterboxing is a method used to scale GUI applications, for instance.
     private void letterbox(final Scene scene, final AnchorPane contentPane) {
         final double initWidth  = scene.getWidth();
         final double initHeight = scene.getHeight();

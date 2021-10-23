@@ -18,7 +18,8 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * BoardController contains
+ * BoardController is the controller class for the board.fxml file.
+ * It renders the game and interacts with the model.
  */
 public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane boardAnchor;
@@ -55,7 +56,6 @@ public class BoardController implements Initializable, ILetterObservable {
     private final List<ImageView> swapTileList = new ArrayList<>();
     private final List<Label> scoreLabelList = new ArrayList<>();
     private final List<Button> buttonsChangedBySkinsList = new ArrayList<>();
-
 
     private final GameManager gameManager = GameManager.getInstance();
     private Game game;
@@ -168,15 +168,115 @@ public class BoardController implements Initializable, ILetterObservable {
         dragImageView.toFront();
     }
 
-    // Help method used to convert a mouse position to a board coordinate/index.
-    private int pos2Coord(double x){
-        return (int)Math.floor(x / IMAGE_SIZE); // remove hard coding?
+    //Initializes the tutorial pane. Reads a .txt file that contains the rules.
+    private void initTutorialPane() throws IOException {
+        File file = new File("src/main/resources/ScrabbleRules.txt");
+        StringBuilder contents = new StringBuilder();
+        BufferedReader reader = null;
+        String text;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        while (true) {
+            assert reader != null;
+            if ((text = reader.readLine()) == null) break;
+            contents.append(text).append(System.getProperty("line.separator"));
+        }
+        reader.close();
+
+        tutorialTextArea.setText(contents.toString());
     }
 
-    // Help method used to convert a mouse position to a rack index.
-    private int pos2Rack(double x){
-        int leftSpacingRemoved = (int)(x - rackList.get(0).getX());
-        return leftSpacingRemoved / 45; // remove hard coding?
+    // Init the popup pane where the user can exchange their tile for new ones.
+    private void initSwapPane(){
+        int tileSideLength = 45;
+        double x = swapTilesPopupPane.getPrefWidth()/2-((double)tileSideLength/2);
+        double y = swapTilesPopupPane.getPrefHeight()/2-((double)tileSideLength/2);
+        int counter = 0;
+        int spacing = 50;
+        for (int i = 0; i < 7; i++) {
+            CellView img = new CellView(cellImageMap.get(11));
+            img.toFront();
+            img.setFitWidth(tileSideLength);
+            img.setFitHeight(tileSideLength);
+
+            swapTilesPopupPane.getChildren().add(img);
+            swapTileList.add(img);
+
+            x += counter * spacing;
+            img.setX(x);
+            img.setY(y);
+            counter++;
+            spacing = -spacing;
+            registerSwapRackCellEvent(img);
+        }
+        sortBasedOnX(swapTileList);
+    }
+
+    //Renders the board. Gets called from the populate() method.
+    private void populateBoard() {
+        int x = 0;
+        int y = 0;
+        int length = game.getBoardSize();
+
+        for (int i = 0; i < length; i++){
+            for (int j = 0; j < length; j++){
+                CellView img;
+                if(i == length/2 && j == length/2){
+                    img = new CellView(cellImageMap.get(0)); // Middle image
+                }
+                else {
+                    img = new CellView(cellImageMap.get(game.getBoard().getBoardCells()[i][j].GetCellWordMultiplier() * 10 + game.getBoard().getBoardCells()[i][j].GetCellLetterMultiplier()));
+                }
+
+                boardAnchor.getChildren().add(img);
+                cellList.add(img);
+                img.setFitHeight(IMAGE_SIZE);
+                img.setFitWidth(IMAGE_SIZE);
+                img.setX(x);
+                img.setY(y);
+
+                x+=IMAGE_SIZE;
+
+                img.changeToDefaultImage();
+                registerBoardCellClickEvent(img);
+            }
+            x = 0;
+            y += IMAGE_SIZE;
+        }
+    }
+
+    //Renders the rack. Gets called from the populate() method.
+    private void populateRack() {
+        rackList.clear();
+        double x = rackRectangle.getWidth()/2-((double)IMAGE_SIZE/2);
+        double y = rackRectangle.getHeight()/2-((double)IMAGE_SIZE/2);
+        int counter = 0;
+        int spacing = 45;
+        for(int i = 0; i < 7; i++){
+            CellView img = new CellView(cellImageMap.get(11)); // Empty cell image
+            rackAnchor.getChildren().add(img);
+            rackList.add(img);
+            img.setFitHeight(IMAGE_SIZE);
+            img.setFitWidth(IMAGE_SIZE);
+
+            x += counter * spacing;
+            img.setX(x);
+            img.setY(y);
+            counter++;
+            spacing = -spacing;
+
+            registerRackCellEvent(img);
+        }
+
+        //Sorts the rack in order to match the way the rack is represented in the model.
+        sortBasedOnX(rackList);
+
+        //Fills the rack with images.
+        setRackImages();
     }
 
     // Switches the images of the image that was dragged from and the parameter
@@ -323,82 +423,6 @@ public class BoardController implements Initializable, ILetterObservable {
         });
     }
 
-    //Renders the board. Gets called from the populate() method.
-    private void populateBoard() {
-        int x = 0;
-        int y = 0;
-        int length = game.getBoardSize();
-
-        for (int i = 0; i < length; i++){
-            for (int j = 0; j < length; j++){
-                CellView img;
-                if(i == length/2 && j == length/2){
-                    img = new CellView(cellImageMap.get(0)); // Middle image
-                }
-                 else {
-                    img = new CellView(cellImageMap.get(game.getBoard().getBoardCells()[i][j].GetCellWordMultiplier() * 10 + game.getBoard().getBoardCells()[i][j].GetCellLetterMultiplier()));
-                 }
-
-                boardAnchor.getChildren().add(img);
-                cellList.add(img);
-                img.setFitHeight(IMAGE_SIZE);
-                img.setFitWidth(IMAGE_SIZE);
-                img.setX(x);
-                img.setY(y);
-
-                x+=IMAGE_SIZE;
-
-                img.changeToDefaultImage();
-                registerBoardCellClickEvent(img);
-            }
-            x = 0;
-            y += IMAGE_SIZE;
-        }
-    }
-
-    //Renders the rack. Gets called from the populate() method.
-    private void populateRack() {
-        rackList.clear();
-        double x = rackRectangle.getWidth()/2-((double)IMAGE_SIZE/2);
-        double y = rackRectangle.getHeight()/2-((double)IMAGE_SIZE/2);
-        int counter = 0;
-        int spacing = 45;
-        for(int i = 0; i < 7; i++){
-            CellView img = new CellView(cellImageMap.get(11)); // Empty cell image
-            rackAnchor.getChildren().add(img);
-            rackList.add(img);
-            img.setFitHeight(IMAGE_SIZE);
-            img.setFitWidth(IMAGE_SIZE);
-
-            x += counter * spacing;
-            img.setX(x);
-            img.setY(y);
-            counter++;
-            spacing = -spacing;
-
-            registerRackCellEvent(img);
-        }
-        
-        //Sorts the rack in order to match the way the rack is represented in the model.
-        sortBasedOnX(rackList);
-
-        //Fills the rack with images.
-        setRackImages();
-    }
-
-    //Sorts a list of ImageViews based on their x coordinate.
-    private void sortBasedOnX(List<ImageView> list){
-        for(int i = 0; i < list.size(); i++){
-            for(int j = 1; j < list.size()-1; j++){
-                if(list.get(j-1).getX() > list.get(i).getX()){
-                    double temp = list.get(j-1).getX();
-                    list.get(j-1).setX(list.get(i).getX());
-                    list.get(i).setX(temp);
-                }
-            }
-        }
-    }
-
     //Adds the correct images to the rack.
     //TODO: use cached map instead of reading a file
     private void setRackImages(){
@@ -442,11 +466,6 @@ public class BoardController implements Initializable, ILetterObservable {
             }
             if (y > 14) y = 0;
         }
-    }
-
-    //Converts an index in a 2D array to an index in a 1D array.
-    private int coordinateToIndex(int x, int y){
-        return y + x * game.getBoardSize();
     }
 
     /**
@@ -511,17 +530,6 @@ public class BoardController implements Initializable, ILetterObservable {
         setRackImages();
     }
 
-    //Opens the winner pane.
-    private void showWinnerPane(int winningPlayerNumber){
-        winnerLabel.setText("Player " + winningPlayerNumber + " is victorious!");
-        winnerPane.toFront();
-    }
-
-    @FXML
-    private void hideWinnerPane(){
-        winnerPane.toBack();
-    }
-
     //Starts a new game by calling newGame in GameManager.
     //Amount of players is based on the spinner values in the new game menu.
     @FXML
@@ -547,7 +555,67 @@ public class BoardController implements Initializable, ILetterObservable {
             updateScores();
             updateTilesLeft();
         }
+    }
 
+    //Attempts to end the current turn. If endTurn() returns false, the word is invalid and a modal panel pops up.
+    @FXML
+    private void endTurn(){
+        if(game.isGameOver()){
+            return;
+        }
+        if(!game.endTurn()){
+            invalidWordBackground.toFront();
+        }
+        selection.unSelect();
+    }
+
+    //Returns tiles on the board to the rack.
+    @FXML
+    private void returnToRack(){
+        game.returnTilesToRack();
+        setRackImages();
+        setBoardImages();
+    }
+
+    //Converts an index in a 2D array to an index in a 1D array.
+    private int coordinateToIndex(int x, int y){
+        return y + x * game.getBoardSize();
+    }
+
+    //Sorts a list of ImageViews based on their x coordinate.
+    private void sortBasedOnX(List<ImageView> list){
+        for(int i = 0; i < list.size(); i++){
+            for(int j = 1; j < list.size()-1; j++){
+                if(list.get(j-1).getX() > list.get(i).getX()){
+                    double temp = list.get(j-1).getX();
+                    list.get(j-1).setX(list.get(i).getX());
+                    list.get(i).setX(temp);
+                }
+            }
+        }
+    }
+
+    // Help method used to convert a mouse position to a board coordinate/index.
+    private int pos2Coord(double x){
+        return (int)Math.floor(x / IMAGE_SIZE); // remove hard coding?
+    }
+
+    // Help method used to convert a mouse position to a rack index.
+    private int pos2Rack(double x){
+        int leftSpacingRemoved = (int)(x - rackList.get(0).getX());
+        return leftSpacingRemoved / 45; // remove hard coding?
+    }
+
+    //Opens the winner pane.
+    private void showWinnerPane(int winningPlayerNumber){
+        winnerLabel.setText("Player " + winningPlayerNumber + " is victorious!");
+        winnerPane.toFront();
+    }
+
+    //Hides the winner pane.
+    @FXML
+    private void hideWinnerPane(){
+        winnerPane.toBack();
     }
 
     //Closes the welcome screen by calling the toBack() method on the AnchorPane.
@@ -568,44 +636,10 @@ public class BoardController implements Initializable, ILetterObservable {
         newGameMenuBackground.toBack();
     }
 
-    //Attempts to end the current turn. If endTurn() returns false, the word is invalid and a modal panel pops up.
-    @FXML
-    private void endTurn(){
-        if(game.isGameOver()){
-            return;
-        }
-        if(!game.endTurn()){
-            invalidWordBackground.toFront();
-        }
-        selection.unSelect();
-    }
-
     //Closes the modal panel that shows up when the player tries to play an invalid word.
     @FXML
     private void closeInvalidBackground(){
         invalidWordBackground.toBack();
-    }
-
-    //Initializes the tutorial pane. Reads a .txt file that contains the rules.
-    private void initTutorialPane() throws IOException {
-        File file = new File("src/main/resources/ScrabbleRules.txt");
-        StringBuilder contents = new StringBuilder();
-        BufferedReader reader = null;
-        String text;
-        try {
-            reader = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        while (true) {
-            assert reader != null;
-            if ((text = reader.readLine()) == null) break;
-            contents.append(text).append(System.getProperty("line.separator"));
-        }
-        reader.close();
-
-        tutorialTextArea.setText(contents.toString());
     }
 
     //Opens the tutorial pane. Gets called from MenuController, hence why it is package private.
@@ -620,42 +654,10 @@ public class BoardController implements Initializable, ILetterObservable {
         tutorialPane.toBack();
     }
 
-    @FXML private void returnToRack(){
-        game.returnTilesToRack();
-        setRackImages();
-        setBoardImages();
-    }
-
-    // Init the popup pane where the user can exchange their tile for new ones.
-    private void initSwapPane(){
-        int tileSideLength = 45;
-        double x = swapTilesPopupPane.getPrefWidth()/2-((double)tileSideLength/2);
-        double y = swapTilesPopupPane.getPrefHeight()/2-((double)tileSideLength/2);
-        int counter = 0;
-        int spacing = 50;
-        for (int i = 0; i < 7; i++) {
-            CellView img = new CellView(cellImageMap.get(11));
-            img.toFront();
-            img.setFitWidth(tileSideLength);
-            img.setFitHeight(tileSideLength);
-
-            swapTilesPopupPane.getChildren().add(img);
-            swapTileList.add(img);
-
-            x += counter * spacing;
-            img.setX(x);
-            img.setY(y);
-            counter++;
-            spacing = -spacing;
-            registerSwapRackCellEvent(img);
-        }
-        sortBasedOnX(swapTileList);
-    }
-
     // Open the exchange tiles pane.
     @FXML
     private void openSwapPane(){
-        if(game.isGameOver()){
+        if(game.isGameOver() || game.getRemainingTiles() <= 7){
             return;
         }
         returnToRack();
@@ -693,7 +695,6 @@ public class BoardController implements Initializable, ILetterObservable {
         rootPane.getScene().getWindow().setHeight(initialWindowHeight * scaleFactor);
     }
 
-
     //Sets the Zcrabble theme dark mode. Gets called from the MenuController class.
     void setDarkModeSkin(){
         gameAnchor.setStyle("-fx-background-color: #808080");
@@ -722,6 +723,5 @@ public class BoardController implements Initializable, ILetterObservable {
             button.setStyle("-fx-background-color: #fff200");
             button.setTextFill(Color.BLACK);
         }
-
     }
 }
