@@ -36,6 +36,14 @@ public class TurnObserver {
     }
 
     /**
+     * Returns the amount of subscribers.
+     * @return the amount of subscribers in the subscribers list.
+     */
+    public int getSubscriberCount(){
+        return subscribers.size();
+    }
+
+    /**
      * Calls endTurn on all subscribers.
      */
     public void notifySubscribers(){

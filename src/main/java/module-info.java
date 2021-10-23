@@ -12,5 +12,7 @@ module com.zcrabblers.zcrabble {
     exports com.zcrabblers.zcrabble.utils;
     exports com.zcrabblers.zcrabble.model.gameBoard;
     exports com.zcrabblers.zcrabble.model.gameBoard.board;
+    exports com.zcrabblers.zcrabble.model.observers;
+    exports com.zcrabblers.zcrabble.model.players;
 
 }

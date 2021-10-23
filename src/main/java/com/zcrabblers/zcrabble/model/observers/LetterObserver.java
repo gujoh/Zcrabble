@@ -38,6 +38,14 @@ public class LetterObserver {
     }
 
     /**
+     * Returns the amount of subscribers.
+     * @return the amount of subscribers in the subscribers list.
+     */
+    public int getSubscriberCount(){
+        return subscribers.size();
+    }
+
+    /**
      * Notifies subscribers of changes.
      * @param boardList a list of new cells and their position.
      * @param isGameOver whether the current game is over.

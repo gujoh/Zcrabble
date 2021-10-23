@@ -1,22 +1,18 @@
-import com.zcrabblers.zcrabble.model.gameBoard.CellTuple;
-import com.zcrabblers.zcrabble.model.observers.ILetterObservable;
-import com.zcrabblers.zcrabble.model.observers.LetterObserver;
+import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
+import com.zcrabblers.zcrabble.model.observers.TurnObserver;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+public class TurnObserverTests {
 
-import java.util.List;
+    TurnObserver observer = new TurnObserver();
 
-public class LetterObserverTests {
-
-    LetterObserver observer = new LetterObserver();
-
-    private static class ObserverTest implements ILetterObservable {
+    private static class ObserverTest implements ITurnObservable{
 
         @Override
-        public void updateState(List<CellTuple> boardList, boolean isGameOver) {
-
+        public boolean endTurn() {
+            return false;
         }
     }
 
