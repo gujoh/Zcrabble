@@ -7,7 +7,10 @@ import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-
+/**
+ * Tests methods in Board.
+ * @author Martin Björklund.
+ */
 public class BoardTests {
     @Test
     public void testSize() {
@@ -20,9 +23,7 @@ public class BoardTests {
         Board board = new Board();
         for(int i = 0; i < board.getBoardCells().length; i++){
             for(int j = 0; j < board.getBoardCells().length; j++)
-                if((7 > j && i == 8)) {
-                }
-                else{
+                if(!(7 > j && i == 8)) {
                     board.placeTile(i, j, new Tile('A', 2));
                 }
         }

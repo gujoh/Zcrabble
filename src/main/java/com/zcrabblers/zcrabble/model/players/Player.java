@@ -26,10 +26,18 @@ public class Player implements IPlayers {
         this.score += score;
     }
 
+    /**
+     * Returns the current score of this player.
+     * @return The score of this player.
+     */
     public int getScore(){
         return score;
     }
 
+    /**
+     * Gets the rack of this player.
+     * @return player's rack.
+     */
     public Rack getRack(){
         return rack;
     }
