@@ -23,26 +23,26 @@ public class Cell {
         this.placedTile = placedTile;
     }
 
-    public int GetCellWordMultiplier() {
+    int getCellWordMultiplier() {
         return cellWordMultiplier;
     }
 
-    public int GetCellLetterMultiplier() {
+    int getCellLetterMultiplier() {
         return cellLetterMultiplier;
     }
 
-    public Tile getPlacedTile(){return placedTile;}
+    Tile getPlacedTile(){return placedTile;}
 
-    public void setTile(Tile tile){placedTile = tile;}
+    void setTile(Tile tile){placedTile = tile;}
 
-    public void removeTile(){
+    void removeTile(){
         placedTile = new Tile(' ', 0);
     }
 
-    public boolean isEmpty(){
+    boolean isEmpty(){
         return placedTile.getLetter() == ' ';
     }
 
-    public char getTileLetter() {return placedTile.getLetter();}
+    char getTileLetter() {return placedTile.getLetter();}
 
 }

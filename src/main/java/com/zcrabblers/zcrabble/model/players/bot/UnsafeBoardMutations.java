@@ -14,8 +14,6 @@ import com.zcrabblers.zcrabble.model.gameBoard.Board;
 
 class UnsafeBoardMutations {
 
-
-    //TODO the next two methods should definitively be private
     /**
      * Copies a board's cell matrix flipped 3pi/2 = -pi/2 radians
      * First row is first column, first column is last row
@@ -23,10 +21,11 @@ class UnsafeBoardMutations {
      */
     static void tilt3PiHalf(Board board){
         Board tempBoard = new Board();
-        for (int i = 0; i <board.getBoardCells().length ; i++) {
-            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
-                Cell newCell = board.getBoardCells()[i][j];
-                tempBoard.getBoardCells()[j][board.getBoardCells().length-i-1] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(),newCell.getPlacedTile());
+        for (int i = 0; i < board.getSize(); i++) {
+            for (int j = 0; j <board.getSize(); j++) {
+
+                tempBoard.getBoardCells()[j][board.getBoardCells().length-i-1] = new Cell(board.getCellWordMultiplier(i,j),board.getCellLetterMultiplier(i,j),board.getTile(i,j));
+
             }
         }
         board.copyBoardCells(tempBoard,true);
@@ -40,10 +39,11 @@ class UnsafeBoardMutations {
     static void tiltPiHalf(Board board){
 
         Board tempBoard = new Board();
-        for (int i = 0; i <board.getBoardCells().length ; i++) {
-            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
-                Cell newCell = board.getBoardCells()[i][j];
-                tempBoard.getBoardCells()[board.getBoardCells()[0].length-j-1][i] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(),newCell.getPlacedTile());
+        for (int i = 0; i <board.getSize(); i++) {
+            for (int j = 0; j <board.getSize(); j++) {
+
+                tempBoard.getBoardCells()[board.getSize()-j-1][i] = new Cell(board.getCellWordMultiplier(i,j),board.getCellLetterMultiplier(i,j),board.getTile(i,j));
+
             }
         }
         board.copyBoardCells(tempBoard, true);
@@ -59,8 +59,9 @@ class UnsafeBoardMutations {
         Board tempBoard = new Board();
         for (int i = 0; i <board.getBoardCells().length ; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
-                Cell newCell = board.getBoardCells()[i][j];
-                tempBoard.getBoardCells()[board.getSize()-1-i][j] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(),newCell.getPlacedTile());
+
+                tempBoard.getBoardCells()[board.getSize()-1-i][j] = new Cell(board.getCellWordMultiplier(i,j), board.getCellLetterMultiplier(i,j), board.getTile(i,j));
+
             }
         }
         board.copyBoardCells(tempBoard,true);

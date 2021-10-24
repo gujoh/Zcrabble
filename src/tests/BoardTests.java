@@ -352,6 +352,7 @@ public class BoardTests {
         Cell cell = board.getBoardCells()[0][0];
         assertNotNull(cell);
     }
+    /*
     @Test
     public void testGetNewCells() {
         Board board = new Board();
@@ -385,6 +386,8 @@ public class BoardTests {
 
     }
 
+     */
+
     public void printBoard(Board pBoard){
         StringBuilder line = new StringBuilder();
         for(int i = 0; i < pBoard.getBoardCells().length + 1; i++){
@@ -406,15 +409,15 @@ public class BoardTests {
                         line.append("4");}
                 }
                 else {
-                    if (pBoard.getBoardCells()[i-1][j].getPlacedTile().getLetter() == ' ') {
-                        line.append(pBoard.getBoardCells()[i - 1][j].GetCellLetterMultiplier());
+                    if (pBoard.getTile(i-1,j).getLetter() == ' ') {
+                        line.append(pBoard.getCellLetterMultiplier(i-1,j));//getBoardCells()[i - 1][j].GetCellLetterMultiplier());
                         line.append('_');
-                        line.append(pBoard.getBoardCells()[i - 1][j].GetCellWordMultiplier());
+                        line.append(pBoard.getCellWordMultiplier(i - 1,j));//getBoardCells()[i - 1][j].GetCellWordMultiplier());
                         line.append(" ");
                     } else {
-                        line.append(pBoard.getBoardCells()[i - 1][j].GetCellLetterMultiplier());
-                        line.append(pBoard.getBoardCells()[i - 1][j].getPlacedTile().getLetter());
-                        line.append(pBoard.getBoardCells()[i - 1][j].GetCellWordMultiplier());
+                        line.append(pBoard.getCellLetterMultiplier(i-1,j));//getBoardCells()[i - 1][j].GetCellLetterMultiplier());
+                        line.append(pBoard.getTile(i-1,j).getLetter());
+                        line.append(pBoard.getCellWordMultiplier(i - 1,j));//getBoardCells()[i - 1][j].GetCellWordMultiplier());
                         line.append(" ");
                     }
                 }
@@ -444,10 +447,10 @@ public class BoardTests {
                         line.append("4");}
                 }
                 else {
-                    if (pBoard.getBoardCells()[i-1][j].getPlacedTile().getLetter() == ' ') {
+                    if (pBoard.getTile(i-1,j).getLetter() == ' ') {
                         line.append('_');
                     } else {
-                        line.append(pBoard.getBoardCells()[i - 1][j].getPlacedTile().getLetter());
+                        line.append(pBoard.getTile(i-1,j).getLetter());
                     }
                     line.append(" ");
                 }
@@ -461,8 +464,8 @@ public class BoardTests {
         StringBuilder line = new StringBuilder();
         for(int i = 0; i < pBoard.getBoardCells().length; i++){
             for(int j = 0; j < pBoard.getBoardCells().length; j++){
-                String letterMult = String.valueOf(pBoard.getBoardCells()[i][j].GetCellLetterMultiplier());
-                line.append(letterMult).append(pBoard.getBoardCells()[i][j].GetCellWordMultiplier());
+                String letterMult = String.valueOf(pBoard.getCellLetterMultiplier(i,j));//getBoardCells()[i][j].GetCellLetterMultiplier());
+                line.append(letterMult).append(pBoard.getCellWordMultiplier(i,j));
                 line.append(" ");
             }
             System.out.println(line);

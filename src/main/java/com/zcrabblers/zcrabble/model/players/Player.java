@@ -6,8 +6,10 @@ import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
 import com.zcrabblers.zcrabble.model.gameBoard.Board;
 
 /**
- * Player represents a human player. It keeps track of the score and rack.
+ * Models a human player.
  * @author Gustaf Jonasson, Niklas Axelsson, Ole Fjelså, Martin Björklund.
+ * used by:
+ * uses: IPlayer, Rack, Board, Tile, Tilebag
  */
 public class Player implements IPlayers {
 

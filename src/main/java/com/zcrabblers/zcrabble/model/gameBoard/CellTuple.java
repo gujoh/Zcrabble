@@ -16,7 +16,7 @@ public class CellTuple{
      * @param cell the cell of a board
      * @see Cell
      */
-    public CellTuple(int i, int j, Cell cell){
+    public  CellTuple(int i, int j, Cell cell){
         this.i = i;
         this.j = j;
         this.cell = cell;
@@ -24,5 +24,6 @@ public class CellTuple{
     public int getI(){return i;}
     public int getJ(){return j;}
     public Cell getCell(){return cell;}
+    public char getTileLetter(){return cell.getTileLetter();}
 
 }

@@ -4,8 +4,10 @@ import com.zcrabblers.zcrabble.utils.RandomSeed;
 import java.util.Random;
 
 /**
- * Represents a rack. Contains method that modify the rack.
+ * A container for a player's playable tiles.
  * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
+ * used by: IPlayer, Bot, Player
+ * uses: Tile, Tilebag, RandomSeed
  */
 public class Rack {
     private Tile[] playerTiles = new Tile[7];

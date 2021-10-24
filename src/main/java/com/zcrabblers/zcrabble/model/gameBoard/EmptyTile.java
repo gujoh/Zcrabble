@@ -1,8 +1,10 @@
 package com.zcrabblers.zcrabble.model.gameBoard;
 
 /**
- * Represents an empty tile.
- * @author Niklas Axelsson.
+ * A singleton for an empty tile.
+ * @author Niklas Axelsson
+ * used by:
+ * uses: Tile
  */
 enum EmptyTile {
     INSTANCE;

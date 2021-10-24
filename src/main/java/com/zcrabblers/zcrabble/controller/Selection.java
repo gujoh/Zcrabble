@@ -3,7 +3,10 @@ package com.zcrabblers.zcrabble.controller;
 import javafx.scene.image.Image;
 
 /**
- * Selection is responsible for keeping track of what is selected.
+ * Selection is responsible for keeping track of the currently selected CellImageView.
+ * @author Niklas Axelsson
+ * used by: BoardViewController
+ * uses: CellImageView
  */
 public class Selection {
     private CellImageView selectedCell;

@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
- * TileBag represents a tile bag. It reads data from a txt file.
+ * Represent the bag of tiles each player draw new tiles from.
  * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
+ * used by:
+ * uses: Tile, IPlayer, Game
  */
 public class TileBag {
     private final Deque<Tile> bag = new ArrayDeque<>();

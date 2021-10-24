@@ -6,6 +6,10 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 
+/**
+ * Tests for methods in the Rack class.
+ * @author Niklas Axelsson
+ */
 public class RackTests {
 
     @Test
