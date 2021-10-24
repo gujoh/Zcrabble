@@ -1,9 +1,6 @@
-package com.zcrabblers.zcrabble.model.gameBoard.board;
+package com.zcrabblers.zcrabble.model.gameBoard;
 
 import com.zcrabblers.zcrabble.model.Dictionary;
-import com.zcrabblers.zcrabble.model.gameBoard.Cell;
-import com.zcrabblers.zcrabble.model.gameBoard.CellTuple;
-import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +13,6 @@ import java.util.Scanner;
 // - BoardChecks, for all validations of a board
 // - Scoring, for all methods that help score a given play
 // - Board, for the obvious board stuff
-//TODO make board tests faster
 /**
  *The board on which the game is played, it's made up of a matrix of cells
  * @see Cell

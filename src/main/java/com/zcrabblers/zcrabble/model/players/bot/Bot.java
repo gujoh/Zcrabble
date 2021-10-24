@@ -3,7 +3,7 @@ package com.zcrabblers.zcrabble.model.players.bot;
 import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
-import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
+import com.zcrabblers.zcrabble.model.gameBoard.Board;
 import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
 import com.zcrabblers.zcrabble.model.observers.TurnObserver;
 import com.zcrabblers.zcrabble.model.players.IPlayers;
@@ -123,14 +123,14 @@ public class Bot implements IPlayers {
 
     //writes a horizontal word to board
     private void makeHorizontalBoard(Board horizontalBoard, Rack horizontalRack) {
-        horizontalBoard.copyBoardCells(BotLogic.scrabbleWord(horizontalBoard, horizontalRack), true);
+        horizontalBoard.copyBoardCells(BotLogic.scrabblePlay(horizontalBoard, horizontalRack), true);
     }
 
     //tilts then mirrors board, writes a horizontal word to it, then mirrors and tilts it back
     private void makeVerticalBoard(Board verticalBoard, Rack verticalRack) {
         UnsafeBoardMutations.tiltPiHalf(verticalBoard);
         UnsafeBoardMutations.mirrorAroundCol7(verticalBoard);
-        verticalBoard.copyBoardCells(BotLogic.scrabbleWord(verticalBoard, verticalRack), true);
+        verticalBoard.copyBoardCells(BotLogic.scrabblePlay(verticalBoard, verticalRack), true);
         UnsafeBoardMutations.mirrorAroundCol7(verticalBoard);
         UnsafeBoardMutations.tilt3PiHalf(verticalBoard);
     }

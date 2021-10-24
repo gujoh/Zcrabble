@@ -1,4 +1,4 @@
-import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
+import com.zcrabblers.zcrabble.model.gameBoard.Board;
 import com.zcrabblers.zcrabble.model.gameBoard.Cell;
 import com.zcrabblers.zcrabble.model.gameBoard.CellTuple;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;

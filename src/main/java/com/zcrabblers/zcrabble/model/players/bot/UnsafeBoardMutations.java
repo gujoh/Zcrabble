@@ -1,7 +1,7 @@
 package com.zcrabblers.zcrabble.model.players.bot;
 
 import com.zcrabblers.zcrabble.model.gameBoard.Cell;
-import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
+import com.zcrabblers.zcrabble.model.gameBoard.Board;
 
 
 /**
