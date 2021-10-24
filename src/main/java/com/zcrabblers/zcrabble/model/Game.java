@@ -15,6 +15,9 @@ import java.util.List;
 
 /**
  * Game connects multiple classes in the model package in order to construct a Zcrabble game.
+ * @author Niklas Axelsson
+ * used by: GameManager, BoardViewController
+ * uses: IPlayers, Board, Tile, TileBag, LetterObserver
  */
 public class Game implements ITurnObservable {
 

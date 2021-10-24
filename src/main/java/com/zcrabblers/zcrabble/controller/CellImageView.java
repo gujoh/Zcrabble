@@ -5,6 +5,8 @@ import javafx.scene.image.ImageView;
 
 /**
  * CellView is like an ImageView but also has a so-called default image.
+ * @author Niklas Axelsson
+ * used by: BoardImageView
  */
 public class CellImageView extends ImageView {
     private final Image defaultImage;

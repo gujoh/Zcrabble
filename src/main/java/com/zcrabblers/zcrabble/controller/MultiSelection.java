@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * MultiSelection is responsible for keeping track of several selected items.
+ * MultiSelection is responsible for keeping track of several selected CellImageViews.
+ * @author Niklas Axelsson
+ * used by: BoardViewController
+ * uses: CellImageView
  */
 public class MultiSelection {
     private final List<CellImageView> selected = new ArrayList<>();
