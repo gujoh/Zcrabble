@@ -226,8 +226,8 @@ class BotLogic {
     //finds all consecutive letterTiles from left to right in a section of a row of the board
     private static void searchForLetters(Board board, StringBuilder letters, StringBuilder tempRack, int row, int col) {
         while (!board.cellIsEmpty(row,col)){//getBoardCells()[row][col].isEmpty()) {
-            tempRack.append(board.getBoardCells()[row][col].getTileLetter());
-            letters.append(board.getBoardCells()[row][col].getTileLetter());
+            tempRack.append(board.getTileLetter(row,col));
+            letters.append(board.getTileLetter(row,col));
             if (col == board.getBoardCells()[0].length - 1) {
                 break;
             }

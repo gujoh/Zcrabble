@@ -23,5 +23,6 @@ public class CellTuple{
     public int getI(){return i;}
     public int getJ(){return j;}
     public Cell getCell(){return cell;}
+    public char getTileLetter(){return cell.getTileLetter();}
 
 }

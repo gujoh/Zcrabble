@@ -153,7 +153,7 @@ public class BoardViewController implements Initializable, ILetterObservable {
         botSpinner.setValueFactory(botValueFactory);
         playerSpinner.valueProperty().addListener(
                 (observable, oldValue, newValue) -> botSpinner.setValueFactory(
-                        new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4-(int)playerSpinner.getValue(),0,1)));
+                        new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4-playerSpinner.getValue(),0,1)));
     }
 
     // Initializes the tile that is dragged around.
@@ -478,11 +478,11 @@ public class BoardViewController implements Initializable, ILetterObservable {
         for (CellTuple cell : boardList){
             try {
                 ImageView currentCell = cellList.get(coordinateToIndex(cell.getI(), cell.getJ()));
-                if(cell.getCell().getTileLetter() == ' '){
+                if(cell.getTileLetter() == ' '){
                     currentCell.setImage(cellImageMap.get(11));
                 }
                 else{
-                    currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getCell().getTileLetter() + ".png")));
+                    currentCell.setImage(new Image(new FileInputStream(IMAGE_PATH + cell.getTileLetter() + ".png")));
                 }
 
                 //TODO: Make this work with Letter instead of char (see comment below)
