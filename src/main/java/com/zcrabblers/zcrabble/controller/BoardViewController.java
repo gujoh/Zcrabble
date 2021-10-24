@@ -148,13 +148,14 @@ public class BoardViewController implements Initializable, ILetterObservable {
     //Initializes the spinners that set the number of players and bots.
     private void initPlayerSpinner(){
         //TODO: make it possible to only have bots play each other, currently it does not render correctly.
-        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,4,2,1);
+        int maxPlayerCount = 4;
+        SpinnerValueFactory<Integer> playerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,maxPlayerCount,2,1);
         SpinnerValueFactory<Integer> botValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2,0,1);
         playerSpinner.setValueFactory(playerValueFactory);
         botSpinner.setValueFactory(botValueFactory);
         playerSpinner.valueProperty().addListener(
                 (observable, oldValue, newValue) -> botSpinner.setValueFactory(
-                        new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4-playerSpinner.getValue(),0,1)));
+                        new SpinnerValueFactory.IntegerSpinnerValueFactory(0, maxPlayerCount-playerSpinner.getValue(),0,1)));
     }
 
     // Initializes the tile that is dragged around.
@@ -194,11 +195,12 @@ public class BoardViewController implements Initializable, ILetterObservable {
 
     // Init the popup pane where the user can exchange their tile for new ones.
     private void initSwapPane(){
+        int offset = 17;
         int tileSideLength = 45;
         double x = swapTilesPopupPane.getPrefWidth()/2-((double)tileSideLength/2);
         double y = swapTilesPopupPane.getPrefHeight()/2-((double)tileSideLength/2);
         int counter = 0;
-        int spacing = 50;
+        int spacing = IMAGE_SIZE + offset;
         for (int i = 0; i < 7; i++) {
             CellImageView img = new CellImageView(cellImageMap.get(11));
             img.toFront();
@@ -253,11 +255,12 @@ public class BoardViewController implements Initializable, ILetterObservable {
 
     //Renders the rack. Gets called from the populate() method.
     private void populateRack() {
+        int offset = 12;
         rackList.clear();
         double x = rackRectangle.getWidth()/2-((double)IMAGE_SIZE/2);
         double y = rackRectangle.getHeight()/2-((double)IMAGE_SIZE/2);
         int counter = 0;
-        int spacing = 45;
+        int spacing = IMAGE_SIZE + offset;
         for(int i = 0; i < 7; i++){
             CellImageView img = new CellImageView(cellImageMap.get(11)); // Empty cell image
             rackAnchor.getChildren().add(img);
@@ -609,8 +612,9 @@ public class BoardViewController implements Initializable, ILetterObservable {
 
     // Help method used to convert a mouse position to a rack index.
     private int pos2Rack(double x){
+        int offset = 12;
         int leftSpacingRemoved = (int)(x - rackList.get(0).getX());
-        return leftSpacingRemoved / 45; // remove hard coding?
+        return leftSpacingRemoved / (IMAGE_SIZE + offset);
     }
 
     //Opens the winner pane.
@@ -684,9 +688,10 @@ public class BoardViewController implements Initializable, ILetterObservable {
     // Exchange tiles in the model after it is confirmed by the user in the swapTilesPane.
     @FXML
     private void swapPaneSwap(){
+        int offset = 17;
         for (CellImageView cV : mSelection.getSelected()) {
-            int index = (int) (cV.getX() - swapTileList.get(0).getX());
-            index /= 50;
+            int position = (int) (cV.getX() - swapTileList.get(0).getX());
+            int index = position/(IMAGE_SIZE + offset);
             game.fromRackToBag(index);
         }
         mSelection.unSelectAll();
