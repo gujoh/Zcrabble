@@ -159,8 +159,9 @@ public class BoardViewController implements Initializable, ILetterObservable {
 
     // Initializes the tile that is dragged around.
     private void initDragTile() throws FileNotFoundException {
-        dragImageView.setFitWidth(30);
-        dragImageView.setFitHeight(30);
+        int dragImageSideLength = 30;
+        dragImageView.setFitWidth(dragImageSideLength);
+        dragImageView.setFitHeight(dragImageSideLength);
         dragImageView.setVisible(false);
         dragImageView.setMouseTransparent(true);
         dragImageView.setImage(new Image(new FileInputStream(IMAGE_PATH + "TestTile.png")));
@@ -299,8 +300,9 @@ public class BoardViewController implements Initializable, ILetterObservable {
         board.setOnMouseMoved(event -> {
             if(!selection.hasSelected())
                 return;
-            dragImageView.setX(event.getX() - 15);
-            dragImageView.setY(event.getY() - 15);
+            int offset = 15;
+            dragImageView.setX(event.getX() - offset);
+            dragImageView.setY(event.getY() - offset);
         });
     }
 

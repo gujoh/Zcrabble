@@ -92,7 +92,8 @@ public class Game implements ITurnObservable {
         if(tileBag.isEmpty() && previous.getRack().rackIsEmpty()) {
             return true;
         }
-        return passCounter == 7;
+        int passesRequired = 7;
+        return passCounter == passesRequired;
     }
 
     //Returns the next IPlayer.

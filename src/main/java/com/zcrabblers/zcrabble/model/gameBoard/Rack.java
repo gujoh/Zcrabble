@@ -10,16 +10,17 @@ import java.util.Random;
  * uses: Tile, Tilebag, RandomSeed
  */
 public class Rack {
-    private Tile[] playerTiles = new Tile[7];
+    private final int rackSize = 7;
+    private Tile[] playerTiles = new Tile[rackSize];
 
     public Rack(TileBag bag){
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < rackSize; i++){
             playerTiles[i] = bag.takeTile();
         }
     }
 
     public Rack() {
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < rackSize; i++) {
             playerTiles[i] = new Tile(' ', 0);
         }
     }
@@ -66,7 +67,7 @@ public class Rack {
 
     public void getRackCopy(Rack rack) {
         Tile[] tempTile = new Tile[rack.getTiles().length];
-        for (int i = 0; i <rack.getTiles().length ; i++) {
+        for (int i = 0; i < rack.getTiles().length ; i++) {
             Tile rackTile = rack.getTile(i);
             tempTile[i] = new Tile(rackTile.getLetter(), rackTile.getTileScore());
         }
