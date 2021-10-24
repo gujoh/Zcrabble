@@ -40,22 +40,42 @@ public class TileBag {
             scanner.close();
         Collections.shuffle(temp, RandomSeed.INSTANCE.getRandom());
         bag.addAll(temp);
-
     }
 
-
+    /**
+     * @return number of Tiles left in the bag
+     */
     public int remainingTiles(){
         return bag.size();
     }
+
+    /**
+     * pops the top Tile out of the bag and returns it.
+     * @return the top tile in the bag
+     */
     public Tile takeTile(){
         return bag.pop();
     }
+
+    /**
+     * Adds a tile to the bag
+     * @param tile the Tile to be added to the bag.
+     */
     public void add(Tile tile){
         bag.add(tile);
     }
+
+    /**
+     * Checks if there is any tiles left in the bag
+     * @return true/false the bag is empty
+     */
     public boolean isEmpty(){
         return bag.isEmpty();
     }
+
+    /**
+     * @return returns the tileBag
+     */
     public Deque<Tile> getBag(){
         return bag;
     }
