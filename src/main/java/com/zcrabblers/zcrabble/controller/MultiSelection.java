@@ -1,7 +1,5 @@
 package com.zcrabblers.zcrabble.controller;
 
-import javafx.scene.image.Image;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -9,11 +7,11 @@ import java.util.ArrayList;
  * MultiSelection is responsible for keeping track of several selected items.
  */
 public class MultiSelection {
-    private final List<CellView> selected = new ArrayList<>();
+    private final List<CellImageView> selected = new ArrayList<>();
 
     // get indices instead ?
     // aka have a method to calc indices here or in BoardController ?
-    public List<CellView> getSelected(){
+    public List<CellImageView> getSelected(){
         return selected;
     }
 
@@ -22,7 +20,7 @@ public class MultiSelection {
      * @param cellView Cell to compare.
      * @return True if the current selection contains the cell.
      */
-    public boolean isSelected(CellView cellView){
+    public boolean isSelected(CellImageView cellView){
         return selected.contains(cellView);
     }
 
@@ -30,7 +28,7 @@ public class MultiSelection {
      * Selects a cell and adds it to the selection.
      * @param cellView Cell to select.
      */
-    public void select(CellView cellView){
+    public void select(CellImageView cellView){
         selected.add(cellView);
         cellView.setOpacity(0.25);
     }
@@ -39,7 +37,7 @@ public class MultiSelection {
      * Unselects a cell from the selection.
      * @param cellView Cell to unselect
      */
-    public void unSelect(CellView cellView){
+    public void unSelect(CellImageView cellView){
         selected.remove(cellView);
         cellView.setOpacity(1);
     }

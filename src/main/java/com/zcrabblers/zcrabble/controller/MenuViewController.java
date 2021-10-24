@@ -6,13 +6,13 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
 /**
- * MenuController is the controller class for the Menu_Controller.fxml file.
+ * MenuViewController is the controller class for the Menu_Controller.fxml file.
  */
-public class MenuController extends AnchorPane {
+public class MenuViewController extends AnchorPane {
 
-    private BoardController parentController;
+    private BoardViewController parentController;
 
-    public MenuController(BoardController parentController){
+    public MenuViewController(BoardViewController parentController){
         this.parentController = parentController;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/zcrabblers/zcrabble/Menu_Controller.fxml"));
         fxmlLoader.setRoot(this);
@@ -24,6 +24,9 @@ public class MenuController extends AnchorPane {
             throw new RuntimeException(exception);
         }
     }
+
+    //The below methods are not in use according to IntelliJ/Java. It is just a visual bug that occurs when multiple
+    //.fxml files are used in a project.
 
     //Calls openNewGameMenu in parentController (BoardController).
     @FXML
@@ -84,5 +87,10 @@ public class MenuController extends AnchorPane {
     @FXML
     private void setWindowSize200(){
         parentController.setWindowSize(2);
+    }
+
+    @FXML
+    private void endGame(){
+        parentController.endGame();
     }
 }

@@ -12,7 +12,7 @@
           <Menu fx:id="MenuGame" mnemonicParsing="false" text="Game">
             <items>
               <MenuItem fx:id="menuNewGame" mnemonicParsing="false" onAction="#newGame" text="New Game" />
-                  <MenuItem fx:id="MenuEndGame" mnemonicParsing="false" text="End Game" />
+                  <MenuItem fx:id="menuEndGame" mnemonicParsing="false" onAction="#endGame" text="End Game" />
             </items>
           </Menu>
           <Menu fx:id="MenuView" mnemonicParsing="false" text="View">

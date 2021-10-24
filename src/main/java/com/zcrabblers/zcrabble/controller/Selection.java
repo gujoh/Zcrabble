@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
  * Selection is responsible for keeping track of what is selected.
  */
 public class Selection {
-    private CellView selectedCell;
+    private CellImageView selectedCell;
     private boolean fromRack;
     private boolean selected;
     private int startX, startY;
@@ -62,7 +62,7 @@ public class Selection {
      * Select a cell so that it can be interacted with.
      * @param selection The cell to select.
      */
-    public void select(CellView selection){
+    public void select(CellImageView selection){
         selected = true;
         selectedCell = selection;
         System.out.println("Selected something.");
