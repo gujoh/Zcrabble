@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
  * used by: BoardViewController
  * uses: CellImageView
  */
-public class Selection {
+class Selection {
     private CellImageView selectedCell;
     private boolean fromRack;
     private boolean selected;
@@ -17,7 +17,7 @@ public class Selection {
     /**
      * Change selected cell to its default image (See CellView).
      */
-    public void changeToDefaultImage(){
+    void changeToDefaultImage(){
         selectedCell.changeToDefaultImage();
     }
 
@@ -25,7 +25,7 @@ public class Selection {
      * Sets the currently displayed image of the selected cell.
      * @param image The image to set.
      */
-    public void setImage(Image image){
+    void setImage(Image image){
         selectedCell.setImage(image);
     }
 
@@ -33,7 +33,7 @@ public class Selection {
      * Check if the selection started from a rack cell or not.
      * @return A boolean that is true if selection started on the rack.
      */
-    public boolean getFromRack(){
+    boolean getFromRack(){
         return fromRack;
     }
 
@@ -41,7 +41,7 @@ public class Selection {
      * Set whether the current selection started from the rack or not.
      * @param fromRack A boolean that sets if selection came from rack.
      */
-    public void setFromRack(boolean fromRack){
+    void setFromRack(boolean fromRack){
         this.fromRack = fromRack;
     }
 
@@ -49,7 +49,7 @@ public class Selection {
      * Check if anything is currently selected.
      * @return A boolean that is true if anything is selected.
      */
-    public boolean hasSelected(){
+    boolean hasSelected(){
         return selected;//selectedCell != null;
     }
 
@@ -57,7 +57,7 @@ public class Selection {
      * Return the currently displayed image of the selected cell.
      * @return The currently displayed image.
      */
-    public Image getSelectedImage(){
+    Image getSelectedImage(){
         return selectedCell.getImage();
     }
 
@@ -65,7 +65,7 @@ public class Selection {
      * Select a cell so that it can be interacted with.
      * @param selection The cell to select.
      */
-    public void select(CellImageView selection){
+    void select(CellImageView selection){
         selected = true;
         selectedCell = selection;
         System.out.println("Selected something.");
@@ -74,7 +74,7 @@ public class Selection {
     /**
      * Unselect the currently selected cell.
      */
-    public void unSelect(){
+    void unSelect(){
         //selectedCell = null; //TODO: avoid null
         selected = false;
         System.out.println("Unselected something.");
@@ -84,7 +84,7 @@ public class Selection {
      * Get the X index of the previous cell that started a selection.
      * @return The X index of the starting cell.
      */
-    public int getStartX() {
+    int getStartX() {
         return startX;
     }
 
@@ -92,7 +92,7 @@ public class Selection {
      * Method to set the X index of the cell where selection started.
      * @param startX X index to set.
      */
-    public void setStartX(int startX) {
+    void setStartX(int startX) {
         this.startX = startX;
     }
 
@@ -100,7 +100,7 @@ public class Selection {
      * Get the Y index of the previous cell that started a selection.
      * @return The Y index of the starting cell.
      */
-    public int getStartY() {
+    int getStartY() {
         return startY;
     }
 
@@ -108,7 +108,7 @@ public class Selection {
      * Method to set the Y index of the cell where selection started.
      * @param startY Y index to set.
      */
-    public void setStartY(int startY) {
+    void setStartY(int startY) {
         this.startY = startY;
     }
 
@@ -116,7 +116,7 @@ public class Selection {
      * Set the selected cell's opacity.
      * @param v A value between 0 and 1, where 1 is fully opaque and 0 is fully transparent.
      */
-    public void setSelectedOpacity(double v){
+    void setSelectedOpacity(double v){
         selectedCell.setOpacity(v);
     }
 }

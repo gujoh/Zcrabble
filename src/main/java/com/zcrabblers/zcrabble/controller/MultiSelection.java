@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * used by: BoardViewController
  * uses: CellImageView
  */
-public class MultiSelection {
+class MultiSelection {
     private final List<CellImageView> selected = new ArrayList<>();
     private final int unselectedOpacity = 1;
     // get indices instead ?
@@ -23,7 +23,7 @@ public class MultiSelection {
      * @param cellView Cell to compare.
      * @return True if the current selection contains the cell.
      */
-    public boolean isSelected(CellImageView cellView){
+    boolean isSelected(CellImageView cellView){
         return selected.contains(cellView);
     }
 
@@ -31,7 +31,7 @@ public class MultiSelection {
      * Selects a cell and adds it to the selection.
      * @param cellView Cell to select.
      */
-    public void select(CellImageView cellView){
+    void select(CellImageView cellView){
         selected.add(cellView);
         double selectedOpacity = 0.25;
         cellView.setOpacity(selectedOpacity);
@@ -41,7 +41,7 @@ public class MultiSelection {
      * Unselects a cell from the selection.
      * @param cellView Cell to unselect
      */
-    public void unSelect(CellImageView cellView){
+    void unSelect(CellImageView cellView){
         selected.remove(cellView);
         cellView.setOpacity(unselectedOpacity);
     }
@@ -49,7 +49,7 @@ public class MultiSelection {
     /**
      * Unselects any previously selected cell.
      */
-    public void unSelectAll(){
+    void unSelectAll(){
         selected.forEach(x -> x.setOpacity(unselectedOpacity));
         selected.clear();
     }
