@@ -8,6 +8,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+/**
+ * Tests for methods in LetterObserver.
+ * @author Gustaf Jonasson.
+ */
 public class LetterObserverTests {
 
     LetterObserver observer = new LetterObserver();

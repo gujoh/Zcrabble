@@ -9,6 +9,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the methods in the Game class.
+ * @author Niklas Axelsson
+ * uses: Game, Board, Rack, Tile, IPlayers
+ */
 public class GameTests {
     @Test
     public void testSwitchRackBoardTile(){

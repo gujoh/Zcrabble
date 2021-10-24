@@ -9,6 +9,11 @@ import java.io.FileNotFoundException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test for the methods in the Player class
+ * @author Niklas Axelsson
+ * uses: Tile, Rack, TileBag, Player
+ */
 public class PlayerTests {
 
     @Test

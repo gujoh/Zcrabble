@@ -2,6 +2,11 @@ import com.zcrabblers.zcrabble.model.GameManager;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Tests for methods in GameManager class.
+ * @author Niklas Axelsson
+ * uses: GameManager
+ */
 public class GameManagerTests {
 
     @Test

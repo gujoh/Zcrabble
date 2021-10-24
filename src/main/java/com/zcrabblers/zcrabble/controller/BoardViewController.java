@@ -20,6 +20,7 @@ import java.util.*;
 /**
  * BoardViewController is the controller class for the board.fxml file.
  * It renders the game and interacts with the model.
+ * @author Gustaf Jonasson, Niklas Axelsson.
  */
 public class BoardViewController implements Initializable, ILetterObservable {
     @FXML private AnchorPane boardAnchor;

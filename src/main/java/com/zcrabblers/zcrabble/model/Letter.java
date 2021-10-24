@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.model;
 
 /**
  * Letter is an enum that represents a letter.
+ * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
  */
 public enum Letter {
     A("A"),

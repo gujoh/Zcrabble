@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.model.gameBoard;
 
 /**
  * a simple class to group a cell with its position
+ * @author Martin Björklund.
  */
 public class CellTuple{
     private final int i;

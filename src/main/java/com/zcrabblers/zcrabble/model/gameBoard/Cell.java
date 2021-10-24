@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.model.gameBoard;
 
 /**
  * keeps track of the individual cells, word and letter multiplier as well as its placed tile
+ * @author Gustaf Jonasson, Ole  Fjeldså, Martin Björklund, Niklas Axelsson.
  */
 public class Cell {
     private int cellWordMultiplier;
