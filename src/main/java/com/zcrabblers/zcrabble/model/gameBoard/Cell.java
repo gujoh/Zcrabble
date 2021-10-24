@@ -26,7 +26,7 @@ public class Cell {
         return cellWordMultiplier;
     }
 
-    public int GetCellLetterMultiplier() {
+    int getCellLetterMultiplier() {
         return cellLetterMultiplier;
     }
 

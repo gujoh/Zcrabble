@@ -230,7 +230,7 @@ public class BoardViewController implements Initializable, ILetterObservable {
                     img = new CellImageView(cellImageMap.get(0)); // Middle image
                 }
                 else {
-                    img = new CellImageView(cellImageMap.get(game.getBoard().getCellWordMultiplier(i,j) * 10 + game.getBoard().getBoardCells()[i][j].GetCellLetterMultiplier()));
+                    img = new CellImageView(cellImageMap.get(game.getBoard().getCellWordMultiplier(i,j) * 10 + game.getBoard().getCellLetterMultiplier(i,j)));
                 }
 
                 boardAnchor.getChildren().add(img);
