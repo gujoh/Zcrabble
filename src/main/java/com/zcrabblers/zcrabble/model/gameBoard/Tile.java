@@ -24,6 +24,7 @@ public class Tile {
         return tileScore;
     }
 
+
     /**
      * Returns the letter that a Tile represents.
      * @return the letter that a Tile represents.
