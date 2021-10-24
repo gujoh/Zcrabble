@@ -31,7 +31,6 @@ public class Dictionary {
     /**
      * @return dictionary as an ArrayList.
      */
-
     public Set<String> getDictSet(){
         return dictSet;
     }
