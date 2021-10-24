@@ -170,7 +170,7 @@ public class BoardController implements Initializable, ILetterObservable {
 
     //Initializes the tutorial pane. Reads a .txt file that contains the rules.
     private void initTutorialPane() throws IOException {
-        File file = new File("src/main/resources/ScrabbleRules.txt");
+        File file = new File("src/main/resources/ZcrabbleRules.txt");
         StringBuilder contents = new StringBuilder();
         BufferedReader reader = null;
         String text;
