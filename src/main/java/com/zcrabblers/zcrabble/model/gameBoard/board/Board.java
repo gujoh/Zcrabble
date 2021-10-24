@@ -3,6 +3,7 @@ package com.zcrabblers.zcrabble.model.gameBoard.board;
 import com.zcrabblers.zcrabble.model.Dictionary;
 import com.zcrabblers.zcrabble.model.gameBoard.Cell;
 import com.zcrabblers.zcrabble.model.gameBoard.CellTuple;
+import com.zcrabblers.zcrabble.model.gameBoard.EmptyTile;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 
 import java.io.File;
@@ -59,7 +60,7 @@ public class Board {
                 for(int j = 0; j < boardSize; j++){
                     int word = scanner.nextInt();
                     int letter = scanner.nextInt();
-                    boardCells[i][j] = new Cell(word,letter, new Tile(' ',0));
+                    boardCells[i][j] = new Cell(word,letter, EmptyTile.INSTANCE.getEmpty());
                 }
             }
     }
