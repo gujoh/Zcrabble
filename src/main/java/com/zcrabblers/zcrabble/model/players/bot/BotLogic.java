@@ -10,6 +10,11 @@ import java.util.Map;
 
 //TODO dictMap should be created at the beginning of the game and live in BotDict
 
+/**
+*BotLogic contains the methods for writing a word on a Board
+ * @author Ole Fjeldså
+ */
+
 class BotLogic {
 
     //Returns a given rack as a String
