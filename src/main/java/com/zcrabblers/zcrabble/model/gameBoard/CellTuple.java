@@ -21,10 +21,30 @@ public class CellTuple{
         this.j = j;
         this.cell = cell;
     }
+
+    /**
+     * @return row coordinate of CellTuple
+     */
     public int getI(){return i;}
+
+    /**
+     * @return column coordinate of CellTuple
+     */
     public int getJ(){return j;}
+
+    /**
+     * @return cell of CellTuple
+     */
     public Cell getCell(){return cell;}
+
+    /**
+     * @return letter on tile on cell of CellTuple
+     */
     public char getTileLetter(){return cell.getTileLetter();}
+
+    /**
+     * @return score of tile on cell of CellTuple
+     */
     public int getTileScore(){return cell.getTileScore();}
 
 }

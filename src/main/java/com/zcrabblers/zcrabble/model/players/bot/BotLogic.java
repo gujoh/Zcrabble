@@ -131,7 +131,7 @@ class BotLogic {
     }
 
     //Returns an ArrayList of strings in order from longest to shortest.
-    private static void sort(ArrayList<String> writable) { //TODO this is bubble sort because im lazy, make a quick sort.
+    private static void sort(ArrayList<String> writable) {
 
         for (int i = 0; i < writable.size() - 1; i++) {
             for (int j = 0; j < writable.size() - i - 1; j++) {

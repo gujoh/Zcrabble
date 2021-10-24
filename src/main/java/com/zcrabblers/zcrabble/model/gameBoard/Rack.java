@@ -13,12 +13,19 @@ public class Rack {
     private final int rackSize = 7;
     private Tile[] playerTiles = new Tile[rackSize];
 
+    /**
+     * creates a Rack and fills it with tiles from the TileBag
+     * @param bag the TileBag that fills the Rack
+     */
     public Rack(TileBag bag){
         for(int i = 0; i < rackSize; i++){
             playerTiles[i] = bag.takeTile();
         }
     }
 
+    /**
+     * Creates a Rack and fills it with blanc tiles.
+     */
     public Rack() {
         for (int i = 0; i < rackSize; i++) {
             playerTiles[i] = new Tile(' ', 0);
@@ -64,7 +71,10 @@ public class Rack {
     }
 
 
-
+    /**
+     * Copies all rack tiles of a given rack on to the rack the method is called on
+     * @param rack the rack to be copied
+     */
     public void getRackCopy(Rack rack) {
         Tile[] tempTile = new Tile[rack.getTiles().length];
         for (int i = 0; i < rack.getTiles().length ; i++) {
@@ -91,6 +101,9 @@ public class Rack {
         return playerTiles[x].getLetter() == ' ';
     }
 
+    /**
+     * @return false if there is letter tiles on the Rack
+     */
     public boolean rackIsEmpty(){
         for(int i = 0; i < playerTiles.length; i++){
             if(!isEmpty(i)){
@@ -100,6 +113,10 @@ public class Rack {
         return true;
     }
 
+    /**
+     * Fills the rack with tiles from the TileBag
+     * @param bag TileBag to fill the Rack from
+     */
     public void fillRack(TileBag bag){
         for(int i = 0; i < playerTiles.length; i++){
             if(playerTiles[i].getLetter() == ' ' && !bag.isEmpty()){

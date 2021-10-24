@@ -9,6 +9,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests methods in Bot
+ * @author Ole Fjeldså
+ */
 public class BotTests {
 
     @Test

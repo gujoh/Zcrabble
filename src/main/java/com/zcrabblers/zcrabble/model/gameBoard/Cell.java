@@ -48,8 +48,9 @@ public class Cell {
         return placedTile.getLetter() == ' ';
     }
 
-    //Gets the letter on placedTile.
+    //returns the letter on placedTile.
     char getTileLetter() {return placedTile.getLetter();}
 
+    //returns the score of placedTile
     int getTileScore() {return placedTile.getTileScore();}
 }
