@@ -384,8 +384,6 @@ public class BoardViewController implements Initializable, ILetterObservable {
                         // board -> rack(tom)
                         game.switchRackBoardCells(x, selection.getStartY(), selection.getStartX());
                         moveImage(cellView);
-                        //cellView.setImage(selection.getSelectedImage());
-                        //selection.changeToDefaultImage();
                     }else{
                         // board -> rack
                         game.switchRackBoardCells(x, selection.getStartY(), selection.getStartX());
