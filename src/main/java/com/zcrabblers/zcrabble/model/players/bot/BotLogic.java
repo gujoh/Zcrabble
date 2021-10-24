@@ -2,7 +2,7 @@ package com.zcrabblers.zcrabble.model.players.bot;
 
 import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
-import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
+import com.zcrabblers.zcrabble.model.gameBoard.Board;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -44,7 +44,7 @@ class BotLogic {
 
     //TODO the longest word is not necessarily the highest scoring word, if there is time this should be used as a metric instead.
     //Takes a Board and a rack and returns a board with the longest horizontal word it can write
-    static Board scrabbleWord(Board board, Rack rack1) {
+    static Board scrabblePlay(Board board, Rack rack1) {
 
         //Temporary boards and racks for comparison
 
@@ -141,7 +141,7 @@ class BotLogic {
     }
 
 
-    //TODO bot can no longer copy letter tiles from board. Witch is good! However it should never try to either. the problem seems come from scrabbleWord. Also, the bot should never be able to steal random tiles in the first place.
+    //TODO bot can no longer copy letter tiles from board. Witch is good! However it should never try to either. the problem seems come from scrabblePlay. Also, the bot should never be able to steal random tiles in the first place.
     //Switches place between a tile in a given position on a rack and a tile in a given position on a board.
     private static void placeTileOnBoard(int rackX, int boardRow, int boardCol, Board board, Rack currentRack) {
         Tile tile = board.getTile(boardCol, boardRow);
@@ -164,7 +164,7 @@ class BotLogic {
             }
             index++;
         }
-        return 6;   //TODO this works but is hella ugly
+        return index;
     }
 
 
@@ -198,19 +198,7 @@ class BotLogic {
         }
         return actuallyWritable;
     }
-
-    /*
-    //Takes the available space around a cell on the board and creates a space that the new word needs to fit into.
-    //Was probably made mostly to make it easier to think.
-    private static char[] createWordSpace(int spaceBehind, int spaceAhead, StringBuilder letters) {
-        char[] wordSpace = new char[spaceBehind + letters.length() + spaceAhead];
-        for (int i = spaceBehind; i < spaceBehind + letters.length(); i++) {
-            wordSpace[i] = letters.charAt(i - spaceBehind);
-        }
-        return wordSpace;
-    }
-    */
-
+    
     //Checks the length of available space to the right of a cell
     private static int checkSpaceAhead(Board board, int row, int col, StringBuilder letters) {
         int space = 0;

@@ -1,7 +1,7 @@
 package com.zcrabblers.zcrabble.model;
 
 import com.zcrabblers.zcrabble.model.gameBoard.*;
-import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
+import com.zcrabblers.zcrabble.model.gameBoard.Board;
 import com.zcrabblers.zcrabble.model.observers.ILetterObservable;
 import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
 import com.zcrabblers.zcrabble.model.observers.LetterObserver;
@@ -145,14 +145,6 @@ public class Game implements ITurnObservable {
      */
     public void addSubscriber(ILetterObservable sub) {
         observer.addSubscriber(sub);
-    }
-
-    /**
-     * Removes a subscriber to LetterObserver.
-     * @param sub the ILetterObservable that is to be removed as a subscriber.
-     */
-    public void removeSubscriber(ILetterObservable sub) {
-        observer.removeSubscriber(sub);
     }
 
     /**

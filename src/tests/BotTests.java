@@ -1,12 +1,10 @@
-import com.zcrabblers.zcrabble.model.gameBoard.board.Board;
+import com.zcrabblers.zcrabble.model.gameBoard.Board;
 import com.zcrabblers.zcrabble.model.gameBoard.Rack;
 import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
 import com.zcrabblers.zcrabble.model.observers.ITurnObservable;
 import com.zcrabblers.zcrabble.model.players.bot.Bot;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -41,24 +39,8 @@ public class BotTests {
             board.copyBoardCells(tempBoard,false);
             tempBoard.copyBoardCells(board,false);
         }
-
-
-
     }
 
-    //Prints the board for debugging purposes
-    private void printBoard(Board board) {
-        char[][] boardPrint = new char[15][15];
-        for (int i = 0; i < board.getBoardCells().length; i++) {
-            for (int j = 0; j < board.getBoardCells()[0].length; j++) {
-                boardPrint[i][j] = board.getBoardCells()[i][j].getTileLetter();
-            }
-        }
-        for (char[] row : boardPrint) {
-            System.out.println(Arrays.toString(row));
-        }
-        System.out.println(" ");
-    }
 
     private int amountOfBlancRackTiles (Bot bot){
         int tileCount = 0;
@@ -70,7 +52,6 @@ public class BotTests {
         return tileCount;
     }
     //TODO tests:
-    // - Test that the bot uses the correct number of tiles from rack
     // - Test that all the tiles in a play came are the same ones that are missing in rack
     // - test that the bot can take a new turn with the same rack if a play is rejected. It can't and it won't
     // - No tests for optimal play for now

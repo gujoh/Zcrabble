@@ -18,10 +18,10 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * BoardController is the controller class for the board.fxml file.
+ * BoardViewController is the controller class for the board.fxml file.
  * It renders the game and interacts with the model.
  */
-public class BoardController implements Initializable, ILetterObservable {
+public class BoardViewController implements Initializable, ILetterObservable {
     @FXML private AnchorPane boardAnchor;
     @FXML private AnchorPane rackAnchor;
     @FXML private Rectangle rackRectangle;
@@ -51,7 +51,7 @@ public class BoardController implements Initializable, ILetterObservable {
     @FXML private AnchorPane rootPane;
     @FXML private Button returnToRackButton;
 
-    private final List<CellView> cellList = new ArrayList<>();
+    private final List<CellImageView> cellList = new ArrayList<>();
     private final List<ImageView> rackList = new ArrayList<>();
     private final List<ImageView> swapTileList = new ArrayList<>();
     private final List<Label> scoreLabelList = new ArrayList<>();
@@ -61,6 +61,7 @@ public class BoardController implements Initializable, ILetterObservable {
     private Game game;
     private final Selection selection = new Selection();
     private final MultiSelection mSelection = new MultiSelection();
+    private boolean gameOver = false;
 
     private final static int IMAGE_SIZE = 33;
     private static final String IMAGE_PATH = "src/main/resources/com/zcrabblers/zcrabble/Images/";
@@ -97,7 +98,7 @@ public class BoardController implements Initializable, ILetterObservable {
         initLists();
 
 
-        MenuController menuController = new MenuController(this);
+        MenuViewController menuController = new MenuViewController(this);
         menuPane.getChildren().add(menuController);
         needMorePlayersLabel.setVisible(false);
         gameManager.newGame(1,1);
@@ -198,7 +199,7 @@ public class BoardController implements Initializable, ILetterObservable {
         int counter = 0;
         int spacing = 50;
         for (int i = 0; i < 7; i++) {
-            CellView img = new CellView(cellImageMap.get(11));
+            CellImageView img = new CellImageView(cellImageMap.get(11));
             img.toFront();
             img.setFitWidth(tileSideLength);
             img.setFitHeight(tileSideLength);
@@ -224,12 +225,12 @@ public class BoardController implements Initializable, ILetterObservable {
 
         for (int i = 0; i < length; i++){
             for (int j = 0; j < length; j++){
-                CellView img;
+                CellImageView img;
                 if(i == length/2 && j == length/2){
-                    img = new CellView(cellImageMap.get(0)); // Middle image
+                    img = new CellImageView(cellImageMap.get(0)); // Middle image
                 }
                 else {
-                    img = new CellView(cellImageMap.get(game.getBoard().getBoardCells()[i][j].GetCellWordMultiplier() * 10 + game.getBoard().getBoardCells()[i][j].GetCellLetterMultiplier()));
+                    img = new CellImageView(cellImageMap.get(game.getBoard().getBoardCells()[i][j].GetCellWordMultiplier() * 10 + game.getBoard().getBoardCells()[i][j].GetCellLetterMultiplier()));
                 }
 
                 boardAnchor.getChildren().add(img);
@@ -257,7 +258,7 @@ public class BoardController implements Initializable, ILetterObservable {
         int counter = 0;
         int spacing = 45;
         for(int i = 0; i < 7; i++){
-            CellView img = new CellView(cellImageMap.get(11)); // Empty cell image
+            CellImageView img = new CellImageView(cellImageMap.get(11)); // Empty cell image
             rackAnchor.getChildren().add(img);
             rackList.add(img);
             img.setFitHeight(IMAGE_SIZE);
@@ -280,14 +281,14 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     // Switches the images of the image that was dragged from and the parameter
-    private void switchImages(CellView cellView){
+    private void switchImages(CellImageView cellView){
         Image image = selection.getSelectedImage();
         selection.setImage(cellView.getImage());
         cellView.setImage(image);
     }
 
     // Moves selected's image to cellView and resets cellView
-    private void moveImage(CellView cellView){
+    private void moveImage(CellImageView cellView){
         cellView.setImage(selection.getSelectedImage());
         selection.changeToDefaultImage();
     }
@@ -303,9 +304,9 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     // What happens when user clicks on a cell on the board.
-    private void registerBoardCellClickEvent(CellView cellView){
+    private void registerBoardCellClickEvent(CellImageView cellView){
         cellView.setOnMousePressed(event -> {
-            if(game.isGameOver()){
+            if(game.isGameOver() || gameOver){
                 return;
             }
             int x = pos2Coord(cellView.getX());
@@ -358,9 +359,9 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     // What happens when the user clicks on a cell on the rack.
-    private void registerRackCellEvent(CellView cellView){
+    private void registerRackCellEvent(CellImageView cellView){
         cellView.setOnMousePressed(event -> {
-            if(game.isGameOver()){
+            if(game.isGameOver() || gameOver){
                 return;
             }
             int x = pos2Rack(cellView.getX());
@@ -414,7 +415,7 @@ public class BoardController implements Initializable, ILetterObservable {
     }
 
     // What happens when user clicks on rack cells in the swap popup pane
-    private void registerSwapRackCellEvent(CellView cellView){
+    private void registerSwapRackCellEvent(CellImageView cellView){
         cellView.setOnMousePressed(event -> {
             if(mSelection.isSelected(cellView))
                 mSelection.unSelect(cellView);
@@ -447,7 +448,7 @@ public class BoardController implements Initializable, ILetterObservable {
     private void setBoardImages(){
         int y = 0;
         int x = 0;
-        for (CellView cellView : cellList) {
+        for (CellImageView cellView : cellList) {
             if (game.getBoard().isCellEmpty(y, x)) {
                 cellView.changeToDefaultImage();
             } else {
@@ -523,7 +524,7 @@ public class BoardController implements Initializable, ILetterObservable {
     //Shuffles the current player's rack.
     @FXML
     private void shuffleRack(){
-        if(game.isGameOver()){
+        if(game.isGameOver() || gameOver){
             return;
         }
         game.shuffleCurrentRack();
@@ -538,6 +539,7 @@ public class BoardController implements Initializable, ILetterObservable {
             needMorePlayersLabel.setVisible(true);
         }
         else{
+            gameOver = false;
             needMorePlayersLabel.setVisible(false);
             gameManager.newGame(playerSpinner.getValue(), botSpinner.getValue());
             game = gameManager.getCurrentGame();
@@ -560,7 +562,7 @@ public class BoardController implements Initializable, ILetterObservable {
     //Attempts to end the current turn. If endTurn() returns false, the word is invalid and a modal panel pops up.
     @FXML
     private void endTurn(){
-        if(game.isGameOver()){
+        if(game.isGameOver() || gameOver){
             return;
         }
         if(!game.endTurn()){
@@ -575,6 +577,12 @@ public class BoardController implements Initializable, ILetterObservable {
         game.returnTilesToRack();
         setRackImages();
         setBoardImages();
+    }
+
+    //Ends the current game. Does not influence the model.
+    void endGame(){
+        gameOver = true;
+        showWinnerPane(game.getWinner());
     }
 
     //Converts an index in a 2D array to an index in a 1D array.
@@ -657,7 +665,7 @@ public class BoardController implements Initializable, ILetterObservable {
     // Open the exchange tiles pane.
     @FXML
     private void openSwapPane(){
-        if(game.isGameOver() || game.getRemainingTiles() <= 7){
+        if(game.isGameOver() || game.getRemainingTiles() <= 7 || gameOver){
             return;
         }
         returnToRack();
@@ -677,7 +685,7 @@ public class BoardController implements Initializable, ILetterObservable {
     // Exchange tiles in the model after it is confirmed by the user in the swapTilesPane.
     @FXML
     private void swapPaneSwap(){
-        for (CellView cV : mSelection.getSelected()) {
+        for (CellImageView cV : mSelection.getSelected()) {
             int index = (int) (cV.getX() - swapTileList.get(0).getX());
             index /= 50;
             game.fromRackToBag(index);
