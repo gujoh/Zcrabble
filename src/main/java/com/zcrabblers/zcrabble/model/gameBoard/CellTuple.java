@@ -15,7 +15,7 @@ public class CellTuple{
      * @param cell the cell of a board
      * @see Cell
      */
-    public CellTuple(int i, int j, Cell cell){
+    public  CellTuple(int i, int j, Cell cell){
         this.i = i;
         this.j = j;
         this.cell = cell;

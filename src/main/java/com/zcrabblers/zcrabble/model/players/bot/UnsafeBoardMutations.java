@@ -25,8 +25,9 @@ class UnsafeBoardMutations {
         Board tempBoard = new Board();
         for (int i = 0; i <board.getBoardCells().length ; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
-                Cell newCell = board.getBoardCells()[i][j];
-                tempBoard.getBoardCells()[j][board.getBoardCells().length-i-1] = new Cell(board.getCellWordMultiplier(i,j),board.getCellLetterMultiplier(i,j),newCell.getPlacedTile());
+
+                tempBoard.getBoardCells()[j][board.getBoardCells().length-i-1] = new Cell(board.getCellWordMultiplier(i,j),board.getCellLetterMultiplier(i,j),board.getTile(i,j));
+
             }
         }
         board.copyBoardCells(tempBoard,true);
@@ -42,8 +43,9 @@ class UnsafeBoardMutations {
         Board tempBoard = new Board();
         for (int i = 0; i <board.getBoardCells().length ; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
-                Cell newCell = board.getBoardCells()[i][j];
-                tempBoard.getBoardCells()[board.getBoardCells()[0].length-j-1][i] = new Cell(board.getCellWordMultiplier(i,j),board.getCellLetterMultiplier(i,j),newCell.getPlacedTile());
+
+                tempBoard.getBoardCells()[board.getBoardCells()[0].length-j-1][i] = new Cell(board.getCellWordMultiplier(i,j),board.getCellLetterMultiplier(i,j),board.getTile(i,j));
+
             }
         }
         board.copyBoardCells(tempBoard, true);
@@ -59,8 +61,9 @@ class UnsafeBoardMutations {
         Board tempBoard = new Board();
         for (int i = 0; i <board.getBoardCells().length ; i++) {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
-                Cell newCell = board.getBoardCells()[i][j];
-                tempBoard.getBoardCells()[board.getSize()-1-i][j] = new Cell(board.getCellWordMultiplier(i,j), board.getCellLetterMultiplier(i,j), newCell.getPlacedTile());
+
+                tempBoard.getBoardCells()[board.getSize()-1-i][j] = new Cell(board.getCellWordMultiplier(i,j), board.getCellLetterMultiplier(i,j), board.getTile(i,j));
+
             }
         }
         board.copyBoardCells(tempBoard,true);

@@ -74,7 +74,7 @@ public class Bot implements IPlayers {
     @Override
     public void beginTurn(Board board) {
 
-        if (board.getBoardCells()[7][7].isEmpty()) {
+        if (board.cellIsEmpty(7,7)) {
             board.copyBoardCells(BotLogic.takeFirstTurn(board, rack), true);
         } else {
             takeTurn(board);

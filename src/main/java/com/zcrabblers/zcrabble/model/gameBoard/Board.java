@@ -85,6 +85,8 @@ public class Board {
     }
 
     public int getCellLetterMultiplier(int row,int col){return boardCells[row][col].getCellLetterMultiplier();}
+
+    public boolean cellIsEmpty(int row, int col){return getTile(row,col).getLetter() == ' ';}
     /**
      * switches two tiles on a board given their positions
      * @param i1 i-coordinate of the first tile

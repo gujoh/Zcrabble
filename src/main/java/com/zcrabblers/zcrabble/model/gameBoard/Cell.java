@@ -30,15 +30,15 @@ public class Cell {
         return cellLetterMultiplier;
     }
 
-    public Tile getPlacedTile(){return placedTile;}
+    Tile getPlacedTile(){return placedTile;}
 
-    public void setTile(Tile tile){placedTile = tile;}
+    void setTile(Tile tile){placedTile = tile;}
 
-    public void removeTile(){
+    void removeTile(){
         placedTile = new Tile(' ', 0);
     }
 
-    public boolean isEmpty(){
+    boolean isEmpty(){
         return placedTile.getLetter() == ' ';
     }
 
