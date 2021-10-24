@@ -73,14 +73,34 @@ public class Board {
         return boardCells;
     }
 
+    /**
+     * @param row row part of index
+     * @param col column part of index
+     * @return returns the word multiplier on a given index on the board
+     */
     public int getCellWordMultiplier(int row, int col){
         return boardCells[row][col].getCellWordMultiplier();
     }
 
+    /**
+     * @param row row part of index
+     * @param col column part of index
+     * @return returns the letter multiplier on a given index on the board.
+     */
     public int getCellLetterMultiplier(int row,int col){return boardCells[row][col].getCellLetterMultiplier();}
 
+    /**
+     * @param row row part of index
+     * @param col column part of index
+     * @return returns false if there is a letter tile on the cell
+     */
     public boolean cellIsEmpty(int row, int col){return getTile(row,col).getLetter() == ' ';}
 
+    /**
+     * @param row row part of index
+     * @param col column part of index
+     * @return returns the char on the tile at the given index(row, col)
+     */
     public char getTileLetter(int row, int col){return getTile(row,col).getLetter();}
     /**
      * switches two tiles on a board given their positions
@@ -160,6 +180,34 @@ public class Board {
         }
         boardCells = tempCell;
     }
+
+    /**
+     * returns a list of the new cells on a board comparing the old and new board
+     * call this method on the new board and send the old board as a parameter
+     * @param tempBoard the older board with fewer cells being compared to the current object
+     * @return returns all the cells which the old board did not have
+     *         compared to the new board in the form of cellTuples
+     * @see CellTuple
+     */
+    // returns a list of new cells comparing the differance between two boards
+    public List<CellTuple> getNewCells(Board tempBoard){
+        //CellTuples have i,j coordinate and a Cell
+        List<CellTuple> newCells = new ArrayList<>();
+        Cell[][] tempBoardCells = tempBoard.getBoardCells();
+        // double for loop checking each individual cell if they have the same tile
+        for(int i = 0; i < tempBoardCells[0].length; i++){
+            for(int j = 0; j < boardCells[0].length; j++){
+                if(tempBoardCells[i][j].getPlacedTile().getLetter() != boardCells[i][j].getPlacedTile().getLetter()){
+                    // add if they are different
+                    newCells.add(new CellTuple(i,j,boardCells[i][j]));
+                }
+            }
+        }
+        return newCells;
+    }
+
+
+    /*--- ScorePlay below ---*/
 
     /**
      * counts the point on a board any play gives, called on the newest board and given a list of new cells
@@ -314,32 +362,6 @@ public class Board {
         }
         return score;
     }
-
-    /**
-     * returns a list of the new cells on a board comparing the old and new board
-     * call this method on the new board and send the old board as a parameter
-     * @param tempBoard the older board with fewer cells being compared to the current object
-     * @return returns all the cells which the old board did not have
-     *         compared to the new board in the form of cellTuples
-     * @see CellTuple
-     */
-    // returns a list of new cells comparing the differance between two boards
-    public List<CellTuple> getNewCells(Board tempBoard){
-        //CellTuples have i,j coordinate and a Cell
-        List<CellTuple> newCells = new ArrayList<>();
-        Cell[][] tempBoardCells = tempBoard.getBoardCells();
-        // double for loop checking each individual cell if they have the same tile
-        for(int i = 0; i < tempBoardCells[0].length; i++){
-            for(int j = 0; j < boardCells[0].length; j++){
-                if(tempBoardCells[i][j].getPlacedTile().getLetter() != boardCells[i][j].getPlacedTile().getLetter()){
-                    // add if they are different
-                    newCells.add(new CellTuple(i,j,boardCells[i][j]));
-                }
-            }
-        }
-        return newCells;
-    }
-
 
     /*--- BoardChecks  below ---*/
 

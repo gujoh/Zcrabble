@@ -8,14 +8,14 @@ public class TileBagTests {
     // checks some basic numbers if a bag with the correct string works
     // and makes sure the remaining tiles are correct
     @Test
-    public void testTileBagNumbers() throws FileNotFoundException {
+    public void testTileBagNumbers() {
         TileBag tilebag = new TileBag();
         assertEquals(100, tilebag.remainingTiles());
         assertFalse(tilebag.isEmpty());
     }
     //checks if the read tiles have allowed letters and numbers
     @Test
-    public void testTileBagLogic() throws FileNotFoundException {
+    public void testTileBagLogic() {
         TileBag tilebag = new TileBag();
         String validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
         while(!tilebag.isEmpty()){
