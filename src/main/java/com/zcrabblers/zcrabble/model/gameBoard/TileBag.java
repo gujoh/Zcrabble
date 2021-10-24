@@ -5,6 +5,12 @@ import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/**
+ * Represent the bag of tiles each player draw new tiles from.
+ * @author Niklas Axelsson
+ * used by:
+ * uses: Tile, IPlayer, Game
+ */
 public class TileBag {
     private final Deque<Tile> bag = new ArrayDeque<>();
 

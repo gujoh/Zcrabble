@@ -5,6 +5,12 @@ import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
 import com.zcrabblers.zcrabble.model.gameBoard.Board;
 
+/**
+ * Common abstraction for different type of players.
+ * @author Niklas Axelsson
+ * used by: Game
+ * uses: Rack, Tile, Board, Tilebag
+ */
 public interface IPlayers {
 
     /**

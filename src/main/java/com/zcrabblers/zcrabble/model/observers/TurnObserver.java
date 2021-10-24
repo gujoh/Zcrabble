@@ -5,6 +5,9 @@ import java.util.List;
 
 /**
  * TurnObserver handles ITurnObservable subscribers and notifies them of changes.
+ * @author Niklas Axelsson
+ * used by: Bot
+ * uses: ITurnObservable
  */
 public class TurnObserver {
 

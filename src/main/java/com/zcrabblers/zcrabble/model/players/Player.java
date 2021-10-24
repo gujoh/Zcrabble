@@ -5,6 +5,12 @@ import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
 import com.zcrabblers.zcrabble.model.gameBoard.Board;
 
+/**
+ * Models a human player.
+ * @author Niklas Axelsson
+ * used by:
+ * uses: IPlayer, Rack, Board, Tile, Tilebag
+ */
 public class Player implements IPlayers {
 
     private int score;

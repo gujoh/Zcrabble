@@ -1,6 +1,12 @@
 package com.zcrabblers.zcrabble.model.gameBoard;
 
-enum EmptyTile {
+/**
+ * A singleton for an empty tile.
+ * @author Niklas Axelsson
+ * used by:
+ * uses: Tile
+ */
+public enum EmptyTile {
     INSTANCE;
     Tile empty = new Tile(' ', 0);
     public Tile getEmpty(){
