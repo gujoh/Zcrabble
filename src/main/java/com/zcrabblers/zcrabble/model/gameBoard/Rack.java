@@ -5,7 +5,7 @@ import java.util.Random;
 
 /**
  * A container for a player's playable tiles.
- * @author Niklas Axelsson
+ * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
  * used by: IPlayer, Bot, Player
  * uses: Tile, Tilebag, RandomSeed
  */

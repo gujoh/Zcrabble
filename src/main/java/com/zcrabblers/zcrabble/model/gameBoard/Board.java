@@ -15,6 +15,7 @@ import java.util.Scanner;
 // - Board, for the obvious board stuff
 /**
  *The board on which the game is played, it's made up of a matrix of cells
+ * @author Gustaf Jonasson, Ole  Fjeldså, Martin Björklund.
  * @see Cell
  */
 public class Board {

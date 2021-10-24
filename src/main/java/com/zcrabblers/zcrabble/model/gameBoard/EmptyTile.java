@@ -6,7 +6,7 @@ package com.zcrabblers.zcrabble.model.gameBoard;
  * used by:
  * uses: Tile
  */
-public enum EmptyTile {
+enum EmptyTile {
     INSTANCE;
     Tile empty = new Tile(' ', 0);
     public Tile getEmpty(){

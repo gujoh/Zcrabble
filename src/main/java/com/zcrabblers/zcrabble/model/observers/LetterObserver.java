@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * LetterObserver handles ILetterObservable subscribers and notifies them of changes.
- * @author Niklas Axelsson
+ * @author Gustaf Jonasson Niklas Axelsson.
  * used by: Game
  * uses: ILetterObservable
  */

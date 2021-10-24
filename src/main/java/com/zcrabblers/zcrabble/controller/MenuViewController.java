@@ -7,6 +7,8 @@ import java.io.IOException;
 
 /**
  * MenuViewController is the controller class for the Menu_Controller.fxml file.
+ * @author Gustaf Jonasson, Ole Fjeldså.
+ * Used by: BoardViewController.
  */
 public class MenuViewController extends AnchorPane {
 

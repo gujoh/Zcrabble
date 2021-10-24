@@ -7,7 +7,7 @@ import com.zcrabblers.zcrabble.model.gameBoard.Board;
 
 /**
  * Models a human player.
- * @author Niklas Axelsson
+ * @author Gustaf Jonasson, Niklas Axelsson, Ole Fjelså, Martin Björklund.
  * used by:
  * uses: IPlayer, Rack, Board, Tile, Tilebag
  */

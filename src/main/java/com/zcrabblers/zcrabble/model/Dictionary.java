@@ -7,6 +7,7 @@ import java.util.*;
 /**
  * Dictionary contains a dictionary that other classes can use to look up words.
  * It implements the singleton design pattern.
+ * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
  */
 public class Dictionary {
 

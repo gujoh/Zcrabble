@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * ILetterObserver is implemented by classes who wish to subscribe to a LetterObserver.
+ * @author Gustaf Jonasson, Niklas Axelsson.
  */
 public interface ILetterObservable {
 

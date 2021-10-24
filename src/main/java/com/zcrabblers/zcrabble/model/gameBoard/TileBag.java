@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 
 /**
  * Represent the bag of tiles each player draw new tiles from.
- * @author Niklas Axelsson
+ * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
  * used by:
  * uses: Tile, IPlayer, Game
  */
@@ -21,10 +21,8 @@ public class TileBag {
             e.printStackTrace();
         }
     }
-    /* fillBag creates a temporary List and then reads the document in resources which string is identical to "bagselector"
-    it then reads the file per line stopping between each space per line.
-    the first set of characters is the letter of the tile the second is the score value the third is how many of then to create
-    it then randomizes the List and adds it to the deque bag*/
+
+    //Fills the bag based on the information in the defaultBag.txt file.
     private void fillBag() throws FileNotFoundException{
         List<Tile> temp = new ArrayList<>();
             File file = new File("src/main/resources/defaultBag");
@@ -44,6 +42,8 @@ public class TileBag {
         bag.addAll(temp);
 
     }
+
+
     public int remainingTiles(){
         return bag.size();
     }

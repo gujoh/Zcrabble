@@ -2,6 +2,7 @@ package com.zcrabblers.zcrabble.model;
 
 /**
  * LetterTuple represents a Letter with a position.
+ * @author Gustaf Jonasson.
  */
 public class LetterTuple {
     private Letter letter;

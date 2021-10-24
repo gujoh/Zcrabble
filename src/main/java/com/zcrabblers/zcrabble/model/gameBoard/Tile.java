@@ -1,7 +1,8 @@
 package com.zcrabblers.zcrabble.model.gameBoard;
 
 /**
- * tile represents the individual playable pieces with letters and a score associated with them
+ * Tile represents the individual playable pieces with letters and a score associated with them.
+ * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
  */
 public class Tile {
     private char letter;
