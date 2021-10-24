@@ -28,7 +28,7 @@ public class BotTests {
         Board tempBoard = new Board();
         tempBoard.copyBoardCells(board,false);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 6; i++) {
             bot.beginTurn(tempBoard);
             assertTrue(tempBoard.checkBoard(tempBoard,board));
             assertEquals(tempBoard.getNewCells(board).size(), amountOfBlancRackTiles(bot));

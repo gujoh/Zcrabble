@@ -154,7 +154,6 @@ class BotLogic {
 
     }
 
-    //TODO Sleep, then fix this
     //returns the first index of the rack containing a given char
     private static int getRackIndex(Rack tempRack, char c) {
         int index = 0;
@@ -164,7 +163,7 @@ class BotLogic {
             }
             index++;
         }
-        return index;
+        return index; //If the bot can't find the letter in its own rack the game will crash.
     }
 
 
@@ -174,7 +173,7 @@ class BotLogic {
     //Takes in a list of Strings and runs a series of checks on it to shorten the list of words that needs to be further processed.
     //The checks in order are:
     //
-    //eliminates all words that does not:
+    //eliminate all words that does not:
     //have more characters than bestWord
     //s can not be the String the bot is adding to
     //s must contain the letter(s) in order

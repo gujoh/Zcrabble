@@ -57,8 +57,8 @@ class UnsafeBoardMutations {
     static void mirrorAroundCol7(Board board){
 
         Board tempBoard = new Board();
-        for (int i = 0; i <board.getBoardCells().length ; i++) {
-            for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
+        for (int i = 0; i <board.getSize() ; i++) {
+            for (int j = 0; j <board.getSize() ; j++) {
 
                 tempBoard.getBoardCells()[board.getSize()-1-i][j] = new Cell(board.getCellWordMultiplier(i,j), board.getCellLetterMultiplier(i,j), board.getTile(i,j));
 
