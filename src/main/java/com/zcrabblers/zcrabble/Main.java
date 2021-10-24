@@ -16,6 +16,7 @@ import java.util.Objects;
  * Main is responsible for actually running the application.
  * Main creates a Scene using an .fxml file and adds it to the stage.
  * Further, it contains an inner record SceneSizeChangeListener that is used to scale the application using letterboxing.
+ * @author Gustaf Jonasson.
  */
 public class Main extends Application {
     @Override

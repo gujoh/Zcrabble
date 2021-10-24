@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * LetterObserver handles ILetterObservable subscribers and notifies them of changes.
+ * @author Gustaf Jonasson Niklas Axelsson.
  */
 public class LetterObserver {
 

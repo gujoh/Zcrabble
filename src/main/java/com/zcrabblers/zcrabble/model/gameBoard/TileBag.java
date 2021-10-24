@@ -5,6 +5,10 @@ import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/**
+ * TileBag represents a tile bag. It reads data from a txt file.
+ * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
+ */
 public class TileBag {
     private final Deque<Tile> bag = new ArrayDeque<>();
 
@@ -15,10 +19,8 @@ public class TileBag {
             e.printStackTrace();
         }
     }
-    /* fillBag creates a temporary List and then reads the document in resources which string is identical to "bagselector"
-    it then reads the file per line stopping between each space per line.
-    the first set of characters is the letter of the tile the second is the score value the third is how many of then to create
-    it then randomizes the List and adds it to the deque bag*/
+
+    //Fills the bag based on the information in the defaultBag.txt file.
     private void fillBag() throws FileNotFoundException{
         List<Tile> temp = new ArrayList<>();
             File file = new File("src/main/resources/defaultBag");
@@ -38,6 +40,8 @@ public class TileBag {
         bag.addAll(temp);
 
     }
+
+
     public int remainingTiles(){
         return bag.size();
     }

@@ -5,6 +5,10 @@ import com.zcrabblers.zcrabble.model.gameBoard.Tile;
 import com.zcrabblers.zcrabble.model.gameBoard.TileBag;
 import com.zcrabblers.zcrabble.model.gameBoard.Board;
 
+/**
+ * Player represents a human player. It keeps track of the score and rack.
+ * @author Gustaf Jonasson, Niklas Axelsson, Ole Fjelså, Martin Björklund.
+ */
 public class Player implements IPlayers {
 
     private int score;

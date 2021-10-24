@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * GameManager is responsible for starting new games.
  * It implements the singleton design pattern.
+ * @author Gustaf Jonasson, Niklas Axelsson.
  */
 public class GameManager {
     private Game currentGame;

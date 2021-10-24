@@ -3,6 +3,10 @@ package com.zcrabblers.zcrabble.model.gameBoard;
 import com.zcrabblers.zcrabble.utils.RandomSeed;
 import java.util.Random;
 
+/**
+ * Represents a rack. Contains method that modify the rack.
+ * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
+ */
 public class Rack {
     private Tile[] playerTiles = new Tile[7];
 

@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Game connects multiple classes in the model package in order to construct a Zcrabble game.
+ * @author Gustaf Jonasson, Ole  Fjeldså, Martin Björklund, Niklas Axelsson.
  */
 public class Game implements ITurnObservable {
 
