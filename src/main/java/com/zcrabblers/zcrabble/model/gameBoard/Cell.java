@@ -22,7 +22,7 @@ public class Cell {
         this.placedTile = placedTile;
     }
 
-    public int GetCellWordMultiplier() {
+    int getCellWordMultiplier() {
         return cellWordMultiplier;
     }
 

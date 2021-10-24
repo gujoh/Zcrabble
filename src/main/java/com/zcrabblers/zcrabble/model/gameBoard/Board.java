@@ -80,6 +80,10 @@ public class Board {
         return boardCells;
     }
 
+    public int getCellWordMultiplier(int row, int col){
+        return getBoardCells()[row][col].getCellWordMultiplier();
+    }
+
     /**
      * switches two tiles on a board given their positions
      * @param i1 i-coordinate of the first tile
@@ -144,10 +148,10 @@ public class Board {
             for (int j = 0; j <board.getBoardCells()[0].length ; j++) {
                 Cell newCell = board.getBoardCells()[i][j];
                 if (copyAllMultipliers){
-                    tempCell[i][j] = new Cell(newCell.GetCellWordMultiplier(),newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
+                    tempCell[i][j] = new Cell(board.getCellWordMultiplier(i,j),newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
                 }else{
                     if (newCell.isEmpty()) {
-                        tempCell[i][j] = new Cell(newCell.GetCellWordMultiplier(), newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
+                        tempCell[i][j] = new Cell(board.getCellWordMultiplier(i,j), newCell.GetCellLetterMultiplier(), newCell.getPlacedTile());
                     } else tempCell[i][j] = new Cell(1, 1, newCell.getPlacedTile());
                 }
             }
@@ -296,7 +300,7 @@ public class Board {
                             letterScore += cells.get(x).getCell().getPlacedTile().getTileScore() *
                                     cells.get(x).getCell().GetCellLetterMultiplier();
                             // and add the wordmultiplier
-                            totalWordMultiplier = totalWordMultiplier * cells.get(x).getCell().GetCellWordMultiplier();
+                            totalWordMultiplier = totalWordMultiplier * cells.get(x).getCell().getCellWordMultiplier();
                             addedCell = true;
                         }
                     }
