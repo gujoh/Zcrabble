@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * BotDict handles the logic of comparing a rack to every possible word in the Dictionary.
+ * @author Ole Fjeldså
  */
 class BotDict {
 

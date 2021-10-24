@@ -9,6 +9,7 @@ import com.zcrabblers.zcrabble.model.gameBoard.Board;
  * These are definitely Board operations but none but Bot will or should ever have access to them.
  * To fix this the method writeScrabbleWord in BotLogic should be rewritten to allow it to check in both directions.
  * If there was no deadline tomorrow that is what would be done.
+ * @author Ole Fjeldså
  */
     //TODO Make above suggested changes, then delete this whole class.
 

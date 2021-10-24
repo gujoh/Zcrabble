@@ -20,6 +20,7 @@ import com.zcrabblers.zcrabble.model.players.IPlayers;
 
 /**
  * Bot takes a Board and makes a play on it
+ * @author Ole Fjeldså
  */
 public class Bot implements IPlayers {
 
