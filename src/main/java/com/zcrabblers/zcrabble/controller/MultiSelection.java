@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class MultiSelection {
     private final List<CellImageView> selected = new ArrayList<>();
-
+    private final int unselectedOpacity = 1;
     // get indices instead ?
     // aka have a method to calc indices here or in BoardController ?
     public List<CellImageView> getSelected(){
@@ -33,7 +33,8 @@ public class MultiSelection {
      */
     public void select(CellImageView cellView){
         selected.add(cellView);
-        cellView.setOpacity(0.25);
+        double selectedOpacity = 0.25;
+        cellView.setOpacity(selectedOpacity);
     }
 
     /**
@@ -42,14 +43,14 @@ public class MultiSelection {
      */
     public void unSelect(CellImageView cellView){
         selected.remove(cellView);
-        cellView.setOpacity(1);
+        cellView.setOpacity(unselectedOpacity);
     }
 
     /**
      * Unselects any previously selected cell.
      */
     public void unSelectAll(){
-        selected.forEach(x -> x.setOpacity(1));
+        selected.forEach(x -> x.setOpacity(unselectedOpacity));
         selected.clear();
     }
 }
