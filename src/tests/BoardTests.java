@@ -40,7 +40,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard1()  {
+    public void testBoard1()  {
         Board board = new Board();
         board.placeTile(1,5,new Tile('A',2));
         board.placeTile(1,6,new Tile('B',2));
@@ -82,7 +82,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard2()  {
+    public void testBoard2()  {
         Board board = new Board();
         board.placeTile(1,5,new Tile('A',2));
         board.placeTile(2,5,new Tile('B',2));
@@ -145,7 +145,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard3() {
+    public void testBoard3() {
         Board board = new Board();
         board.placeTile(1,5,new Tile('A',2));
         board.placeTile(2,5,new Tile('B',2));
@@ -219,7 +219,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard4() {
+    public void testBoard4() {
         Board board = new Board();
         board.placeTile(0,0,new Tile('A',2));
         board.placeTile(0,1,new Tile('B',2));
@@ -249,7 +249,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard5() {
+    public void testBoard5() {
         Board board = new Board();
         board.placeTile(14,14,new Tile('A',2));
         board.placeTile(14,13,new Tile('B',2));
@@ -279,7 +279,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestBoard6() {
+    public void testBoard6() {
         Board board = new Board();
         board.placeTile(14,12,new Tile('C',2));
         board.placeTile(14,11,new Tile('D',2));
@@ -302,7 +302,7 @@ public class BoardTests {
         assertEquals(48, points);
     }
     @Test
-    public void TestBoard7() {
+    public void testBoard7() {
         Board board = new Board();
         board.placeTile(14,1,new Tile('C',2));
         board.placeTile(14,2,new Tile('D',2));
@@ -326,7 +326,7 @@ public class BoardTests {
     }
 
     @Test
-    public void TestRemoveTile() {
+    public void testRemoveTile() {
         Board board = new Board();
         board.placeTile(14,14,new Tile('S',2));
         assertEquals('S', board.getTileLetter(14,14));
@@ -347,12 +347,12 @@ public class BoardTests {
         assertEquals(7, board.getTile(14, 14).getTileScore());
     }
     @Test
-    public void testMatrix() throws FileNotFoundException {
+    public void testMatrix()  {
         Board board = new Board();
         Cell cell = board.getBoardCells()[0][0];
         assertNotNull(cell);
     }
-    /*
+
     @Test
     public void testGetNewCells() {
         Board board = new Board();
@@ -376,17 +376,17 @@ public class BoardTests {
         List<CellTuple> celltuple = boardTwo.getNewCells(board);
         assertEquals(14, celltuple.get(0).getI());
         assertEquals(13, celltuple.get(0).getJ());
-        assertEquals('B', celltuple.get(0).getCell().getPlacedTile().getLetter());
-        assertEquals(2, celltuple.get(0).getCell().getPlacedTile().getTileScore());
+        assertEquals('B', celltuple.get(0).getTileLetter());
+        assertEquals(2, celltuple.get(0).getTileScore());
 
         assertEquals(14, celltuple.get(1).getI());
         assertEquals(14, celltuple.get(1).getJ());
-        assertEquals('S', celltuple.get(1).getCell().getPlacedTile().getLetter());
-        assertEquals(5, celltuple.get(1).getCell().getPlacedTile().getTileScore());
+        assertEquals('S', celltuple.get(1).getTileLetter());
+        assertEquals(5, celltuple.get(1).getTileScore());
 
     }
 
-     */
+
 
     public void printBoard(Board pBoard){
         StringBuilder line = new StringBuilder();

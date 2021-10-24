@@ -5,9 +5,9 @@ package com.zcrabblers.zcrabble.model;
  * @author Gustaf Jonasson.
  */
 public class LetterTuple {
-    private Letter letter;
-    private int x;
-    private int y;
+    private final Letter letter;
+    private final int x;
+    private final int y;
 
     public LetterTuple(Letter letter, int x, int y){
         this.letter = letter;

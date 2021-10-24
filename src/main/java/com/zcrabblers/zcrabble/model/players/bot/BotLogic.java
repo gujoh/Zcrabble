@@ -207,7 +207,7 @@ class BotLogic {
     private static int checkSpaceAhead(Board board, int row, int col, StringBuilder letters) {
         int space = 0;
         for (int k = col + letters.length(); k < board.getBoardCells()[0].length; k++) {
-            if (!board.cellIsEmpty(row,k)){//getBoardCells()[row][k].isEmpty()) {
+            if (!board.cellIsEmpty(row,k)){
                 space -= 1;
                 break;
             } else space += 1;
@@ -219,7 +219,7 @@ class BotLogic {
     private static int checkSpaceBehind(Board board, int row, int startCol) {
         int space = 0;
         for (int k = startCol - 1; k >= 0; k--) {
-            if (!board.cellIsEmpty(row,k)){//getBoardCells()[row][k].isEmpty()) {
+            if (!board.cellIsEmpty(row,k)){
                 space -= 1;
                 break;
             } else space += 1;
@@ -229,7 +229,7 @@ class BotLogic {
 
     //finds all consecutive letterTiles from left to right in a section of a row of the board
     private static void searchForLetters(Board board, StringBuilder letters, StringBuilder tempRack, int row, int col) {
-        while (!board.cellIsEmpty(row,col)){//getBoardCells()[row][col].isEmpty()) {
+        while (!board.cellIsEmpty(row,col)){
             tempRack.append(board.getTileLetter(row,col));
             letters.append(board.getTileLetter(row,col));
             if (col == board.getBoardCells()[0].length - 1) {

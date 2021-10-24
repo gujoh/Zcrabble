@@ -14,7 +14,7 @@ import com.zcrabblers.zcrabble.model.gameBoard.Board;
 public class Player implements IPlayers {
 
     private int score;
-    private Rack rack;
+    private final Rack rack;
 
     public Player(int score, Rack rack){
         this.score = score;

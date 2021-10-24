@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class MenuViewController extends AnchorPane {
 
-    private BoardViewController parentController;
+    private final BoardViewController parentController;
 
     public MenuViewController(BoardViewController parentController){
         this.parentController = parentController;

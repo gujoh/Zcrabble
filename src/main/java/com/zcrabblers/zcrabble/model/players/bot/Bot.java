@@ -156,8 +156,5 @@ public class Bot implements IPlayers {
         System.out.println(BotLogic.getRackString(rack));
     }
     */
-
-
-
-
+    
 }

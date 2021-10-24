@@ -5,8 +5,8 @@ package com.zcrabblers.zcrabble.model.gameBoard;
  * @author Gustaf Jonasson, Ole  Fjeldså, Martin Björklund, Niklas Axelsson.
  */
 public class Cell {
-    private int cellWordMultiplier;
-    private int cellLetterMultiplier;
+    private final int cellWordMultiplier;
+    private final int cellLetterMultiplier;
     private Tile placedTile;
 
 
@@ -45,4 +45,5 @@ public class Cell {
 
     char getTileLetter() {return placedTile.getLetter();}
 
+    int getTileScore() {return placedTile.getTileScore();}
 }

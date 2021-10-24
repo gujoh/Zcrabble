@@ -5,8 +5,8 @@ package com.zcrabblers.zcrabble.model.gameBoard;
  * @author Niklas Axelsson, Martin Björklund, Ole Fjeldså, Gustaf Jonasson.
  */
 public class Tile {
-    private char letter;
-    private int tileScore;
+    private final char letter;
+    private final int tileScore;
     /**
      * Constructor that creates a new Tile. Use when a Tile does not require a position (x and y coordinate).
      * @param letter the letter that a Tile represents (A through Z)

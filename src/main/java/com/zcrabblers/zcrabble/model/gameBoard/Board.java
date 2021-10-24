@@ -22,9 +22,6 @@ public class Board {
     private final Dictionary dict = Dictionary.getInstance();
     private Cell[][] boardCells;
 
-    // constructor takes a string in order to search for the matching text file
-    // then calls the selectBoard function to fill the new board with cells
-
     /**
      * The board constructor is called with a string it will search resources for a matching txt file to load
      * the board layout from
@@ -36,11 +33,6 @@ public class Board {
             e.printStackTrace();
         }
     }
-
-    //checks if the name matches the file
-    //gets a new scanner and checks the first line for the board size
-    //then iterates through the txt file and creates new cells for each matrix
-    // each cell reads two numbers from the txt and creates a tile with the "empty" values of ' ' and 0
 
     /**
      * Called in the constructor.
@@ -111,6 +103,7 @@ public class Board {
     public Tile getTile(int i, int j){
         return boardCells[i][j].getPlacedTile();
     }
+
     /**
      * @param i i corresponds to the position in the first list
      * @param j j corresponds to the position in the second list
@@ -119,6 +112,7 @@ public class Board {
     public void placeTile( int i, int j, Tile tile){
         boardCells[i][j].setTile(tile);
     }
+
     /**
      * removes the tile of the given position
      * @param i i corresponds to the position in the first list
@@ -127,6 +121,7 @@ public class Board {
     public void removeTile(int i, int j){
         boardCells[i][j].removeTile();
     }
+
     /**
      * @param i i corresponds to the position in the first list
      * @param j j corresponds to the position in the second list
@@ -136,6 +131,7 @@ public class Board {
         return boardCells[i][j].isEmpty();
     }
 
+
     /**
      * Returns the length of one side of the board, both sides should always be the same length.
      * @return Number of rows in the board.
@@ -143,8 +139,6 @@ public class Board {
     public int getSize(){
         return boardCells.length;
     }
-
-
 
     /**
      * Copies the cells on a board
@@ -173,8 +167,6 @@ public class Board {
      * @return returns the score any given play will yield
      * @see CellTuple
      */
-    /* countPoints is called on the board and given a list of the new cells will return the number of points
-    the given play is worth */
     public int countPoints(Board board){
         List<CellTuple> newCells = this.getNewCells(board);
         //since any scrabble play can only be made fully vertically or fully horizontally
