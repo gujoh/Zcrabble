@@ -381,7 +381,9 @@ public class Board {
             for (int row = 0; row < board.getBoardCells().length; row++) {
 
                 //if there is a letter on the current cell and that letter is part of a word, add the letter to word.
-                if (containsLetter(board, row, col) && (row==0?containsLetter(board, row+1, col ):containsLetter(board, row-1, col ) || containsLetter(board, row==14?row:row+1, col))) {
+                if (containsLetter(board, row, col) &&
+                        (row==0?containsLetter(board, row+1, col ):containsLetter(board, row-1, col ) ||
+                                containsLetter(board, row==14?row:row+1, col))) {
                     word.append(board.getBoardCells()[row][col].getPlacedTile().getLetter());
                 }
                 //If there already is a String in word and there is no letter on the current cell,

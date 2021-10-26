@@ -25,8 +25,7 @@ class BotDict {
         return dictMap;
     }
 
-    //TODO make a Map of Strings and CharCountMaps so that canWrite does not have to run getCharCountMap 270000*number of tiles on the board times.
-    /*---   Takes in a string of letters and returns all dictionary words that can be written with them   ---*/
+    /*---   Takes in a string of letters and a dictMap  and returns all dictionary words that can be written with the letters   ---*/
     static ArrayList<String> canWrite(String letters, Map<String, Map<Character, Integer>> dictMap){
         ArrayList<String> writableWords = new ArrayList<>();
         Map<Character, Integer> charCountMap = getCharCountMap(letters);
