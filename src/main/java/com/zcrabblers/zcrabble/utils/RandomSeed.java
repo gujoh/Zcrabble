@@ -14,8 +14,8 @@ public enum RandomSeed {
     Random random = new Random(seed);
 
     /**
-     * Getter for long seed.
-     * @return a long representing a seed.
+     * Getter for a Random object with a seed.
+     * @return a Random object with a seed.
      */
     public Random getRandom(){
         return random;
